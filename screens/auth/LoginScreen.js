@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Button, StyleSheet, TextInput, ScrollView, TouchableOpacity, Text } from 'react-native';
 
-// import AuthService from 'src/services/AuthService';
+// import AuthService from '/services/AuthService'
 
 export default class LoginScreen extends Component {
 	constructor(props) {
