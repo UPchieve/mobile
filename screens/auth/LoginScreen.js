@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { View, Button, StyleSheet, TextInput, ScrollView, TouchableOpacity, Text } from 'react-native';
 
-// import AuthService from '/services/AuthService'
-
 export default class LoginScreen extends Component {
 	constructor(props) {
 		super(props);
@@ -13,9 +11,23 @@ export default class LoginScreen extends Component {
 		};
 	}
 
-	async login() {
+	login() {
 		// await login();
 		// this.props.navigation.navigate('Dashboard');
+		fetch('https://app.upchieve.org/auth/login', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: this.state.email,
+				password: this.state.password,
+			}),
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				return responseJson.movies;
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 
 	render() {
