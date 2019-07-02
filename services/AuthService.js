@@ -1,32 +1,27 @@
-const AUTH_ROOT = 'Auth';
+const AUTH_ROOT = 'https://app.upchieve.org/auth';
 const API_ROOT = 'https://app.upchieve.org/api';
 
 export default {
-	login(creds) {
+	login(email, password) {
 		// Check if credentials exist
-		const { email, password } = creds
-		if (
-			!email ||
-      		!password 
-		){
-			return undefined
+		if (!email || !password) {
+			return undefined;
 		}
 
-		// Make API call
-		// fetch('https://app.upchieve.org/auth/login', {
-		// 	method: 'POST',
-		// 	body: JSON.stringify({
-		// 		email,
-		// 		password
-		// 	}),
-		// })
-		// 	.then(response => response.json())
-		// 	.then(responseJson => {
-		// 		return responseJson.movies;
-		// 	})
-		// 	.catch(error => {
-		// 		console.error(error);
-		// 	});
-
-	}
-}
+		return fetch(`${AUTH_ROOT}/login`, {
+			method: 'POST',
+			body: { email, password },
+		}).then(
+			res => {
+				const data = { ...res.data };
+				if (!data) {
+					throw new Error('No user returned from auth service');
+				}
+			},
+			res => {
+				context.error = 'Could not login';
+				console.log(res);
+			}
+		);
+	},
+};

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, Button, StyleSheet, TextInput, ScrollView, TouchableOpacity, Text } from 'react-native';
+import AuthService from '../../services/AuthService';
 
 export default class LoginScreen extends Component {
 	constructor(props) {
 		super(props);
-		// this.onLogin = this.onLogin.bind(this);
+		this.login = this.login.bind(this);
 		this.state = {
 			email: '',
 			password: '',
@@ -12,22 +13,9 @@ export default class LoginScreen extends Component {
 	}
 
 	login() {
-		// await login();
-		// this.props.navigation.navigate('Dashboard');
-		fetch('https://app.upchieve.org/auth/login', {
-			method: 'POST',
-			body: JSON.stringify({
-				email: this.state.email,
-				password: this.state.password,
-			}),
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				return responseJson.movies;
-			})
-			.catch(error => {
-				console.error(error);
-			});
+		AuthService.login(this.state.email, this.state.password)
+			.then(this.props.navigation.navigate('Main'))
+			.catch(console.error('Error'));
 	}
 
 	render() {
@@ -35,15 +23,15 @@ export default class LoginScreen extends Component {
 			<View style={styles.base}>
 				<TextInput
 					style={styles.input}
-					placeholder="Username"
+					placeholder="Email"
 					onChangeText={email => this.setState({ email })}
-					value={this.state.text}
+					value={this.state.email}
 				/>
 				<TextInput
 					style={styles.input}
 					placeholder="Password"
 					onChangeText={password => this.setState({ password })}
-					value={this.state.text}
+					value={this.state.password}
 				/>
 				<TouchableOpacity style={styles.button} title="Login" onPress={this.login}>
 					<Text style={styles.text}>Submit</Text>
