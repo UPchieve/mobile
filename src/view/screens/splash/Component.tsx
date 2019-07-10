@@ -21,11 +21,6 @@ class Splash extends React.PureComponent<Props, State> {
 	navigateToHome = () => {
 
 
-
-
-
-
-
 		const ROOT = 'http://192.168.200.195:3000/auth';
 		const credentials = {
 			email: 'student1@upchieve.org',
@@ -40,11 +35,6 @@ class Splash extends React.PureComponent<Props, State> {
 			.catch(error => {
 				console.error(error);
       });
-      
-
-
-
-		
 	};
 
 	render() {

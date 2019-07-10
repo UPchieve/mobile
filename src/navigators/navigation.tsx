@@ -11,6 +11,14 @@ export const showSplash = () => {
   });
 };
 
+export const showSignIn = () => {
+	Navigation.setRoot({
+		root: {
+			component: { name: SCREENS.SignIn },
+		},
+	});
+};
+
 export const tabbedNavigation = () =>
   Navigation.setRoot({
     root: {
