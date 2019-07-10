@@ -1,44 +1,75 @@
-# React Native Typescript Boilerplate
+UPchieve mobile
+===================
 
-![Travis](https://api.travis-ci.com/AmitM30/react-native-typescript-boilerplate.svg?branch=master) ![License](https://img.shields.io/github/license/AmitM30/react-native-typescript-boilerplate.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+![Travis](https://api.travis-ci.com/AmitM30/react-native-typescript-boilerplate.svg?branch=master) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
-### An opinionated [React Native](https://facebook.github.io/react-native/docs/getting-started) Starter Kit with [React Native Navigation](https://github.com/wix/react-native-navigation) + [Redux](https://github.com/reactjs/redux) + [TSLint](https://github.com/airbnb/javascript) to build iOS / Android apps using [TypeScript](https://github.com/Microsoft/TypeScript-React-Native-Starter)
+> A scalable typescript [React Native](https://facebook.github.io/react-native/docs/getting-started) app with [React Native Navigation](https://github.com/wix/react-native-navigation) + [Redux](https://github.com/reactjs/redux) + [TSLint](https://github.com/airbnb/javascript)
 
-The project has been setup based off [RN Getting Started](https://facebook.github.io/react-native/docs/getting-started) and instructions from [Microsoft's Github TypeScript React Native Starter](https://github.com/Microsoft/TypeScript-React-Native-Starter) repo.
+**Table of Contents**
 
-This repo supports the latest version of React Native (v0.57.8+) supported by RNN (at the time of writing).
+- [Local Development](#local-development)
+    - [Setup](#setup)
+    - [Lint](#lint)
+    - [Testing](#Testing)
+- [Structure](#structure)
+    - [screens](#screens)
+    - [redux](#redux)
+    - [navigation](#navigation)
+    - [services](#services)
 
-**UPDATE** (8th March '19): RNN upgraded to v2.13.1 | RN to 0.58.6 | React to 16.8.4
+Local Development
+-----------------
 
-### Who is this for?
+### Setup
 
-Someone looking to jumpstart building apps using RN and prefers TS. The base setup has been taken care of, just `yarn install` and get going from respective IDEs.
+###### iOS
 
-You might also want to [rename](https://medium.com/the-react-native-log/how-to-rename-a-react-native-app-dafd92161c35) the app for your own use.
+Launch application from XCode
 
-> _Disclaimer_: This is an **opinionated** approach to building apps with RN. The project structure is inspired by multiple production apps built by the contributors.
+###### Android
 
-The project uses and encourages to use industry best practices / tools / libraries like RNN, redux, tslint, separation of concern and structure to build a maintainable app.
+For android, run the Metro Bundler from the terminal
 
-| ![Splash](./src/view/assets/images/sample/1.png "Splash") | ![Home](./src/view/assets/images/sample/2.png "Home") |
-| :-------------------------------------------------------: | :---------------------------------------------------: |
+```
+npm run start
+```
+
+and then launch from IDE.
+
+#### Lint
+
+To run tslint on the application:
+
+```
+yarn lint
+```
+
+To fix most tslint issues automatically
+
+```
+yarn lint:fix
+```
+
+#### Testing
+
+Unit tests are under `__test__` directory at root.
+
+To run unit test on the application:
+
+```
+npm run test
+```
+
+To find unit test coverage for the application:
+
+```
+npm run test:coverage
+```
 
 
-### Table of Contents
 
-- [Project Structure](#project-structure)
-- [Running](#running)
-- [Lint](#lint)
-- [Unit Tests](#unit-tests)
-- [Cheat Sheet](#cheat-sheet)
-  - [React Native Navigation](#react-native-navigation)
-  - [Styles](#styles)
-  - [Widgets / Elements](#widgets---elements)
-- [Contributing](#contributing)
-- [TODO](#todo)
-
-#### Project Structure
-
+Structure
+-----------------
 ```
 /
 ├── android					Android Native code
@@ -87,7 +118,7 @@ Only presentation layer for the app, styles, images, icons are meant to be under
 `web`
 Going forward, plan is to add a web folder to the project, that can leverage the business logic from shared folder.
 
-#### Running
+#### Screens
 
 Make sure node version installed is `>=8.11.x <=9`
 
@@ -95,13 +126,15 @@ Make sure node version installed is `>=8.11.x <=9`
 yarn install
 ```
 
-#### Launch
+#### Redux
 
-###### iOS
+todo
 
-Launch application from XCode
+#### Navigation
 
-###### Android
+todo
+
+###### Services
 
 For android, run the Metro Bundler from the terminal
 
