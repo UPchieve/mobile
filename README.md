@@ -22,6 +22,8 @@ Local Development
 
 ### Setup
 
+rn cli/ dependencies todo
+
 ###### iOS
 
 Launch application from XCode
