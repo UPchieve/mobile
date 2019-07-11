@@ -1,9 +1,8 @@
-
-# Created by https://www.gitignore.io/api/webstorm,reactnative
-
 ### ReactNative ###
 # React Native Stack Base
 
+### Config ###
+src/config/
 ### ReactNative.Gradle Stack ###
 .gradle
 /build/
