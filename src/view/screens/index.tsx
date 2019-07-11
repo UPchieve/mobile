@@ -6,6 +6,7 @@ import * as Splash from './splash';
 import * as Home from './home';
 import * as Settings from './settings';
 import * as SignIn from './SignIn'
+import * as Initializing from './Initializing'
 
 const registerComponentWithRedux = (redux: any) => (
   name: string,
@@ -20,7 +21,7 @@ const registerComponentWithRedux = (redux: any) => (
 };
 
 export function registerScreens(redux: any) {
-  registerComponentWithRedux(redux)(SCREENS.Splash, Splash.default);
+  registerComponentWithRedux(redux)(SCREENS.Initializing, Initializing.default);
   registerComponentWithRedux(redux)(SCREENS.Home, Home.default);
   registerComponentWithRedux(redux)(SCREENS.Settings, Settings.default);
   registerComponentWithRedux(redux)(SCREENS.SignIn, SignIn.default);

@@ -3,15 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import { SCREENS } from '../constants/screen';
 import { TYPOGRAPHY } from '../view/styles/typography';
 
-export const showSplash = () => {
-  Navigation.setRoot({
-    root: {
-      component: { name: SCREENS.Splash },
-    },
-  });
-};
-
-export const showSignIn = () => {
+export const goToSignIn = () => {
 	Navigation.setRoot({
 		root: {
 			component: { name: SCREENS.SignIn },
@@ -19,7 +11,14 @@ export const showSignIn = () => {
 	});
 };
 
-export const tabbedNavigation = () =>
+export const initialize = () => {
+  Navigation.setRoot({
+		root: {
+			component: { name: SCREENS.Initializing },
+		},
+  });
+}
+export const goToHome = () =>
   Navigation.setRoot({
     root: {
       bottomTabs: {
@@ -84,5 +83,3 @@ export const tabbedNavigation = () =>
       },
     },
   });
-
-export default tabbedNavigation;

@@ -1,10 +1,10 @@
 // Screen ids constants
 
 const SCREENS = {
-  Splash: 'Splash',
+  Initializing: 'Initializing',
   Home: 'Home',
   Settings: 'Settings',
-  SignIn: 'SignIn'
+  SignIn: 'SignIn',
 };
 
 export { SCREENS };

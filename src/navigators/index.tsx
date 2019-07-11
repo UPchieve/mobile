@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import store from '../../shared/redux/store';
 import { registerScreens } from '../view/screens';
-import { showSignIn, showSplash } from './navigation';
+import { initialize, goToSignIn } from './navigation';
 
 /**
  * Register screens and components for react native navigation
@@ -16,7 +16,7 @@ const app = () => {
       topBar: { visible: true },
     });
 
-    showSignIn();
+    goToSignIn();
   });
 };
 

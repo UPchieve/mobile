@@ -15,6 +15,7 @@ import axios from 'axios';
 // For use after api testing
 
 import API from '../../../config/index'
+// import USER_KEY from '../../../config/index'
 
 // import { ISignInFormValues } from '../../../../forms/SignIn/types';
 // import { FormikActions } from 'formik';
@@ -40,6 +41,7 @@ class SignIn extends React.PureComponent<Props, State> {
 		axios
 			.post(API.login, credentials)
 			.then(() => {
+				AsyncStorage.setItem('USER_KEY', credentials.email)
 				tabbedNavigation();
 			})
 			.catch(error => {
