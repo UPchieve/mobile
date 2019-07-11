@@ -22,7 +22,10 @@ Local Development
 
 ### Setup
 
-rn cli/ dependencies todo
+1. Make sure your [dev server](https://github.com/upchieve/server) running at `localhost:3000`
+2. In `src/config/index.ts`, add the root of your dev server to `ROOT`. For stimulators (ios), `localhost:3000` is fine. If using a stimulator or connecting a device, use your host's IPv4 address instead of 'localhost'. 
+
+### Launch
 
 ###### iOS
 
@@ -30,13 +33,13 @@ Launch application from XCode
 
 ###### Android
 
-For android, run the Metro Bundler from the terminal
+For android, run the Metro Bundler from the terminal.
 
 ```
 npm run start
 ```
 
-and then launch from IDE.
+and then launch with `react-native run-android` (Make sure you have your [development environment](https://facebook.github.io/react-native/docs/getting-started.html) set up)
 
 #### Lint
 
@@ -90,7 +93,8 @@ Structure
 │   ├── constants				Screens, Localization
 │   ├── navigators				Router, Navigation
 │   ├── view					UI compoments - Screens, Widgets
-│   │	    ├── elements			Custom elements
+│   │	    ├── elements			
+|   |       ├── components          
 │   │	    ├── assets
 │   │	    ├── screens
 │   │	    ├── styles				Typography
@@ -117,9 +121,6 @@ Everything related to application business logic (store) resides under this dire
 `src`
 Only presentation layer for the app, styles, images, icons are meant to be under this.
 
-`web`
-Going forward, plan is to add a web folder to the project, that can leverage the business logic from shared folder.
-
 #### Screens
 
 Make sure node version installed is `>=8.11.x <=9`
@@ -130,11 +131,11 @@ yarn install
 
 #### Redux
 
-todo
+TODO
 
 #### Navigation
 
-todo
+TODO
 
 ###### Services
 
@@ -180,32 +181,10 @@ npm run test:coverage
 
 ##### React Native Navigation
 
-The application launches with a blank splash screen, and then moves to a tabbed based home view. Developers can feel free to add application launch logic to this, like fetch user token, load persist state etc., or skip the splash if not required, or change this setup altogether.
+TODO
 
 ##### Styles
 
 The `styles` folder contains `global` style and `typography` for the application. Styles for each screen has been placed with the screen, as they are going to be used together with the screen, unlike web.
 
-##### Widgets / Elements
 
-The custom components have been broken into 2 major categories, namely - **widgets**, **elements**
-
-A Good use case would be:
-
-- widgets: carousels component, banner component, any component providing a complete functionality
-- elements: A custom, may be `<CText>` or `<ButtonDefault>`, element that has default font properties like font, size and overrides the native elements.
-
-#### Contributing
-
-Please check out [Contributing](https://github.com/AmitM30/react-native-typescript-boilerplate/blob/master/CONTRIBUTING.md).
-
-#### Authors
-
-- [**Anurag Chutani**](https://github.com/a7urag) - _Android Setup_
-- [**Brian Varley**](https://github.com/BrianJVarley) - _Windows Setup_
-
-See also the list of [contributors](https://github.com/AmitM30/react-native-typescript-boilerplate/contributors) who participated in this project.
-
-#### TODO
-
-- [ ] Build React web app using `shared` business logic

@@ -14,7 +14,8 @@ import axios from 'axios';
 
 // For use after api testing
 
-// import { USER_KEY, AUTH_ROOT } from '../../../../config';
+import API from '../../../config/index'
+
 // import { ISignInFormValues } from '../../../../forms/SignIn/types';
 // import { FormikActions } from 'formik';
 
@@ -31,14 +32,13 @@ class SignIn extends React.PureComponent<Props, State> {
 	componentDidMount() {}
 
 	handleSubmit = () => {
-		const ROOT = 'http://192.168.200.195:3000/auth';
 		const credentials = {
 			email: 'student1@upchieve.org',
 			password: 'Password123',
 		};
 
 		axios
-			.post(`${ROOT}/login`, credentials)
+			.post(API.login, credentials)
 			.then(() => {
 				tabbedNavigation();
 			})
