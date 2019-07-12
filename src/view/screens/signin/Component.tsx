@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { tabbedNavigation } from '../../../navigators/navigation';
+import { goToHome } from '../../../navigators/navigation';
 // import styles from './styles';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -40,7 +40,7 @@ class SignIn extends React.PureComponent<Props, State> {
 		axios
 			.post(API.login, credentials)
 			.then(() => {
-				tabbedNavigation();
+				goToHome();
 			})
 			.catch(error => {
 				console.error(error);
