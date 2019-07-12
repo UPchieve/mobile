@@ -1,13 +1,13 @@
 import { FormikActions } from 'formik'
 
-export interface ISignInFormValues {
+export interface SignInFormValues {
   email: string
   password: string
 }
 
 export interface IProps {
   onSubmit: (
-    values: ISignInFormValues,
-    formikActions: FormikActions<ISignInFormValues>
+    values: SignInFormValues,
+    formikActions: FormikActions<SignInFormValues>
   ) => void
 }
