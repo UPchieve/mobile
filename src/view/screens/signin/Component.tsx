@@ -34,16 +34,22 @@ class SignIn extends React.PureComponent<Props, State> {
 
 	handleSubmit = ({ email, password }: SignInFormValues, { resetForm }: FormikActions<SignInFormValues>) => {
 		const credentials = { email, password };
-		
+
 		axios
 			.post(API.login, credentials)
 			.then(() => {
-				// try {
-				// 	AsyncStorage.setItem('@storage_Key', 'stored value');
-				// } catch (e) {
-
-				// }
-				goToHome();
+				AsyncStorage.setItem('user', email)
+					.then(() => {
+						goToHome();
+					})
+					.catch(() => {
+						resetForm();
+						return Toast.show({
+							text: "Sorry, it looks like there's an issue",
+							type: 'danger',
+							position: 'top',
+						});
+					});
 			})
 			.catch(error => {
 				resetForm();
