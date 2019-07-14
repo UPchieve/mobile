@@ -1,6 +1,20 @@
+/* 
+The 'loading screen' the user sees every time the app is reopened
+
+logic:
+-Checks to see if user has successfully logged on before
+  -If so, verify credentials are still valid and redirect to home screen
+  -If not, redirect to signin screen
+*/
+
 import React, { useEffect } from 'react';
 import { Container, Spinner } from '../../components';
 import { goToSignIn, goToHome } from '../../../navigators/navigation';
+import AsyncStorage from '@react-native-community/async-storage';
+
+// Auth verification
+import axios from 'axios';
+import API from '../../../config/index';
 
 export interface Props {}
 
@@ -15,16 +29,29 @@ class Initializing extends React.PureComponent<Props, State> {
 		this.getStatus();
 	}
 
-	getStatus = () => {
-		const user = null;
+	getStatus = async () => {
+		// Check if user has already been authenticated
+		const user = await AsyncStorage.multiGet(['email', 'password']);
+
 		if (user) {
-            // await goToHome();
-            setTimeout(() => {
-                goToHome()
-            }, 3000)
+			const credentials = {
+				email: user[0][1],
+				password: user[1][1],
+			};
+
+			// Verify credentials are still valid
+			axios
+				.post(API.login, credentials)
+				.then(() => {
+					// Redirect to home
+					goToHome();
+				})
+				.catch(() => {
+					// Redirect to sign in
+					goToSignIn();
+				});
 		} else {
-            // await goToSignIn();
-            setTimeout(() => {
+			setTimeout(() => {
 				goToSignIn();
 			}, 3000);
 		}

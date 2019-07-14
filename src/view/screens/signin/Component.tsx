@@ -1,24 +1,19 @@
 import * as React from 'react';
 
 import { goToHome } from '../../../navigators/navigation';
-// import styles from './styles';
+import styles from './styles';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import { Root, Toast } from 'native-base';
 import { Container } from '../../components';
 import { H1 } from '../../components/Text';
-// import { withNativeBaseRoot } from '../../../../hocs';
 import SignInForm from '../../forms/SignIn';
 import axios from 'axios';
 import { SignInFormValues } from '../../forms/SignIn/types';
 import { FormikActions } from 'formik';
 
-// For use after api testing
-
 import API from '../../../config/index';
 
-// import { ISignInFormValues } from '../../../../forms/SignIn/types';
-// import { FormikActions } from 'formik';
 
 export interface Props {}
 
@@ -35,10 +30,14 @@ class SignIn extends React.PureComponent<Props, State> {
 	handleSubmit = ({ email, password }: SignInFormValues, { resetForm }: FormikActions<SignInFormValues>) => {
 		const credentials = { email, password };
 
+		// Call authentication endpoint with inputted credentials
 		axios
 			.post(API.login, credentials)
 			.then(() => {
-				AsyncStorage.setItem('user', email)
+				/* 
+				Store credentials on device if authenticated
+				*/
+				AsyncStorage.multiSet([['email', email], ['password', password]])
 					.then(() => {
 						goToHome();
 					})
@@ -51,9 +50,8 @@ class SignIn extends React.PureComponent<Props, State> {
 						});
 					});
 			})
-			.catch(error => {
+			.catch(() => {
 				resetForm();
-				// console.error(error);
 				return Toast.show({
 					text: 'Incorrect Details',
 					type: 'danger',
