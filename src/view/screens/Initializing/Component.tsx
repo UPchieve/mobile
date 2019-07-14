@@ -10,7 +10,7 @@ logic:
 import React, { useEffect } from 'react';
 import { Container, Spinner } from '../../components';
 import styles from './styles'
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { goToSignIn, goToHome } from '../../../navigators/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -48,7 +48,7 @@ class Initializing extends React.PureComponent<Props, State> {
 					// Redirect to home
 					setTimeout(() => {
 						goToHome();
-					}, 500000);
+					}, 1500);
 				})
 				.catch(() => {
 					// Redirect to sign in
@@ -62,7 +62,9 @@ class Initializing extends React.PureComponent<Props, State> {
 	render() {
 		return (
 			<Container isCenter>
-				<Image style={styles.image} source={require('../../assets/images/logo.png')} />
+				<View>
+					<Image style={styles.image} source={require('../../assets/images/logo.png')} />
+				</View>
 			</Container>
 		);
 	}

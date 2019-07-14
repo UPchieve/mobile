@@ -4,10 +4,10 @@ import { TYPOGRAPHY } from '../../styles/typography';
 
 const styles = StyleSheet.create({
 	image: {
-		// stretch: {
-		// 	width: 50,
-		// 	height: 200,
-		// },
+        width: '80%',
+        height: null,
+		aspectRatio: 2.34,
+        resizeMode: 'contain',
 	},
 });
 
