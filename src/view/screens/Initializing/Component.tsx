@@ -9,6 +9,8 @@ logic:
 
 import React, { useEffect } from 'react';
 import { Container, Spinner } from '../../components';
+import styles from './styles'
+import { Image } from 'react-native';
 import { goToSignIn, goToHome } from '../../../navigators/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -44,23 +46,23 @@ class Initializing extends React.PureComponent<Props, State> {
 				.post(API.login, credentials)
 				.then(() => {
 					// Redirect to home
-					goToHome();
+					setTimeout(() => {
+						goToHome();
+					}, 500000);
 				})
 				.catch(() => {
 					// Redirect to sign in
 					goToSignIn();
 				});
 		} else {
-			setTimeout(() => {
-				goToSignIn();
-			}, 3000);
+			goToSignIn();
 		}
 	};
 
 	render() {
 		return (
 			<Container isCenter>
-				<Spinner />
+				<Image style={styles.image} source={require('../../assets/images/logo.png')} />
 			</Container>
 		);
 	}

@@ -34,9 +34,7 @@ class SignIn extends React.PureComponent<Props, State> {
 		axios
 			.post(API.login, credentials)
 			.then(() => {
-				/* 
-				Store credentials on device if authenticated
-				*/
+				// Try storing credentials on device
 				AsyncStorage.multiSet([['email', email], ['password', password]])
 					.then(() => {
 						goToHome();
@@ -51,6 +49,7 @@ class SignIn extends React.PureComponent<Props, State> {
 					});
 			})
 			.catch(() => {
+				// Reset form and return failed login popup
 				resetForm();
 				return Toast.show({
 					text: 'Incorrect Details',
