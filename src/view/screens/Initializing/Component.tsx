@@ -52,10 +52,14 @@ class Initializing extends React.PureComponent<Props, State> {
 				})
 				.catch(() => {
 					// Redirect to sign in
-					goToSignIn();
+					setTimeout(() => {
+						goToSignIn();
+					}, 1500);
 				});
 		} else {
-			goToSignIn();
+			setTimeout(() => {
+				goToSignIn();
+			}, 1500);
 		}
 	};
 

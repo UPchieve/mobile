@@ -1,4 +1,4 @@
-package com.fridayapp;
+package com.upchieve;
 
 import android.app.Application;
 
