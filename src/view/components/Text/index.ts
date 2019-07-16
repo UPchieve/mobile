@@ -1,15 +1,21 @@
 import { Text as BaseText, H1 as BaseH1 } from 'native-base'
 import styled from 'styled-components/native'
 
-const P = styled(BaseText)`
-  margin-bottom: 15px;
-`
+/*
+Custom Text Props:
+  color
+  fontSize
+  light (Uses lighter font weight)
 
-const H1 = styled(BaseH1)`
-  margin-bottom: 15px;
-`
+ */
+const Text = styled.Text`
+  font-family: ${props => (props.light ? 'WorkSans' : 'WorkSans-Medium')}
+  font-size: ${props => (props.fontSize ? props.fontSize : `20px`)};
+  color: ${props => (props.color ? props.color : '#343440')};
+`;
 
-export {
-  P,
-  H1,
-}
+const H1 = styled(Text)`
+	font-size: 30px
+`;
+
+export { Text, H1 };

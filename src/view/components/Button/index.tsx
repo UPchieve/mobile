@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { NativeBase, Text } from 'native-base'
+import { NativeBase } from 'native-base'
+import { Text } from '../Text'
 import { StyledButton } from './styled'
 
 const ButtonComponent: FunctionComponent<NativeBase.Button> = ({
@@ -7,7 +8,7 @@ const ButtonComponent: FunctionComponent<NativeBase.Button> = ({
   ...props
 }) => (
   <StyledButton {...props}>
-    <Text>{children}</Text>
+    <Text color={'#fff'}>{children}</Text>
   </StyledButton>
 )
 
