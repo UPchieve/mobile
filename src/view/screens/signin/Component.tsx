@@ -42,7 +42,7 @@ class SignIn extends React.PureComponent<Props, State> {
 					.catch(() => {
 						resetForm();
 						return Toast.show({
-							text: "Sorry, it looks like there's an issue",
+							text: "Sorry, please try again",
 							type: 'danger',
 							position: 'top',
 						});

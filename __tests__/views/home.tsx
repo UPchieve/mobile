@@ -1,7 +1,7 @@
 import 'react-native';
 import reactTestRenderer from 'react-test-renderer';
 
-import * as Home from '../../src/view/screens/home';
+import * as Home from '../../src/view/screens/Home';
 // Note: test renderer must be required after react-native.
 
 it('renders correctly with defaults', () => {

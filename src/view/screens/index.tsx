@@ -2,7 +2,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { SCREENS } from '../../constants/screen';
 
-import * as Home from './home';
+import * as Home from './Home';
 import * as Settings from './settings';
 import * as SignIn from './SignIn'
 import * as Initializing from './Initializing';
