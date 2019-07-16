@@ -9,6 +9,7 @@ UPchieve mobile
 
 - [Local Development](#local-development)
     - [Setup](#setup)
+    - [Launch](#launch)
     - [Lint](#lint)
     - [Testing](#Testing)
 - [Structure](#structure)
@@ -22,24 +23,16 @@ Local Development
 
 ### Setup
 
-1. Make sure your [dev server](https://github.com/upchieve/server) running at `localhost:3000`
+1. Make sure your [dev server](https://github.com/upchieve/server) running at `localhost:3000`.
 2. In `src/config/index.ts`, add the root of your dev server to `ROOT`. For stimulators (ios), `localhost:3000` is fine. If using a stimulator or connecting a device, use your host's IPv4 address instead of 'localhost'. 
 
 ### Launch
 
-###### iOS
+1. Set up your [development environment](https://facebook.github.io/react-native/docs/getting-started.html) with React Native CLI. 
+2. Connect your device or run your emulator/stimulator. 
+2. Run the Metro Bundler from the terminal with `npm start`, and launch with either `react-native run-android` or `react-native run-ios` (Alternatively use VScode's `React Native Tools` commands).
 
-Launch application from XCode
-
-###### Android
-
-For android, run the Metro Bundler from the terminal.
-
-```
-npm run start
-```
-
-and then launch with `react-native run-android` (Make sure you have your [development environment](https://facebook.github.io/react-native/docs/getting-started.html) set up)
+For platform specific development, launch with Xcode or Android Studio. 
 
 #### Lint
 
