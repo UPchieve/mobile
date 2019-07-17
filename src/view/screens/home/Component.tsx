@@ -1,30 +1,54 @@
 import * as React from 'react';
-import { Button, Container } from '../../components';
+import { Form, Button, Container } from '../../components';
+import { H1 } from '../../components/Text';
 import styles from './styles';
 import { goToSignIn } from '../../../navigators/navigation';
 import { Toast } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import Drawer from 'react-native-drawer';
+import { Navigation } from 'react-native-navigation';
 
 export interface Props {
-  name: string;
+	name: string;
 }
 
 interface State {
-  name: string;
+	name: string;
 }
 
+const Menu = () => {
+	return <H1>Hello World!</H1>
+}
 class Home extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		this.state = {
-			name: props.name || 'RN + TS + RNN2',
-		};
+		Navigation.events().bindComponent(this);
 	}
 
+	navigationButtonPressed({ buttonId }) {
+		this.openMenu();
+	}
+
+	static options(passProps) {
+		return {
+			topBar: {
+				title: {
+					text: 'Dashboard',
+				},
+				rightButtons: [
+					{
+						id: 'buttonOne',
+						height: 80,
+						icon: require('../../assets/images/menu-icon.png'),
+					},
+				],
+			},
+		};
+	}
 	componentDidMount() {}
 
 	handleLogOut = async () => {
-    // Remove user data from async storage and go to sign in screen
+		// Remove user data from async storage and go to sign in screen
 		try {
 			await AsyncStorage.multiRemove(['email', 'password']);
 			await goToSignIn();
@@ -37,11 +61,23 @@ class Home extends React.PureComponent<Props, State> {
 		}
 	};
 
+	closeMenu = () => {
+		this._drawer.close();
+	};
+	openMenu = () => {
+		this._drawer.open();
+	};
+
 	render() {
 		return (
-			<Container marginHorizontal={20} marginVertical={20}>
-				<Button onPress={this.handleLogOut}>Sign Out</Button>
-			</Container>
+			<Drawer ref={ref => (this._drawer = ref)} content={<Menu />} side={'bottom'}>
+				<Container marginHorizontal={20} marginVertical={20}>
+					<H1>Hello, Student!</H1>
+					<Button onPress={this.handleLogOut} block>
+						Sign Out
+					</Button>
+				</Container>
+			</Drawer>
 		);
 	}
 }

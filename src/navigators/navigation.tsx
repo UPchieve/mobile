@@ -20,69 +20,35 @@ export const initialize = () => {
 };
 
 export const goToHome = () =>
-  Navigation.setRoot({
-    root: {
-      bottomTabs: {
-        id: 'BottomTabsId',
-        children: [
-          {
-            stack: {
-              children: [
-                {
-                  component: {
-                    name: SCREENS.Home,
-                    passProps: {
-                      text: 'This is Home',
-                    },
-                  },
-                },
-              ],
-              options: {
-                topBar: {
-                  visible: false,
-                  drawBehind: true,
-                  animate: true,
-                },
-                bottomTab: {
-                  fontSize: 12,
-                  text: 'Home',
-                  textColor: TYPOGRAPHY.COLOR.Primary,
-                  selectedTextColor: TYPOGRAPHY.COLOR.Secondary,
-                  icon: require('../view/assets/images/tabbar/home.png'),
-                  selectedIcon: require('../view/assets/images/tabbar/home.png'),
-                },
-              },
-            },
-          },
-          {
-            stack: {
-              children: [
-                {
-                  component: {
-                    name: SCREENS.Settings,
-                  },
-                },
-              ],
-              options: {
-                topBar: {
-                  visible: false,
-                  drawBehind: true,
-                  animate: true,
-                },
-                bottomTab: {
-                  text: 'Settings',
-                  fontSize: 12,
-                  textColor: TYPOGRAPHY.COLOR.Primary,
-                  selectedTextColor: TYPOGRAPHY.COLOR.Secondary,
-                  icon: require('../view/assets/images/tabbar/settings.png'),
-                  selectedIcon: require('../view/assets/images/tabbar/settings.png'),
-                },
-              },
-            },
-          },
-        ],
-      },
-    },
-  });
+	Navigation.setRoot({
+		root: {
+			stack: {
+				id: 'AppRoot',
+				children: [
+					{
+						component: {
+							name: SCREENS.Home,
+						},
+					},
+				],
+				options: {
+					layout: {
+						backgroundColor: '#E5E5E5',
+					},
+					// TODO: Replace topbar with custom nav (To achieve curvy design thing)
+					topBar: {
+						visible: true,
+						elevation: 0,
+						title: {
+							fontFamily: 'WorkSans',
+						},
+						background: {
+							color: '#FFF',
+						},
+					},
+				},
+			},
+		},
+	});
 
 export default goToHome;

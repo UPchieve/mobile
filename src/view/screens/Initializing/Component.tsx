@@ -48,18 +48,18 @@ class Initializing extends React.PureComponent<Props, State> {
 					// Redirect to home
 					setTimeout(() => {
 						goToHome();
-					}, 1500);
+					}, 500);
 				})
 				.catch(() => {
 					// Redirect to sign in
 					setTimeout(() => {
 						goToSignIn();
-					}, 1500);
+					}, 500);
 				});
 		} else {
 			setTimeout(() => {
 				goToSignIn();
-			}, 1500);
+			}, 500);
 		}
 	};
 

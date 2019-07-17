@@ -15,7 +15,7 @@ const Text = styled.Text`
 `;
 
 const H1 = styled(Text)`
-	font-size: 30px
+	font-size: 28px
 `;
 
 export { Text, H1 };
