@@ -1,7 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 
 import { SCREENS } from '../constants/screen';
-import { TYPOGRAPHY } from '../view/styles/typography';
 
 export const goToSignIn = () => {
 	Navigation.setRoot({
@@ -41,6 +40,7 @@ export const goToHome = () =>
 						elevation: 0,
 						title: {
 							fontFamily: 'WorkSans',
+							fontSize: 20,
 						},
 						background: {
 							color: '#FFF',

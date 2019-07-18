@@ -38,6 +38,7 @@
     "react": "^16.8.6",
     "react-native": "^0.59.5",
     "react-native-drawer": "^2.5.1",
+    "react-native-hamburger": "0.0.2",
     "react-native-navigation": "^2.18.3",
     "react-redux": "^7.0.3",
     "redux": "^4.0.1",

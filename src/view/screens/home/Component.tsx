@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Form, Button, Container } from '../../components';
+
+import { View } from 'react-native';
+import { Form, Button, Container, MenuButton } from '../../components';
 import { H1 } from '../../components/Text';
 import styles from './styles';
 import { goToSignIn } from '../../../navigators/navigation';
@@ -7,6 +9,7 @@ import { Toast } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Drawer from 'react-native-drawer';
 import { Navigation } from 'react-native-navigation';
+import Menu from '../Menu/Component'
 
 export interface Props {
 	name: string;
@@ -16,19 +19,21 @@ interface State {
 	name: string;
 }
 
-const Menu = () => {
-	return <H1>Hello World!</H1>
-}
+// const Menu = () => {
+// 	return <H1>Hello World!</H1>;
+// };
 class Home extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		Navigation.events().bindComponent(this);
 	}
 
-	navigationButtonPressed({ buttonId }) {
-		this.openMenu();
-	}
-
+	closeMenu = () => {
+		this._drawer.close();
+	};
+	openMenu = () => {
+		this._drawer.open();
+	};
 	static options(passProps) {
 		return {
 			topBar: {
@@ -37,15 +42,25 @@ class Home extends React.PureComponent<Props, State> {
 				},
 				rightButtons: [
 					{
-						id: 'buttonOne',
-						height: 80,
-						icon: require('../../assets/images/menu-icon.png'),
+						// id: 'buttonOne',
+						// height: 80,
+						// icon: require('../../assets/images/menu-icon.png'),
+						component: {
+							name: 'MenuButton',
+							passProps: {
+								onClick: () => this.openMenu(),
+							},
+						},
 					},
 				],
 			},
 		};
 	}
-	componentDidMount() {}
+
+	// Open menu when nav button pressed
+	navigationButtonPressed({ buttonId }) {
+		this.openMenu();
+	}
 
 	handleLogOut = async () => {
 		// Remove user data from async storage and go to sign in screen
@@ -61,19 +76,12 @@ class Home extends React.PureComponent<Props, State> {
 		}
 	};
 
-	closeMenu = () => {
-		this._drawer.close();
-	};
-	openMenu = () => {
-		this._drawer.open();
-	};
-
 	render() {
 		return (
-			<Drawer ref={ref => (this._drawer = ref)} content={<Menu />} side={'bottom'}>
+			<Drawer ref={ref => (this._drawer = ref)} content={<Menu />} side={'top'}>
 				<Container marginHorizontal={20} marginVertical={20}>
 					<H1>Hello, Student!</H1>
-					<Button onPress={this.handleLogOut} block>
+					<Button onPress={this.openMenu} block>
 						Sign Out
 					</Button>
 				</Container>
