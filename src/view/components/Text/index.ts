@@ -10,12 +10,19 @@ Custom Text Props:
  */
 const Text = styled.Text`
   font-family: ${props => (props.light ? 'WorkSans' : 'WorkSans-Medium')}
-  font-size: ${props => (props.fontSize ? props.fontSize : `20px`)};
+  font-size: ${props => (props.fontSize ? props.fontSize : `16px`)};
   color: ${props => (props.color ? props.color : '#343440')};
 `;
 
 const H1 = styled(Text)`
-	font-size: 28px
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+`;
+const H2 = styled(Text)`
+	font-size: 18px;
+	margin-bottom: 15px;
+	font-family: WorkSans;
 `;
 
-export { Text, H1 };
+export { Text, H1, H2 };

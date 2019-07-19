@@ -1,27 +1,9 @@
+// Note: App has not been properly ejected for rename
 {
   "name": "UPchieve",
-  "description": "React Native Boilerplate, TypeScript with React Native Navigation",
-  "keywords": [
-    "react native",
-    "typescript",
-    "boilerplate",
-    "react native navigation"
-  ],
-  "version": "v0.2.2",
-  "author": {
-    "name": "Amit Mangal",
-    "email": "mangalamitash@gmail.com",
-    "url": "https://github.com/AmitM30"
-  },
+  "description": "UPchieve mobile client",
+  "version": "v1.0",
   "private": false,
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/AmitM30/react-native-typescript-boilerplate"
-  },
-  "bugs": {
-    "url": "https://github.com/AmitM30/react-native-typescript-boilerplate/issues",
-    "email": "mangalamitash@gmail.com"
-  },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "cross-env-shell jest",

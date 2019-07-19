@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Form, Button, Container, MenuButton } from '../../components';
-import { H1 } from '../../components/Text';
+import { H1,H2, Text } from '../../components/Text';
 import styles from './styles';
 import { goToSignIn } from '../../../navigators/navigation';
 import { Toast } from 'native-base';
@@ -56,7 +56,6 @@ class Home extends React.PureComponent<Props, State> {
 			},
 		};
 	}
-
 	// Open menu when nav button pressed
 	navigationButtonPressed({ buttonId }) {
 		this.openMenu();
@@ -81,6 +80,18 @@ class Home extends React.PureComponent<Props, State> {
 			<Drawer ref={ref => (this._drawer = ref)} content={<Menu />} side={'top'}>
 				<Container marginHorizontal={20} marginVertical={20}>
 					<H1>Hello, Student!</H1>
+					<Image style={styles.image} source={require('../../assets/images/illo.png')} />
+					<H2>Explore our subjects</H2>
+					 
+					{/* <Container style={styles.container}>
+						<Image source={require('../../assets/images/')} />
+					</Container>
+					<Container style={styles.container}>
+						<Image source={require('../../assets/images/')} />
+					</Container>
+					<Container style={styles.container}>
+						<Image source={require('../../assets/images/')} />
+					</Container> */}
 					<Button onPress={this.openMenu} block>
 						Sign Out
 					</Button>

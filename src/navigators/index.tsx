@@ -11,6 +11,7 @@ import { MenuButton } from '../view/components/MenuButton'
  */
 registerScreens({ store, Provider });
 
+// Topbar components for RNN
 Navigation.registerComponent('MenuButton', () => require('../view/components/MenuButton').default);
 
 const app = () => {

@@ -40,7 +40,7 @@ export const goToHome = () =>
 						elevation: 0,
 						title: {
 							fontFamily: 'WorkSans',
-							fontSize: 20,
+							fontSize: 18,
 						},
 						background: {
 							color: '#FFF',
