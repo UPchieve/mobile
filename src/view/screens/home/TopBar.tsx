@@ -4,7 +4,7 @@ import { Text } from '../../components/Text';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-
+// For eventual migration to a custom topbar
 
 class TopBar extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
@@ -15,7 +15,7 @@ class TopBar extends React.PureComponent<Props, State> {
 	render() {
 		return (
 			<View width={120} height={40} style={styles.container}>
-				<Text>Hello</Text>
+				<Text>Hello World</Text>
 			</View>
 		);
 	}

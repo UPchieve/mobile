@@ -19,36 +19,36 @@ export const initialize = () => {
 };
 
 export const goToHome = () =>
-	Navigation.setRoot({
-		root: {
-			stack: {
-				id: 'AppRoot',
-				children: [
-					{
-						component: {
-							name: SCREENS.Home,
-						},
-					},
-				],
-				options: {
-					layout: {
-						backgroundColor: '#E5E5E5',
-					},
-					// TODO: Replace topbar with custom nav (To achieve curvy design thing)
-					topBar: {
-						visible: true,
-						elevation: 0,
-						title: {
-							fontFamily: 'WorkSans',
-							fontSize: 18,
-						},
-						background: {
-							color: '#FFF',
+			Navigation.setRoot({
+				root: {
+					stack: {
+						id: 'AppRoot',
+						children: [
+							{
+								component: {
+									name: SCREENS.Home,
+								},
+							},
+						],
+						options: {
+							layout: {
+								backgroundColor: '#ededed',
+							},
+							// TODO: Replace topbar with custom nav (To achieve curvy design thing)
+							topBar: {
+								visible: true,
+								elevation: 0,
+								title: {
+									fontFamily: 'WorkSans',
+									fontSize: 18,
+								},
+								background: {
+									color: '#FFF',
+								},
+							},
 						},
 					},
 				},
-			},
-		},
-	});
+			});
 
 export default goToHome;

@@ -21,7 +21,6 @@ const H1 = styled(Text)`
 `;
 const H2 = styled(Text)`
 	font-size: 18px;
-	margin-bottom: 15px;
 	font-family: WorkSans;
 `;
 
