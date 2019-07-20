@@ -5,9 +5,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	container: {
-		flex: 1,
-		display: 'flex',
-		backgroundColor: '#ededed',
+		marginTop: 80
 	},
 	image: {
 		width: '100%',

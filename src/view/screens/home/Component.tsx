@@ -26,10 +26,7 @@ class Home extends React.PureComponent<Props, State> {
 	render() {
 		return (
 			<View style={styles.wrap}>
-				<TopBar />
-				<ScrollView
-					style={{ zIndex: 0 }}
-				>
+				<ScrollView style={styles.container}>
 					<Container marginHorizontal={20} marginVertical={20}>
 						<H1>Hello, Student!</H1>
 						<Image style={styles.image} source={require('../../assets/images/illo.png')} />
@@ -64,7 +61,8 @@ class Home extends React.PureComponent<Props, State> {
 						</Container>
 					</Container>
 				</ScrollView>
-				{/* <Overlay/> */}
+				<Overlay />
+				<TopBar />
 			</View>
 		);
 	}
