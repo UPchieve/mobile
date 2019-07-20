@@ -1,21 +1,43 @@
-import * as React from 'react';
-import { View } from 'react-native';
-import { Text } from '../../components/Text';
-import { Component } from 'react';
+// (TODO: move to components folder)
+
+import React, { Component } from 'react';
+import { View, Image } from 'react-native';
+import { H2 } from '../../components/Text';
+import Hamburger from 'react-native-hamburger';
 import { connect } from 'react-redux';
 
-// For eventual migration to a custom topbar
+export interface Props {
+	name: string;
+}
 
-class TopBar extends React.PureComponent<Props, State> {
-	constructor(props: Props) {
+interface State {
+	active: boolean;
+}
+
+export default class TopBar extends React.Component<Props, State> {
+	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			active: false,
+		};
 	}
 
 	render() {
 		return (
-			<View width={120} height={40} style={styles.container}>
-				<Text>Hello World</Text>
+			<View style={styles.container}>
+				<View style={styles.avatarWrapper}>
+					<Image style={styles.avatar} source={require('../../assets/images/student-avatar.png')} />
+				</View>
+				<H2 style={styles.text}>Student</H2>
+				<View style={styles.button}>
+					<Hamburger
+						active={this.state.active}
+						onPress={() => {
+							this.setState({ active: !this.state.active });
+						}}
+						type="cross"
+					/>
+				</View>
 			</View>
 		);
 	}
@@ -23,19 +45,30 @@ class TopBar extends React.PureComponent<Props, State> {
 
 const styles = {
 	container: {
-		justifyContent: 'center',
+		width: '100%',
+		height: 80,
+		// justifyContent: 'center',
 		alignItems: 'center',
-		alignSelf: 'stretch',
-		backgroundColor: '#aaa',
+		backgroundColor: '#fff',
+		flexDirection: 'row',
+	},
+	avatarWrapper: {
+		width: 40,
+		height: 40,
+		marginLeft: 20,
+	},
+	avatar: {
+		alignItems: 'flex-start',
+		width: null,
+		height: null,
+		flex: 1,
+		resizeMode: 'contain',
+	},
+	text: {
+		marginLeft: 10,
+	},
+	button: {
+		marginLeft: 'auto',
+		padding: 20,
 	},
 };
-
-
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = () => ({});
-
-export const topContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(topContainer);

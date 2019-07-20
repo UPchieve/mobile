@@ -34,17 +34,9 @@ export const goToHome = () =>
 							layout: {
 								backgroundColor: '#ededed',
 							},
-							// TODO: Replace topbar with custom nav (To achieve curvy design thing)
 							topBar: {
-								visible: true,
-								elevation: 0,
-								title: {
-									fontFamily: 'WorkSans',
-									fontSize: 18,
-								},
-								background: {
-									color: '#FFF',
-								},
+								visible: false,
+								height: 0,
 							},
 						},
 					},
