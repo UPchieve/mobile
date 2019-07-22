@@ -6,11 +6,14 @@
  */
 
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { View, Image, FlatList, Animated, Dimensions, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { goToSignIn } from '../../../navigators/navigation';
 import { Content, ListItem, Toast } from 'native-base';
 import { H1 } from '../../components/Text';
+
+import { toggleOverlay } from '../../../../shared/redux/constants/actionTypes';
 
 // Minor target for refactoring (icon links are a bit messy due to RequireJS constraints)
 const links = [
@@ -44,19 +47,23 @@ const links = [
 // Height of overlay
 const maxHeight = Dimensions.get('window').height - 80;
 
-export interface Props {}
+export interface Props {
+	menuOpen: boolean;
+}
 
-interface State {}
+interface State {
+	overlayShown: boolean;
+}
 
-export default class Overlay extends React.Component<Props, State> {
+export default class Menu extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
 			animation: new Animated.Value(0),
 			overlayShown: true,
 		};
-	}
-
+    }
+    
 	handleLogOut = async () => {
 		// Remove user data from async storage and go to sign in screen
 		try {
@@ -68,10 +75,10 @@ export default class Overlay extends React.Component<Props, State> {
 				type: 'danger',
 				position: 'top',
 			});
-		} 	
+		}
 	};
 
-	toggleOverlay = () => {
+	toggleMenu = () => {
 		// Drawer toggle logic
 
 		var toValue = 0;
@@ -83,8 +90,7 @@ export default class Overlay extends React.Component<Props, State> {
 			toValue,
 			duration: 500,
 		}).start();
-	}
-	
+	};
 
 	render() {
 		// Pass both animation state and external styles to overlay
@@ -107,6 +113,7 @@ export default class Overlay extends React.Component<Props, State> {
 							</ListItem>
 						)}
 					/>
+					{this.props.menuOpen && <H1>Hello</H1>}
 					<H1 style={styles.logout} onPress={this.handleLogOut}>
 						Log out
 					</H1>

@@ -1,4 +1,4 @@
-// (TODO: move to components folder)
+// (TODO: move to components folder) Custom navbar 
 
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
@@ -7,7 +7,7 @@ import Hamburger from 'react-native-hamburger';
 import { connect } from 'react-redux';
 
 export interface Props {
-	name: string;
+	toggleMenu: Function;
 }
 
 interface State {
@@ -34,6 +34,7 @@ export default class TopBar extends React.Component<Props, State> {
 						active={this.state.active}
 						onPress={() => {
 							this.setState({ active: !this.state.active });
+							this.props.toggleMenu();
 						}}
 						type="cross"
 					/>

@@ -7,22 +7,9 @@ import { Navigation } from 'react-native-navigation';
 
 // Custom components
 import TopBar from './TopBar';
-import Overlay from './Overlay';
+import Menu from '../Menu';
 
-export interface Props {
-	name: string;
-}
-
-interface State {
-	name: string;
-}
-
-class Home extends React.PureComponent<Props, State> {
-	constructor(props: Props) {
-		super(props);
-	}
-
-
+class Home extends React.PureComponent {
 	render() {
 		return (
 			<View style={styles.wrap}>
@@ -61,8 +48,8 @@ class Home extends React.PureComponent<Props, State> {
 						</Container>
 					</Container>
 				</ScrollView>
-				<Overlay />
-				<TopBar />
+				<Menu />
+				<TopBar toggleMenu={this.props.toggleMenu}/>
 			</View>
 		);
 	}

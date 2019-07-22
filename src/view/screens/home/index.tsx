@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
-
 import Component from './Component';
+import { toggleMenu } from '../../../../shared/redux/constants/actionTypes'
 
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = () => ({});
-
+// No state map needed, just dispatch toggleMenu action
 const homeContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  null,
+  { toggleMenu }
 )(Component);
 
 export default homeContainer;

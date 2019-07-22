@@ -1,3 +1,5 @@
+// Redux store
+
 import { applyMiddleware, createStore } from 'redux';
 import * as thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
