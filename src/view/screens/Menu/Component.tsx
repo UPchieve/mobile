@@ -6,14 +6,11 @@
  */
 
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { View, Image, FlatList, Animated, Dimensions, StyleSheet } from 'react-native';
+import { Image, FlatList, Animated, Dimensions, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { goToSignIn } from '../../../navigators/navigation';
 import { Content, ListItem, Toast } from 'native-base';
 import { H1 } from '../../components/Text';
-
-import { toggleOverlay } from '../../../../shared/redux/constants/actionTypes';
 
 // Minor target for refactoring (icon links are a bit messy due to RequireJS constraints)
 const links = [
@@ -59,11 +56,16 @@ export default class Menu extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
-			animation: new Animated.Value(0),
-			overlayShown: true,
+			animation: new Animated.Value(-maxHeight),
+			overlayShown: false,
 		};
-    }
-    
+	}
+	componentDidUpdate(previousProps) {
+        // When redux prop changes, toggle menu
+		if (previousProps.menuOpen !== this.props.menuOpen) {
+			this.toggleMenu();
+		}
+	}
 	handleLogOut = async () => {
 		// Remove user data from async storage and go to sign in screen
 		try {
@@ -80,17 +82,22 @@ export default class Menu extends React.Component<Props, State> {
 
 	toggleMenu = () => {
 		// Drawer toggle logic
-
 		var toValue = 0;
 		if (this.state.overlayShown) {
 			toValue = -maxHeight;
 		}
-
 		Animated.timing(this.state.animation, {
 			toValue,
 			duration: 500,
-		}).start();
-	};
+        }).start();
+        this.setState({
+            overlayShown: !this.state.overlayShown
+        })
+    };
+    
+    travel = () => {
+
+    }
 
 	render() {
 		// Pass both animation state and external styles to overlay
@@ -113,7 +120,6 @@ export default class Menu extends React.Component<Props, State> {
 							</ListItem>
 						)}
 					/>
-					{this.props.menuOpen && <H1>Hello</H1>}
 					<H1 style={styles.logout} onPress={this.handleLogOut}>
 						Log out
 					</H1>
@@ -131,7 +137,6 @@ const styles = {
 		position: 'absolute',
 		top: 80,
 		height: maxHeight,
-		// bottom: 0,
 		backgroundColor: '#ffa',
 	},
 	content: {
