@@ -20,7 +20,7 @@ const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
       touched,
       errors,
     }) => (
-      <Form>
+      <Form style={{justifyContent: "center"}}>
         <FormItem error={isEmailError(touched, errors)}>
           <Input
             placeholder="Email"
@@ -29,6 +29,7 @@ const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
             autoCapitalize="none"
             autoCorrect={false}
           />
+          
           {isEmailError(touched, errors) && <Icon name="close-circle" />}
         </FormItem>
         <FormItem>
@@ -42,7 +43,7 @@ const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
           />
           <Hint>hint: password</Hint>
         </FormItem>
-        <Button disabled={isSubmitting} onPress={handleSubmit} block>
+        <Button disabled={isSubmitting} onPress={handleSubmit} width={'100%'} block>
           {isSubmitting ? 'loading...' : 'Sign In'}
         </Button>
       </Form>

@@ -88,7 +88,7 @@ export default class Menu extends React.Component<Props, State> {
 		}
 		Animated.timing(this.state.animation, {
 			toValue,
-			duration: 500,
+			duration: 400,
         }).start();
         this.setState({
             overlayShown: !this.state.overlayShown

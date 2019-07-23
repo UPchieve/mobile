@@ -1,10 +1,7 @@
-// (TODO: move to components folder) Custom navbar 
-
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { H2 } from '../../components/Text';
 import Hamburger from 'react-native-hamburger';
-import { connect } from 'react-redux';
 
 export interface Props {
 	toggleMenu: Function;
@@ -28,7 +25,7 @@ export default class TopBar extends React.Component<Props, State> {
 				<View style={styles.avatarWrapper}>
 					<Image style={styles.avatar} source={require('../../assets/images/student-avatar.png')} />
 				</View>
-				<H2 style={styles.text}>Student</H2>
+				<H2 style={styles.text}>{this.props.name}</H2>
 				<View style={styles.button}>
 					<Hamburger
 						active={this.state.active}
@@ -51,7 +48,6 @@ const styles = {
 		position: 'absolute',
 		top: 0,
 		zIndex: 10,
-		// justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#fff',
 		flexDirection: 'row',

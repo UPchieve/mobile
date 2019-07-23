@@ -1,14 +1,17 @@
 import { connect } from 'react-redux';
 
 import Component from './Component';
+import { saveUser } from '../../../../shared/redux/constants/actionTypes'
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = () => ({});
+const actionCreators = {
+  saveUser
+}
 
 const signinContainer = connect(
 	mapStateToProps,
-	mapDispatchToProps
+  actionCreators
 )(Component);
 
 export default signinContainer;

@@ -6,16 +6,21 @@ import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 
 // Custom components
-import TopBar from './TopBar';
+import TopBar from '../TopBar';
 import Menu from '../Menu';
 
-class Home extends React.PureComponent {
+
+interface Props {
+	name: string;
+}
+
+class Home extends React.PureComponent<Props> {
 	render() {
 		return (
 			<View style={styles.wrap}>
 				<ScrollView style={styles.container}>
 					<Container marginHorizontal={20} marginVertical={20}>
-						<H1>Hello, Student!</H1>
+						<H1>Hello, {this.props.name}!</H1>
 						<Image style={styles.image} source={require('../../assets/images/illo.png')} />
 						<H2 style={{ marginBottom: 15 }}>Explore our subjects</H2>
 
@@ -27,20 +32,14 @@ class Home extends React.PureComponent {
 							</Container>
 						</Container>
 						<Container style={styles.buttonContainer}>
-							<Image
-								style={styles.icon}
-								source={require('../../assets/images/college-icon.png')}
-							/>
+							<Image style={styles.icon} source={require('../../assets/images/college-icon.png')} />
 							<Container style={styles.buttonRight}>
 								<H2>Math Tutoring</H2>
 								<Text color={'#16D2AA'}>Start a chat &#10140;</Text>
 							</Container>
 						</Container>
 						<Container style={styles.buttonContainer}>
-							<Image
-								style={styles.icon}
-								source={require('../../assets/images/science-icon.png')}
-							/>
+							<Image style={styles.icon} source={require('../../assets/images/science-icon.png')} />
 							<Container style={styles.buttonRight}>
 								<H2>Math Tutoring</H2>
 								<Text color={'#16D2AA'}>Start a chat &#10140;</Text>
@@ -49,7 +48,7 @@ class Home extends React.PureComponent {
 					</Container>
 				</ScrollView>
 				<Menu />
-				<TopBar toggleMenu={this.props.toggleMenu}/>
+				<TopBar />
 			</View>
 		);
 	}

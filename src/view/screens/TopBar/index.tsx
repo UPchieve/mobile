@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import Component from './Component';
-import { toggleMenu } from '../../../../shared/redux/constants/actionTypes'
-
+import { toggleMenu } from '../../../../shared/redux/constants/actionTypes';
 
 const mapStateToProps = state => {
 	return { name: state.user.name };
@@ -10,9 +9,9 @@ const mapStateToProps = state => {
 const actionCreators = {
 	toggleMenu,
 };
-const homeContainer = connect(
-  mapStateToProps,
-  actionCreators
+const topBarContainer = connect(
+	mapStateToProps,
+	actionCreators
 )(Component);
 
-export default homeContainer;
+export default topBarContainer;

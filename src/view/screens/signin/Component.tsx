@@ -14,8 +14,9 @@ import { FormikActions } from 'formik';
 
 import API from '../../../config/index';
 
-
-export interface Props {}
+export interface Props {
+	saveUser: Function;
+}
 
 interface State {}
 
@@ -33,26 +34,30 @@ class SignIn extends React.PureComponent<Props, State> {
 		// Call authentication endpoint with inputted credentials
 		axios
 			.post(API.login, credentials)
-			.then(() => {
-				// Try storing credentials on device
-				AsyncStorage.multiSet([['email', email], ['password', password]])
-					.then(() => {
-						goToHome();
-					})
-					.catch(() => {
-						resetForm();
-						return Toast.show({
-							text: "Sorry, please try again",
-							type: 'danger',
-							position: 'top',
-						});
-					});
+			.then(res => {
+				const user = {
+					credentials,
+					name: res.data.user.firstname,
+				};
+
+        this.props.saveUser(user);
+        goToHome();
+        
+
+				// .catch(() => {
+				// 	resetForm();
+				// 	return Toast.show({
+				// 		text: 'Sorry, please try again',
+				// 		type: 'danger',
+				// 		position: 'top',
+				// 	});
+				// });
 			})
-			.catch(() => {
+			.catch(error => {
 				// Reset form and return failed login popup
 				resetForm();
 				return Toast.show({
-					text: 'Incorrect Details',
+					text: error,
 					type: 'danger',
 					position: 'top',
 				});
