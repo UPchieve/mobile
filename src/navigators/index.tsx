@@ -8,7 +8,7 @@ import { initialize } from './navigation';
 /**
  * Register screens and components for react native navigation
  */
-registerScreens({ store, Provider });
+registerScreens({ store: store().store, Provider });
 
 
 const app = () => {
