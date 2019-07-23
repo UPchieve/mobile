@@ -6,6 +6,7 @@ import * as Home from './Home';
 import * as Settings from './settings';
 import * as SignIn from './SignIn'
 import * as Initializing from './Initializing';
+import * as MathModal from './Modals/Math';
 
 const registerComponentWithRedux = (redux: any) => (
   name: string,
@@ -24,4 +25,6 @@ export function registerScreens(redux: any) {
   registerComponentWithRedux(redux)(SCREENS.Home, Home.default);
   registerComponentWithRedux(redux)(SCREENS.Settings, Settings.default);
   registerComponentWithRedux(redux)(SCREENS.SignIn, SignIn.default);
+  registerComponentWithRedux(redux)(SCREENS.MathModal, MathModal.default);
+
 }

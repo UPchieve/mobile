@@ -1,10 +1,3 @@
-/**
- * A custom drawer (TODO: move to components folder)
- * refs:
- *
- *
- */
-
 import * as React from 'react';
 import { Image, FlatList, Animated, Dimensions, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';

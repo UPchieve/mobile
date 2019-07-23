@@ -7,9 +7,9 @@ const mapStateToProps = state => {
 	return { menuOpen: state.ui.menuOpen };
 };
 
-const Menu = connect(
+const menuContainer = connect(
 	mapStateToProps,
 	{ toggleMenu }
 )(Component);
 
-export default Menu;
+export default menuContainer;

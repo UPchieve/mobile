@@ -5,7 +5,8 @@ const SCREENS = {
 	Home: 'Home',
 	Menu: 'Menu',
 	Settings: 'Settings',
-	SignIn: 'SignIn',
+  SignIn: 'SignIn',
+  MathModal: 'MathModal'
 };
 
 export { SCREENS };
