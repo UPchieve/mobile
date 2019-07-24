@@ -11,12 +11,12 @@ If you get 'Network Error', try:
 -Setting network to private
 
 */
-const ROOT = '';
+const ROOT = 'http://192.168.200.205:3000';
 
 // API endpoints
 const API = {
-    login: `${ROOT}/auth/login`,
-    register: `${ROOT}/auth/register`,
+	login: `${ROOT}/auth/login`,
+	register: `${ROOT}/auth/register`,
 };
 
 export default API;
