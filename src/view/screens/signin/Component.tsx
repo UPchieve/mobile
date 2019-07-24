@@ -39,25 +39,14 @@ class SignIn extends React.PureComponent<Props, State> {
 					credentials,
 					name: res.data.user.firstname,
 				};
-
         this.props.saveUser(user);
         goToHome();
-        
-
-				// .catch(() => {
-				// 	resetForm();
-				// 	return Toast.show({
-				// 		text: 'Sorry, please try again',
-				// 		type: 'danger',
-				// 		position: 'top',
-				// 	});
-				// });
 			})
 			.catch(error => {
 				// Reset form and return failed login popup
 				resetForm();
 				return Toast.show({
-					text: error,
+					text: 'Could not login. Please try again',
 					type: 'danger',
 					position: 'top',
 				});

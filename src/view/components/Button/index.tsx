@@ -8,7 +8,7 @@ const ButtonComponent: FunctionComponent<NativeBase.Button> = ({
   ...props
 }) => (
   <StyledButton {...props}>
-    <Text color={'#fff'}>{children}</Text>
+    <Text color={props.backgroundColor ? props.backgroundColor : '#fff'}>{children}</Text>
   </StyledButton>
 )
 
