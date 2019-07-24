@@ -322,4 +322,4 @@ android/.idea/**
 Pods/*
 
 # Jest
-.jest/
+.jest/src/config/index.ts
