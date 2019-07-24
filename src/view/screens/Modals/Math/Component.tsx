@@ -1,7 +1,7 @@
 // Full screen subject selector
 
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Animated, Dimensions } from 'react-native';
 import { Root, Toast } from 'native-base';
 import { H1, Text } from '../../../components/Text';
 import { Button } from '../../../components';
@@ -16,22 +16,38 @@ interface State {
 	selectorValue: string;
 }
 
+const maxHeight = Dimensions.get('window').height - 80;
+
 export default class MathModal extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
 			selectorValue: null,
+			fadeAnimation: new Animated.Value(0),
+			slideAnimation: new Animated.Value(maxHeight),
 		};
 	}
+
+	componentDidMount() {
+		Animated.timing(this.state.fadeAnimation, {
+			toValue: 1,
+			duration: 400,
+		}).start();
+		Animated.timing(this.state.slideAnimation, {
+			toValue: 0,
+			duration: 400,
+		}).start();
+	}
+
 	startChat = () => {
-    // Make sure a subject has been selected
+		// Make sure a subject has been selected
 		if (!this.state.selectorValue) {
 			return Toast.show({
 				text: 'Please select a subject first',
 				type: 'danger',
 				position: 'bottom',
-      });
-    }
+			});
+		}
 	};
 
 	render() {
@@ -47,9 +63,9 @@ export default class MathModal extends React.Component<Props, State> {
 
 		return (
 			<Root>
-				<View style={styles.container}>
+				<Animated.View style={[styles.container, { opacity: this.state.fadeAnimation }]}>
 					<TopBar backButton color={'#1855D1'} />
-					<View style={styles.content}>
+					<Animated.View style={[styles.content, { translateY: this.state.slideAnimation }]}>
 						<H1 style={styles.header}>Choose a math subject</H1>
 						<Text color="#77778B" light style={styles.description}>
 							Select the topic you would like to request help with below to get started with a new chat
@@ -74,8 +90,8 @@ export default class MathModal extends React.Component<Props, State> {
 						<Button width="75%" onPress={this.startChat} block>
 							Start a new chat &#8594;
 						</Button>
-					</View>
-				</View>
+					</Animated.View>
+				</Animated.View>
 			</Root>
 		);
 	}
