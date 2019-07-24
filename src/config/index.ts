@@ -11,7 +11,7 @@ If you get 'Network Error', try:
 -Setting network to private
 
 */
-const ROOT = 'http://192.168.200.205:3000';
+const ROOT = 'http://HOST:3000';
 
 // API endpoints
 const API = {

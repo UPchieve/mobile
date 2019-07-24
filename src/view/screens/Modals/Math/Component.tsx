@@ -31,7 +31,7 @@ export default class MathModal extends React.Component<Props, State> {
 	componentDidMount() {
 		Animated.timing(this.state.fadeAnimation, {
 			toValue: 1,
-			duration: 400,
+			duration: 200,
 		}).start();
 		Animated.timing(this.state.slideAnimation, {
 			toValue: 0,
@@ -156,6 +156,7 @@ const styles = {
 		borderRadius: 8,
 	},
 	cancelText: {
+		fontFamily: 'WorkSans-Medium',
 		color: '#F44747',
 		fontSize: 18,
 	},

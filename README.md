@@ -1,5 +1,4 @@
-UPchieve mobile
-===================
+# UPchieve mobile
 
 ![Travis](https://api.travis-ci.com/AmitM30/react-native-typescript-boilerplate.svg?branch=master) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
@@ -7,32 +6,30 @@ UPchieve mobile
 
 **Table of Contents**
 
-- [Local Development](#local-development)
-    - [Setup](#setup)
-    - [Launch](#launch)
-    - [Lint](#lint)
-    - [Testing](#Testing)
-- [Structure](#structure)
-    - [screens](#screens)
-    - [redux](#redux)
-    - [navigation](#navigation)
-    - [services](#services)
+-   [Local Development](#local-development)
+    -   [Setup](#setup)
+    -   [Launch](#launch)
+    -   [Lint](#lint)
+    -   [Testing](#Testing)
+-   [Structure](#structure)
+    -   [screens](#screens)
+    -   [redux](#redux)
+    -   [navigation](#navigation)
+    -   [services](#services)
 
-Local Development
------------------
+## Local Development
 
 ### Setup
 
-1. Make sure your [dev server](https://github.com/upchieve/server) running at `localhost:3000`.
-2. In `src/config/index.ts`, add the root of your dev server to `ROOT`. For stimulators (ios), `localhost:3000` is fine. If using a stimulator or connecting a device, use your host's IPv4 address instead of 'localhost'. 
+1. Make sure your [dev server](https://github.com/upchieve/server) is running at `localhost:3000`.
+2. This app uses yarn. Run `yarn install` to install dependencies.
+3. In `src/config/index.ts`, add the root of your dev server to `ROOT`. For stimulators (ios), `localhost:3000` is fine. If using a stimulator or connecting a device, use your host's IPv4 address instead of 'localhost'.
 
 ### Launch
 
-1. Set up your [development environment](https://facebook.github.io/react-native/docs/getting-started.html) with React Native CLI. 
-2. Connect your device or run your emulator/stimulator. 
-2. Run the Metro Bundler from the terminal with `npm start`, and launch with either `react-native run-android` or `react-native run-ios` (Alternatively use VScode's `React Native Tools` commands).
-
-For platform specific development, launch with Xcode or Android Studio. 
+1. Set up your [development environment](https://facebook.github.io/react-native/docs/getting-started.html) with React Native CLI.
+2. Connect your device or run your emulator/stimulator.
+3. Run the Metro Bundler from the terminal with `npm start`, and launch with either `react-native run-android` or `react-native run-ios` (Alternatively use VScode's `React Native Tools` commands).
 
 #### Lint
 
@@ -64,10 +61,8 @@ To find unit test coverage for the application:
 npm run test:coverage
 ```
 
+## Structure
 
-
-Structure
------------------
 ```
 /
 ├── android					Android Native code
@@ -86,8 +81,8 @@ Structure
 │   ├── constants				Screens, Localization
 │   ├── navigators				Router, Navigation
 │   ├── view					UI compoments - Screens, Widgets
-│   │	    ├── elements			
-|   |       ├── components          
+│   │	    ├── elements
+|   |       ├── components
 │   │	    ├── assets
 │   │	    ├── screens
 │   │	    ├── styles				Typography
@@ -124,21 +119,11 @@ yarn install
 
 #### Redux
 
-TODO
+This app uses Redux Thunk middleware and Redux Persist for a persistent store.
 
 #### Navigation
 
-TODO
-
-###### Services
-
-For android, run the Metro Bundler from the terminal
-
-```
-npm run start
-```
-
-and then launch from IDE.
+Navigation is handled with React Native Navigation v2. Check out `src/navigators/index.js` for the root of the application.
 
 #### Lint
 
@@ -179,5 +164,3 @@ TODO
 ##### Styles
 
 The `styles` folder contains `global` style and `typography` for the application. Styles for each screen has been placed with the screen, as they are going to be used together with the screen, unlike web.
-
-
