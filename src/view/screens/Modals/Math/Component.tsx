@@ -1,4 +1,7 @@
-// Full screen subject selector
+/**
+ * Full screen subject select
+ *  Should be merged into single modal component
+ */
 
 import * as React from 'react';
 import { View, Animated, Dimensions } from 'react-native';

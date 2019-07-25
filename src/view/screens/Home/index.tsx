@@ -1,18 +1,21 @@
 import { connect } from 'react-redux';
 import Component from './Component';
-import { toggleMenu } from '../../../../shared/redux/constants/actionTypes'
+import { toggleMenu, modalLaunched } from '../../../../shared/redux/constants/actions';
 
-
+// Listen in on the name of the user
 const mapStateToProps = state => {
 	return { name: state.user.name };
 };
 
+// Dispatch the state of the menu and subject select modals
 const actionCreators = {
 	toggleMenu,
+	modalLaunched,
 };
+
 const homeContainer = connect(
-  mapStateToProps,
-  actionCreators
+	mapStateToProps,
+	actionCreators
 )(Component);
 
 export default homeContainer;

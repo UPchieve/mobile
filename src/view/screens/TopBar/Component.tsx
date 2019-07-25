@@ -14,7 +14,6 @@ import { H2, Text } from '../../components/Text';
 import Hamburger from 'react-native-hamburger';
 import { Navigation } from 'react-native-navigation';
 
-
 export interface Props {
 	toggleMenu: Function;
 	color: string;
@@ -32,11 +31,11 @@ export default class TopBar extends React.Component<Props, State> {
 		this.state = {
 			active: false,
 		};
-  }
-  
-  goBack = () => {
-    Navigation.dismissOverlay('MathModal');
-  }
+	}
+
+	goBack = () => {
+		Navigation.dismissOverlay(`${this.props.modal}Modal`);
+	};
 
 	render() {
 		return (
@@ -61,7 +60,9 @@ export default class TopBar extends React.Component<Props, State> {
 				)}
 				{this.props.backButton && (
 					<TouchableOpacity style={styles.backButton} onPress={this.goBack}>
-						<Text light color={'#fff'}>&#8592; Dashboard</Text>
+						<Text light color={'#fff'}>
+							&#8592; Dashboard
+						</Text>
 					</TouchableOpacity>
 				)}
 			</View>
@@ -97,10 +98,10 @@ const styles = {
 	button: {
 		marginLeft: 'auto',
 		padding: 20,
-  },
-  backButton: {
-    alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingVertical: 40
-  }
+	},
+	backButton: {
+		alignItems: 'flex-start',
+		paddingHorizontal: 20,
+		paddingVertical: 40,
+	},
 };

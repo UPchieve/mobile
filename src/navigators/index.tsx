@@ -10,15 +10,14 @@ import { initialize } from './navigation';
  */
 registerScreens({ store: store().store, Provider });
 
-
 const app = () => {
-  Navigation.events().registerAppLaunchedListener(() => {
-    Navigation.setDefaultOptions({
-      topBar: { visible: true },
-    });
+	Navigation.events().registerAppLaunchedListener(() => {
+		Navigation.setDefaultOptions({
+			topBar: { visible: false, height: 0 },
+		});
 
-    initialize();
-  });
+		initialize();
+	});
 };
 
 export default app;

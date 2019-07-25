@@ -13,7 +13,10 @@ export default (state = initialState, action) => {
 		case 'SAVE_USER':
 			// Save credentials in AsyncStorage for persistent auth
 			if (action.user.credentials.email && action.user.credentials.password) {
-				AsyncStorage.multiSet([['email', action.user.credentials.email], ['password', action.user.credentials.password]]);
+				AsyncStorage.multiSet([
+					['email', action.user.credentials.email],
+					['password', action.user.credentials.password],
+				]);
 			}
 
 			// Only save what has been provided to the action

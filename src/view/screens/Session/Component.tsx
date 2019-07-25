@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { } from 'native-base';
+import {} from 'native-base';
 import { H1, Text } from '../../components/Text';
+import TopBar from '../TopBar';
 
 export interface Props {
 	menuOpen: boolean;
@@ -15,16 +16,24 @@ export default class Session extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {};
-  }
-  
+	}
+
 	render() {
 		return (
 			<View>
-        <Text>Hello</Text>
-      </View>
+				<TopBar color={'#FF8C5F'} />
+				<View style={styles.container}>
+					<Text>Hello</Text>
+				</View>
+			</View>
 		);
 	}
 }
 
 const styles = {
+	container: {
+		backgroundColor: '#fff',
+		flex: 1,
+		width: '100%',
+	},
 };

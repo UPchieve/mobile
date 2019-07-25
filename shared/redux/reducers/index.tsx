@@ -1,12 +1,11 @@
-// Combine all reducers 
+// Combine all reducers
 
 import { combineReducers } from 'redux';
 
-import ui from './ui'
-import user from './user'
+import ui from './ui';
+import user from './user';
 
 export default combineReducers({
-  ui,
-  user
+	ui,
+	user,
 });
-
