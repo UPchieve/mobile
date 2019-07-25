@@ -1,11 +1,7 @@
 {
 	"name": "UPchieve",
 	"description": "UPchieve mobile client",
-<<<<<<< Updated upstream
-	"version": "1.0.0",
-=======
 	"version": "v1.0.0",
->>>>>>> Stashed changes
 	"private": false,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
