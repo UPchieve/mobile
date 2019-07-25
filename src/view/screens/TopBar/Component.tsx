@@ -13,6 +13,7 @@ import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { H2, Text } from '../../components/Text';
 import Hamburger from 'react-native-hamburger';
 import { Navigation } from 'react-native-navigation';
+import { goToHome } from '../../../navigators/navigation';
 
 export interface Props {
 	toggleMenu: Function;
@@ -35,6 +36,10 @@ export default class TopBar extends React.Component<Props, State> {
 
 	goBack = () => {
 		Navigation.dismissOverlay(`${this.props.modal}Modal`);
+	};
+
+	endChat = () => {
+		goToHome();
 	};
 
 	render() {
@@ -62,6 +67,13 @@ export default class TopBar extends React.Component<Props, State> {
 					<TouchableOpacity style={styles.backButton} onPress={this.goBack}>
 						<Text light color={'#fff'}>
 							&#8592; Dashboard
+						</Text>
+					</TouchableOpacity>
+				)}
+				{this.props.chat && (
+					<TouchableOpacity style={styles.backButton} onPress={this.endChat}>
+						<Text light color={'#fff'}>
+							&#8592; End chat
 						</Text>
 					</TouchableOpacity>
 				)}

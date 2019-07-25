@@ -21,9 +21,9 @@ export default class Session extends React.Component<Props, State> {
 	render() {
 		return (
 			<View>
-				<TopBar color={'#FF8C5F'} />
+				<TopBar color={'#FF8C5F'} chat />
 				<View style={styles.container}>
-					<Text>Hello</Text>
+					<H1>My {this.props.topic} Session!</H1>
 				</View>
 			</View>
 		);
@@ -32,6 +32,7 @@ export default class Session extends React.Component<Props, State> {
 
 const styles = {
 	container: {
+		marginTop: 80,
 		backgroundColor: '#fff',
 		flex: 1,
 		width: '100%',

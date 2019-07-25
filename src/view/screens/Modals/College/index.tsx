@@ -1,9 +1,14 @@
 import { connect } from 'react-redux';
 import Component from './Component';
+import { sessionStarted } from '../../../../../shared/redux/constants/actions';
 
-const collegeModalContainer = connect(
+const actionCreators = {
+	sessionStarted,
+};
+
+const collegeContainer = connect(
 	null,
-	null
+	actionCreators
 )(Component);
 
-export default collegeModalContainer;
+export default collegeContainer;

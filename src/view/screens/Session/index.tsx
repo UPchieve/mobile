@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import Component from './Component';
 
+// Make component aware of the selected topic
+const mapStateToProps = state => {
+	return { topic: state.session.topic };
+};
 
-// const mapStateToProps = state => {
-// 	return { menuOpen: state.ui.menuOpen };
-// };
-
-const menuContainer = connect(
-  null,
-  null
+const sessionContainer = connect(
+	mapStateToProps,
+	null
 )(Component);
 
-export default menuContainer;
+export default sessionContainer;

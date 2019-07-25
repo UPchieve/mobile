@@ -10,6 +10,9 @@ import { H1, Text } from '../../../components/Text';
 import { Button } from '../../../components';
 import TopBar from '../../TopBar';
 import ModalSelector from 'react-native-modal-selector';
+// Navigation
+import { goToSession } from '../../../../navigators/navigation';
+import { Navigation } from 'react-native-navigation';
 
 export interface Props {
 	menuOpen: boolean;
@@ -51,6 +54,25 @@ export default class CollegeModal extends React.Component<Props, State> {
 				position: 'bottom',
 			});
 		}
+
+		// Swap out the underlying stack
+		goToSession();
+
+		// Animate out the overlay, then dismiss it
+		Animated.timing(this.state.fadeAnimation, {
+			toValue: 0,
+			duration: 400,
+		}).start();
+		Animated.timing(this.state.slideAnimation, {
+			toValue: maxHeight,
+			duration: 600,
+		}).start();
+		setTimeout(() => {
+			Navigation.dismissOverlay('CollegeModal');
+		}, 600);
+
+		// Dispatch the session topic
+		this.props.sessionStarted(this.state.selectorValue);
 	};
 
 	render() {

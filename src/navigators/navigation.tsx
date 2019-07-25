@@ -9,6 +9,7 @@ export const initialize = () => {
 		},
 	});
 };
+
 export const goToSignIn = () => {
 	Navigation.setRoot({
 		root: {
