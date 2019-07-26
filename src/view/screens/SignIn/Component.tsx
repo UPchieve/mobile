@@ -12,7 +12,7 @@ import axios from 'axios';
 import { SignInFormValues } from '../../forms/SignIn/types';
 import { FormikActions } from 'formik';
 
-import API from '../../../config/index';
+import API from '../../../config/endpoints';
 
 export interface Props {
 	saveUser: Function;
@@ -39,8 +39,8 @@ class SignIn extends React.PureComponent<Props, State> {
 					credentials,
 					name: res.data.user.firstname,
 				};
-        this.props.saveUser(user);
-        goToHome();
+				this.props.saveUser(user);
+				goToHome();
 			})
 			.catch(error => {
 				// Reset form and return failed login popup

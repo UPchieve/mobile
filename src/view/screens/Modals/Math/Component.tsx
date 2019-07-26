@@ -70,6 +70,13 @@ export default class MathModal extends React.Component<Props, State> {
 		setTimeout(() => {
 			Navigation.dismissOverlay('MathModal');
 		}, 600);
+
+		// Get session
+		const topic = {
+			type: 'math',
+			subTopic: this.state.selectorValue,
+		};
+		this.props.getSession(topic);
 	};
 
 	render() {
@@ -108,6 +115,7 @@ export default class MathModal extends React.Component<Props, State> {
 							cancelTextStyle={styles.cancelText}
 							cancelStyle={styles.cancel}
 							cancelText="Cancel"
+							backdropPressToClose
 						/>
 						<Button width="75%" onPress={this.startChat} block>
 							Start a new chat &#8594;

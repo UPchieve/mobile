@@ -9,14 +9,14 @@ logic:
 
 import React, { useEffect } from 'react';
 import { Container, Spinner } from '../../components';
-import styles from './styles'
+import styles from './styles';
 import { Image, View } from 'react-native';
 import { goToSignIn, goToHome } from '../../../navigators/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Auth verification
 import axios from 'axios';
-import API from '../../../config/index';
+import API from '../../../config/endpoints';
 
 export interface Props {}
 

@@ -71,8 +71,12 @@ export default class CollegeModal extends React.Component<Props, State> {
 			Navigation.dismissOverlay('CollegeModal');
 		}, 600);
 
-		// Dispatch the session topic
-		this.props.sessionStarted(this.state.selectorValue);
+		// Get session
+		const topic = {
+			type: 'college',
+			subTopic: this.state.selectorValue,
+		};
+		this.props.getSession(topic);
 	};
 
 	render() {
@@ -110,6 +114,7 @@ export default class CollegeModal extends React.Component<Props, State> {
 							cancelTextStyle={styles.cancelText}
 							cancelStyle={styles.cancel}
 							cancelText="Cancel"
+							backdropPressToClose
 						/>
 						<Button width="75%" onPress={this.startChat} block>
 							Start a new chat &#8594;

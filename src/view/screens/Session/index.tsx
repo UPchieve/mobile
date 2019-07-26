@@ -3,7 +3,7 @@ import Component from './Component';
 
 // Make component aware of the selected topic
 const mapStateToProps = state => {
-	return { topic: state.session.topic };
+	return { sessionId: state.session.sessionId, topic: state.session.topic };
 };
 
 const sessionContainer = connect(

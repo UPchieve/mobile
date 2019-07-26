@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import Component from './Component';
-import { sessionStarted } from '../../../../../shared/redux/constants/actions';
+import { getSession } from '../../../../../shared/redux/constants/actions';
 
 const actionCreators = {
-	sessionStarted,
+	getSession,
 };
 
 const collegeContainer = connect(

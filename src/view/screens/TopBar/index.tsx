@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from './Component';
-import { toggleMenu } from '../../../../shared/redux/constants/actions';
+import { toggleMenu, modalLaunched } from '../../../../shared/redux/constants/actions';
 
 const mapStateToProps = state => {
 	return {
@@ -11,6 +11,7 @@ const mapStateToProps = state => {
 
 const actionCreators = {
 	toggleMenu,
+	modalLaunched,
 };
 const topBarContainer = connect(
 	mapStateToProps,

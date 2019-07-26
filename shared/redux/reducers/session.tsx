@@ -1,9 +1,8 @@
 // Reducer for storing user data
 
-import AsyncStorage from '@react-native-community/async-storage';
-
 const initialState = {
 	topic: null,
+	sessionId: null,
 };
 
 export default (state = initialState, action) => {
@@ -11,7 +10,13 @@ export default (state = initialState, action) => {
 		case 'SESSION_STARTED':
 			return {
 				...state,
+				sessionId: action.sessionId || state.sessionId,
 				topic: action.topic || state.topic,
+			};
+		case 'SESSION_ENDED':
+			return {
+				...state,
+				sessionId: null,
 			};
 		default:
 			return state;

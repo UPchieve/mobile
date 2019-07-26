@@ -23,7 +23,8 @@ export default class Session extends React.Component<Props, State> {
 			<View>
 				<TopBar color={'#FF8C5F'} chat />
 				<View style={styles.container}>
-					<H1>My {this.props.topic} Session!</H1>
+					<H1>My {this.props.topic.subTopic} Session!</H1>
+					<Text>{this.props.sessionId}</Text>
 				</View>
 			</View>
 		);

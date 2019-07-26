@@ -8,6 +8,7 @@ const SCREENS = {
 	SignIn: 'SignIn',
 	MathModal: 'MathModal',
 	CollegeModal: 'CollegeModal',
+	ConfirmationModal: 'ConfirmationModal',
 	Session: 'Session',
 };
 

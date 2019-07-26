@@ -39,7 +39,14 @@ export default class TopBar extends React.Component<Props, State> {
 	};
 
 	endChat = () => {
-		goToHome();
+		this.props.modalLaunched('Confirmation');
+		// Launch the overlay
+		Navigation.showOverlay({
+			component: {
+				name: 'ConfirmationModal',
+				id: 'ConfirmationModal',
+			},
+		});
 	};
 
 	render() {
