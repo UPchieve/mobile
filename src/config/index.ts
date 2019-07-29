@@ -2,7 +2,7 @@
 Root of dev sever
 -----------------
 
-For stimulators (ios) use localhost:3000
+For stimulators (ios) use localhost
 For emulators, devices, uses IPv4 address
 
 If you get 'Network Error', try:
@@ -11,6 +11,6 @@ If you get 'Network Error', try:
 -Setting network to private
 
 */
-const ROOT = 'http://HOST:3000';
+const ROOT = '';
 
 export default ROOT;
