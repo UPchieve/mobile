@@ -12,3 +12,5 @@ If you get 'Network Error', try:
 
 */
 const ROOT = 'http://HOST:3000';
+
+export default ROOT;
