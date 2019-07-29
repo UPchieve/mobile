@@ -12,11 +12,3 @@ If you get 'Network Error', try:
 
 */
 const ROOT = 'http://HOST:3000';
-
-// API endpoints
-const API = {
-	login: `${ROOT}/auth/login`,
-	register: `${ROOT}/auth/register`,
-};
-
-export default API;
