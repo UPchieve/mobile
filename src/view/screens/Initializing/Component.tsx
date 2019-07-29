@@ -11,7 +11,7 @@ import React, { useEffect } from 'react';
 import { Container, Spinner } from '../../components';
 import styles from './styles';
 import { Image, View } from 'react-native';
-import { goToSignIn, goToHome } from '../../../navigators/navigation';
+import { goToSignIn, goToHome, goToSession } from '../../../navigators/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Auth verification
@@ -45,21 +45,25 @@ class Initializing extends React.PureComponent<Props, State> {
 			axios
 				.post(API.login, credentials)
 				.then(() => {
-					// Redirect to home
+					// If user is in session, direct to session. Otherwise, go to dashboard
 					setTimeout(() => {
-						goToHome();
-					}, 500);
+						if (this.props.sessionId) {
+							goToSession();
+						} else {
+							goToHome();
+						}
+					}, 200);
 				})
 				.catch(() => {
 					// Redirect to sign in
 					setTimeout(() => {
 						goToSignIn();
-					}, 500);
+					}, 200);
 				});
 		} else {
 			setTimeout(() => {
 				goToSignIn();
-			}, 500);
+			}, 200);
 		}
 	};
 

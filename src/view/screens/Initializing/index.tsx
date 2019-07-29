@@ -2,13 +2,15 @@ import { connect } from 'react-redux';
 
 import Component from './Component';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+	sessionId: state.session.sessionId,
+});
 
-const mapDispatchToProps = () => ({});
+const actionCreators = {};
 
 const initializingContainer = connect(
 	mapStateToProps,
-	mapDispatchToProps
+	actionCreators
 )(Component);
 
 export default initializingContainer;
