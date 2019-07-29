@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import {} from 'native-base';
 import { H1, Text } from '../../components/Text';
 import TopBar from '../TopBar';
+import socket from '../../../../shared/socket';
 
 export interface Props {
 	menuOpen: boolean;
@@ -18,10 +19,14 @@ export default class Session extends React.Component<Props, State> {
 		this.state = {};
 	}
 
+	componentDidMount() {
+		socket.emit('hello');
+	}
+
 	render() {
 		return (
 			<View>
-				<TopBar color={'#FF8C5F'} chat />
+				<TopBar color={'#FFF'} chat />
 				<View style={styles.container}>
 					<Text>{this.props.sessionId}</Text>
 				</View>

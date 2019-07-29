@@ -9,11 +9,10 @@
  */
 
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 import { H2, Text } from '../../components/Text';
 import Hamburger from 'react-native-hamburger';
 import { Navigation } from 'react-native-navigation';
-import { goToHome } from '../../../navigators/navigation';
 
 export interface Props {
 	toggleMenu: Function;
@@ -79,7 +78,7 @@ export default class TopBar extends React.Component<Props, State> {
 				)}
 				{this.props.chat && (
 					<TouchableOpacity style={styles.backButton} onPress={this.endChat}>
-						<Text light color={'#fff'}>
+						<Text light color={'#343440'}>
 							&#8592; End chat
 						</Text>
 					</TouchableOpacity>
