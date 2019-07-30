@@ -1,12 +1,11 @@
 import * as React from 'react';
 
 import { goToHome } from '../../../navigators/navigation';
-import styles from './styles';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import { Image, TouchableOpacity } from 'react-native';
 import { Root, Toast } from 'native-base';
 import { Container } from '../../components';
-import { H1 } from '../../components/Text';
+import { Text } from '../../components/Text';
 import SignInForm from '../../forms/SignIn';
 import axios from 'axios';
 import { SignInFormValues } from '../../forms/SignIn/types';
@@ -20,7 +19,7 @@ export interface Props {
 
 interface State {}
 
-class SignIn extends React.PureComponent<Props, State> {
+export default class SignIn extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {};
@@ -56,13 +55,35 @@ class SignIn extends React.PureComponent<Props, State> {
 	render() {
 		return (
 			<Root>
-				<Container isCenter marginHorizontal={20}>
-					<H1>Sign In</H1>
+				<Container style={styles.container} isCenter>
+					<Image style={styles.image} source={require('../../assets/images/logo2.png')} />
+					{/* <H1 style={styles.header}>Login</H1> */}
 					<SignInForm onSubmit={this.handleSubmit} />
+					<TouchableOpacity>
+						<Text light fontSize={15}>
+							Don't have an account? <Text style={styles.emphasized}>Sign up</Text>
+						</Text>
+					</TouchableOpacity>
 				</Container>
 			</Root>
 		);
 	}
 }
 
-export default SignIn;
+const styles = {
+	container: {
+		width: '90%',
+		alignSelf: 'center',
+		marginBottom: 70,
+	},
+	image: {
+		width: '60%',
+		alignSelf: 'center',
+		resizeMode: 'contain',
+		marginBottom: 20,
+	},
+	header: {
+		alignSelf: 'flex-start',
+	},
+	emphasized: {},
+};

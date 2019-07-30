@@ -2,9 +2,12 @@ import React, { FunctionComponent } from 'react';
 import { Icon } from 'native-base';
 import { Formik } from 'formik';
 import { Button, Form, FormItem, Input } from '../../components';
+import { TextInput } from 'react-native';
 import { Hint } from './styled';
 import { getValidationSchema, initialValues, isEmailError } from './data';
 import { IProps } from './types';
+import { Sae } from 'react-native-textinput-effects';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
 	<Formik initialValues={initialValues} validationSchema={getValidationSchema} onSubmit={onSubmit}>
@@ -17,6 +20,7 @@ const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
 						value={email}
 						autoCapitalize="none"
 						autoCorrect={false}
+						style={styles.input}
 					/>
 
 					{isEmailError(touched, errors) && <Icon name="close-circle" />}
@@ -29,14 +33,22 @@ const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
 						autoCapitalize="none"
 						autoCorrect={false}
 						secureTextEntry
+						style={styles.input}
 					/>
 				</FormItem>
-				<Button disabled={isSubmitting} onPress={handleSubmit} width={'100%'} block>
-					{isSubmitting ? 'loading...' : 'Sign In'}
+				<Button disabled={isSubmitting} onPress={handleSubmit} style={styles.button} block>
+					{isSubmitting ? 'loading...' : 'Login'}
 				</Button>
 			</Form>
 		)}
 	</Formik>
 );
 
+const styles = {
+	button: {
+		marginTop: 20,
+		width: '100%',
+	},
+	input: {},
+};
 export default SignInForm;
