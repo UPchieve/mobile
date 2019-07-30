@@ -1,7 +1,7 @@
 // Reducer for storing user data
 
 const initialState = {
-	// topic: null,
+	topic: null,
 	sessionId: null,
 };
 
@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				sessionId: action.sessionId || state.sessionId,
-				// topic: action.topic || state.topic,
+				topic: action.topic || state.topic,
 			};
 		case 'SESSION_ENDED':
 			return {

@@ -37,7 +37,7 @@ class SignIn extends React.PureComponent<Props, State> {
 			.then(res => {
 				const user = {
 					credentials,
-					name: res.data.user.firstname,
+					user: res.data,
 				};
 				this.props.saveUser(user);
 				goToHome();

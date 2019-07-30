@@ -20,7 +20,15 @@ export default class Session extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		socket.emit('join');
+		// Join session
+		// const user = {
+		// 	foo: 'foo',
+		// };
+		// socket.emit('join', {
+		// 	sessionId: this.props.sessionId,
+		// 	user,
+		// });
+		// console.log(this.props.sessionId);
 	}
 
 	render() {
@@ -28,8 +36,8 @@ export default class Session extends React.Component<Props, State> {
 			<View>
 				<TopBar color={'#fff'} chat />
 				<View style={styles.container}>
-					{/* <Text>{this.props.sessionId}</Text> */}
-					<View style={[styles.tip, { backgroundColor: '#16D2AA' }]}>
+					<Text>{this.props.sessionId}</Text>
+					<View style={[styles.tip, { backgroundColor: '#16D2AA' }]} onPress={socket.emit('hello')}>
 						<Image style={styles.image} source={require('../../assets/images/bulb.png')} />
 						<H1 color={'#fff'}>We’re looking for a coach for you...</H1>
 						<Text color={'#fff'} light>

@@ -55,8 +55,14 @@ export default class MathModal extends React.Component<Props, State> {
 			});
 		}
 
-		// Swap out the underlying stack
-		goToSession();
+		// Get session
+		const topic = {
+			type: 'math',
+			subTopic: this.state.selectorValue,
+		};
+		this.props.getSession(topic).then(() => {
+			goToSession();
+		});
 
 		// Animate out the overlay, then dismiss it
 		Animated.timing(this.state.fadeAnimation, {
@@ -70,13 +76,6 @@ export default class MathModal extends React.Component<Props, State> {
 		setTimeout(() => {
 			Navigation.dismissOverlay('MathModal');
 		}, 600);
-
-		// Get session
-		const topic = {
-			type: 'math',
-			subTopic: this.state.selectorValue,
-		};
-		this.props.getSession(topic);
 	};
 
 	render() {

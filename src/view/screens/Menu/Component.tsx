@@ -49,15 +49,18 @@ export default class Menu extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
-			animation: new Animated.Value(-maxHeight),
+			slideAnimation: new Animated.Value(-maxHeight),
+			fadeAnimation: new Animated.Value(0),
 			overlayShown: false,
 		};
 	}
-	componentDidUpdate(previousProps) {
-        // When redux prop changes, toggle menu
+	shouldComponentUpdate(previousProps) {
+		// When redux prop changes, toggle menu
 		if (previousProps.menuOpen !== this.props.menuOpen) {
 			this.toggleMenu();
+			return true;
 		}
+		return false;
 	}
 	handleLogOut = async () => {
 		// Remove user data from async storage and go to sign in screen
@@ -74,48 +77,65 @@ export default class Menu extends React.Component<Props, State> {
 	};
 
 	toggleMenu = () => {
-		// Drawer toggle logic
-		var toValue = 0;
+		// Drawer toggle animation logic
+		var toY = 0;
+		var toOpacity = 1;
+		var timeoutY = 0;
+		var timeoutOpacity = 300;
 		if (this.state.overlayShown) {
-			toValue = -maxHeight;
+			toY = -maxHeight;
+			toOpacity = 0;
+			timeoutY = 150;
+			timeoutOpacity = 0;
 		}
-		Animated.timing(this.state.animation, {
-			toValue,
-			duration: 400,
-        }).start();
-        this.setState({
-            overlayShown: !this.state.overlayShown
-        })
-    };
-    
-    travel = () => {
+		setTimeout(() => {
+			Animated.timing(this.state.slideAnimation, {
+				toValue: toY,
+				duration: 300,
+				useNativeDriver: true,
+			}).start();
+		}, timeoutY);
+		setTimeout(() => {
+			Animated.timing(this.state.fadeAnimation, {
+				toValue: toOpacity,
+				duration: 300,
+				useNativeDriver: true,
+			}).start();
+		}, timeoutOpacity);
 
-    }
+		this.setState({
+			overlayShown: !this.state.overlayShown,
+		});
+	};
+
+	travel = () => {};
 
 	render() {
-		// Pass both animation state and external styles to overlay
+		// Pass both slideAnimation state and external styles to overlay
 		var animatedOverlayStyle = StyleSheet.flatten([
 			styles.overlay,
 			{
-				translateY: this.state.animation,
+				translateY: this.state.slideAnimation,
 			},
 		]);
 		// Dynamically renders route links
 		return (
 			<Animated.View style={animatedOverlayStyle}>
 				<Content bounces={false} style={styles.content}>
-					<FlatList
-						data={links}
-						renderItem={({ item }) => (
-							<ListItem button noBorder onPress={() => this.travel()} style={styles.item}>
-								<Image source={item.icon} style={styles.icon} />
-								<H1 style={styles.link}>{item.key}</H1>
-							</ListItem>
-						)}
-					/>
-					<H1 style={styles.logout} onPress={this.handleLogOut}>
-						Log out
-					</H1>
+					<Animated.View style={{ opacity: this.state.fadeAnimation }}>
+						<FlatList
+							data={links}
+							renderItem={({ item }) => (
+								<ListItem button noBorder onPress={() => this.travel()} style={styles.item}>
+									<Image source={item.icon} style={styles.icon} />
+									<H1 style={styles.link}>{item.key}</H1>
+								</ListItem>
+							)}
+						/>
+						<H1 style={styles.logout} onPress={this.handleLogOut}>
+							Log out
+						</H1>
+					</Animated.View>
 				</Content>
 			</Animated.View>
 		);
