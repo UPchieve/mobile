@@ -42,13 +42,13 @@ interface topic {
 }
 export function getSession(topic: topic) {
 	return dispatch => {
-		axios
+		return axios
 			.post(API.getSession, {
 				sessionType: topic.type,
 				sessionSubTopic: topic.subTopic,
 			})
 			.then(res => {
-				dispatch(sessionStarted(res.data.sessionId, topic));
+				return dispatch(sessionStarted(res.data.sessionId, topic));
 			})
 			.catch(err => {
 				console.error(err);

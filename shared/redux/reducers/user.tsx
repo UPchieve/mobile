@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const initialState = {
 	email: null,
 	password: null,
+	user: null,
 	name: null,
 };
 
@@ -24,7 +25,7 @@ export default (state = initialState, action) => {
 				...state,
 				email: action.user.credentials.email || state.email,
 				password: action.user.credentials.password || state.password,
-				name: action.user.name || state.name,
+				user: action.user.user || state.user,
 			};
 		default:
 			return state;

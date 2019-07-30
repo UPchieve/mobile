@@ -55,8 +55,16 @@ export default class CollegeModal extends React.Component<Props, State> {
 			});
 		}
 
+		// Get session
+		const topic = {
+			type: 'college',
+			subTopic: this.state.selectorValue,
+		};
+		this.props.getSession(topic).then(() => {
+			goToSession();
+		});
+
 		// Swap out the underlying stack
-		goToSession();
 
 		// Animate out the overlay, then dismiss it
 		Animated.timing(this.state.fadeAnimation, {
@@ -70,13 +78,6 @@ export default class CollegeModal extends React.Component<Props, State> {
 		setTimeout(() => {
 			Navigation.dismissOverlay('CollegeModal');
 		}, 600);
-
-		// Get session
-		const topic = {
-			type: 'college',
-			subTopic: this.state.selectorValue,
-		};
-		this.props.getSession(topic);
 	};
 
 	render() {
