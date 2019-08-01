@@ -2,12 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { Icon } from 'native-base';
 import { Formik } from 'formik';
 import { Button, Form, FormItem, Input } from '../../components';
-import { TextInput } from 'react-native';
-import { Hint } from './styled';
 import { getValidationSchema, initialValues, isEmailError } from './data';
 import { IProps } from './types';
-import { Sae } from 'react-native-textinput-effects';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const SignInForm: FunctionComponent<IProps> = ({ onSubmit }) => (
 	<Formik initialValues={initialValues} validationSchema={getValidationSchema} onSubmit={onSubmit}>

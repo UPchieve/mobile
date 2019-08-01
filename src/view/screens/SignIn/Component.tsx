@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { goToHome } from '../../../navigators/navigation';
-
+import { goToHome, showRegisterModal } from '../../../navigators/navigation';
+import { Navigation } from 'react-native-navigation';
 import { Image, TouchableOpacity } from 'react-native';
 import { Root, Toast } from 'native-base';
 import { Container } from '../../components';
@@ -24,8 +24,6 @@ export default class SignIn extends React.PureComponent<Props, State> {
 		super(props);
 		this.state = {};
 	}
-
-	componentDidMount() {}
 
 	handleSubmit = ({ email, password }: SignInFormValues, { resetForm }: FormikActions<SignInFormValues>) => {
 		const credentials = { email, password };
@@ -57,9 +55,11 @@ export default class SignIn extends React.PureComponent<Props, State> {
 			<Root>
 				<Container style={styles.container} isCenter>
 					<Image style={styles.image} source={require('../../assets/images/logo2.png')} />
-					{/* <H1 style={styles.header}>Login</H1> */}
 					<SignInForm onSubmit={this.handleSubmit} />
-					<TouchableOpacity>
+					<TouchableOpacity
+						onPress={showRegisterModal}
+						hitSlop={{ top: 10, left: 40, bottom: 40, right: 40 }}
+					>
 						<Text light fontSize={15}>
 							Don't have an account? <Text style={styles.emphasized}>Sign up</Text>
 						</Text>
@@ -75,6 +75,7 @@ const styles = {
 		width: '90%',
 		alignSelf: 'center',
 		marginBottom: 70,
+		backgroundColor: '#FFF',
 	},
 	image: {
 		width: '60%',

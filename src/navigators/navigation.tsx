@@ -13,7 +13,14 @@ export const initialize = () => {
 export const goToSignIn = () => {
 	Navigation.setRoot({
 		root: {
-			component: { name: SCREENS.SignIn },
+			component: {
+				name: SCREENS.SignIn,
+				options: {
+					layout: {
+						backgroundColor: '#fff',
+					},
+				},
+			},
 		},
 	});
 };
@@ -59,5 +66,14 @@ export const goToSession = () =>
 			},
 		},
 	});
+
+export const showRegisterModal = () =>
+	Navigation.showOverlay({
+		component: {
+			name: 'RegisterModal',
+			id: 'RegisterModal',
+		},
+	});
+export const closeModal = (modal: string) => Navigation.dismissOverlay(`${modal}Modal`);
 
 export default goToHome;

@@ -22,6 +22,8 @@
 		"react-native-hamburger": "0.0.2",
 		"react-native-modal-selector": "^1.0.3",
 		"react-native-navigation": "^2.18.3",
+		"react-native-picker-select": "^6.3.0",
+		"react-native-step-indicator": "^0.0.11",
 		"react-redux": "^7.0.3",
 		"redux": "^4.0.1",
 		"redux-logger": "^3.0.6",
