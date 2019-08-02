@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import Component from './Component';
+import { saveUser } from '../../../../../shared/redux/constants/actions';
 
 const actionCreators = {
-	// getSession,
+	saveUser,
 };
 
 const registerModalContainer = connect(

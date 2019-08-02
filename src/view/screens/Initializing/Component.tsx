@@ -34,13 +34,12 @@ class Initializing extends React.PureComponent<Props, State> {
 	getStatus = async () => {
 		// Check if user has already been authenticated
 		const user = await AsyncStorage.multiGet(['email', 'password']);
+		const credentials = {
+			email: user[0][1],
+			password: user[1][1],
+		};
 
-		if (user.email && user.password) {
-			const credentials = {
-				email: user[0][1],
-				password: user[1][1],
-			};
-
+		if (credentials.email && credentials.password) {
 			// Verify credentials are still valid
 			axios
 				.post(API.login, credentials)

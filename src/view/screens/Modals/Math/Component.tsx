@@ -10,6 +10,7 @@ import { H1, Text } from '../../../components/Text';
 import { Button } from '../../../components';
 import TopBar from '../../TopBar';
 import ModalSelector from 'react-native-modal-selector';
+import pickerStyles from '../styles/subjectPicker';
 // Navigation
 import { goToSession } from '../../../../navigators/navigation';
 import { Navigation } from 'react-native-navigation';
@@ -104,15 +105,15 @@ export default class MathModal extends React.Component<Props, State> {
 								this.setState({ selectorValue: option.label });
 							}}
 							initValue="Select a subject"
-							selectTextStyle={[styles.selectionText, { color: selectorColor }]}
-							selectStyle={[styles.selectInput, { borderColor: selectorColor }]}
-							selectedItemTextStyle={styles.selected}
-							optionTextStyle={styles.optionsText}
-							optionStyle={styles.options}
-							optionContainerStyle={styles.optionsContainer}
+							selectTextStyle={[pickerStyles.selectionText, { color: selectorColor }]}
+							selectStyle={[pickerStyles.selectInput, { borderColor: selectorColor }]}
+							selectedItemTextStyle={pickerStyles.selected}
+							optionTextStyle={pickerStyles.optionsText}
+							optionStyle={pickerStyles.options}
+							optionContainerStyle={pickerStyles.optionsContainer}
 							animationType="fade"
-							cancelTextStyle={styles.cancelText}
-							cancelStyle={styles.cancel}
+							cancelTextStyle={pickerStyles.cancelText}
+							cancelStyle={pickerStyles.cancel}
 							cancelText="Cancel"
 							backdropPressToClose
 						/>
@@ -140,14 +141,6 @@ const styles = {
 		flex: 1,
 		backgroundColor: '#fff',
 	},
-	pickerInput: {
-		borderWidth: 1,
-		textAlign: 'center',
-		alignSelf: 'center',
-		width: '90%',
-		padding: 10,
-		height: 100,
-	},
 	header: {
 		width: '100%',
 		textAlign: 'center',
@@ -158,41 +151,5 @@ const styles = {
 		alignSelf: 'center',
 		lineHeight: 24,
 		marginBottom: 40,
-	},
-	selectInput: {
-		padding: 40,
-		marginBottom: 40,
-		alignSelf: 'center',
-		width: '90%',
-		borderRadius: 8,
-	},
-	selectionText: {
-		fontFamily: 'WorkSans-Medium',
-	},
-	selected: {
-		color: '#16D2AA',
-	},
-	optionsText: {
-		fontFamily: 'WorkSans',
-		color: '#77778B',
-		fontSize: 18,
-	},
-	options: {
-		padding: 25,
-	},
-	optionsContainer: {
-		backgroundColor: '#fff',
-		borderRadius: 8,
-	},
-	cancelText: {
-		fontFamily: 'WorkSans-Medium',
-		color: '#F44747',
-		fontSize: 18,
-	},
-	cancel: {
-		padding: 15,
-		marginTop: 5,
-		backgroundColor: '#eee',
-		borderRadius: 8,
 	},
 };
