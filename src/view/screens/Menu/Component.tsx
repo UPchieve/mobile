@@ -35,7 +35,7 @@ const links = [
 ];
 
 // Height of overlay
-const maxHeight = Dimensions.get('window').height - 80;
+const maxHeight = Dimensions.get('window').height;
 
 export interface Props {
 	menuOpen: boolean;
@@ -111,16 +111,16 @@ export default class Menu extends React.Component<Props, State> {
 	travel = () => {};
 
 	render() {
-		// Pass both slideAnimation state and external styles to overlay
-		var animatedOverlayStyle = StyleSheet.flatten([
-			styles.overlay,
-			{
-				translateY: this.state.slideAnimation,
-			},
-		]);
 		// Dynamically renders route links
 		return (
-			<Animated.View style={animatedOverlayStyle}>
+			<Animated.View
+				style={[
+					styles.overlay,
+					{
+						transform: [{ translateY: this.state.slideAnimation }],
+					},
+				]}
+			>
 				<Content bounces={false} style={styles.content}>
 					<Animated.View style={{ opacity: this.state.fadeAnimation }}>
 						<FlatList
@@ -148,8 +148,9 @@ const styles = {
 		flex: 1,
 		zIndex: 20,
 		position: 'absolute',
-		top: 80,
-		height: maxHeight,
+		bottom: 0,
+		height: maxHeight - 80,
+		// transform: [{ translateY:  }],
 		backgroundColor: '#ffa',
 	},
 	content: {

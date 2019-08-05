@@ -2,10 +2,11 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
 	wrap: {
-		flex: 1
+		flex: 1,
+		backgroundColor: '#ededed',
 	},
 	container: {
-		marginTop: 80
+		marginTop: 80,
 	},
 	image: {
 		width: '100%',
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 	},
 	buttonRight: {
 		marginLeft: 10,
-		marginTop: 32
+		marginTop: 32,
 	},
 	icon: {
 		width: 80,

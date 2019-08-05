@@ -37,11 +37,6 @@ export const goToHome = () =>
 						},
 					},
 				],
-				options: {
-					layout: {
-						backgroundColor: '#ededed',
-					},
-				},
 			},
 		},
 	});

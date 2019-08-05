@@ -11,6 +11,6 @@ If you get 'Network Error', try:
 -Setting network to private
 
 */
-const ROOT = '';
+const ROOT = 'localhost';
 
 export default ROOT;

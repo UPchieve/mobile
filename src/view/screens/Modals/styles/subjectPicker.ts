@@ -13,7 +13,7 @@ const pickerStyles = {
 		color: '#16D2AA',
 	},
 	optionsText: {
-		fontFamily: 'WorkSans',
+		fontFamily: 'WorkSans-Regular',
 		color: '#77778B',
 		fontSize: 18,
 	},

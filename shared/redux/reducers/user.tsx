@@ -6,7 +6,6 @@ const initialState = {
 	email: null,
 	password: null,
 	user: null,
-	name: null,
 };
 
 export default (state = initialState, action) => {

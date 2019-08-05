@@ -94,7 +94,7 @@ export default class MathModal extends React.Component<Props, State> {
 			<Root>
 				<Animated.View style={[styles.container, { opacity: this.state.fadeAnimation }]}>
 					<TopBar backButton color={'#1855D1'} />
-					<Animated.View style={[styles.content, { translateY: this.state.slideAnimation }]}>
+					<Animated.View style={[styles.content, { transform: [{ translateY: this.state.slideAnimation }] }]}>
 						<H1 style={styles.header}>Choose a math subject</H1>
 						<Text color="#77778B" light style={styles.description}>
 							Select the topic you would like to request help with below to get started with a new chat

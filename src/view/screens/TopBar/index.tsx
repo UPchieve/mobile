@@ -4,7 +4,7 @@ import { toggleMenu, modalLaunched } from '../../../../shared/redux/constants/ac
 
 const mapStateToProps = state => {
 	return {
-		name: state.user.name,
+		user: state.user.user,
 		modal: state.ui.modal,
 	};
 };

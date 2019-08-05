@@ -4,7 +4,7 @@ import { toggleMenu, modalLaunched } from '../../../../shared/redux/constants/ac
 
 // Listen in on the name of the user
 const mapStateToProps = state => {
-	return { name: state.user.name };
+	return { user: state.user.user };
 };
 
 // Dispatch the state of the menu and subject select modals

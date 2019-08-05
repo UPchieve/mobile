@@ -56,7 +56,7 @@ export default class TopBar extends React.Component<Props, State> {
 						<View style={styles.avatarWrapper}>
 							<Image style={styles.avatar} source={require('../../assets/images/student-avatar.png')} />
 						</View>
-						<H2 style={styles.text}>{this.props.name}</H2>
+						<H2 style={styles.text}>{this.props.user.user.firstname}</H2>
 						<View style={styles.button}>
 							<Hamburger
 								active={this.state.active}
@@ -71,7 +71,7 @@ export default class TopBar extends React.Component<Props, State> {
 				)}
 				{this.props.backButton && (
 					<TouchableOpacity style={styles.backButton} onPress={this.goBack}>
-						<Text light color={'#fff'}>
+						<Text light color={'#fff'} style={{ zIndex: 500 }}>
 							&#8592; Dashboard
 						</Text>
 					</TouchableOpacity>
@@ -94,7 +94,7 @@ const styles = {
 		height: 80,
 		position: 'absolute',
 		top: 0,
-		zIndex: 10,
+		zIndex: 30,
 		alignItems: 'center',
 		flexDirection: 'row',
 	},
@@ -121,5 +121,6 @@ const styles = {
 		alignItems: 'flex-start',
 		paddingHorizontal: 20,
 		paddingVertical: 40,
+		position: 'absolute',
 	},
 };

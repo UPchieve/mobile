@@ -3,6 +3,6 @@ import styled from 'styled-components/native';
 
 export default styled(Input)`
 	width: 100%;
-	font-family: WorkSans;
+	font-family: WorkSans-Regular;
 	margin: 0;
 `;

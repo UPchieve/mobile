@@ -278,7 +278,7 @@ export default class RegisterModal extends React.Component<Props, State> {
 							/>
 						</View>
 
-						<Animated.View style={[styles.step1, { translateX: this.state.step1 }]}>
+						<Animated.View style={[styles.step1, { transform: [{ translateX: this.state.step1 }] }]}>
 							<Text fontSize={18}>Email</Text>
 							<Text light style={styles.text}>
 								We will only use your email to contact you about your account. See our Privacy Policy
@@ -319,7 +319,7 @@ export default class RegisterModal extends React.Component<Props, State> {
 							</Button>
 						</Animated.View>
 
-						<Animated.View style={[styles.step2, { translateX: this.state.step2 }]}>
+						<Animated.View style={[styles.step2, { transform: [{ translateX: this.state.step2 }] }]}>
 							<Text fontSize={18} style={{ marginBottom: 20 }}>
 								Tell us about yourself!
 							</Text>
