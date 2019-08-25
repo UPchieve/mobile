@@ -23,12 +23,12 @@
 
 1. Make sure your [dev server](https://github.com/upchieve/server) is running at `localhost:3000`.
 2. This app uses yarn. Run `yarn install` to install dependencies.
-3. In `src/config/index.ts`, add the root of your dev server to `ROOT`. For stimulators (ios), `localhost:3000` is fine. If using a stimulator or connecting a device, use your host's IPv4 address instead of 'localhost'.
+3. In `src/config/index.ts`, add the root of your dev server to `ROOT`. For simulators (ios), `localhost:3000` is fine. If using a simulator or connecting a device, use your host's IPv4 address instead of 'localhost'.
 
 ### Launch
 
 1. Set up your [development environment](https://facebook.github.io/react-native/docs/getting-started.html) with React Native CLI.
-2. Connect your device or run your emulator/stimulator.
+2. Connect your device or run your emulator/simulator.
 3. Run the Metro Bundler from the terminal with `npm start`, and launch with either `react-native run-android` or `react-native run-ios` (Alternatively use VScode's `React Native Tools` commands).
 
 #### Lint
