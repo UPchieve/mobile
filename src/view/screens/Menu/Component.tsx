@@ -132,11 +132,11 @@ export default class Menu extends React.Component<Props, State> {
 								</ListItem>
 							)}
 						/>
-						<H1 style={styles.logout} onPress={this.handleLogOut}>
-							Log out
-						</H1>
 					</Animated.View>
 				</Content>
+				<H1 style={styles.logout} onPress={this.handleLogOut}>
+					Log out
+				</H1>
 			</Animated.View>
 		);
 	}
@@ -150,27 +150,27 @@ const styles = {
 		position: 'absolute',
 		bottom: 0,
 		height: maxHeight - 80,
-		// transform: [{ translateY:  }],
-		backgroundColor: '#ffa',
+		backgroundColor: '#fff',
 	},
 	content: {
-		flex: 1,
-		backgroundColor: '#fff',
-		top: -1,
+		marginTop: 20,
 	},
 	item: {
-		marginBottom: -35,
+		height: 80,
 	},
 	link: {
 		marginLeft: 20,
+		alignSelf: 'center',
 	},
 	icon: {
 		resizeMode: 'contain',
 		width: 35,
 		marginLeft: 5,
+		alignSelf: 'center',
 	},
 	logout: {
-		marginLeft: 25,
-		marginTop: maxHeight - 430,
+		position: 'absolute',
+		left: 25,
+		bottom: 25,
 	},
 };
