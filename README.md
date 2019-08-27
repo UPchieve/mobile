@@ -16,6 +16,9 @@
     -   [redux](#redux)
     -   [navigation](#navigation)
     -   [services](#services)
+-   [Contribution](#contribution)
+    -   [Add a screen](#add-screen)
+    -   [Redux management](#redux-management)
 
 ## Local Development
 
@@ -155,12 +158,65 @@ To find unit test coverage for the application:
 npm run test:coverage
 ```
 
-#### Cheat Sheet
+## Contribution
 
-##### React Native Navigation
+### Add a screen <a name="add-screen"></a>
 
-TODO
+1.  Add folder with screen name, ex. `MyScreen/` in `src/view/screens`
 
-##### Styles
+    - Follow the convention structure:
 
-The `styles` folder contains `global` style and `typography` for the application. Styles for each screen has been placed with the screen, as they are going to be used together with the screen, unlike web.
+        MyScreen/
+        Component.tsx // React Native component
+        Index.tsx // Redux - Link action creators, map state to props
+        Styles.tsx // Styles
+
+2.  Add component to constants list (centralized for good practice) in `src/constants/screen.tsx`
+3.  Register screen in `src/view/screens/index.tsx`
+
+        import * as MyScreen from './MyScreen';
+        ...
+        export function registerScreens(redux: any) {
+        	registerComponentWithRedux(redux)(SCREENS.MyScreen, MyScreen.default);
+        }
+
+4.  Create and export navigation function in `src/navigators/navigation.tsx`
+
+        export const goToMyScreen = () => {
+        	Navigation.setRoot({
+        		root: {
+        			component: { name: SCREENS.MyScreen },
+        		},
+        	});
+        };
+
+5.  Now you can travel to your screen from any component by importing and calling `goToMyScreen()`!
+
+Note: Place modal screens in `src/view/screens/Modals`
+
+### Redux management <a name="redux-management"></a>
+
+1. Create your new reducer in `shared/redux/reducers`
+2. Add action types to `ACTION_TYPES`, make and export action creators in `shared/redux/constants/actions.tsx`
+3. Link up redux to your screen
+
+    - In `MyScreen/index.tsx`, define the state you want to use in `mapStateToProps`, and actions to dispatch in `actionCreators`
+
+        import { connect } from 'react-redux';
+        import Component from './Component';
+        import { myAction } from '../../../../shared/redux/constants/actions';
+
+        const mapStateToProps = state => {
+        return { myState: ... };
+        };
+
+        const actionCreators = {
+        myAction
+        };
+
+        const screenContainer = connect(
+        mapStateToProps,
+        actionCreators
+        )(Component);
+
+        export default screenContainer;
