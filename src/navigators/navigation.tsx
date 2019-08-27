@@ -1,6 +1,7 @@
 import { Navigation } from 'react-native-navigation';
-
 import { SCREENS } from '../constants/screen';
+
+// Navigation actions
 
 export const initialize = () => {
 	Navigation.setRoot({
@@ -62,6 +63,8 @@ export const goToSession = () =>
 		},
 	});
 
+// Modals
+
 export const showRegisterModal = () =>
 	Navigation.showOverlay({
 		component: {
@@ -69,6 +72,15 @@ export const showRegisterModal = () =>
 			id: 'RegisterModal',
 		},
 	});
+
+export const showLegalModal = () =>
+	Navigation.showOverlay({
+		component: {
+			name: 'LegalModal',
+			id: 'LegalModal',
+		},
+	});
+
 export const closeModal = (modal: string) => Navigation.dismissOverlay(`${modal}Modal`);
 
 export default goToHome;

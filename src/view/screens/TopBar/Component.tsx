@@ -71,8 +71,8 @@ export default class TopBar extends React.Component<Props, State> {
 				)}
 				{this.props.backButton && (
 					<TouchableOpacity style={styles.backButton} onPress={this.goBack}>
-						<Text light color={'#fff'} style={{ zIndex: 500 }}>
-							&#8592; Dashboard
+						<Text light color={this.props.color ? '#fff' : '#343440'} style={{ zIndex: 500 }}>
+							&#8592; Back
 						</Text>
 					</TouchableOpacity>
 				)}

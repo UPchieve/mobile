@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image, FlatList, Animated, Dimensions, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { goToSignIn } from '../../../navigators/navigation';
+import { goToSignIn, showLegalModal } from '../../../navigators/navigation';
 import { Content, ListItem, Toast } from 'native-base';
 import { H1 } from '../../components/Text';
 
@@ -108,7 +108,12 @@ export default class Menu extends React.Component<Props, State> {
 		});
 	};
 
-	travel = () => {};
+	travel = target => {
+		if (target == 'Legal policy') {
+			showLegalModal();
+			this.props.modalLaunched('Legal');
+		}
+	};
 
 	render() {
 		// Dynamically renders route links
@@ -126,7 +131,7 @@ export default class Menu extends React.Component<Props, State> {
 						<FlatList
 							data={links}
 							renderItem={({ item }) => (
-								<ListItem button noBorder onPress={() => this.travel()} style={styles.item}>
+								<ListItem button noBorder onPress={() => this.travel(item.key)} style={styles.item}>
 									<Image source={item.icon} style={styles.icon} />
 									<H1 style={styles.link}>{item.key}</H1>
 								</ListItem>

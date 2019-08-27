@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { goToHome, showRegisterModal } from '../../../navigators/navigation';
-import { Navigation } from 'react-native-navigation';
 import { Image, TouchableOpacity } from 'react-native';
 import { Root, Toast } from 'native-base';
 import { Container } from '../../components';

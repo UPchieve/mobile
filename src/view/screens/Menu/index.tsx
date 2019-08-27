@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from './Component';
-import { toggleMenu } from '../../../../shared/redux/constants/actions';
+import { toggleMenu, modalLaunched } from '../../../../shared/redux/constants/actions';
 
 const mapStateToProps = state => {
 	return { menuOpen: state.ui.menuOpen };
@@ -8,7 +8,7 @@ const mapStateToProps = state => {
 
 const menuContainer = connect(
 	mapStateToProps,
-	{ toggleMenu }
+	{ toggleMenu, modalLaunched }
 )(Component);
 
 export default menuContainer;

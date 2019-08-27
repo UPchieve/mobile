@@ -1,21 +1,17 @@
-/**
- * Full screen subject select
- *  Should be merged into single modal component
- */
-
 import * as React from 'react';
-import { ScrollView, View, Animated, Image, Dimensions, TouchableOpacity } from 'react-native';
-import { Toast, Root, CheckBox, ListItem } from 'native-base';
-import { H1, Text } from '../../../components/Text';
-import { Button, Container, Input, FormItem } from '../../../components';
+import { View, Animated, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { Toast, Root, CheckBox } from 'native-base';
+import { Text } from '../../../components/Text';
+import { Button, Input, FormItem } from '../../../components';
 import ModalSelector from 'react-native-modal-selector';
 import * as EmailValidator from 'email-validator';
 import pickerStyles from '../styles/registerPicker';
 import StepIndicator from 'react-native-step-indicator';
-import { goToSignIn, closeModal } from '../../../../navigators/navigation';
+import { goToSignIn, closeModal, showLegalModal } from '../../../../navigators/navigation';
 import { Navigation } from 'react-native-navigation';
 import axios from 'axios';
 import API from '../../../../config/endpoints';
+
 export interface Props {
 	menuOpen: boolean;
 }
@@ -23,6 +19,11 @@ export interface Props {
 interface State {
 	email: string;
 	password: string;
+	stepperPosition: number;
+	highSchool: string;
+	firstName: string;
+	lastName: string;
+	agreementChecked: boolean;
 }
 
 const maxHeight = Dimensions.get('window').height / 4;
@@ -62,15 +63,6 @@ export default class RegisterModal extends React.Component<Props, State> {
 	}
 
 	register = () => {
-		// Make sure a subject has been selected
-		// Animate out the overlay, then dismiss it
-		// Animated.timing(this.state.fadeAnimation, {
-		// 	toValue: 0,
-		// 	duration: 400,
-		// }).start();
-		// setTimeout(() => {
-		// 	Navigation.dismissOverlay('MathModal');
-		// }, 600);
 		// Make sure all fields are filled
 		if (
 			!(
@@ -414,7 +406,10 @@ export default class RegisterModal extends React.Component<Props, State> {
 									style={styles.checkBox}
 								/>
 								<Text style={styles.IHaventReadThis}>
-									I have read and agree to the <Text color={'#16D2AA'}>user agreement</Text>
+									I have read and agree to the{' '}
+									<Text color={'#16D2AA'} onPress={showLegalModal}>
+										user agreement
+									</Text>
 								</Text>
 							</View>
 

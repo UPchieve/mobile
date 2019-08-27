@@ -10,6 +10,7 @@ const SCREENS = {
 	CollegeModal: 'CollegeModal',
 	RegisterModal: 'RegisterModal',
 	ConfirmationModal: 'ConfirmationModal',
+	LegalModal: 'LegalModal',
 	Session: 'Session',
 };
 
