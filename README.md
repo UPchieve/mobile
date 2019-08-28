@@ -76,8 +76,8 @@ npm run test:coverage
 │   │	    ├── actions
 │   │	    ├── api
 │   │	    ├── reducers
-|   |     |      ├── session
-|   |     |      ├── ui
+│   │	    |      ├── assets
+│   │	    |      ├── components
 │   │	    |      └── user
 │   │	    └── store
 │   └── socket.ts					Socket server
