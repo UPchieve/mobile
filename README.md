@@ -80,7 +80,7 @@ npm run test:coverage
 │   │	    |      ├── components
 │   │	    |      └── user
 │   │	    └── store
-│   └── socket.ts					Socket server
+│   └── socket.ts				Socket server
 ├── src
 │   ├── view					UI
 │   │	    ├── assets
