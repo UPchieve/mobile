@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from './Component';
-import { endSession } from '../../../../../shared/redux/constants/actions';
+import { endSession } from '../../../../../shared/redux/actions';
 
 const actionCreators = {
 	endSession,
