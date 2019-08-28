@@ -1,6 +1,6 @@
 // UI reducer
 
-import { ACTION_TYPES } from '../constants/actions';
+import { ACTION_TYPES } from '../actions';
 
 const initialState = {
 	menuOpen: false,

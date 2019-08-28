@@ -71,26 +71,27 @@ npm run test:coverage
 ├── android					Android Native code
 ├── ios						iOS Native Code
 ├── shared
-│   ├── redux					Business Logic
+│   ├── redux					Application state logic
 │   │	    ├── constants
 │   │	    ├── actions
 │   │	    ├── api
 │   │	    ├── reducers
-│   │	    ├── store
-│   │	    └── thunk
-│   └── utilities
+|   |     |      ├── session
+|   |     |      ├── ui
+│   │	    |      └── user
+│   │	    └── store
+│   └── socket.ts					Socket server
 ├── src
+│   ├── view					UI
+│   │	    ├── assets
+│   │	    ├── components
+│   │	    ├── forms				Typography
+│   │	    └── screens				Isolated views--screens, modals, overlays
+|   |            ├── Modals
+|   |            └── ...
 │   ├── config					App Configuration
 │   ├── constants				Screens, Localization
-│   ├── navigators				Router, Navigation
-│   ├── view					UI compoments - Screens, Widgets
-│   │	    ├── elements
-|   |       ├── components
-│   │	    ├── assets
-│   │	    ├── screens
-│   │	    ├── styles				Typography
-│   │	    └── widgets				Custom components
-│   └── utilities
+│   └── navigators				Router, Navigation
 ├── __tests__					Unit Tests
 │   ├── presentation
 │   └── redux
@@ -164,7 +165,7 @@ npm run test:coverage
 
 1.  Add folder with screen name, ex. `MyScreen/` in `src/view/screens`
 
-    - Follow the convention structure:
+    -   Follow the convention structure:
 
         MyScreen/
         Component.tsx // React Native component
@@ -197,14 +198,14 @@ Note: Place modal screens in `src/view/screens/Modals`
 ### Redux management <a name="redux-management"></a>
 
 1. Create your new reducer in `shared/redux/reducers`
-2. Add action types to `ACTION_TYPES`, make and export action creators in `shared/redux/constants/actions.tsx`
+2. Add action types to `ACTION_TYPES`, make and export action creators in `shared/redux/actions/index.tsx`
 3. Link up redux to your screen
 
     - In `MyScreen/index.tsx`, define the state you want to use in `mapStateToProps`, and actions to dispatch in `actionCreators`
 
         import { connect } from 'react-redux';
         import Component from './Component';
-        import { myAction } from '../../../../shared/redux/constants/actions';
+        import { myAction } from '../../../../shared/redux/actions/index';
 
         const mapStateToProps = state => {
         return { myState: ... };

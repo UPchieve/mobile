@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Component from './Component';
-import { saveUser } from '../../../../shared/redux/constants/actions';
+import { saveUser } from '../../../../shared/redux/actions';
 
 const mapStateToProps = () => ({});
 
