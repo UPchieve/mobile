@@ -84,7 +84,7 @@ npm run test:coverage
 ├── src
 │   ├── view					UI
 │   │	    ├── assets
-│   │	    ├── components				Custom UI components
+│   │	    ├── components			Custom UI components
 │   │	    ├── forms				Typography
 │   │	    └── screens				Isolated views--screens, modals, overlays
 |   |            ├── Modals
@@ -202,22 +202,23 @@ Note: Place modal screens in `src/view/screens/Modals`
 3. Link up redux to your screen
 
     - In `MyScreen/index.tsx`, define the state you want to use in `mapStateToProps`, and actions to dispatch in `actionCreators`
+    ```js
+    import { connect } from 'react-redux';
+    import Component from './Component';
+    import { myAction } from '../../../../shared/redux/actions/index';
 
-        import { connect } from 'react-redux';
-        import Component from './Component';
-        import { myAction } from '../../../../shared/redux/actions/index';
-
-        const mapStateToProps = state => {
+    const mapStateToProps = state => {
         return { myState: ... };
-        };
+    };
 
-        const actionCreators = {
+    const actionCreators = {
         myAction
-        };
+    };
 
-        const screenContainer = connect(
+    const screenContainer = connect(
         mapStateToProps,
         actionCreators
-        )(Component);
+    )(Component);
 
-        export default screenContainer;
+    export default screenContainer;
+    ```
