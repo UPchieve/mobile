@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Image, FlatList, Animated, Dimensions, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Image, FlatList, Animated, Dimensions } from 'react-native';
 import { goToSignIn, showLegalModal } from '../../../navigators/navigation';
 import { Content, ListItem, Toast } from 'native-base';
 import { H1 } from '../../components/Text';
+
+import styles from './styles';
 
 // Minor target for refactoring (icon links are a bit messy due to RequireJS constraints)
 const links = [
@@ -34,9 +36,6 @@ const links = [
 	},
 ];
 
-// Height of overlay
-const maxHeight = Dimensions.get('window').height;
-
 export interface Props {
 	menuOpen: boolean;
 }
@@ -45,7 +44,9 @@ interface State {
 	overlayShown: boolean;
 }
 
-export default class Menu extends React.Component<Props, State> {
+const maxHeight = Dimensions.get('window').height;
+
+class Menu extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -147,35 +148,4 @@ export default class Menu extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	overlay: {
-		width: '100%',
-		flex: 1,
-		zIndex: 20,
-		position: 'absolute',
-		bottom: 0,
-		height: maxHeight - 80,
-		backgroundColor: '#fff',
-	},
-	content: {
-		marginTop: 20,
-	},
-	item: {
-		height: 80,
-	},
-	link: {
-		marginLeft: 20,
-		alignSelf: 'center',
-	},
-	icon: {
-		resizeMode: 'contain',
-		width: 35,
-		marginLeft: 5,
-		alignSelf: 'center',
-	},
-	logout: {
-		position: 'absolute',
-		left: 25,
-		bottom: 25,
-	},
-};
+export default Menu;

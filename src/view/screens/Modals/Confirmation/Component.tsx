@@ -4,14 +4,15 @@
  */
 
 import * as React from 'react';
-import { View, Animated, Dimensions } from 'react-native';
-import { Root, Toast } from 'native-base';
+import TopBar from '../../TopBar';
+import { Animated, Dimensions } from 'react-native';
+import { Root } from 'native-base';
 import { H1, Text } from '../../../components/Text';
 import { Button } from '../../../components';
-import TopBar from '../../TopBar';
-// Navigation
 import { goToHome } from '../../../../navigators/navigation';
 import { Navigation } from 'react-native-navigation';
+
+import styles from './styles';
 
 export interface Props {}
 
@@ -19,7 +20,7 @@ interface State {}
 
 const maxHeight = Dimensions.get('window').height - 80;
 
-export default class ConfirmationModal extends React.Component<Props, State> {
+class ConfirmationModal extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -102,29 +103,4 @@ export default class ConfirmationModal extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	container: {
-		backgroundColor: '#FF8C5F',
-		width: '100%',
-		height: '100%',
-	},
-	content: {
-		marginTop: 80,
-		borderTopLeftRadius: 40,
-		borderTopEndRadius: 40,
-		paddingTop: 30,
-		flex: 1,
-		backgroundColor: '#fff',
-	},
-	header: {
-		width: '100%',
-		textAlign: 'center',
-	},
-	description: {
-		width: '75%',
-		textAlign: 'center',
-		alignSelf: 'center',
-		lineHeight: 24,
-		marginBottom: 40,
-	},
-};
+export default ConfirmationModal;

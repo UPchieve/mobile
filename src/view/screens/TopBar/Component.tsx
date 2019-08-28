@@ -9,10 +9,12 @@
  */
 
 import React, { Component } from 'react';
+import Hamburger from 'react-native-hamburger';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { H2, Text } from '../../components/Text';
-import Hamburger from 'react-native-hamburger';
 import { Navigation } from 'react-native-navigation';
+
+import styles from './styles';
 
 export interface Props {
 	toggleMenu: Function;
@@ -25,7 +27,7 @@ interface State {
 	active: boolean;
 }
 
-export default class TopBar extends React.Component<Props, State> {
+class TopBar extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -88,39 +90,4 @@ export default class TopBar extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	container: {
-		width: '100%',
-		height: 80,
-		position: 'absolute',
-		top: 0,
-		zIndex: 30,
-		alignItems: 'center',
-		flexDirection: 'row',
-	},
-	avatarWrapper: {
-		width: 40,
-		height: 40,
-		marginLeft: 20,
-	},
-	avatar: {
-		alignItems: 'flex-start',
-		width: null,
-		height: null,
-		flex: 1,
-		resizeMode: 'contain',
-	},
-	text: {
-		marginLeft: 10,
-	},
-	button: {
-		marginLeft: 'auto',
-		padding: 20,
-	},
-	backButton: {
-		alignItems: 'flex-start',
-		paddingHorizontal: 20,
-		paddingVertical: 40,
-		position: 'absolute',
-	},
-};
+export default TopBar;

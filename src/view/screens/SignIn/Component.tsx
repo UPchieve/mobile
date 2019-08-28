@@ -1,16 +1,17 @@
 import * as React from 'react';
 
+import SignInForm from '../../forms/SignIn';
+import axios from 'axios';
 import { goToHome, showRegisterModal } from '../../../navigators/navigation';
 import { Image, TouchableOpacity } from 'react-native';
 import { Root, Toast } from 'native-base';
 import { Container } from '../../components';
 import { Text } from '../../components/Text';
-import SignInForm from '../../forms/SignIn';
-import axios from 'axios';
 import { SignInFormValues } from '../../forms/SignIn/types';
 import { FormikActions } from 'formik';
-
 import API from '../../../config/endpoints';
+
+import styles from './styles';
 
 export interface Props {
 	saveUser: Function;
@@ -18,7 +19,7 @@ export interface Props {
 
 interface State {}
 
-export default class SignIn extends React.PureComponent<Props, State> {
+class SignIn extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {};
@@ -69,21 +70,4 @@ export default class SignIn extends React.PureComponent<Props, State> {
 	}
 }
 
-const styles = {
-	container: {
-		width: '90%',
-		alignSelf: 'center',
-		marginBottom: 70,
-		backgroundColor: '#FFF',
-	},
-	image: {
-		width: '60%',
-		alignSelf: 'center',
-		resizeMode: 'contain',
-		marginBottom: 20,
-	},
-	header: {
-		alignSelf: 'flex-start',
-	},
-	emphasized: {},
-};
+export default SignIn;

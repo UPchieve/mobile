@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, ScrollView, Image, TouchableOpacity } from 'react-native';
-
-import { Form, Button, Container } from '../../components';
+import { Container } from '../../components';
 import { H1, H2, Text } from '../../components/Text';
-import styles from './styles';
 import { Navigation } from 'react-native-navigation';
+
+import styles from './styles';
 
 // Custom components
 import TopBar from '../TopBar';

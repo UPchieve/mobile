@@ -4,16 +4,17 @@
  */
 
 import * as React from 'react';
-import { View, Animated, Dimensions } from 'react-native';
+import TopBar from '../../TopBar';
+import ModalSelector from 'react-native-modal-selector';
+import { goToSession } from '../../../../navigators/navigation';
+import { Navigation } from 'react-native-navigation';
+import { Animated, Dimensions } from 'react-native';
 import { Root, Toast } from 'native-base';
 import { H1, Text } from '../../../components/Text';
 import { Button } from '../../../components';
-import TopBar from '../../TopBar';
-import ModalSelector from 'react-native-modal-selector';
+
+import styles from './styles';
 import pickerStyles from '../styles/subjectPicker';
-// Navigation
-import { goToSession } from '../../../../navigators/navigation';
-import { Navigation } from 'react-native-navigation';
 
 export interface Props {
 	menuOpen: boolean;
@@ -25,7 +26,7 @@ interface State {
 
 const maxHeight = Dimensions.get('window').height - 80;
 
-export default class MathModal extends React.Component<Props, State> {
+class MathModal extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -127,29 +128,4 @@ export default class MathModal extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	container: {
-		backgroundColor: '#1855D1',
-		width: '100%',
-		height: '100%',
-	},
-	content: {
-		marginTop: 80,
-		borderTopLeftRadius: 40,
-		borderTopEndRadius: 40,
-		paddingTop: 30,
-		flex: 1,
-		backgroundColor: '#fff',
-	},
-	header: {
-		width: '100%',
-		textAlign: 'center',
-	},
-	description: {
-		width: '75%',
-		textAlign: 'center',
-		alignSelf: 'center',
-		lineHeight: 24,
-		marginBottom: 40,
-	},
-};
+export default MathModal;

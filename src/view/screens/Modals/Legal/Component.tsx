@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
 import TopBar from '../../TopBar';
+import { View, ScrollView } from 'react-native';
 import { H1, Text } from '../../../components/Text';
+
+import styles from './styles';
 
 export interface Props {
 	menuOpen: boolean;
@@ -11,7 +13,7 @@ interface State {
 	overlayShown: boolean;
 }
 
-export default class Menu extends React.Component<Props, State> {
+class LegalModal extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -59,17 +61,4 @@ export default class Menu extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	content: {
-		backgroundColor: '#fff',
-		marginTop: 80,
-		padding: 20,
-	},
-	subheader: {
-		marginBottom: 16,
-	},
-	paragraph: {
-		lineHeight: 24,
-		marginBottom: 24,
-	},
-};
+export default LegalModal;

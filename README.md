@@ -84,7 +84,7 @@ npm run test:coverage
 ├── src
 │   ├── view					UI
 │   │	    ├── assets
-│   │	    ├── components
+│   │	    ├── components				Custom UI components
 │   │	    ├── forms				Typography
 │   │	    └── screens				Isolated views--screens, modals, overlays
 |   |            ├── Modals

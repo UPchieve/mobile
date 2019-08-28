@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { View, Image } from 'react-native';
-import {} from 'native-base';
-import { H1, Text } from '../../components/Text';
 import TopBar from '../TopBar';
 import socket from '../../../../shared/socket';
+import { View, Image } from 'react-native';
+import { H1, Text } from '../../components/Text';
+
+import styles from './styles';
 
 export interface Props {
 	menuOpen: boolean;
@@ -13,7 +14,7 @@ interface State {
 	overlayShown: boolean;
 }
 
-export default class Session extends React.Component<Props, State> {
+class Session extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -68,24 +69,4 @@ export default class Session extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	container: {
-		marginTop: 80,
-		backgroundColor: '#fff',
-		width: '100%',
-	},
-	image: {
-		width: 32,
-		height: 48,
-		flex: 1,
-		resizeMode: 'contain',
-		// alignSelf: 'flex-start',
-	},
-	tip: {
-		width: '90%',
-		alignSelf: 'center',
-		borderRadius: 8,
-		margin: 8,
-		padding: 16,
-	},
-};
+export default Session;

@@ -1,17 +1,4 @@
 const pickerStyles = {
-	// selectInput: {
-	// 	padding: 200,
-	// 	margin: 5,
-	// 	alignSelf: 'center',
-	// 	width: '100%',
-	// 	borderWidth: 0,
-	// 	borderBottomWidth: 1,
-	// },
-	// selectionText: {
-	// 	color: '#343440',
-	// 	fontFamily: 'WorkSans',
-	// 	fontSize: 16,
-	// },
 	selected: {
 		color: '#16D2AA',
 	},

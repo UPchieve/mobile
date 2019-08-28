@@ -1,16 +1,18 @@
 import * as React from 'react';
+import * as EmailValidator from 'email-validator';
+import ModalSelector from 'react-native-modal-selector';
+import StepIndicator from 'react-native-step-indicator';
+import { goToSignIn, closeModal, showLegalModal } from '../../../../navigators/navigation';
+import { Navigation } from 'react-native-navigation';
 import { View, Animated, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { Toast, Root, CheckBox } from 'native-base';
 import { Text } from '../../../components/Text';
 import { Button, Input, FormItem } from '../../../components';
-import ModalSelector from 'react-native-modal-selector';
-import * as EmailValidator from 'email-validator';
-import pickerStyles from '../styles/registerPicker';
-import StepIndicator from 'react-native-step-indicator';
-import { goToSignIn, closeModal, showLegalModal } from '../../../../navigators/navigation';
-import { Navigation } from 'react-native-navigation';
 import axios from 'axios';
 import API from '../../../../config/endpoints';
+
+import styles from './styles';
+import pickerStyles from '../styles/registerPicker';
 
 export interface Props {
 	menuOpen: boolean;
@@ -28,10 +30,8 @@ interface State {
 
 const maxHeight = Dimensions.get('window').height / 4;
 const maxWidth = Dimensions.get('window').width;
-// Hard derived from aspect ratio of logo and padding (better way to do this?)
-const contentDistanceFromTop = maxWidth * 0.54 * 0.4255 + 190;
 
-export default class RegisterModal extends React.Component<Props, State> {
+class RegisterModal extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -424,87 +424,4 @@ export default class RegisterModal extends React.Component<Props, State> {
 	}
 }
 
-const styles = {
-	container: {
-		backgroundColor: '#FFF',
-		width: '100%',
-		height: '100%',
-	},
-	logo: {
-		width: '54%',
-		alignSelf: 'center',
-		resizeMode: 'contain',
-		marginTop: 30,
-		marginBottom: 10,
-	},
-	exit: {
-		position: 'absolute',
-		top: 20,
-		left: 20,
-	},
-	exitIcon: {
-		width: 25,
-		resizeMode: 'contain',
-	},
-	stepIndicator: {
-		marginBottom: 40,
-		width: '80%',
-		marginLeft: '-10%',
-	},
-	step1: {
-		paddingHorizontal: '5%',
-	},
-	step2: {
-		paddingHorizontal: '5%',
-		width: '100%',
-		position: 'absolute',
-		top: contentDistanceFromTop,
-	},
-	text: {
-		lineHeight: 22,
-		marginTop: 10,
-	},
-	header: {
-		width: '100%',
-		textAlign: 'center',
-	},
-	description: {
-		width: '75%',
-		textAlign: 'center',
-		alignSelf: 'center',
-		lineHeight: 24,
-		marginBottom: 40,
-	},
-	input: {
-		marginBottom: 40,
-	},
-	info: {
-		marginBottom: 20,
-	},
-	firstName: {
-		marginBottom: 20,
-		width: '46%',
-		alignSelf: 'flex-start',
-		marginRight: '8%',
-	},
-	lastName: {
-		marginBottom: 20,
-		width: '45%',
-	},
-	agreement: {
-		flexDirection: 'row',
-		width: '100%',
-		marginTop: 20,
-	},
-	checkBox: {
-		padding: 0,
-		alignSelf: 'flex-start',
-	},
-	IHaventReadThis: {
-		paddingLeft: 25,
-	},
-	button: {
-		marginBottom: 40,
-		width: '100%',
-	},
-};
+export default RegisterModal;
