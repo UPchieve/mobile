@@ -175,21 +175,25 @@ npm run test:coverage
 2.  Add component to constants list (centralized for good practice) in `src/constants/screen.tsx`
 3.  Register screen in `src/view/screens/index.tsx`
 
-        import * as MyScreen from './MyScreen';
-        ...
-        export function registerScreens(redux: any) {
-        	registerComponentWithRedux(redux)(SCREENS.MyScreen, MyScreen.default);
-        }
+    ```js
+    import * as MyScreen from './MyScreen';
+    ...
+    export function registerScreens(redux: any) {
+     registerComponentWithRedux(redux)(SCREENS.MyScreen, MyScreen.default);
+    }
+    ```
 
 4.  Create and export navigation function in `src/navigators/navigation.tsx`
 
-        export const goToMyScreen = () => {
-        	Navigation.setRoot({
-        		root: {
-        			component: { name: SCREENS.MyScreen },
-        		},
-        	});
-        };
+    ```js
+    export const goToMyScreen = () => {
+      Navigation.setRoot({
+        root: {
+          component: { name: SCREENS.MyScreen },
+        },
+      });
+    };
+    ```
 
 5.  Now you can travel to your screen from any component by importing and calling `goToMyScreen()`!
 
