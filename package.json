@@ -18,6 +18,7 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-cn-quill": "^0.7.15",
+    "react-native-popup-menu": "^0.15.12",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-svg": "^12.1.1",
