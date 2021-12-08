@@ -13,8 +13,8 @@ import {
   IZwibblerTextModal,
   WhiteboardTextPicker,
 } from '../components/white-board/WhiteboardTextPicker';
-import WebView from 'react-native-webview';
-import {zwibbler, ZwibblerManager} from '../../assets/zwibbler/zwibbler';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler';
 import {
   Menu,
   MenuOption,
@@ -22,88 +22,21 @@ import {
   MenuProvider,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import {WhiteboardToolsMenu} from "../components/white-board/WhiteboardToolsMenu";
+import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
+import { CustomWebViewEvent } from '../types/WebViewTypes';
+import { ZwibblerTool } from '../types/zwibblerTypes';
 
 type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
-  const [selectedToolId, setSelectedToolId] = useState<number | undefined>(1);
+  const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
   });
-  const zwibblerManager = new ZwibblerManager();
+  const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
   const webViewRef = useRef<WebView>(null);
-  useEffect(() => zwibblerManager.setWebView(webViewRef), [webViewRef]);
-  const tools = [
-    {
-      id: 1,
-      name: 'Pick',
-      icon: SvgIcons.DragIcon,
-      handler: () => setSelectedToolId(1),
-    },
-    {
-      id: 2,
-      name: 'Brush',
-      icon: SvgIcons.PencilIcon,
-      handler: () => setSelectedToolId(2),
-    },
-    {
-      id: 3,
-      name: 'Color',
-      icon: SvgIcons.DotIcon,
-      handler: () => {
-        const color = 'pink';
-        callMethod(`zwibbler.setColour('${color}', true)`);
-      },
-    },
-    {
-      id: 4,
-      name: 'Rectangle',
-      icon: SvgIcons.ShapeIcon,
-      subMenu: () => (
-        <View
-          style={{
-            position: 'absolute',
-            top: -60,
-            height: 52,
-            width: 200,
-            left: -80,
-            right: 0,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            backgroundColor: 'white',
-            borderRadius: 5,
-            borderWidth: 1,
-            borderColor: '#D8DEE5',
-            paddingHorizontal: 6,
-          }}
-        >
-          <SvgIcons.DragIcon />
-          <SvgIcons.DragIcon />
-          <SvgIcons.DragIcon />
-          <SvgIcons.DragIcon />
-        </View>
-      ),
-      handler: () => setSelectedToolId(4),
-    },
-    {
-      id: 5,
-      name: 'Font',
-      icon: SvgIcons.TextIcon,
-      handler: () => {
-        setTextModalProps({
-          visible: true,
-          onModalClose,
-        });
-      },
-    },
-    {
-      id: 6,
-      name: 'Image',
-      icon: SvgIcons.PhotoUploadIcon,
-      handler: () => setSelectedToolId(6),
-    },
-  ];
+  useEffect(() => {
+    setZwibblerManager(new ZwibblerManager(webViewRef));
+  }, [webViewRef]);
 
   const debugging = `
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
@@ -116,39 +49,22 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
     };
 `;
 
-  useEffect(() => {
-    if (selectedToolId) {
-      const control = tools.find((x) => x.id === selectedToolId)!;
-      callMethod(`zwibbler.use${control.name}Tool()`);
-    }
-  }, [selectedToolId]);
-
-  const callMethod = (script: string): void => {
-    webViewRef.current?.injectJavaScript(script);
-  };
-
-  const onModalClose = (text?: string) => {
-    if (text) {
-      callMethod(`addText('${text}')`);
-    }
-    setTextModalProps({
-      visible: false,
+  const openTextModal = (): Promise<string | undefined> => {
+    return new Promise<string | undefined>((resolve) => {
+      setTextModalProps({
+        visible: true,
+        onModalClose: (text) => {
+          resolve(text);
+          setTextModalProps({ visible: false });
+        },
+      });
     });
   };
 
-  const onMessage = (payload: any) => {
-    let dataPayload;
-    try {
-      dataPayload = JSON.parse(payload.nativeEvent.data);
-    } catch (e) {
-      console.log('salio por el catch');
-    }
-    if (dataPayload) {
-      if (dataPayload.type === 'Console') {
-        console.info(`[Console] ${JSON.stringify(dataPayload.data)}`);
-      } else {
-        console.log(dataPayload);
-      }
+  const onMessage = (payload: WebViewMessageEvent) => {
+    const data = JSON.parse(payload.nativeEvent.data) as CustomWebViewEvent;
+    if (data.eventType === 'tool-changed') {
+      setSelectedTool(data.eventValue);
     }
   };
 
@@ -177,43 +93,11 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
           />
         </View>
         <View style={styles.bottomToolsWrapper}>
-          {/*{tools.map((tool) => (*/}
-          {/*  <View key={tool.id} style={{ backgroundColor: 'pink' }}>*/}
-          {/*    {tool.subMenu && <tool.subMenu />}*/}
-          {/*    <TouchableOpacity*/}
-          {/*      onPress={tool.handler}*/}
-          {/*      style={[*/}
-          {/*        styles.iconWrapper,*/}
-          {/*        selectedToolId === tool.id && styles.selectedIconWrapper,*/}
-          {/*      ]}*/}
-          {/*    >*/}
-          {/*      {<tool.icon height={26} width={26} />}*/}
-          {/*    </TouchableOpacity>*/}
-          {/*  </View>*/}
-          {/*))}*/}
-          <WhiteboardToolsMenu zwibblerManager={zwibblerManager}/>
-          {/*<Menu>*/}
-          {/*  <MenuTrigger>*/}
-          {/*    {<SvgIcons.DragIcon height={26} width={26} />}*/}
-          {/*  </MenuTrigger>*/}
-          {/*  <MenuOptions*/}
-          {/*    customStyles={{*/}
-          {/*      optionsWrapper: { flexDirection: 'row' },*/}
-          {/*    }}*/}
-          {/*  >*/}
-          {/*    <MenuOption onSelect={() => alert(`Save`)}>*/}
-          {/*      <SvgIcons.PencilIcon height={26} width={26}/>*/}
-          {/*    </MenuOption>*/}
-          {/*    <MenuOption onSelect={() => alert(`Delete`)}>*/}
-          {/*      <Text style={{ color: 'red' }}>Delete</Text>*/}
-          {/*    </MenuOption>*/}
-          {/*    <MenuOption*/}
-          {/*      onSelect={() => alert(`Not called`)}*/}
-          {/*      disabled={true}*/}
-          {/*      text="Disabled"*/}
-          {/*    />*/}
-          {/*  </MenuOptions>*/}
-          {/*</Menu>*/}
+          <WhiteboardToolsMenu
+            zwibblerManager={zwibblerManager!}
+            openTextEditor={openTextModal}
+            selectedToolName={selectedTool as ZwibblerTool}
+          />
         </View>
         <WhiteboardTextPicker {...textModalProps} />
       </MenuProvider>

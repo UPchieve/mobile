@@ -24,6 +24,9 @@ const html = `
             zwibbler.deleteSelection();
         });
         
+        zwibbler.on("tool-changed", function(toolName) {
+           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
+        });
 
         const addText = (text) => {
             zwibbler.begin();
@@ -51,27 +54,46 @@ export const zwibbler = {
 export class ZwibblerManager {
   private webView: React.RefObject<WebView<{}>>;
 
-  constructor();
+  // constructor();
   constructor(webView?: React.RefObject<WebView<{}>>) {
     if (webView) {
       this.webView = webView;
     }
   }
 
-  setWebView(webView: React.RefObject<WebView<{}>>) {
-    this.webView = webView;
-  }
+  addText = (text: string): void => {
+    console.log(text);
+    this.webView.current?.injectJavaScript(`addText('${text}');`);
+  };
 
   useBrushTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useBrushTool()');
+    this.webView.current?.injectJavaScript('zwibbler.useBrushTool();');
   };
 
   usePickTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.usePickTool()');
+    this.webView.current?.injectJavaScript('zwibbler.usePickTool();');
+  };
+
+  useLineTool = (): void => {
+    this.webView.current?.injectJavaScript('zwibbler.useLineTool();');
+  };
+
+  useCircleTool = (): void => {
+    this.webView.current?.injectJavaScript('zwibbler.useCircleTool();');
+  };
+
+  usePolygonTool = (sides: number = 3, rotation: number = Math.PI): void => {
+    this.webView.current?.injectJavaScript(
+      `zwibbler.usePolygonTool(${sides}, ${rotation});`
+    );
+  };
+
+  useRectangleTool = (): void => {
+    this.webView.current?.injectJavaScript('zwibbler.useRectangleTool()');
   };
 
   changeColor = (color: string) => {
-    console.log('changing color to '+color);
+    console.log('changing color to ' + color);
     this.webView.current?.injectJavaScript(
       `zwibbler.setColour('${color}', true)`
     );

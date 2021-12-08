@@ -1,0 +1,13 @@
+export type ZwibblerTool =
+  | 'arrow'
+  | 'brush'
+  | 'circle'
+  | 'curve'
+  | 'imagestamp'
+  | 'line'
+  | 'pan'
+  | 'pick'
+  | 'polygon'
+  | 'rectangle'
+  | 'shape'
+  | 'text';

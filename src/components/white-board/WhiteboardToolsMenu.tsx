@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SvgIcons } from '../../../assets/IndexIcons';
 import {
@@ -10,6 +10,7 @@ import {
 } from 'react-native-popup-menu';
 import { SvgFC } from '../../../assets/icons/SvgInterface';
 import { ZwibblerManager } from '../../../assets/zwibbler/zwibbler';
+import { ZwibblerTool } from '../../types/zwibblerTypes';
 
 interface ToolMenuItem {
   id: number;
@@ -21,29 +22,40 @@ interface ToolMenuItem {
 }
 interface Props {
   zwibblerManager: ZwibblerManager;
+  selectedToolName: ZwibblerTool;
+  openTextEditor: () => Promise<string | undefined>;
 }
-export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
+export const WhiteboardToolsMenu: React.FC<Props> = ({
+  zwibblerManager,
+  openTextEditor,
+  selectedToolName,
+}) => {
   const [currentColor, setCurrentColor] = useState('black');
+  const [openedMenu, setOpenedMenu] = useState<string | undefined>(undefined);
+  // const [selectedToolName, setSelectedToolName] = useState('Pick');
+
   const tools: ToolMenuItem[] = [
     {
       id: 1,
-      name: 'Pick',
+      name: 'pick',
       icon: SvgIcons.DragIcon,
       handler: () => {
         zwibblerManager.usePickTool();
+        // setSelectedToolName('pick');
       },
     },
     {
       id: 2,
-      name: 'Brush',
+      name: 'brush',
       icon: SvgIcons.PencilIcon,
       handler: () => {
         zwibblerManager.useBrushTool();
+        // setSelectedToolName('brush');
       },
     },
     {
       id: 3,
-      name: 'Color',
+      name: 'colorMenu',
       icon: SvgIcons.DotIcon,
       handler: () => {},
       iconAdditionalProps: { stroke: currentColor },
@@ -92,27 +104,45 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
     },
     {
       id: 4,
-      name: 'Rectangle',
+      name: 'shapeMenu',
       icon: SvgIcons.ShapeIcon,
       handler: () => {},
       subMenu: [
         {
           id: 1,
-          name: 'Circle',
-          icon: SvgIcons.DotIcon,
-          handler: () => {},
+          name: 'line',
+          icon: SvgIcons.LineIcon,
+          handler: () => {
+            zwibblerManager.useLineTool();
+            // setSelectedToolName('line');
+          },
         },
         {
           id: 2,
-          name: 'Square',
-          icon: SvgIcons.PencilIcon,
-          handler: () => {},
+          name: 'circle',
+          icon: SvgIcons.CircleIcon,
+          handler: () => {
+            zwibblerManager.useCircleTool();
+            // setSelectedToolName('circle');
+          },
         },
         {
           id: 3,
-          name: 'Circle',
-          icon: SvgIcons.DragIcon,
-          handler: () => {},
+          name: 'polygon',
+          icon: SvgIcons.TriangleIcon,
+          handler: () => {
+            zwibblerManager.usePolygonTool();
+            // setSelectedToolName('polygon');
+          },
+        },
+        {
+          id: 4,
+          name: 'rectangle',
+          icon: SvgIcons.SquareIcon,
+          handler: () => {
+            zwibblerManager.useRectangleTool();
+            // setSelectedToolName('rectangle');
+          },
         },
       ],
     },
@@ -120,7 +150,12 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
       id: 5,
       name: 'Font',
       icon: SvgIcons.TextIcon,
-      handler: () => {},
+      handler: async () => {
+        const text = await openTextEditor();
+        if (text) {
+          zwibblerManager.addText(text);
+        }
+      },
     },
     {
       id: 6,
@@ -130,11 +165,24 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
     },
   ];
 
+  const menuIsSelected = (menuItem: ToolMenuItem) => {
+    return (
+      openedMenu === menuItem.name ||
+      menuItem?.subMenu?.some((e) => e.name === selectedToolName)
+    );
+  };
+
   const renderMenu = (tool: ToolMenuItem) => {
     if (!tool.subMenu) {
       return (
         <View key={tool.id}>
-          <TouchableOpacity onPress={tool.handler} style={[styles.iconWrapper]}>
+          <TouchableOpacity
+            onPress={tool.handler}
+            style={[
+              styles.iconWrapper,
+              selectedToolName === tool.name && styles.selectedIconWrapper,
+            ]}
+          >
             {<tool.icon height={26} width={26} />}
           </TouchableOpacity>
         </View>
@@ -144,13 +192,20 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
       <Menu
         key={tool.id}
         renderer={renderers.Popover}
+        onOpen={() => setOpenedMenu(tool.name)}
+        onClose={() => setOpenedMenu(undefined)}
         rendererProps={{
           placement: 'top',
           anchorStyle: { backgroundColor: 'transparent' },
         }}
       >
         <MenuTrigger>
-          <View style={styles.iconWrapper}>
+          <View
+            style={[
+              styles.iconWrapper,
+              menuIsSelected(tool) && styles.selectedIconWrapper,
+            ]}
+          >
             {<tool.icon height={26} width={26} {...tool.iconAdditionalProps} />}
           </View>
         </MenuTrigger>
@@ -162,7 +217,14 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
         >
           {tool.subMenu.map((sub) => (
             <MenuOption key={sub.id} onSelect={sub.handler}>
-              <sub.icon height={31} width={31} {...sub.iconAdditionalProps} />
+              <View
+                style={[
+                  { padding: 4 },
+                  sub.name === selectedToolName && styles.selectedIconWrapper,
+                ]}
+              >
+                <sub.icon height={31} width={31} {...sub.iconAdditionalProps} />
+              </View>
             </MenuOption>
           ))}
         </MenuOptions>
@@ -176,7 +238,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({ zwibblerManager }) => {
 const styles = StyleSheet.create({
   iconWrapper: {
     padding: 10,
-    backgroundColor: 'pink',
   },
   selectedIconWrapper: {
     backgroundColor: '#D8DEE6',
@@ -192,7 +253,5 @@ const styles = StyleSheet.create({
     height: 52,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    // position: 'absolute',
-    // top: -500,
   },
 });
