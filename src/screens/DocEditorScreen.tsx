@@ -6,6 +6,20 @@ import QuillEditor, { QuillToolbar } from 'react-native-cn-quill';
 
 export const DocEditorScreen = () => {
   const _editor = createRef<QuillEditor>();
+
+    const customStyles = {
+        toolbar: {
+            provider: (provided: any) => ({
+                ...provided,
+                borderTopWidth: 0,
+            }),
+            root: (provided: any) => ({
+                ...provided,
+                backgroundColor: 'white'
+            }),
+        },
+    };
+
   return (
       <SafeAreaView style={styles.root}>
       {/*    <QuillToolbar editor={_editor} options={[*/}
@@ -32,7 +46,7 @@ export const DocEditorScreen = () => {
                 { color: ['#000000', 'blue', 'red','green', 'yellow'] },
                 { background: ['#000000', 'blue', 'red','green', 'yellow'] },
             ],
-        ]} theme={'light'}/>
+        ]} theme={'light'} styles={customStyles}/>
       </SafeAreaView>
   )
 };
