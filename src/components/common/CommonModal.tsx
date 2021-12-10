@@ -4,7 +4,7 @@ import { Modal, StyleSheet, View, Text, Dimensions } from 'react-native';
 import { CommonButton } from './CommonButton';
 import { Colors, PrimaryColorType } from '../../../assets/Colors';
 
-export interface ICommonModal {
+export type ICommonModal = {
   visible: boolean;
   icon?: SvgFC;
   title?: string;
@@ -15,7 +15,8 @@ export interface ICommonModal {
   cancelButtonPress?: () => void;
   actionButtonPress?: () => void;
   actionButtonText?: string;
-}
+};
+
 export const CommonModal: React.FC<ICommonModal> = ({
   visible,
   type,
@@ -23,8 +24,8 @@ export const CommonModal: React.FC<ICommonModal> = ({
   title,
   text,
   coloredIcon = true,
-  actionButtonText,
-  actionButtonPress,
+  actionButtonText = 'OK',
+  actionButtonPress = () => {},
   cancelButtonPress,
   cancelButtonText,
 }) => {

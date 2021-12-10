@@ -5,7 +5,7 @@ import { SvgFC } from './SvgInterface';
 export const LineIcon: SvgFC = ({
   width = 20,
   height = 22,
-  stroke = 'black',
+  stroke = '#000',
   ...props
 }) => {
   return (
@@ -15,6 +15,7 @@ export const LineIcon: SvgFC = ({
       viewBox="0 0 20 22"
       fill="none"
       stroke={stroke}
+      {...props}
     >
       <Path d="M19.3408 1.29004L0.370117 21.001" stroke={stroke} />
     </Svg>

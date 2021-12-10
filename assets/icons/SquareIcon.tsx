@@ -5,7 +5,8 @@ import { SvgFC } from './SvgInterface';
 export const SquareIcon: SvgFC = ({
   width = 20,
   height = 20,
-  stroke = 'black',
+  stroke = '#000',
+  fill = 'none',
   ...props
 }) => {
   return (
@@ -13,10 +14,10 @@ export const SquareIcon: SvgFC = ({
       width={width}
       height={height}
       viewBox="0 0 20 20"
-      fill="none"
+      fill={fill}
       stroke={stroke}
     >
-      <Rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke={stroke} />
+      <Rect x="0.5" y="0.5" width="19" height="19" rx="3.5" />
     </Svg>
   );
 };

@@ -6,6 +6,7 @@ export const CircleIcon: SvgFC = ({
   width = 20,
   height = 20,
   stroke = 'black',
+  fill = 'none',
   ...props
 }) => {
   return (
@@ -13,10 +14,11 @@ export const CircleIcon: SvgFC = ({
       width={width}
       height={height}
       stroke={stroke}
+      fill={fill}
       viewBox="0 0 20 20"
-      fill="none"
+      {...props}
     >
-      <Circle cx="10" cy="10" r="9.5" stroke={stroke} />
+      <Circle cx="10" cy="10" r="9.5" />
     </Svg>
   );
 };

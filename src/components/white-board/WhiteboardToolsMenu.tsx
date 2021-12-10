@@ -55,7 +55,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       name: 'colorMenu',
       icon: SvgIcons.DotIcon,
       handler: () => {},
-      iconAdditionalProps: { stroke: currentColor },
+      iconAdditionalProps: { stroke: currentColor, fill: currentColor },
       subMenu: [
         {
           id: 0,
@@ -71,7 +71,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           id: 1,
           name: 'blue',
           icon: SvgIcons.DotIcon,
-          iconAdditionalProps: { stroke: '#1855D1' },
+          iconAdditionalProps: { fill: '#1855D1', stroke: '#1855D1' },
           handler: () => {
             zwibblerManager.changeColor('#1855D1');
             setCurrentColor('#1855D1');
@@ -81,7 +81,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           id: 2,
           name: 'Red',
           icon: SvgIcons.DotIcon,
-          iconAdditionalProps: { stroke: '#F44747' },
+          iconAdditionalProps: { fill: '#F44747', stroke: '#F44747' },
           handler: () => {
             zwibblerManager.changeColor('#F44747');
             setCurrentColor('#F44747');
@@ -91,7 +91,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           id: 3,
           name: 'Red',
           icon: SvgIcons.DotIcon,
-          iconAdditionalProps: { stroke: '#16D2AA' },
+          iconAdditionalProps: { fill: '#16D2AA', stroke: '#16D2AA' },
           handler: () => {
             zwibblerManager.changeColor('#16D2AA');
             setCurrentColor('#16D2AA');

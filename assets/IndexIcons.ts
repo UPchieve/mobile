@@ -13,6 +13,7 @@ import {LineIcon} from "./icons/LineIcon";
 import {CircleIcon} from "./icons/CircleIcon";
 import {TriangleIcon} from "./icons/TriangleIcon";
 import {SquareIcon} from "./icons/SquareIcon";
+import {LogoutIcon} from "./icons/LogoutIcon";
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -30,4 +31,5 @@ export const SvgIcons = {
   CircleIcon,
   TriangleIcon,
   SquareIcon,
+  LogoutIcon,
 };

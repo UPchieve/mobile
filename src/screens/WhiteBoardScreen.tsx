@@ -86,7 +86,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
       cancelButtonText: 'Cancel',
       title: 'Delete Whiteboard',
       text: 'You will not be able to undo.',
-      icon: SvgIcons.TrashIcon,
+      icon: SvgIcons.LogoutIcon,
     });
   };
 
@@ -102,7 +102,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
       <MenuProvider>
         <View style={styles.topToolsWrapper}>
           <View style={styles.chatIconWrapper}>
-            <SvgIcons.WordBubbleIcon stroke={'white'} width={27} height={24} />
+            <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
           </View>
           <View style={styles.rightTopPanelWrapper}>
             <TouchableOpacity onPress={zwibblerManager?.undo}>
