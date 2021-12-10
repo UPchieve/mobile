@@ -43,8 +43,8 @@ export const DocEditorScreen = () => {
           <QuillToolbar editor={_editor} options={[
             ['bold', 'italic', 'underline', 'strike'],
             [
-                { color: ['#000000', 'blue', 'red','green', 'yellow'] },
-                { background: ['#000000', 'blue', 'red','green', 'yellow'] },
+                { color: ['#000000','white', 'blue', 'red','green', 'yellow'] },
+                { background: ['#000000','white','blue', 'red','green', 'yellow'] },
             ],
         ]} theme={'light'} styles={customStyles}/>
       </SafeAreaView>
