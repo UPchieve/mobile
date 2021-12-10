@@ -1,5 +1,6 @@
 import WebView from 'react-native-webview';
 import React from 'react';
+import * as ImagePicker from 'expo-image-picker';
 
 const html = `
 <html>
@@ -54,7 +55,6 @@ export const zwibbler = {
 export class ZwibblerManager {
   private webView: React.RefObject<WebView<{}>>;
 
-  // constructor();
   constructor(webView?: React.RefObject<WebView<{}>>) {
     if (webView) {
       this.webView = webView;
@@ -62,7 +62,6 @@ export class ZwibblerManager {
   }
 
   addText = (text: string): void => {
-    console.log(text);
     this.webView.current?.injectJavaScript(`addText('${text}');`);
   };
 
@@ -89,13 +88,42 @@ export class ZwibblerManager {
   };
 
   useRectangleTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useRectangleTool()');
+    this.webView.current?.injectJavaScript('zwibbler.useRectangleTool();');
   };
 
   changeColor = (color: string) => {
-    console.log('changing color to ' + color);
     this.webView.current?.injectJavaScript(
-      `zwibbler.setColour('${color}', true)`
+      `zwibbler.setColour('${color}', true);`
+    );
+  };
+
+  undo = (): void => {
+    this.webView.current?.injectJavaScript('zwibbler.undo();');
+  };
+
+  redo = (): void => {
+    this.webView.current?.injectJavaScript('zwibbler.redo();');
+  };
+
+  pickImage = async () => {
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    //   quality: 1,
+    // });
+    //
+    // console.log(result);
+    //
+    // if (!result.cancelled) {
+    //   console.log(result.uri);
+    // }
+    this.webView.current?.injectJavaScript('zwibbler.insertImage()');
+  };
+
+  reset = () => {
+    this.webView.current?.injectJavaScript(
+      'zwibbler.deleteNodes(zwibbler.getAllNodes())'
     );
   };
 }

@@ -32,7 +32,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
 }) => {
   const [currentColor, setCurrentColor] = useState('black');
   const [openedMenu, setOpenedMenu] = useState<string | undefined>(undefined);
-  // const [selectedToolName, setSelectedToolName] = useState('Pick');
 
   const tools: ToolMenuItem[] = [
     {
@@ -41,7 +40,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       icon: SvgIcons.DragIcon,
       handler: () => {
         zwibblerManager.usePickTool();
-        // setSelectedToolName('pick');
       },
     },
     {
@@ -50,7 +48,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       icon: SvgIcons.PencilIcon,
       handler: () => {
         zwibblerManager.useBrushTool();
-        // setSelectedToolName('brush');
       },
     },
     {
@@ -114,7 +111,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.LineIcon,
           handler: () => {
             zwibblerManager.useLineTool();
-            // setSelectedToolName('line');
           },
         },
         {
@@ -123,7 +119,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.CircleIcon,
           handler: () => {
             zwibblerManager.useCircleTool();
-            // setSelectedToolName('circle');
           },
         },
         {
@@ -132,7 +127,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.TriangleIcon,
           handler: () => {
             zwibblerManager.usePolygonTool();
-            // setSelectedToolName('polygon');
           },
         },
         {
@@ -141,7 +135,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.SquareIcon,
           handler: () => {
             zwibblerManager.useRectangleTool();
-            // setSelectedToolName('rectangle');
           },
         },
       ],
@@ -161,7 +154,9 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       id: 6,
       name: 'Image',
       icon: SvgIcons.PhotoUploadIcon,
-      handler: () => {},
+      handler: async () => {
+        await zwibblerManager.pickImage();
+      },
     },
   ];
 

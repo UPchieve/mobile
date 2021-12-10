@@ -15,16 +15,12 @@ import {
 } from '../components/white-board/WhiteboardTextPicker';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler';
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuProvider,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import { MenuProvider } from 'react-native-popup-menu';
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
 import { CustomWebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
+import { CommonModal, ICommonModal } from '../components/common/CommonModal';
+import * as ImagePicker from 'expo-image-picker';
 
 type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
@@ -32,11 +28,26 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
   });
+
+  const [commonModalProps, setCommonModalProps] = useState<ICommonModal>({
+    visible: false,
+  });
+
   const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
   const webViewRef = useRef<WebView>(null);
   useEffect(() => {
     setZwibblerManager(new ZwibblerManager(webViewRef));
   }, [webViewRef]);
+
+  useEffect(() => {
+    (async () => {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    })();
+  }, []);
 
   const debugging = `
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
@@ -61,6 +72,23 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
     });
   };
 
+  const openDeleteModal = () => {
+    setCommonModalProps({
+      visible: true,
+      type: 'error',
+      actionButtonPress: () => {
+        zwibblerManager?.reset();
+        setCommonModalProps({ visible: false });
+      },
+      actionButtonText: 'Erase',
+      cancelButtonPress: () => setCommonModalProps({ visible: false }),
+      cancelButtonText: 'Cancel',
+      title: 'Delete Whiteboard',
+      text: 'You will not be able to undo.',
+      icon: SvgIcons.TrashIcon,
+    });
+  };
+
   const onMessage = (payload: WebViewMessageEvent) => {
     const data = JSON.parse(payload.nativeEvent.data) as CustomWebViewEvent;
     if (data.eventType === 'tool-changed') {
@@ -76,9 +104,15 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
             <SvgIcons.WordBubbleIcon stroke={'white'} width={27} height={24} />
           </View>
           <View style={styles.rightTopPanelWrapper}>
-            <SvgIcons.UndoIcon stroke={'gray'} style={{ marginRight: 30 }} />
-            <SvgIcons.RedoIcon stroke={'gray'} style={{ marginRight: 30 }} />
-            <SvgIcons.TrashIcon stroke="gray" style={{ marginRight: 14 }} />
+            <TouchableOpacity onPress={zwibblerManager?.undo}>
+              <SvgIcons.UndoIcon stroke={'gray'} style={{ marginRight: 30 }} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={zwibblerManager?.redo}>
+              <SvgIcons.RedoIcon stroke={'gray'} style={{ marginRight: 30 }} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openDeleteModal}>
+              <SvgIcons.TrashIcon stroke="gray" style={{ marginRight: 14 }} />
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.body}>
@@ -100,6 +134,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
           />
         </View>
         <WhiteboardTextPicker {...textModalProps} />
+        <CommonModal {...commonModalProps} />
       </MenuProvider>
     </SafeAreaView>
   );
