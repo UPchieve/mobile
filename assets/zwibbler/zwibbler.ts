@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 const html = `
 <html>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 <style>
     #zwibbler{
         border: 1px solid transparent;

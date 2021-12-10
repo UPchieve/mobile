@@ -21,6 +21,7 @@ import { CustomWebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
 import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
+import { Colors } from '../../assets/Colors';
 
 type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
@@ -111,7 +112,10 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
               <SvgIcons.RedoIcon stroke={'gray'} style={{ marginRight: 30 }} />
             </TouchableOpacity>
             <TouchableOpacity onPress={openDeleteModal}>
-              <SvgIcons.TrashIcon stroke="gray" style={{ marginRight: 14 }} />
+              <SvgIcons.TrashIcon
+                stroke={Colors.error}
+                style={{ marginRight: 14 }}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -123,6 +127,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
             onMessage={onMessage}
             ref={webViewRef}
             originWhitelist={['*']}
+            cacheEnabled={true}
             source={{ html: zwibbler.html }}
           />
         </View>
