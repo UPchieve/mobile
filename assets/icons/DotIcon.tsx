@@ -5,7 +5,8 @@ import { SvgFC } from './SvgInterface';
 export const DotIcon: SvgFC = ({
   width = 21,
   height = 21,
-  stroke,
+  stroke = 'black',
+  fill = 'black',
   ...props
 }) => {
   return (
@@ -13,7 +14,7 @@ export const DotIcon: SvgFC = ({
       width={width}
       height={height}
       viewBox="0 0 21 21"
-      fill="none"
+      fill={fill}
       stroke={stroke}
       {...props}
     >
@@ -21,8 +22,6 @@ export const DotIcon: SvgFC = ({
         cx="10.5"
         cy="10.5"
         r="9.5"
-        fill="#343440"
-        stroke="white"
         strokeWidth="2"
       />
     </Svg>
