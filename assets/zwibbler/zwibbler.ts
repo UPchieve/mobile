@@ -18,6 +18,8 @@ const html = `
         const zwibbler = Zwibbler.create("#zwibbler", {
             showToolbar: false,
             showColourPanel: false,
+            multilineText: true,
+            collaborationServer: 'wss://zwibbler.com/socket2',
         });
         
         //Add the red icon to delete the current selection.
@@ -30,6 +32,12 @@ const html = `
            window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
         });
 
+         zwibbler.joinSharedSession('99999', true).then(response => {
+           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
+        }).catch(err => {
+            console.error('err', err);
+        });
+        
         const addText = (text) => {
             zwibbler.begin();
             const node = zwibbler.createNode("TextNode", {
@@ -90,6 +98,10 @@ export class ZwibblerManager {
 
   useRectangleTool = (): void => {
     this.webView.current?.injectJavaScript('zwibbler.useRectangleTool();');
+  };
+
+  useTextTool = (): void => {
+    this.webView.current?.injectJavaScript('zwibbler.useTextTool();');
   };
 
   changeColor = (color: string) => {

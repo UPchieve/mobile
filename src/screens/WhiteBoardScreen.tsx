@@ -17,7 +17,7 @@ import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler';
 import { MenuProvider } from 'react-native-popup-menu';
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
-import { CustomWebViewEvent } from '../types/WebViewTypes';
+import { CustomWebViewEvent, WebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
 import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
@@ -91,9 +91,25 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
   };
 
   const onMessage = (payload: WebViewMessageEvent) => {
-    const data = JSON.parse(payload.nativeEvent.data) as CustomWebViewEvent;
-    if (data.eventType === 'tool-changed') {
-      setSelectedTool(data.eventValue);
+    // const data = JSON.parse(payload.nativeEvent.data) as CustomWebViewEvent<string>;
+    // if (data.eventType === 'tool-changed') {
+    //   setSelectedTool(data.eventValue);
+    // }
+    const event = JSON.parse(payload.nativeEvent.data) as WebViewEvent;
+    switch (event.eventType) {
+      case 'tool-changed':
+        const concreteEventData = event as CustomWebViewEvent<string>;
+        setSelectedTool(concreteEventData.eventValue);
+        break;
+      case 'connected':
+        handleOnConnected(event as CustomWebViewEvent<boolean>);
+        break;
+    }
+  };
+
+  const handleOnConnected = (event: CustomWebViewEvent<boolean>) => {
+    if (event.eventValue) {
+      // alert('connected');
     }
   };
 
