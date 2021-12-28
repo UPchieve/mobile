@@ -1,33 +1,63 @@
+import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
-import {View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity} from "react-native";
-import {ImageIndex} from "../../assets/images/ImageIndex";
+import { View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
+import { ImageIndex } from '../../assets/ImageIndex';
+import { authService } from '../services/authService';
 
 export const LoginScreen = () => {
-    return <View style={styles.container}>
-        <Image style={styles.logo} source={ImageIndex.logo}/>
-        <View style={styles.loginWrapper}>
-            <View style={styles.loginTabsWrapper}>
-                <Text style={[styles.tabText, styles.tabTextActive]}>Log In</Text>
-                <Text style={styles.tabText}>Sign Up</Text>
-            </View>
-            <View>
 
-            </View>
-            <View style={styles.tabContainer}>
-                <View style={styles.inputWrapper}>
-                    <Text style={styles.inputText}>Email</Text>
-                    <TextInput style={styles.input}/>
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        onSubmit: async (values: any) => {
+            console.log(values);
+            // const user = await authService.login2('volunteer@nnnp.com', 'Demovolunteerpassword!');
+            // if (user?.isVolunteer) {
+            //     console.log('is volunteer');
+
+            // } else {
+            //     console.log('is student');
+            // }
+        }
+    });
+
+
+    return <View style={styles.container}>
+        <FormikProvider value={formik}>
+            <Image style={styles.logo} source={ImageIndex.logo} />
+            <View style={styles.loginWrapper}>
+                <View style={styles.loginTabsWrapper}>
+                    <Text style={[styles.tabText, styles.tabTextActive]}>Log In</Text>
+                    <Text style={styles.tabText}>Sign Up</Text>
                 </View>
-                <View style={styles.inputWrapper}>
-                    <Text style={styles.inputText}>Password</Text>
-                    <TextInput style={styles.input} secureTextEntry={true}/>
-                    <Text style={styles.mutedText}>Forgot password?</Text>
+                <View>
+
                 </View>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>LOGIN</Text>
-                </TouchableOpacity>
+                <View style={styles.tabContainer}>
+                    <View style={styles.inputWrapper}>
+                        <Text style={styles.inputText}>Email</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={formik.handleChange('email')}
+                            value={formik.values.email}
+                        />
+                    </View>
+                    <View style={styles.inputWrapper}>
+                        <Text style={styles.inputText}>Password</Text>
+                        <TextInput style={styles.input} secureTextEntry={true}
+                            onChangeText={formik.handleChange('password')}
+                            value={formik.values.password}
+                        />
+                        <Text style={styles.mutedText}>Forgot password?</Text>
+                    </View>
+                    <TouchableOpacity style={styles.button} onPress={() => formik.handleSubmit()}>
+                        <Text style={styles.buttonText}>LOGIN</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </FormikProvider>
     </View>
 }
 
