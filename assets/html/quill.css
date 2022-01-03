@@ -1,0 +1,39 @@
+.ql-toolbar.ql-snow {
+    padding: 8px 0 0 0;
+}
+
+#toolbar :first-child {
+    margin-left: 1px;
+}
+
+#editor {
+    width: 100%;
+    height: 80vh;
+}
+
+#subToolbar {
+    display: table;
+    border-top: 8px solid #fff;
+    padding: 4px 8px;
+    width: 100%;
+    background-color: #fff;
+    position: 'absolute';
+    bottom: 0;
+    transform: translateY(87vh);
+}
+
+#subToolbar :first-child {
+    margin-left: 0px;
+}
+
+#subToolbar button {
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    width: auto;
+    color: #444;
+}
+
+#subToolbar button:hover {
+    color: #06c;
+}
