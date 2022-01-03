@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Button, View, StyleSheet } from 'react-native';
 import { MainStackParamList } from '../routes/MainStackNavigator';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
-import io from 'socket.io-client';
 import axios from 'axios';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
@@ -30,6 +29,10 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
       <Button
         title="DocEditor"
         onPress={() => navigation.navigate('DocEditor')}
+      />
+      <Button
+        title="Chat"
+        onPress={() => navigation.navigate('Chat')}
       />
     </View>
   );
