@@ -1,23 +1,26 @@
 import React, { useState } from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { SvgIcons } from '../../../../assets/IndexIcons'
 
 type InputType = {
     value: string;
     setValue: React.Dispatch<React.SetStateAction<string>>
+    onPress: (value: string) => void
 }
 
-export const Input: React.FC<InputType> = ({ value, setValue }) => {
+export const ChatInput: React.FC<InputType> = ({ value, setValue, onPress }) => {
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} 
+            <TextInput style={styles.input}
                 value={value}
                 onChangeText={setValue}
                 placeholder='Type a message...'
                 placeholderTextColor={Colors.disabledGray}
-                />
-            <SvgIcons.MessageIcon />
+            />
+            <TouchableOpacity onPress={() => onPress(value)}>
+                <SvgIcons.MessageIcon />
+            </TouchableOpacity>
         </View>
     )
 }
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     input: {
         paddingVertical: 8,
         paddingHorizontal: 16,
-        color: Colors.disabledGray,
+        color: Colors.softBlack,
         fontSize: 16,
         flexGrow: 1,
     }

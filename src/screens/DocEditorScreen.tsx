@@ -97,8 +97,8 @@ export const DocEditorScreen = () => {
           }
         )
 
-        console.log('method_ends');
       });
+      console.log('method_ends');
     })();
   }, [socket]);
 
