@@ -1,10 +1,8 @@
-import WebView from 'react-native-webview';
-import React from 'react';
 
 const html = `
 <html>
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <style>
 .ql-toolbar.ql-snow {
         padding: 4px 0 0 0;
@@ -96,7 +94,10 @@ margin-right: 15px;
         width: 35px;
         color: #444;
     }
-
+    
+    .ql-cursor-flag {
+    display: none;
+  }
 
 </style>
 <body>
@@ -144,15 +145,44 @@ margin-right: 15px;
     </div>
     <div id="editor"></div>
 </body>
-<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill-cursors@3.1.0/dist/quill-cursors.min.js"></script>
 <script>
+    Quill.register('modules/cursors', QuillCursors);
     var quill = new Quill('#editor', {
         theme: 'snow',
         placeholder: 'Type or paste something...',
         modules: {
+            cursors: {
+                 transformOnTextChange: true
+        },
             toolbar: '#toolbar'
         }
     });
+    
+    const cursors = quill.getModule('cursors');
+    
+    cursors.createCursor('partnerCursor', 'Partner', 'red');
+    
+    quill.on('text-change', function(delta, oldDelta, source) {
+     window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "text-change", eventValue: {delta, oldDelta, source}}));
+});
+     
+    quill.on('selection-change', function(range, oldRange, source) {
+     window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "selection-change", eventValue: {range, source}}));
+});
+    
+    window.addEventListener('message', (e) => {
+        const data = JSON.parse(e.data);
+        if (data.eventType === 'setContents') {
+            quill.setContents(data.eventValue);
+        } else if (data.eventType === 'updateContents') {
+            quill.updateContents(data.eventValue);
+        } else if (data.eventType === 'setSelection'){
+            cursors.moveCursor('partnerCursor', data.eventValue);
+        }
+    });
+    
 </script>
 </html>
 `;
@@ -160,25 +190,3 @@ margin-right: 15px;
 export const quill = {
     html,
 };
-
-// export class QuillManager {
-//     private webView: React.RefObject<WebView<{}>>;
-//
-//     constructor(webView?: React.RefObject<WebView<{}>>) {
-//         if (webView) {
-//             this.webView = webView;
-//         }
-//     }
-//
-//     addText = (text: string): void => {
-//         this.webView.current?.injectJavaScript(`addText('${text}');`);
-//     };
-//
-//     setBold = (): void => {
-//         this.webView.current?.injectJavaScript('quill.formate("bold", true);');
-//     };
-//
-//     setItalic = (): void => {
-//         this.webView.current?.injectJavaScript('quill.formate("italic", true);');
-//     };
-// }
