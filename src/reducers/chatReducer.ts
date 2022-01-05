@@ -1,6 +1,10 @@
 import { ChatIncomingData, ChatoutcomingData as ChatOutcomingData } from "../interfaces/chatInterfaces";
 import dayjs from 'dayjs';
-
+import { User } from "../models/user";
+import { Message } from "../components/atoms/chat/ChatTypes";
+interface ChatMarkSeenPayload {
+    chatItem: ChatItem,
+}
 interface ChatIncominAction {
     type: 'chat_incoming',
     payload: ChatIncomingData
@@ -10,7 +14,13 @@ interface ChatOutcomingAction {
     payload: ChatOutcomingData
 }
 
-type Action = ChatIncominAction | ChatOutcomingAction;
+interface ChatMarkSeenAction {
+    type: 'chat_mark_seen',
+    payload: ChatMarkSeenPayload,
+}
+
+
+type Action = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction;
 
 export interface ChatItem {
     sentByMe: boolean,
@@ -19,12 +29,14 @@ export interface ChatItem {
     isVolunteer: boolean,
     lastMessage: boolean,
     user?: string,
+    seen?: boolean,
 }
 
 export const chatReducer = (state: ChatItem[] = [], action: Action): ChatItem[] => {
     switch (action.type) {
         case 'chat_incoming': return handleChatIncoming(state, action.payload);
         case 'chat_outcoming': return handleChatOutcoming(state, action.payload);
+        case 'chat_mark_seen': return handleChatMarkSeen(state, action.payload);
     }
 }
 
@@ -73,10 +85,20 @@ const handleChatIncoming = (state: ChatItem[], payload: ChatIncomingData): ChatI
         text: payload.contents,
         time: new Date(payload.createdAt),
         user: payload.user,
+        seen: payload.seen === undefined ? true : payload.seen,
     };
     if (!newMessage) {
         const penUltimate = { ...state[state.length - 1], lastMessage: false, };
         return [...state.slice(0, state.length - 1), penUltimate, newChat];
     }
     return [...state, newChat];
+}
+
+const handleChatMarkSeen = (state: ChatItem[], payload: ChatMarkSeenPayload): ChatItem[] => {
+    return state.map(x => {
+        if (x === payload.chatItem) {
+            return { ...x, seen: true };
+        }
+        return x;
+    });
 }

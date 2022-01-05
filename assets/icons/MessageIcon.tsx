@@ -5,7 +5,7 @@ import { SvgFC } from "./SvgInterface"
 export const MessageIcon: SvgFC = ({
     width = 24,
     height = 24,
-    fill = 'none',
+    fill = '#D8DEE5',
     ...props
 }) => (
   <Svg
@@ -15,7 +15,7 @@ export const MessageIcon: SvgFC = ({
     viewBox="0 0 28 28"
     {...props}
   >
-    <Circle cx={14} cy={14} r={13.5} fill="#D8DEE5" stroke="#D8DEE6" />
+    <Circle cx={14} cy={14} r={13.5} fill={fill} stroke="#D8DEE6" />
     <Path
       fillRule="evenodd"
       clipRule="evenodd"
