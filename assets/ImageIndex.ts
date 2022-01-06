@@ -4,5 +4,9 @@ export const ImageIndex = {
     chatbot: require('./images/avatars/chatbot.png'),
     student: require('./images/avatars/student.png'),
     volunteer: require('./images/avatars/volunteer.png'),
+  },
+  icons: {
+    chatEditor: require('./images/icons/doc_editor.png'),
+    whiteBoard: require('./images/icons/whiteboard.png')
   }
 };

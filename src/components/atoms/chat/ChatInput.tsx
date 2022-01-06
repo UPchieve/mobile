@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { MutableRefObject, useRef, useState } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { SvgIcons } from '../../../../assets/IndexIcons'
@@ -13,6 +13,7 @@ type InputType = {
 
 export const ChatInput: React.FC<InputType> = ({ value, setValue, onPress, onStartTyping, onEndTyping }) => {
     const [id, setId] = useState<any>();
+    const inputRef = useRef<TextInput>(null);
     const [startTypingInformed, setStartTypingInformed] = useState(false);
     const onKeyPress = () => {
         if (!startTypingInformed) {
@@ -26,18 +27,19 @@ export const ChatInput: React.FC<InputType> = ({ value, setValue, onPress, onSta
         }, 2000);
         setId(timeId);
     }
+
     return (
         <View style={styles.container}>
             <TextInput style={styles.input}
                 value={value}
+                ref={inputRef}
                 multiline={true}
-                numberOfLines={4}
                 onChangeText={setValue}
                 placeholder='Type a message...'
                 onKeyPress={onKeyPress}
                 placeholderTextColor={Colors.disabledGray}
             />
-            <TouchableOpacity onPress={() => onPress(value)}>
+            <TouchableOpacity onPress={() => onPress(value)} style={{alignSelf: 'flex-end', marginBottom: 5.5,}}>
                 <SvgIcons.MessageIcon fill={value?.length > 0 ? Colors.success : undefined} />
             </TouchableOpacity>
         </View>
@@ -64,5 +66,7 @@ const styles = StyleSheet.create({
         // textAlignVertical: 'bottom',
         minHeight: 36,
         maxHeight: 105,
+        width: '92%',
+        // width: 500,
     }
 });

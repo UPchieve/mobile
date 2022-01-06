@@ -15,7 +15,7 @@ export const MessageIcon: SvgFC = ({
     viewBox="0 0 28 28"
     {...props}
   >
-    <Circle cx={14} cy={14} r={13.5} fill={fill} stroke="#D8DEE6" />
+    <Circle cx={14} cy={14} r={13.5} fill={fill} stroke={fill} />
     <Path
       fillRule="evenodd"
       clipRule="evenodd"

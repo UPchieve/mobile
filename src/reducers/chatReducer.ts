@@ -1,9 +1,14 @@
-import { ChatIncomingData, ChatoutcomingData as ChatOutcomingData } from "../interfaces/chatInterfaces";
+import { ChatIncomingData, ChatoutcomingData, ChatoutcomingData as ChatOutcomingData } from "../interfaces/chatInterfaces";
 import dayjs from 'dayjs';
 import { User } from "../models/user";
 import { Message } from "../components/atoms/chat/ChatTypes";
+
 interface ChatMarkSeenPayload {
     chatItem: ChatItem,
+}
+interface ChatSessionOpenedPayload {
+    userId: string,
+    messages: (ChatIncomingData | ChatoutcomingData)[]
 }
 interface ChatIncominAction {
     type: 'chat_incoming',
@@ -14,13 +19,18 @@ interface ChatOutcomingAction {
     payload: ChatOutcomingData
 }
 
+interface ChatSessionOpenedAction {
+    type: 'chat_session_open',
+    payload: ChatSessionOpenedPayload
+}
+
 interface ChatMarkSeenAction {
     type: 'chat_mark_seen',
     payload: ChatMarkSeenPayload,
 }
 
 
-type Action = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction;
+type Action = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction | ChatSessionOpenedAction;
 
 export interface ChatItem {
     sentByMe: boolean,
@@ -37,6 +47,7 @@ export const chatReducer = (state: ChatItem[] = [], action: Action): ChatItem[] 
         case 'chat_incoming': return handleChatIncoming(state, action.payload);
         case 'chat_outcoming': return handleChatOutcoming(state, action.payload);
         case 'chat_mark_seen': return handleChatMarkSeen(state, action.payload);
+        case 'chat_session_open': return handleChatSession(state, action.payload);
     }
 }
 
@@ -101,4 +112,33 @@ const handleChatMarkSeen = (state: ChatItem[], payload: ChatMarkSeenPayload): Ch
         }
         return x;
     });
+}
+
+const handleChatSession = (state: ChatItem[], payload: ChatSessionOpenedPayload): ChatItem[] => {
+    const newState: ChatItem[] = [];
+    for (let i = 0; i < payload.messages.length; i++) {
+        const message = payload.messages[i];
+        let newMessage = false;
+        if (newState.length > 0 && newState[newState.length - 1].user === message.user) {
+            const diff = dayjs(newState[newState.length - 1].time).diff(message.createdAt, 'm');
+            if (diff !== 0) {
+                newMessage = true;
+            }
+        } else {
+            newMessage = true;
+        }
+        newState.push({
+            sentByMe: payload.userId === message.user,
+            isVolunteer: message.isVolunteer,
+            lastMessage: true,
+            text: message.contents,
+            time: new Date(message.createdAt),
+            seen: true,
+            user: message.user,
+        });
+        if (!newMessage) {
+            newState[i - 1] = { ...newState[i - 1], lastMessage: false };
+        }
+    }
+    return newState;
 }

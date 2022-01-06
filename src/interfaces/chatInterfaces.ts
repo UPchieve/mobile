@@ -9,5 +9,6 @@ export interface ChatIncomingData{
 export interface ChatoutcomingData {
     contents: string,
     isVolunteer: boolean,
+    createdAt: string,
     user: string,
 }
