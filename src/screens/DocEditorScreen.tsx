@@ -24,7 +24,7 @@ import {ZwibblerManager} from "../../assets/zwibbler/zwibbler";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {QuillEditorEvent} from "../types/WebViewTypes";
 
-const session = '61d59c5210a97c0022aaf112';
+const session = '61d6ed8510a97c0022ab6330';
 const getSessionRoom = (): string => `sessions-${session}`;
 
 

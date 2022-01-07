@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   SafeAreaView,
   TouchableOpacity,
   View,
-  StyleSheet,
+  StyleSheet, Dimensions, ScaledSize,
 } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import { MainStackParamList } from '../routes/MainStackNavigator';
@@ -22,9 +22,16 @@ import { ZwibblerTool } from '../types/zwibblerTypes';
 import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
+import * as ScreenOrientation from "expo-screen-orientation";
+import {DeviceMotion} from "expo-sensors";
+import { useDeviceOrientation } from '@react-native-community/hooks'
 
 type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
+
+  // const session = '61d6ed8510a97c0022ab6330';
+  // const getSessionRoom = (): string => `sessions-${session}`;
+
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
@@ -33,6 +40,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
   const [commonModalProps, setCommonModalProps] = useState<ICommonModal>({
     visible: false,
   });
+
+  const [orientation, setOrientation] = useState('PORTRAIT');
 
   const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
   const webViewRef = useRef<WebView>(null);
@@ -49,6 +58,19 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
       }
     })();
   }, []);
+
+
+
+  useEffect(() => {
+      Dimensions.addEventListener('change', ({window:{width,height}})=>{
+        if (width<height) {
+          setOrientation("PORTRAIT")
+        } else {
+          setOrientation("LANDSCAPE")
+
+        }
+      })
+  }, [orientation]);
 
   const debugging = `
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
@@ -109,13 +131,13 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
 
   const handleOnConnected = (event: CustomWebViewEvent<boolean>) => {
     if (event.eventValue) {
-      // alert('connected');
+      //alert('connected');
     }
   };
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <MenuProvider>
+  const renderWhiteboard = () => {
+    if (orientation === "PORTRAIT") {
+      return <MenuProvider>
         <View style={styles.topToolsWrapper}>
           <View style={styles.chatIconWrapper}>
             <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
@@ -129,34 +151,83 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
             </TouchableOpacity>
             <TouchableOpacity onPress={openDeleteModal}>
               <SvgIcons.TrashIcon
-                stroke={Colors.error}
-                style={{ marginRight: 14 }}
+                  stroke={Colors.error}
+                  style={{ marginRight: 14 }}
               />
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.body}>
           <WebView
-            style={styles.webView}
-            javaScriptEnabled={true}
-            injectedJavaScript={debugging}
-            onMessage={onMessage}
-            ref={webViewRef}
-            originWhitelist={['*']}
-            cacheEnabled={true}
-            source={{ html: zwibbler.html }}
+              style={styles.webView}
+              javaScriptEnabled={true}
+              injectedJavaScript={debugging}
+              onMessage={onMessage}
+              ref={webViewRef}
+              originWhitelist={['*']}
+              cacheEnabled={true}
+              source={{ html: zwibbler.html }}
           />
         </View>
         <View style={styles.bottomToolsWrapper}>
           <WhiteboardToolsMenu
-            zwibblerManager={zwibblerManager!}
-            openTextEditor={openTextModal}
-            selectedToolName={selectedTool as ZwibblerTool}
+              zwibblerManager={zwibblerManager!}
+              openTextEditor={openTextModal}
+              selectedToolName={selectedTool as ZwibblerTool}
           />
         </View>
         <WhiteboardTextPicker {...textModalProps} />
         <CommonModal {...commonModalProps} />
       </MenuProvider>
+    } else {
+      return <MenuProvider>
+        <View style={styles.topToolsWrapper}>
+          <View style={styles.chatIconWrapper}>
+            <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
+          </View>
+          <View style={styles.rightTopPanelWrapper}>
+            <View style={styles.topToolsWrapperLandscape}>
+              <WhiteboardToolsMenu
+                  zwibblerManager={zwibblerManager!}
+                  openTextEditor={openTextModal}
+                  selectedToolName={selectedTool as ZwibblerTool}
+              />
+            </View>
+            <WhiteboardTextPicker {...textModalProps} />
+            <CommonModal {...commonModalProps} />
+          </View>
+            <TouchableOpacity onPress={zwibblerManager?.undo} style={{marginLeft: 50}}>
+              <SvgIcons.UndoIcon stroke={'gray'}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={zwibblerManager?.redo} style={{marginLeft: -10}}>
+              <SvgIcons.RedoIcon stroke={'gray'}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openDeleteModal}>
+              <SvgIcons.TrashIcon
+                  stroke={Colors.error}
+                  style={{ marginRight: 14 }}
+              />
+            </TouchableOpacity>
+        </View>
+        <View style={styles.body}>
+          <WebView
+              style={styles.webView}
+              javaScriptEnabled={true}
+              injectedJavaScript={debugging}
+              onMessage={onMessage}
+              ref={webViewRef}
+              originWhitelist={['*']}
+              cacheEnabled={true}
+              source={{ html: zwibbler.html }}
+          />
+        </View>
+      </MenuProvider>
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {renderWhiteboard()}
     </SafeAreaView>
   );
 };
@@ -179,6 +250,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  topToolsWrapperLandscape: {
+    height: 48,
+    backgroundColor: lightGrayColor,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 3,
+    marginLeft: 100,
+    marginRight: 10,
   },
   chatIconWrapper: {
     backgroundColor: greenColor,

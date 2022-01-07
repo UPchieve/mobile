@@ -22,11 +22,17 @@ const html = `
             collaborationServer: 'wss://zwibbler.com/socket2',
         });
         
-        //Add the red icon to delete the current selection.
-        const imageUrl = 'https://i.postimg.cc/1zcngcSk/Group-718.png';
-        zwibbler.addSelectionHandle(0.0, 0.0, -15, -15, imageUrl, function (pageX, pageY) {
+         zwibbler.removeSelectionHandles();
+        
+        //Add the trash icon to delete the current selection.
+        const imageUrl = 'https://i.postimg.cc/HLCxbHCh/Trash.png';
+        zwibbler.addSelectionHandle(1.0, 0.0, 20, -30, imageUrl, function (pageX, pageY) {
             zwibbler.deleteSelection();
         });
+        
+        //Add the rotate icon to rotate the current selection.
+        const rotateIConUrl = 'https://i.postimg.cc/XJ8HWwWk/rotate.png';
+        zwibbler.addSelectionHandle(0.5, 0.0, 0, -30, rotateIConUrl, 'rotate');
         
         zwibbler.on("tool-changed", function(toolName) {
            window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));

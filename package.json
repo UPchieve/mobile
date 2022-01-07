@@ -10,12 +10,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/hooks": "^2.8.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "expo": "~43.0.2",
     "expo-image-picker": "~11.0.3",
+    "expo-screen-orientation": "~4.0.3",
+    "expo-sensors": "~11.0.3",
     "expo-status-bar": "~1.1.0",
     "formik": "^2.2.9",
     "react": "17.0.1",
