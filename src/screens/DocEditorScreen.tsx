@@ -1,5 +1,5 @@
-import React, {createRef, useEffect, useRef, useState} from 'react';
-import {Dimensions, KeyboardAvoidingView, Platform, StyleSheet, ViewStyle} from 'react-native';
+import React, { createRef, useEffect, useRef, useState } from 'react';
+import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, ViewStyle } from 'react-native';
 
 import { SafeAreaView } from 'react-native';
 import QuillEditor, {
@@ -13,49 +13,50 @@ import { SelectionChangeData, SelectionChangeHandler } from 'react-native-cn-qui
 import io from 'socket.io-client';
 import { config } from '../../config';
 import { authService } from '../services/authService';
-import WebView, {WebViewMessageEvent} from "react-native-webview";
-import {Colors} from "../../assets/Colors";
-import {SvgIcons} from "../../assets/IndexIcons";
-import {ToolbarComponent} from "../components/toolbar/ToolbarComponent";
-import {quill} from "../../assets/quill-editor/quill";
-import {ZwibblerTool} from "../types/zwibblerTypes";
-import {QuillTypes} from "../types/quillTypes";
-import {ZwibblerManager} from "../../assets/zwibbler/zwibbler";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {QuillEditorEvent} from "../types/WebViewTypes";
+import WebView, { WebViewMessageEvent } from "react-native-webview";
+import { Colors } from "../../assets/Colors";
+import { SvgIcons } from "../../assets/IndexIcons";
+import { ToolbarComponent } from "../components/toolbar/ToolbarComponent";
+import { quill } from "../../assets/quill-editor/quill";
+import { ZwibblerTool } from "../types/zwibblerTypes";
+import { QuillTypes } from "../types/quillTypes";
+import { ZwibblerManager } from "../../assets/zwibbler/zwibbler";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { QuillEditorEvent } from "../types/WebViewTypes";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainStackParamList } from '../routes/MainStackNavigator';
 
-const session = '61d6ed8510a97c0022ab6330';
-const getSessionRoom = (): string => `sessions-${session}`;
 
-
-export const DocEditorScreen = () => {
+type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'DocEditor'>;
+export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
   const webViewRef = useRef<WebView>(null);
+  const { sessionId } = route.params;
   const [socket] = useState(io(config.webSocketUrl, {
     reconnectionDelayMax: 5000,
   }));
 
   const addSocketListeners = () => {
-      socket.on('quillState', ({delta}: any) => {
-          webViewRef.current?.postMessage(JSON.stringify({eventType: 'setContents', eventValue: delta}));
-      });
+    socket.on('quillState', ({ delta }: any) => {
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'setContents', eventValue: delta }));
+    });
 
-      socket.on('partnerQuillDelta', ({delta}: any) => {
-          webViewRef.current?.postMessage(JSON.stringify({eventType: 'updateContents', eventValue: delta}));
-      });
+    socket.on('partnerQuillDelta', ({ delta }: any) => {
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'updateContents', eventValue: delta }));
+    });
 
-      socket.on('quillPartnerSelection', ({range}: any) => {
-          console.log('range', range);
-          webViewRef.current?.postMessage(JSON.stringify({eventType: 'setSelection', eventValue: range}));
-      })
+    socket.on('quillPartnerSelection', ({ range }: any) => {
+      console.log('range', range);
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'setSelection', eventValue: range }));
+    })
 
-    }
+  }
 
 
-    useEffect(() => {
+  useEffect(() => {
     (async () => {
       socket.disconnect();
       console.log('Fetching the user information');
-      const {user} = await authService.login();
+      const { user } = await authService.login();
       socket.connect();
       console.log('Trying to connect to to the socket server');
       socket.on('connect', () => {
@@ -65,16 +66,16 @@ export const DocEditorScreen = () => {
 
         //RequestQuillState
         socket.emit('requestQuillState', {
-          sessionId: session,
+          sessionId: sessionId,
         });
 
         socket.emit(
-            'join',
-            {
-              sessionId: session,
-              user,
-              joinedFrom: '',
-            }
+          'join',
+          {
+            sessionId: sessionId,
+            user,
+            joinedFrom: '',
+          }
         )
 
         console.log('method_ends');
@@ -89,37 +90,37 @@ export const DocEditorScreen = () => {
     const event = data as QuillEditorEvent;
     if (event.eventType === 'text-change') {
       if (event.eventValue.source === 'user') {
-              socket.emit('transmitQuillDelta', {
-                sessionId: session,
-                delta: event.eventValue.delta,
-              });
-            }
+        socket.emit('transmitQuillDelta', {
+          sessionId: sessionId,
+          delta: event.eventValue.delta,
+        });
+      }
     } else if (event.eventType === 'selection-change') {
-        if (event.eventValue.source === 'user') {
-            console.log('emiting selection');
-            socket.emit('transmitQuillSelection', {
-                        sessionId: session,
-                        range: data.eventValue.range,
-                      })
-        }
+      if (event.eventValue.source === 'user') {
+        console.log('emiting selection');
+        socket.emit('transmitQuillSelection', {
+          sessionId: sessionId,
+          range: data.eventValue.range,
+        })
+      }
     }
   };
 
-    return (
-        <SafeAreaView style={styles.root}>
-          <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-            <WebView
-                style={styles.webView}
-                javaScriptEnabled={true}
-                ref={webViewRef}
-                originWhitelist={['*']}
-                cacheEnabled={true}
-                onMessage={onMessage}
-                source={{html: quill.html}}/>
-          </KeyboardAwareScrollView>
-        </SafeAreaView>
-    );
-  };
+  return (
+    <SafeAreaView style={styles.root}>
+      <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        <WebView
+          style={styles.webView}
+          javaScriptEnabled={true}
+          ref={webViewRef}
+          originWhitelist={['*']}
+          cacheEnabled={true}
+          onMessage={onMessage}
+          source={{ html: quill.html }} />
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   title: {

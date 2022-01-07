@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -23,12 +23,12 @@ import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
 import * as ScreenOrientation from "expo-screen-orientation";
-import {DeviceMotion} from "expo-sensors";
+import { DeviceMotion } from "expo-sensors";
 import { useDeviceOrientation } from '@react-native-community/hooks'
 
 type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
-export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
-
+export const WhiteBoardScreen: React.FC<WhiteboardType> = ({route}) => {
+  const {sessionId} = route.params;
   // const session = '61d6ed8510a97c0022ab6330';
   // const getSessionRoom = (): string => `sessions-${session}`;
 
@@ -62,14 +62,14 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
 
 
   useEffect(() => {
-      Dimensions.addEventListener('change', ({window:{width,height}})=>{
-        if (width<height) {
-          setOrientation("PORTRAIT")
-        } else {
-          setOrientation("LANDSCAPE")
+    Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+      if (width < height) {
+        setOrientation("PORTRAIT")
+      } else {
+        setOrientation("LANDSCAPE")
 
-        }
-      })
+      }
+    })
   }, [orientation]);
 
   const debugging = `
@@ -129,6 +129,20 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
     }
   };
 
+  const renderWebView = () => {
+    return <WebView
+      style={styles.webView}
+      javaScriptEnabled={true}
+      injectedJavaScript={debugging}
+      injectedJavaScriptBeforeContentLoaded={`const sessionId = '${sessionId}'`}
+      onMessage={onMessage}
+      ref={webViewRef}
+      originWhitelist={['*']}
+      cacheEnabled={true}
+      source={{ html: zwibbler.html }}
+    />
+  }
+
   const handleOnConnected = (event: CustomWebViewEvent<boolean>) => {
     if (event.eventValue) {
       //alert('connected');
@@ -151,29 +165,20 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
             </TouchableOpacity>
             <TouchableOpacity onPress={openDeleteModal}>
               <SvgIcons.TrashIcon
-                  stroke={Colors.error}
-                  style={{ marginRight: 14 }}
+                stroke={Colors.error}
+                style={{ marginRight: 14 }}
               />
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.body}>
-          <WebView
-              style={styles.webView}
-              javaScriptEnabled={true}
-              injectedJavaScript={debugging}
-              onMessage={onMessage}
-              ref={webViewRef}
-              originWhitelist={['*']}
-              cacheEnabled={true}
-              source={{ html: zwibbler.html }}
-          />
+          {renderWebView()}
         </View>
         <View style={styles.bottomToolsWrapper}>
           <WhiteboardToolsMenu
-              zwibblerManager={zwibblerManager!}
-              openTextEditor={openTextModal}
-              selectedToolName={selectedTool as ZwibblerTool}
+            zwibblerManager={zwibblerManager!}
+            openTextEditor={openTextModal}
+            selectedToolName={selectedTool as ZwibblerTool}
           />
         </View>
         <WhiteboardTextPicker {...textModalProps} />
@@ -188,38 +193,29 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = () => {
           <View style={styles.rightTopPanelWrapper}>
             <View style={styles.topToolsWrapperLandscape}>
               <WhiteboardToolsMenu
-                  zwibblerManager={zwibblerManager!}
-                  openTextEditor={openTextModal}
-                  selectedToolName={selectedTool as ZwibblerTool}
+                zwibblerManager={zwibblerManager!}
+                openTextEditor={openTextModal}
+                selectedToolName={selectedTool as ZwibblerTool}
               />
             </View>
             <WhiteboardTextPicker {...textModalProps} />
             <CommonModal {...commonModalProps} />
           </View>
-            <TouchableOpacity onPress={zwibblerManager?.undo} style={{marginLeft: 50}}>
-              <SvgIcons.UndoIcon stroke={'gray'}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={zwibblerManager?.redo} style={{marginLeft: -10}}>
-              <SvgIcons.RedoIcon stroke={'gray'}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={openDeleteModal}>
-              <SvgIcons.TrashIcon
-                  stroke={Colors.error}
-                  style={{ marginRight: 14 }}
-              />
-            </TouchableOpacity>
+          <TouchableOpacity onPress={zwibblerManager?.undo} style={{ marginLeft: 50 }}>
+            <SvgIcons.UndoIcon stroke={'gray'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={zwibblerManager?.redo} style={{ marginLeft: -10 }}>
+            <SvgIcons.RedoIcon stroke={'gray'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={openDeleteModal}>
+            <SvgIcons.TrashIcon
+              stroke={Colors.error}
+              style={{ marginRight: 14 }}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.body}>
-          <WebView
-              style={styles.webView}
-              javaScriptEnabled={true}
-              injectedJavaScript={debugging}
-              onMessage={onMessage}
-              ref={webViewRef}
-              originWhitelist={['*']}
-              cacheEnabled={true}
-              source={{ html: zwibbler.html }}
-          />
+          {renderWebView()}
         </View>
       </MenuProvider>
     }

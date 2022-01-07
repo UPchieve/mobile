@@ -17,8 +17,10 @@ import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButt
 import { ImageIndex } from '../../assets/ImageIndex';
 import { User } from '../models/user';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
+import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack';
+import { MainStackParamList } from '../routes/MainStackNavigator';
 
-
+let chatt = [];
 const auxiliaryType = (session?: Session): 'DOCUMENT' | 'WHITEBOARD' => {
     const documentEditorSubTopics = [
         'planning',
@@ -37,8 +39,11 @@ interface Partner {
     isVolunteer: boolean;
     type: string;
 }
-const session = '61d6ed8510a97c0022ab6330';
-export const ChatScreen = () => {
+type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
+export const ChatScreen: React.FC<Props> = ({ route }) => {
+    const { sessionId } = route.params;
+    console.log(sessionId);
+
     const chatListRef = useRef<FlatList<ChatItem>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
     const [chat, dispatch] = useReducer(chatReducer, []);
@@ -57,6 +62,7 @@ export const ChatScreen = () => {
         viewableItems: ViewToken[];
         changed: ViewToken[];
     }) => {
+
         const currentState = chatListRef.current?.props.data;
         const max = viewableItems[viewableItems.length - 1];
         if (!currentState![max.index!].seen) {
@@ -67,6 +73,18 @@ export const ChatScreen = () => {
                 }
             });
         }
+        // const currentState = chatListRef.current?.props.data;
+        // if (currentState) {
+        //     const max = viewableItems[viewableItems.length - 1];
+        //     if (max?.index && currentState[max.index].seen) {
+        //         dispatch({
+        //             type: 'chat_mark_seen',
+        //             payload: {
+        //                 chatItem: currentState[max.index],
+        //             }
+        //         });
+        //     }
+        // }
 
     }, []);
 
@@ -97,6 +115,8 @@ export const ChatScreen = () => {
 
     useEffect(() => {
         console.log('state updated.');
+        console.log('efecto', chat.length);
+        chatt = chat;
         if (shouldAutoScroll) {
             console.log('scrolling. ');
             setTimeout(() => {
@@ -108,7 +128,7 @@ export const ChatScreen = () => {
     const onChatPress = (message: string) => {
         console.log('on chatting', user._id)
         socket.emit('message', {
-            sessionId: session,
+            sessionId: sessionId,
             user: user,
             message
         });
@@ -118,6 +138,7 @@ export const ChatScreen = () => {
                 user: user._id,
                 contents: message,
                 isVolunteer: user.isVolunteer,
+                createdAt: new Date().toISOString(),
             }
         });
         setChatMessage('');
@@ -178,9 +199,11 @@ export const ChatScreen = () => {
         (async () => {
             const { user } = await authService.login();
             setUser(user);
-            const currentSession = await sessionService.getCurrentSession();
-            handleSetSession(currentSession, user._id);
-            handleSessionMessages(currentSession, user);
+            try {
+                const currentSession = await sessionService.getCurrentSession();
+                handleSetSession(currentSession, user._id);
+                handleSessionMessages(currentSession, user);
+            } catch{}
             if (socket.connected) {
                 socket.disconnect();
             }
@@ -192,11 +215,11 @@ export const ChatScreen = () => {
                 socket.emit(
                     'join',
                     {
-                        sessionId: session,
+                        sessionId: sessionId,
                         user,
                         joinedFrom: '',
                     }
-                )
+                );
             });
         })();
     }, [socket]);
@@ -228,6 +251,7 @@ export const ChatScreen = () => {
                     onScrollEndDrag={onScrollEndDrag}
                     renderItem={renderChatElement}
                     keyExtractor={(item) => item.time.toISOString() + item.isVolunteer + item.lastMessage + item.sentByMe}
+                bounces={false}
                 />
                 <ChatNewerChatButton newerChats={chat.filter(x => x.sentByMe === false && x.seen === false).length} onPress={() => scrollToEnd()} />
                 <View style={{ height: 40, width: '100%' }}>

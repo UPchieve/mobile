@@ -7,9 +7,9 @@ import { ChatScreen } from '../screens/ChatScreen';
 
 export type MainStackParamList = {
   Home: undefined;
-  Whiteboard: undefined;
-  DocEditor: undefined;
-  Chat: undefined;
+  Whiteboard: { sessionId: string, };
+  DocEditor: { sessionId: string, };
+  Chat: { sessionId: string, };
 };
 
 export const MainStackNavigator = () => {

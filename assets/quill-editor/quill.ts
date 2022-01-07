@@ -193,11 +193,11 @@ const html = `
     cursors.createCursor('partnerCursor', 'Partner', 'red');
 
     quill.on('text-change', function (delta, oldDelta, source) {
-        //  window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "text-change", eventValue: {delta, oldDelta, source}}));
+        window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "text-change", eventValue: {delta, oldDelta, source}}));
     });
 
     quill.on('selection-change', function (range, oldRange, source) {
-        //  window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "selection-change", eventValue: {range, source}}));
+        window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "selection-change", eventValue: {range, source}}));
     });
 
     window.addEventListener('message', (e) => {

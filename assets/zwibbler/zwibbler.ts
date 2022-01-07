@@ -1,6 +1,9 @@
 import WebView from 'react-native-webview';
 import React from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import { config } from '../../config';
+
+console.log(config);
 
 const html = `
 <html>
@@ -12,14 +15,15 @@ const html = `
     }
 </style>
 <body>
-    <div id="zwibbler"></div>
-    <script src="https://cdn.upchieve.org/zwibbler/june2021/zwibbler2.js"></script>
-    <script type="text/javascript">
+<div id="zwibbler"></div>
+<script src="https://cdn.upchieve.org/zwibbler/june2021/zwibbler2.js"></script>
+<script type="text/javascript">
+
         const zwibbler = Zwibbler.create("#zwibbler", {
             showToolbar: false,
             showColourPanel: false,
             multilineText: true,
-            collaborationServer: 'wss://zwibbler.com/socket2',
+            collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
         });
         
          zwibbler.removeSelectionHandles();
@@ -38,7 +42,7 @@ const html = `
            window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
         });
 
-         zwibbler.joinSharedSession('99999', true).then(response => {
+         zwibbler.joinSharedSession(sessionId, true).then(response => {
            window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
         }).catch(err => {
             console.error('err', err);
@@ -56,6 +60,11 @@ const html = `
             zwibbler.translateNode(node, 100,100);
             zwibbler.commit();
         }
+
+        window.addEventListener('message', (e) => {
+          const data = JSON.parse(e.data);
+          alert(e);
+      });
         
     </script>
 </body>
@@ -63,6 +72,9 @@ const html = `
 </html>
 `;
 
+          // if(data.eventType === 'setProperty'){
+
+          // }
 export const zwibbler = {
   html,
 };
