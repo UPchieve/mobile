@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, View, StyleSheet, TextInput } from 'react-native';
 import { MainStackParamList } from '../routes/MainStackNavigator';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import axios from 'axios';
 import { Colors } from '../../assets/Colors';
+import { useSocket } from '../hooks/useSocket';
+import { SocketContextComponent } from '../providers/SocketProvider';
+import { authService } from '../services/authService';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
-  const [sessionId, setSessionId] = useState('61d8b33c10a97c0022abd95b');
+  const [sessionId, setSessionId] = useState('61dca2f3d483a30021cdb4cd');
   // useEffect(() => {
   //   const url = `https://demo.upchieve.org`;
   //   axios.post(`${url}/auth/login`, {
@@ -21,6 +24,18 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
   //   });
   // }, []);
 
+  
+  const { connected } = useContext(SocketContextComponent);
+  
+  useEffect(() => {
+    authService.login().then(() => console.log('loguea2'));
+  }, []);
+
+  // const { on, connected } = useSocket();
+  useEffect(() => {
+   console.log('connected change', connected);
+  }, [connected]);
+  
   return (
     <View style={styles.container}>
       <TextInput

@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
 import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, ViewStyle } from 'react-native';
 
 import { SafeAreaView } from 'react-native';
@@ -10,7 +10,6 @@ import QuillEditor, {
 import { SelectionChangeData, SelectionChangeHandler } from 'react-native-cn-quill/lib/typescript/constants/editor-event';
 
 //@ts-ignore
-import io from 'socket.io-client';
 import { config } from '../../config';
 import { authService } from '../services/authService';
 import WebView, { WebViewMessageEvent } from "react-native-webview";
@@ -25,64 +24,66 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { QuillEditorEvent } from "../types/WebViewTypes";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../routes/MainStackNavigator';
+import { SocketContextComponent } from '../providers/SocketProvider';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'DocEditor'>;
 export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
   const webViewRef = useRef<WebView>(null);
   const { sessionId } = route.params;
-  const [socket] = useState(io(config.webSocketUrl, {
-    reconnectionDelayMax: 5000,
-  }));
+  const { connected, on, emit } = useContext(SocketContextComponent);
 
   const addSocketListeners = () => {
-    socket.on('quillState', ({ delta }: any) => {
+    const l1 = on('quillState', ({ delta }: any) => {
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'setContents', eventValue: delta }));
     });
 
-    socket.on('partnerQuillDelta', ({ delta }: any) => {
+    const l2 = on('partnerQuillDelta', ({ delta }: any) => {
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'updateContents', eventValue: delta }));
     });
 
-    socket.on('quillPartnerSelection', ({ range }: any) => {
+    const l3 = on('quillPartnerSelection', ({ range }: any) => {
       console.log('range', range);
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'setSelection', eventValue: range }));
     })
-
+    return () => [l1, l2, l3].forEach(x => x());
   }
 
 
   useEffect(() => {
+
+  }, []);
+
+
+  useFocusEffect(() => {
+    let unsubscribe: any;
     (async () => {
-      socket.disconnect();
+      // socket.disconnect();
       console.log('Fetching the user information');
       const { user } = await authService.login();
-      socket.connect();
+      // socket.connect();
       console.log('Trying to connect to to the socket server');
-      socket.on('connect', () => {
-        console.log('connected');
+      unsubscribe = addSocketListeners();
 
-        addSocketListeners();
-
-        //RequestQuillState
-        socket.emit('requestQuillState', {
-          sessionId: sessionId,
-        });
-
-        socket.emit(
-          'join',
-          {
-            sessionId: sessionId,
-            user,
-            joinedFrom: '',
-          }
-        )
-
-        console.log('method_ends');
+      //RequestQuillState
+      emit('requestQuillState', {
+        sessionId: sessionId,
       });
-    })();
-  }, [socket]);
 
+      emit(
+        'join',
+        {
+          sessionId: sessionId,
+          user,
+          joinedFrom: '',
+        }
+      )
+    })();
+    return () => {
+      unsubscribe();
+    }
+  });
 
 
   const onMessage = (payload: WebViewMessageEvent) => {
@@ -90,7 +91,7 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
     const event = data as QuillEditorEvent;
     if (event.eventType === 'text-change') {
       if (event.eventValue.source === 'user') {
-        socket.emit('transmitQuillDelta', {
+        emit('transmitQuillDelta', {
           sessionId: sessionId,
           delta: event.eventValue.delta,
         });
@@ -98,7 +99,7 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
     } else if (event.eventType === 'selection-change') {
       if (event.eventValue.source === 'user') {
         console.log('emiting selection');
-        socket.emit('transmitQuillSelection', {
+        emit('transmitQuillSelection', {
           sessionId: sessionId,
           range: data.eventValue.range,
         })

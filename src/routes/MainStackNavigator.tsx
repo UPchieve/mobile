@@ -31,7 +31,7 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name="DocEditor"
         component={DocEditorScreen}
-        options={{ headerShown: false }}
+        // options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Chat"
