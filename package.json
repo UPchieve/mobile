@@ -28,6 +28,8 @@
     "react-native": "0.64.3",
     "react-native-cn-quill": "^0.7.15",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-modal-popover": "^2.1.0",
+    "react-native-modal-selector": "^2.1.0",
     "react-native-popup-menu": "^0.15.12",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
