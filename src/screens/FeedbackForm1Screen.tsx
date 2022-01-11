@@ -10,13 +10,15 @@ import { Picker, pickerDataParse } from '../components/atoms/common/Picker';
 import {RateStars} from "../components/molecules/session-experience/RateStars";
 import {Colors} from "../../assets/Colors";
 import {CommonButton} from "../components/common/CommonButton";
+import { RadioButton } from '../components/atoms/common/RadioButton';
+import { RadioGroup } from '../components/molecules/common/RadioGroup';
 
-const pickerOptions = pickerDataParse([
+const pickerOptions = [
     'I am very comfortable with this topic.',
     'I don’t know how to do this at all.',
     'I think I know how to do it, but I need help.',
     'I can do this on my own, but I don’t fully understand it.'
-]);
+];
 
 interface formType {
     didWeHelp?: number,
@@ -48,7 +50,7 @@ export const FeedbackForm1Screen = () => {
         <SessionFeedbackHeader />
         <KeyboardAwareScrollView style={{
             paddingLeft: 23,
-            paddingRight: 21,
+            paddingRight: 23,
             paddingTop: 24,
         }}>
             <FormikProvider value={formik}>
@@ -58,9 +60,7 @@ export const FeedbackForm1Screen = () => {
                 </View>
                 <View style={styles.questionWrapper}>
                     <Question text='What is your level of understanding now that you’ve completed your session?' />
-                    <Picker data={pickerOptions} onChange={(value) => formik.setFieldValue('understandingAfterSession', value.label)}
-                        placeholder='Select your level of understanding'
-                    />
+                    <RadioGroup data={pickerOptions} getText={e => e} onSelectedChanged={(value) => formik.setFieldValue('understandingAfterSession', value)}/>
                 </View>
                 <View style={styles.questionWrapper}>
                     <Question text={'Please rate the Academic Coach who helped you.'}/>

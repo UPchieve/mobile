@@ -23,6 +23,7 @@
     "expo-sensors": "~11.0.3",
     "expo-status-bar": "~1.1.0",
     "formik": "^2.2.9",
+    "random-string": "^0.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",

@@ -38,9 +38,12 @@ export const Question: React.FC<QuestionType> = ({ text, highlight, additionalTe
     }
     return <View style={styles.container}>
         <View style={styles.questionContainer}>
-            <Text>{getText()}</Text>
+            <View style={{flexGrow: 1, flex: 1,}}>
+                <Text>{getText()}</Text>
+            </View>
             {informationText
-                ? <TouchableOpacity style={styles.informationIcon} onPress={() => openPopover()} ref={touchableRef}>
+                ?
+                <TouchableOpacity style={styles.informationIcon} onPress={() => openPopover()} ref={touchableRef}>
                     <Text style={styles.informationIconText}>i</Text>
                 </TouchableOpacity>
                 : null}
@@ -75,6 +78,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: FontIndex.WorkSans.Regular,
         color: Colors.softBlack,
+        flexShrink: 1,
     },
     highlightedText: {
         color: Colors.success,
@@ -84,11 +88,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: FontIndex.WorkSans.Regular,
         color: Colors.defaultGray,
+        flexShrink: 1,
     },
     questionContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
     },
     informationIcon: {
         borderColor: Colors.defaultGray,
