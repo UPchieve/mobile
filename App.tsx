@@ -22,7 +22,8 @@ export default function App() {
 
   const [fontsLoaded] = useFonts({
     WorkSans: require('./assets/fonts/work-sans/WorkSans-Regular.ttf'),
-    WorkSansBold: require('./assets/fonts/work-sans/WorkSans-Bold.ttf')
+    WorkSansBold: require('./assets/fonts/work-sans/WorkSans-Bold.ttf'),
+    WorkSansMedium: require('./assets/fonts/work-sans/WorkSans-Medium.ttf')
   });
 
   if (!fontsLoaded) {
@@ -34,8 +35,8 @@ export default function App() {
   return (
     <SocketProvider>
       <NavigationContainer>
-      <MainStackNavigator />
-      {/* <FeedbackForm1Screen /> */}
+      {/*<MainStackNavigator />*/}
+       <FeedbackForm1Screen />
       </NavigationContainer>
     </SocketProvider>
   );

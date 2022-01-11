@@ -7,10 +7,10 @@ import { Popover, usePopover, } from 'react-native-modal-popover';
 interface QuestionType {
     text: string,
     highlight?: string,
-    aditionalText?: string,
+    additionalText?: string,
     informationText?: string,
 }
-export const Question: React.FC<QuestionType> = ({ text, highlight, aditionalText, informationText }) => {
+export const Question: React.FC<QuestionType> = ({ text, highlight, additionalText, informationText }) => {
     const {
         openPopover,
         closePopover,
@@ -45,9 +45,9 @@ export const Question: React.FC<QuestionType> = ({ text, highlight, aditionalTex
                 </TouchableOpacity>
                 : null}
         </View>
-        {aditionalText
+        {additionalText
             ? <Text style={styles.mutedText}>
-                {aditionalText}
+                {additionalText}
             </Text>
             : null
         }

@@ -7,6 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { Colors, PrimaryColorType } from '../../../assets/Colors';
+import {FontIndex} from "../../../assets/FontIndex";
 
 interface ICommonButton {
   title: string;
@@ -39,14 +40,16 @@ export const CommonButton: React.FC<ICommonButton> = ({
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderWidth: 1,
     borderColor: '#D6E0EF',
     borderRadius: 30,
   },
   buttonText: {
+    fontFamily: FontIndex.WorkSans.Medium,
     fontSize: 16,
     color: '#343440',
+    textAlign: 'center'
   },
 });
