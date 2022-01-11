@@ -10,12 +10,14 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.0",
     "@react-native-community/hooks": "^2.8.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "expo": "~43.0.2",
+    "expo-font": "~10.0.3",
     "expo-image-picker": "~11.0.3",
     "expo-screen-orientation": "~4.0.3",
     "expo-sensors": "~11.0.3",

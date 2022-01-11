@@ -8,6 +8,8 @@ import { SocketProvider } from './src/providers/SocketProvider';
 import axios from 'axios';
 import { authService } from './src/services/authService';
 import { FeedbackForm1Screen } from './src/screens/FeedbackForm1Screen';
+import { useFonts } from 'expo-font';
+import { Text, View } from 'react-native';
 
 export default function App() {
 
@@ -18,12 +20,23 @@ export default function App() {
     // authService.login().then(() => console.log('logged'));
   }, []);
 
+  const [fontsLoaded] = useFonts({
+    WorkSans: require('./assets/fonts/work-sans/WorkSans-Regular.ttf'),
+    WorkSansBold: require('./assets/fonts/work-sans/WorkSans-Bold.ttf')
+  });
+
+  if (!fontsLoaded) {
+    return <View>
+      <Text>Loading..</Text>
+    </View>
+  }
+
   return (
     <SocketProvider>
-      {/* <NavigationContainer> */}
-        {/* <MainStackNavigator /> */}
-        <FeedbackForm1Screen/>
-      {/* </NavigationContainer> */}
+      <NavigationContainer>
+      <MainStackNavigator />
+      {/* <FeedbackForm1Screen /> */}
+      </NavigationContainer>
     </SocketProvider>
   );
 }

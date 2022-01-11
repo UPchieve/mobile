@@ -11,6 +11,12 @@ export const Colors = {
   softBlack: '#343440',
   secondaryGray: '#565961',
   disabledGray: '#ABB2BD',
+  defaultGray: '#8B939F',
+  borderGray: '#D8DEE6',
+
+  selectedGreen: '#F2FBF9',
+  hoverGreen: '#0D8269',
+
 };
 
 export type PrimaryColorType = 'success' | 'error' | 'warning' | 'information';

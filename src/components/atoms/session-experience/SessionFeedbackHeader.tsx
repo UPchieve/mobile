@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native';
 import { Colors } from '../../../../assets/Colors';
+import { FontIndex } from '../../../../assets/FontIndex';
 import { HouseIcon } from '../../../../assets/icons/HouseIcon';
 import { Separator } from '../common/Separator';
 
@@ -25,10 +26,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    //TODO TYPHOGRAFY Work Sans
     text: {
         fontSize: 18,
         fontWeight: '600',
+        fontFamily: FontIndex.WorkSans.Bold,
         color: Colors.softBlack,
     },
     //TODO review this shadow.
