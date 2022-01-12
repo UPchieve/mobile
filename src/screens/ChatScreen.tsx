@@ -19,6 +19,7 @@ import { User } from '../models/user';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack';
 import { MainStackParamList } from '../routes/MainStackNavigator';
+import { CurrentSessionHeader, } from '../components/molecules/common/CurrentSessionHeader';
 
 let chatt = [];
 const auxiliaryType = (session?: Session): 'DOCUMENT' | 'WHITEBOARD' => {
@@ -203,7 +204,7 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
                 const currentSession = await sessionService.getCurrentSession();
                 handleSetSession(currentSession, user._id);
                 handleSessionMessages(currentSession, user);
-            } catch{}
+            } catch { }
             if (socket.connected) {
                 socket.disconnect();
             }
@@ -243,6 +244,7 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
     return (
         <CommonKeyboardAvoidingView style={{ flex: 1 }}>
             <View style={styles.container}>
+                <CurrentSessionHeader isVolunteer={true} isSessionEnded={false} />
                 <FlatList
                     style={{ paddingRight: 40, }}
                     ref={chatListRef}
@@ -251,7 +253,7 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
                     onScrollEndDrag={onScrollEndDrag}
                     renderItem={renderChatElement}
                     keyExtractor={(item) => item.time.toISOString() + item.isVolunteer + item.lastMessage + item.sentByMe}
-                bounces={false}
+                    bounces={false}
                 />
                 <ChatNewerChatButton newerChats={chat.filter(x => x.sentByMe === false && x.seen === false).length} onPress={() => scrollToEnd()} />
                 <View style={{ height: 40, width: '100%' }}>

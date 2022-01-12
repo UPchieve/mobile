@@ -10,7 +10,7 @@ import { authService } from '../services/authService';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
-  const [sessionId, setSessionId] = useState('61dca2f3d483a30021cdb4cd');
+  const [sessionId, setSessionId] = useState('61df386ab6721300227c7043');
   // useEffect(() => {
   //   const url = `https://demo.upchieve.org`;
   //   axios.post(`${url}/auth/login`, {

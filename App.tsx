@@ -10,6 +10,7 @@ import { authService } from './src/services/authService';
 import { FeedbackForm1Screen } from './src/screens/FeedbackForm1Screen';
 import { useFonts } from 'expo-font';
 import { Text, View } from 'react-native';
+import { ChatScreen } from './src/screens/ChatScreen';
 
 export default function App() {
 
@@ -35,8 +36,8 @@ export default function App() {
   return (
     <SocketProvider>
       <NavigationContainer>
-      {/*<MainStackNavigator />*/}
-       <FeedbackForm1Screen />
+      <MainStackNavigator />
+       {/* <FeedbackForm1Screen /> */}
       </NavigationContainer>
     </SocketProvider>
   );

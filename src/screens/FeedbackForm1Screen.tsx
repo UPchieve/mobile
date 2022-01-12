@@ -22,6 +22,7 @@ interface formType {
     didWeHelp?: number,
     understandingAfterSession?: string,
     rateAcademicCoach?: number,
+    whatCanDoBetter?: string,
     textInput?: string
 }
 const initialValues: formType = {
@@ -59,7 +60,9 @@ export const FeedbackForm1Screen = () => {
     return <SafeAreaView>
         {/*TODO Icon in the right must navigate to dashboard*/}
         <SessionFeedbackHeader />
-        <KeyboardAwareScrollView style={{
+        <KeyboardAwareScrollView 
+        enableResetScrollToCoords={false}
+        style={{
             paddingLeft: 23,
             paddingRight: 23,
             paddingTop: 24,
@@ -77,10 +80,24 @@ export const FeedbackForm1Screen = () => {
                     <Question text={'Please rate the Academic Coach who helped you.'} />
                     <RateStars selected={formik.values.rateAcademicCoach} setSelected={(selected) => formik.setFieldValue('rateAcademicCoach', selected)} parentStyle={{ paddingHorizontal: 40 }} />
                 </View>
+                {formik.values.rateAcademicCoach && formik.values.rateAcademicCoach <= 3
+                    ? <View style={styles.questionWrapper}>
+                        <Question text='What could your coach have done better?'
+                            additionalText='This feedback will be anonymous! You can be honest. :)'
+                        />
+                        <TextInput style={[styles.textInput, isFocused && styles.textInputSelected]}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            onChangeText={formik.handleChange('whatCanDoBetter')}
+                            value={formik.values.whatCanDoBetter}
+                        />
+                    </View>
+
+                    : null}
                 <View style={styles.questionWrapper}>
                     <Question text='Do you have any other feedback you´d like to share with UPchieve?'
-                        additionalText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc. '
-                        informationText='Información!' />
+                        additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
+                        informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
                     {/*TODO Text alignment on the input must be at top*/}
                     <TextInput style={[styles.textInput, isFocused && styles.textInputSelected]}
                         onFocus={handleFocus}
