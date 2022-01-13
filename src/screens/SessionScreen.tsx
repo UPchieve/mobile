@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useState } from 'react'
 
-import { StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
@@ -20,7 +20,10 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
     const { user, currentSession, socketHandler } = useContext(AuthContext);
     const [sessionState, setSessionState] = useState<SessionStateChangedSocketType | undefined>();
     const [showChat, setShowChat] = useState<boolean>(true);
-    const onSwitchPress = () => setShowChat((oldValue) => !oldValue);
+    const onSwitchPress = () => {
+        Keyboard.dismiss();
+        setShowChat((oldValue) => !oldValue);
+    }
 
     useEffect(() => {
         const unsubscribe = socketHandler.on('session-change', (data: SessionStateChangedSocketType) => {
@@ -42,7 +45,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
 
     const renderElement = () => {
         const sessionType = getSessionType(currentSession!);
-        return  <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
+        return <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
         // return sessionType === 'DOCUMENT'
         //     ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
         //     : <WhiteBoardScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />

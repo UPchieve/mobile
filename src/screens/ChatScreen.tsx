@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react'
 import { View, StyleSheet, FlatList, ViewToken, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native'
 import { Colors } from '../../assets/Colors';
 import { config } from '../../config';
@@ -6,25 +6,18 @@ import { ChatMessage } from '../components/atoms/chat/ChatMessage';
 import { messageUserType } from '../components/atoms/chat/ChatTypes';
 import { ChatInput } from '../components/atoms/chat/ChatInput';
 //@ts-ignore
-import io from 'socket.io-client'
 import { authService } from '../services/authService';
 import { ChatIncomingData, ChatoutcomingData } from '../interfaces/chatInterfaces';
 import { ChatItem, chatReducer } from '../reducers/chatReducer';
-import { Session, SessionType } from '../interfaces/sessionInterfaces';
+import { Session, SessionType, SessionUser } from '../interfaces/sessionInterfaces';
 import { sessionService } from '../services/sessionService';
 import { ChatTypping } from '../components/atoms/chat/ChatTypping';
 import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButton';
 import { ImageIndex } from '../../assets/ImageIndex';
 import { User } from '../models/user';
+import { AuthContext } from '../providers/AuthProvider';
 
-let chatt = [];
 
-interface Partner {
-    _id: string;
-    firstname: string;
-    isVolunteer: boolean;
-    type: string;
-}
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
     sessionId: string;
@@ -34,19 +27,14 @@ type Props = {
 export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionType }) => {
     // const { sessionId } = route.params;
 
+
     const chatListRef = useRef<FlatList<ChatItem>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
     const [chat, dispatch] = useReducer(chatReducer, []);
-    const [user, setUser] = useState<any>({});
-    const [currentSession, setCurrentSession] = useState<Session>();
-    const [partner, setPartner] = useState<Partner>();
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
-    const [socket] = useState(io(config.webSocketUrl, {
-        reconnectionDelayMax: 5000,
-    }));
 
-
+    const { socketHandler, user, currentSession } = useContext(AuthContext);
 
     const _onViewableItemsChanged = useCallback(({ viewableItems, changed }: {
         viewableItems: ViewToken[];
@@ -63,23 +51,16 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
                 }
             });
         }
-        // const currentState = chatListRef.current?.props.data;
-        // if (currentState) {
-        //     const max = viewableItems[viewableItems.length - 1];
-        //     if (max?.index && currentState[max.index].seen) {
-        //         dispatch({
-        //             type: 'chat_mark_seen',
-        //             payload: {
-        //                 chatItem: currentState[max.index],
-        //             }
-        //         });
-        //     }
-        // }
-
     }, []);
 
-    const addSocketEventListeners = (user: any) => {
-        socket.on('messageSend', (data: ChatIncomingData) => {
+    const getPartner = (): SessionUser => {
+        return (user._id === currentSession!.data.volunteer._id
+            ? currentSession!.data.student
+            : currentSession!.data.volunteer);
+    }
+
+    const addSocketEventListeners = () => {
+        socketHandler.on('messageSend', (data: ChatIncomingData) => {
             if (data.user !== user._id) {
                 dispatch({
                     type: 'chat_incoming',
@@ -88,14 +69,13 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
             }
         });
 
-        socket.on('is-typing', () => {
+        socketHandler.on('is-typing', () => {
             setIsTypping(true);
         });
 
-        socket.on('not-typing', () => {
+        socketHandler.on('not-typing', () => {
             setIsTypping(false);
         });
-
     }
 
     const scrollToEnd = () => {
@@ -104,7 +84,13 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
     }
 
     useEffect(() => {
-        chatt = chat;
+        addSocketEventListeners();
+        if (currentSession) {
+            handleSessionMessages();
+        }
+    }, []);
+
+    useEffect(() => {
         if (shouldAutoScroll) {
             setTimeout(() => {
                 chatListRef.current?.scrollToEnd();
@@ -113,7 +99,7 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
     }, [chat]);
 
     const onChatPress = (message: string) => {
-        socket.emit('message', {
+        socketHandler.emit('message', {
             sessionId: sessionId,
             user: user,
             message
@@ -130,31 +116,22 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
         setChatMessage('');
     }
 
-    const handleSetSession = (session: Session, user_id: string) => {
-        setCurrentSession(session);
-        if (user_id === session.data.volunteer._id) {
-            setPartner(session.data.student);
-        } else {
-            setPartner(session.data.volunteer);
-        }
-    }
-
     const onStartTyping = () => {
         // sessionId: this.currentSession._id
-        socket.emit('typing', {
+        socketHandler.emit('typing', {
             sessionId: currentSession?.sessionId
         });
     }
 
     const onEndTyping = () => {
-        socket.emit('notTyping', {
+        socketHandler.emit('notTyping', {
             sessionId: currentSession?.sessionId
         })
     }
 
-    const handleSessionMessages = (session: Session, user: User,) => {
+    const handleSessionMessages = () => {
         const messages: (ChatIncomingData | ChatoutcomingData)[] = [];
-        session.data.messages.forEach((message) => {
+        currentSession!.data.messages.forEach((message) => {
             if (message.user === user._id) {
                 messages.push({
                     contents: message.contents,
@@ -179,34 +156,6 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
             }
         });
     }
-
-    useEffect(() => {
-        (async () => {
-            const { user } = await authService.login();
-            setUser(user);
-            try {
-                const currentSession = await sessionService.getCurrentSession();
-                handleSetSession(currentSession, user._id);
-                handleSessionMessages(currentSession, user);
-            } catch { }
-            if (socket.connected) {
-                socket.disconnect();
-            }
-            socket.connect();
-            socket.on('connect', async () => {
-                //subscribing to events
-                addSocketEventListeners(user);
-                socket.emit(
-                    'join',
-                    {
-                        sessionId: sessionId,
-                        user,
-                        joinedFrom: '',
-                    }
-                );
-            });
-        })();
-    }, [socket]);
 
 
     const renderChatElement = ({ item }: any) => {
@@ -239,7 +188,7 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
                 />
                 <ChatNewerChatButton newerChats={chat.filter(x => x.sentByMe === false && x.seen === false).length} onPress={() => scrollToEnd()} />
                 <View style={{ height: 40, width: '100%' }}>
-                    {isTypping ? <ChatTypping userType={partner?.isVolunteer ? 'volunteer' : 'student'} /> : null}
+                    {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
                 </View>
                 <View style={styles.inputWrapper}>
                     <ChatInput value={chatMessage} setValue={setChatMessage} onPress={onChatPress} onStartTyping={onStartTyping} onEndTyping={onEndTyping} />
@@ -270,6 +219,4 @@ const styles = StyleSheet.create({
     }
 });
 
-// TODO Add the posibility to chat
 // TODO add the message when the volunteer enter to the room
-// TODO add the writing bubble

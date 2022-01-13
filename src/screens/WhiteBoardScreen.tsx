@@ -1,13 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  Text,
   SafeAreaView,
   TouchableOpacity,
   View,
-  StyleSheet, Dimensions, ScaledSize, Pressable,
+  StyleSheet, Dimensions, Pressable,
 } from 'react-native';
-import { NativeStackScreenProps } from 'react-native-screens/native-stack';
-import { MainStackParamList } from '../routes/MainStackNavigator';
 import { SvgIcons } from '../../assets/IndexIcons';
 import {
   IZwibblerTextModal,
@@ -22,9 +19,6 @@ import { ZwibblerTool } from '../types/zwibblerTypes';
 import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
-import * as ScreenOrientation from "expo-screen-orientation";
-import { DeviceMotion } from "expo-sensors";
-import { useDeviceOrientation } from '@react-native-community/hooks'
 
 // type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 type WhiteboardType = {

@@ -41,9 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
     useEffect(() => {
         loadUser();
-        console.log('hook handled.');
         socketHandler.connect();
-        console.log('connected method executed.');
         socketHandler.on('connect', () => {
             console.log('connected.');
             setConnected(true);

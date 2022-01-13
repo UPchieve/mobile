@@ -209,15 +209,20 @@ const html = `
             quill.updateContents(data.eventValue);
         } else if (data.eventType === 'setSelection') {
             cursors.moveCursor('partnerCursor', data.eventValue);
-        } else if (data.eventType === 'hideToolBar') {
+        } else if (data.eventType === 'hideToolbar') {
             const elements = document.querySelectorAll('.hiddeable');
             elements.forEach(x => {
-                if(x.style.display === 'none'){
-                    x.style.display = 'inline-block';
-                } else {
-                    x.style.display = 'none';
-                }
+                x.style.display = 'none';
             })
+        } else if (data.eventType === 'showToolbar') {
+            const elements = document.querySelectorAll('.hiddeable');
+            elements.forEach(x => {
+                x.style.display = 'inline-block';
+            })
+        } else if (data.eventType === 'blur') {
+            document.activeElement && document.activeElement.blur();
+        } else if (data.eventType === 'focus') {
+            quill.focus();
         }
     });
 

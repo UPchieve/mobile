@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, Keyboard, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native';
 
@@ -14,9 +14,9 @@ import { ImageIndex } from '../../assets/ImageIndex';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { SvgIcons } from '../../assets/IndexIcons';
 import { Colors } from '../../assets/Colors';
+import { useKeyboard } from '@react-native-community/hooks';
+import { FontIndex } from '../../assets/FontIndex';
 
-
-// type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'DocEditor'>;
 type DocEditorType = {
   sessionId: string
   onSwitchPress: () => void;
@@ -25,6 +25,8 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
   const webViewRef = useRef<WebView>(null);
   // const { sessionId } = route.params;
   const { socketHandler } = useContext(AuthContext);
+
+  const { keyboardShown } = useKeyboard();
 
   const addSocketListeners = () => {
     const l1 = socketHandler.on('quillState', ({ delta }: any) => {
@@ -44,43 +46,37 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
 
 
   useEffect(() => {
-    console.log('executed effect');
-    return () => console.log('closed efffect');
-  }, []);
+    webViewRef.current?.postMessage(JSON.stringify({ eventType: !keyboardShown ? 'hideToolbar' : 'showToolbar' }));
+  }, [keyboardShown]);
 
 
   useEffect(() => {
     let unsubscribe: any;
     (async () => {
-      // socket.disconnect();
-      console.log('Fetching the user information');
-      const { user } = await authService.login();
-      // socket.connect();
       console.log('Trying to connect to to the socket server');
       unsubscribe = addSocketListeners();
-
       //RequestQuillState
       socketHandler.emit('requestQuillState', {
         sessionId: sessionId,
       });
-
-      socketHandler.emit(
-        'join',
-        {
-          sessionId: sessionId,
-          user,
-          joinedFrom: '',
-        }
-      )
     })();
     return () => {
       unsubscribe();
     }
   }, []);
 
+  const onKeyboardActionPress = () => {
+    if(keyboardShown){
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'blur' }));
+      Keyboard.dismiss();
+    } else {
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'focus' }));
+    }
+  }
+
   useEffect(() => {
     if (webViewRef) {
-      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'hideToolBar' }));
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'hideToolbar' }));
     }
   }, [webViewRef]);
 
@@ -119,10 +115,16 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
           source={{ html: quill.html }} />
       </View>
       {/* </KeyboardAwareScrollView> */}
-      <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
-        {/* <Image source={ImageIndex.icons.chatEditor} /> */}
-        <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
-      </TouchableOpacity>
+      <View style={styles.customToolbar}>
+        {!keyboardShown
+          ? <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+            <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
+          </TouchableOpacity>
+          : <View/>}
+        <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
+          <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -140,12 +142,29 @@ const styles = StyleSheet.create({
   webView: {
     flex: 1,
   },
-  swapIcon: {
-    padding: 10,
-    borderRadius: 12,
-    backgroundColor: Colors.success,
+  customToolbar: {
     position: 'absolute',
-    top: 5,
-    right: 10,
+    top: 0,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 20,
+    height: 58,
+  },
+  swapIcon: {
+    backgroundColor: Colors.success,
+    height: 58,
+    width: 58,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textActionWrapper: {
+    justifyContent: 'center',
+  },
+  textAction: {
+    fontFamily: FontIndex.WorkSans.Regular,
+    fontSize: 16,
+    color: Colors.information,
+    alignSelf: 'center',
   }
 });

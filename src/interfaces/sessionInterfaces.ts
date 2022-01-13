@@ -6,18 +6,8 @@ export interface Session {
         subTopic: string,
         volunteerJoinedAt: Date;
         createdAt: Date;
-        student: {
-            _id: string;
-            firstname: string;
-            isVolunteer: boolean;
-            type: string;
-        },
-        volunteer: {
-            _id: string;
-            firstname: string;
-            isVolunteer: boolean;
-            type: string;
-        }
+        student: SessionUser,
+        volunteer: SessionUser,
         messages: {
             _id: string;
             user: string;
@@ -26,5 +16,10 @@ export interface Session {
         }[]
     }
 }
-
+export type SessionUser = {
+    _id: string;
+    firstname: string;
+    isVolunteer: boolean;
+    type: string;
+};
 export type SessionType = 'DOCUMENT' | 'WHITEBOARD';
