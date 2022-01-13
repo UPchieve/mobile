@@ -8,17 +8,14 @@ import { authService } from '../services/authService';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
-  const [sessionId, setSessionId] = useState('61e032e6b6721300227c8a33');
+  const [sessionId, setSessionId] = useState('61e07cddb6721300227c993f');
 
   const { socketHandler } = useContext(AuthContext);
 
   useEffect(() => {
-    authService.login().then(() => console.log('loguea2'));
+    authService.login('student@nnnp.com', 'Demostudentpassword!').then(() => console.log('loguea2'));
   }, []);
 
-  useEffect(() => {
-    console.log('connected change', socketHandler.connected);
-  }, [socketHandler.connected]);
 
   return (
     <View style={styles.container}>
@@ -42,23 +39,7 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
         disabled={sessionId.length === 0}
         onPress={() => navigation.navigate('Session', { sessionId })}
       />
-      {/* <Button
-        title="Whiteboard"
-        disabled={sessionId.length === 0}
-        onPress={() => navigation.navigate('Whiteboard', { sessionId })}
-      />
-      <View style={styles.separator} />
-      <Button
-        title="DocEditor"
-        disabled={sessionId.length === 0}
-        onPress={() => navigation.navigate('DocEditor', { sessionId })}
-      />
-      <View style={styles.separator} />
-      <Button
-        title="Chat"
-        disabled={sessionId.length === 0}
-        onPress={() => navigation.navigate('Chat', { sessionId })}
-      /> */}
+    
     </View>
   );
 };

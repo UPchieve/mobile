@@ -16,25 +16,31 @@ import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButt
 import { ImageIndex } from '../../assets/ImageIndex';
 import { User } from '../models/user';
 import { AuthContext } from '../providers/AuthProvider';
+import { delay } from '../utils/utils';
 
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
-    sessionId: string;
     onSwitchPress: () => void;
     sessionType: SessionType,
 }
-export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionType }) => {
-    // const { sessionId } = route.params;
 
+const botMessages = [
+    'Hey {0}! I’m the UPchieve Bot.',
+    'Right now, we’re searching for a live coach to pair you with. This process should take 5-10 minutes, so please be patient!',
+    'What kind of help do you need today?',
+];
+
+export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
 
     const chatListRef = useRef<FlatList<ChatItem>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
     const [chat, dispatch] = useReducer(chatReducer, []);
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
+    const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
 
-    const { socketHandler, user, currentSession } = useContext(AuthContext);
+    const { socketHandler, user, currentSession, sessionState } = useContext(AuthContext);
 
     const _onViewableItemsChanged = useCallback(({ viewableItems, changed }: {
         viewableItems: ViewToken[];
@@ -53,10 +59,10 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
         }
     }, []);
 
-    const getPartner = (): SessionUser => {
-        return (user._id === currentSession!.data.volunteer._id
-            ? currentSession!.data.student
-            : currentSession!.data.volunteer);
+    const getPartner = (): User => {
+        return (user._id !== sessionState?.volunteer?._id)
+            ? sessionState!.student
+            : sessionState!.volunteer;
     }
 
     const addSocketEventListeners = () => {
@@ -100,10 +106,11 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
 
     const onChatPress = (message: string) => {
         socketHandler.emit('message', {
-            sessionId: sessionId,
+            sessionId: sessionState?._id,
             user: user,
             message
         });
+        console.log('message emitted');
         dispatch({
             type: 'chat_outcoming',
             payload: {
@@ -129,7 +136,31 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
         })
     }
 
-    const handleSessionMessages = () => {
+
+    const handleSessionMessages = async () => {
+        if (!sessionState?.volunteer) {
+            for (const msg of botMessages) {
+                try {
+                    setChatbotIsTyping(true);
+                    await delay(2000);
+                    dispatch({
+                        type: 'chat_incoming',
+                        payload: {
+                            contents: msg.replace('{0}', user.firstname),
+                            createdAt: new Date().toISOString(),
+                            isVolunteer: false,
+                            user: 'chatbot',
+                            seen: true,
+                        }
+                    });
+                } catch { }
+                finally {
+                    setChatbotIsTyping(false);
+                    await delay(1000);
+                }
+            }
+            return;
+        }
         const messages: (ChatIncomingData | ChatoutcomingData)[] = [];
         currentSession!.data.messages.forEach((message) => {
             if (message.user === user._id) {
@@ -159,7 +190,12 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
 
 
     const renderChatElement = ({ item }: any) => {
-        const userType: messageUserType = item.isVolunteer ? 'volunteer' : 'student';
+        let userType: messageUserType;
+        if (item.user === 'chatbot') {
+            userType = 'chatbot';
+        } else {
+            userType = item.isVolunteer ? 'volunteer' : 'student';
+        }
         return <View style={{ marginTop: 15, width: '100%', alignItems: 'center' }}>
             <ChatMessage text={item.text} userType={userType} time={item.time} sentByMe={item.sentByMe} lastMessage={item.lastMessage} />
         </View>
@@ -188,6 +224,7 @@ export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionT
                 />
                 <ChatNewerChatButton newerChats={chat.filter(x => x.sentByMe === false && x.seen === false).length} onPress={() => scrollToEnd()} />
                 <View style={{ height: 40, width: '100%' }}>
+                    {chatBotIsTyping ? <ChatTypping userType='chatbot' /> : null}
                     {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
                 </View>
                 <View style={styles.inputWrapper}>

@@ -9,8 +9,8 @@ type showPromptType = {
     text: string,
     icon: SvgFC | React.FC
     type: PrimaryColorType,
-    onConfirm?: (() => void) | Promise<void>;
-    onCancel?: (() => void) | Promise<void>;
+    onConfirm?: (() => void) | (() => Promise<void>),
+    onCancel?: (() => void) | (() => Promise<void>),
     confirmText?: string,
     cancelText?: string,
     coloredIcon?: boolean,
@@ -34,19 +34,20 @@ export const AlertProvider: React.FC = ({ children }) => {
             visible: true,
             title, text, icon, type,
             actionButtonPress: async () => {
-                if (onConfirm instanceof Promise) {
-                    onConfirm.then(() => hideAlert());
+                if (onConfirm.constructor.name == 'AsyncFunction') {
+                    await onConfirm();
                 } else {
-                    hideAlert();
+                    onConfirm();
                 }
+                hideAlert();
             },
             cancelButtonPress: async () => {
-                if (onCancel instanceof Promise) {
-                    onCancel.then(() => hideAlert());
+                if (onCancel.constructor.name == 'AsyncFunction') {
+                    await onCancel();
                 } else {
                     onCancel();
-                    hideAlert();
                 }
+                hideAlert();
             },
             coloredIcon,
             actionButtonText: confirmText,

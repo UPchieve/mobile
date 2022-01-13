@@ -13,6 +13,6 @@ export type SessionStateChangedSocketType = {
     type: "math",
     subTopic: string,
     toReview: false,
-    volunteer: User
+    volunteer?: User
     volunteerJoinedAt: string
 }

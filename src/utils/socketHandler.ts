@@ -7,7 +7,7 @@ export interface SocketHandlerType {
     disconnected: boolean;
     connect: () => void;
     disconnect: () => void;
-    on: (event: string, eventHandler: (payload?: object) => void) => void;
+    on: (event: string, eventHandler: (payload?: any) => void) => void;
     off: (event: string) => (() => void);
     emit: (event: string, payload?: object) => void;
 }

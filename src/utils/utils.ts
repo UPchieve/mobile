@@ -20,6 +20,13 @@ export const getSessionType = (session: Session): SessionType => {
 }
 
 export const isSessionEnded = (sessionState?: SessionStateChangedSocketType) => {
-    console.log('sessionstate',!sessionState?.endedAt);
     return !!sessionState?.endedAt;
+}
+
+export const delay = (time: number): Promise<void> => {
+    return new Promise<void>((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
 }

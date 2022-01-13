@@ -7,6 +7,7 @@ const getCurrentSession = async (): Promise<Session> => {
 }
 
 const endSession = async (sessionId: string): Promise<void> => {
+    console.log('execurted');
     const { data } = await http.post('/api/session/end', {
         sessionId,
     });

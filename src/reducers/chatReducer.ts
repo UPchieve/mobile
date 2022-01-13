@@ -42,6 +42,8 @@ export interface ChatItem {
     seen?: boolean,
 }
 
+
+
 export const chatReducer = (state: ChatItem[] = [], action: Action): ChatItem[] => {
     switch (action.type) {
         case 'chat_incoming': return handleChatIncoming(state, action.payload);

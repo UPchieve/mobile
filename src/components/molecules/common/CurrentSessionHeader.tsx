@@ -8,44 +8,56 @@ import { SvgIcons } from '../../../../assets/IndexIcons';
 import { AlertContext } from '../../../providers/AlertProvider';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { sessionService } from '../../../services/sessionService';
+import { isSessionEnded } from '../../../utils/utils';
 
-type SessionHeaderType = {
-    isSessionEnded?: boolean;
-};
-export const CurrentSessionHeader: React.FC<SessionHeaderType> = ({ isSessionEnded }) => {
-    const { user, currentSession } = useContext(AuthContext);
+export const CurrentSessionHeader: React.FC = () => {
+
+
+    const { user, sessionState } = useContext(AuthContext);
     const { showPrompt } = useContext(AlertContext);
 
+    const isSessionStarted = () => !!sessionState?.volunteer;
 
     const handleButtonClick = async () => {
-        if (!isSessionEnded) {
+        if (!isSessionEnded(sessionState)) {
             showPrompt({
                 title: 'End Session',
                 text: 'Are you sure you want to end the session?',
                 icon: SvgIcons.StopIcon,
                 type: 'error',
                 confirmText: 'End',
-                onConfirm: new Promise<void>((resolve) => {setTimeout(() => resolve(), 5000)}),
+                onConfirm: async () => await sessionService.endSession(sessionState!._id),
                 cancelText: 'Not Now'
             })
-            // console.log(currentSession);
-            // await sessionService.endSession(currentSession!.sessionId);
         }
     }
 
-    return <View style={[styles.container, isSessionEnded && styles.containerSessionEnded]}>
-        {!isSessionEnded ?
+    const getTitleText = () => {
+        if (!isSessionStarted()) {
+            return 'UPchieve Bot'
+        }
+        return !user.isVolunteer ? 'Volunteer' : 'Student';
+    }
+
+    const renderImage = () => {
+        if (!isSessionStarted()) {
+            return ImageIndex.avatars.chatbot;
+        }
+        return !user.isVolunteer ? ImageIndex.avatars.volunteer : ImageIndex.avatars.student;
+    }
+
+    return <View style={[styles.container, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
+        {!isSessionEnded(sessionState) ?
             <View style={styles.userContainer}>
-                <Image style={styles.icon}
-                    source={user.isVolunteer ? ImageIndex.avatars.volunteer : ImageIndex.avatars.student} />
+                <Image style={styles.icon} source={renderImage()} />
                 <View style={styles.textWrapper}>
-                    <Text style={styles.titleText}>{user.isVolunteer ? 'Volunteer' : 'Student'}</Text>
-                    <Text style={styles.inSessionText}>In Session</Text>
+                    <Text style={styles.titleText}>{getTitleText()}</Text>
+                    <Text style={styles.inSessionText}>{isSessionStarted() ? 'In Session' : 'Contacting coaches...'}</Text>
                 </View>
             </View>
             : <Text style={styles.titleText}>Session Ended</Text>
         }
-        {isSessionEnded && user.isVolunteer ? <Text style={styles.reportText}>Report</Text> : null}
+        {isSessionEnded(sessionState) && user.isVolunteer ? <Text style={styles.reportText}>Report</Text> : null}
         <Pressable style={styles.buttonWrapper} onPress={handleButtonClick}>
             <Text style={styles.buttonTextStyle}>{!isSessionEnded ? 'End Session' : 'Leave'}</Text>
         </Pressable>
@@ -103,5 +115,5 @@ const styles = StyleSheet.create({
         color: '#FFFF',
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 16,
-    }
+    },
 });
