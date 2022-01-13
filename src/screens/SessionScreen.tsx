@@ -51,7 +51,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
             <CommonKeyboardAvoidingView style={{ flex: 1, }}>
                 <CurrentSessionHeader />
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
-                    <ChatScreen sessionId={sessionId} onSwitchPress={onSwitchPress} sessionType={getSessionType(currentSession!)} />
+                    <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(currentSession!)} />
                 </View>
                 <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
                     {renderElement()}

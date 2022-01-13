@@ -33,8 +33,14 @@ const getCurrentUser = async (): Promise<Student | Volunteer | null> => {
   return null;
 }
 
+const logout = async (): Promise<void> => {
+  const { data } = await http.get('/auth/logout');
+  return data;
+}
+
 export const authService = {
   login,
   login2,
   getCurrentUser,
+  logout,
 }

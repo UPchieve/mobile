@@ -6,6 +6,7 @@ export type SessionStateChangedSocketType = {
     endedAt?: string,
     endedBy?: string,
     failedJoins: [],
+    messages: SessionMessage[],
     flags: [],
     isReported: boolean,
     isStudentBanned: boolean,
@@ -14,5 +15,12 @@ export type SessionStateChangedSocketType = {
     subTopic: string,
     toReview: false,
     volunteer?: User
-    volunteerJoinedAt: string
+    volunteerJoinedAt?: string
+}
+
+export interface SessionMessage {
+    _id: string;
+    user: string;
+    contents: string;
+    createdAt: string;
 }

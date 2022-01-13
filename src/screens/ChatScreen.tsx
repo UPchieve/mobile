@@ -1,22 +1,21 @@
 import React, { useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react'
-import { View, StyleSheet, FlatList, ViewToken, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native'
+import { View, StyleSheet, FlatList, ViewToken, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Image, Text } from 'react-native'
 import { Colors } from '../../assets/Colors';
-import { config } from '../../config';
 import { ChatMessage } from '../components/atoms/chat/ChatMessage';
 import { messageUserType } from '../components/atoms/chat/ChatTypes';
 import { ChatInput } from '../components/atoms/chat/ChatInput';
 //@ts-ignore
-import { authService } from '../services/authService';
 import { ChatIncomingData, ChatoutcomingData } from '../interfaces/chatInterfaces';
-import { ChatItem, chatReducer } from '../reducers/chatReducer';
-import { Session, SessionType, SessionUser } from '../interfaces/sessionInterfaces';
-import { sessionService } from '../services/sessionService';
+import { chatReducer, ChatType } from '../reducers/chatReducer';
+import { SessionType } from '../interfaces/sessionInterfaces';
 import { ChatTypping } from '../components/atoms/chat/ChatTypping';
 import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButton';
 import { ImageIndex } from '../../assets/ImageIndex';
 import { User } from '../models/user';
 import { AuthContext } from '../providers/AuthProvider';
 import { delay } from '../utils/utils';
+import { FontIndex } from '../../assets/FontIndex';
+import { usePrevious } from '../hooks/usePrevious';
 
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
@@ -33,29 +32,32 @@ const botMessages = [
 
 export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
 
-    const chatListRef = useRef<FlatList<ChatItem>>(null);
+    const chatListRef = useRef<FlatList<ChatType>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
     const [chat, dispatch] = useReducer(chatReducer, []);
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
 
-    const { socketHandler, user, currentSession, sessionState } = useContext(AuthContext);
+    const { socketHandler, user, sessionState } = useContext(AuthContext);
+    const previousSessionState = usePrevious(sessionState);
 
     const _onViewableItemsChanged = useCallback(({ viewableItems, changed }: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
     }) => {
-
         const currentState = chatListRef.current?.props.data;
         const max = viewableItems[viewableItems.length - 1];
+        //@ts-ignore
         if (!currentState![max.index!].seen) {
-            dispatch({
-                type: 'chat_mark_seen',
-                payload: {
-                    chatItem: currentState![max.index!],
-                }
-            });
+            if (currentState![max.index!].type === 'message') {
+                dispatch({
+                    type: 'chat_mark_seen',
+                    payload: {
+                        chatItem: currentState![max.index!],
+                    }
+                });
+            }
         }
     }, []);
 
@@ -91,10 +93,33 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
 
     useEffect(() => {
         addSocketEventListeners();
-        if (currentSession) {
+        if (sessionState) {
             handleSessionMessages();
         }
     }, []);
+
+    useEffect(() => {
+        if (sessionState && previousSessionState) {
+            console.log('sessionState', sessionState);
+            console.log('previousSessionState', previousSessionState);
+            console.log('isvolunteer', user.isVolunteer);
+            if (!!sessionState.volunteerJoinedAt && !previousSessionState.volunteerJoinedAt) {
+                if(user.isVolunteer === false){
+                    dispatch({
+                        type: 'chat_add_text',
+                        payload: 'A Volunteer has entered the chat room',
+                    });
+                }
+            } else if(sessionState?.endedBy === sessionState.student._id){
+                if(user.isVolunteer === true){
+                    dispatch({
+                        type: 'chat_add_text',
+                        payload: 'Student has left the chat room'
+                    });
+                }
+            }
+        }
+    }, [sessionState]);
 
     useEffect(() => {
         if (shouldAutoScroll) {
@@ -110,7 +135,6 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
             user: user,
             message
         });
-        console.log('message emitted');
         dispatch({
             type: 'chat_outcoming',
             payload: {
@@ -124,21 +148,20 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
     }
 
     const onStartTyping = () => {
-        // sessionId: this.currentSession._id
         socketHandler.emit('typing', {
-            sessionId: currentSession?.sessionId
+            sessionId: sessionState?._id
         });
     }
 
     const onEndTyping = () => {
         socketHandler.emit('notTyping', {
-            sessionId: currentSession?.sessionId
+            sessionId: sessionState?._id
         })
     }
 
 
     const handleSessionMessages = async () => {
-        if (!sessionState?.volunteer) {
+        if (!sessionState?.volunteer && user.isVolunteer === false) {
             for (const msg of botMessages) {
                 try {
                     setChatbotIsTyping(true);
@@ -161,8 +184,9 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
             }
             return;
         }
+
         const messages: (ChatIncomingData | ChatoutcomingData)[] = [];
-        currentSession!.data.messages.forEach((message) => {
+        sessionState!.messages.forEach((message) => {
             if (message.user === user._id) {
                 messages.push({
                     contents: message.contents,
@@ -189,16 +213,22 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
     }
 
 
-    const renderChatElement = ({ item }: any) => {
-        let userType: messageUserType;
-        if (item.user === 'chatbot') {
-            userType = 'chatbot';
+    const renderChatElement = ({ item }: { item: ChatType }) => {
+        if (item.type === 'message') {
+            let userType: messageUserType;
+            if (item.user === 'chatbot') {
+                userType = 'chatbot';
+            } else {
+                userType = item.isVolunteer ? 'volunteer' : 'student';
+            }
+            return <View style={{ marginTop: 15, width: '100%', alignItems: 'center' }}>
+                <ChatMessage text={item.text} userType={userType} time={item.time} sentByMe={item.sentByMe} lastMessage={item.lastMessage} />
+            </View>
         } else {
-            userType = item.isVolunteer ? 'volunteer' : 'student';
+            return <View style={{ marginTop: 15, width: '100%', alignItems: 'center' }}>
+                <Text style={styles.chatTextInfo}>{item.text}</Text>
+            </View>
         }
-        return <View style={{ marginTop: 15, width: '100%', alignItems: 'center' }}>
-            <ChatMessage text={item.text} userType={userType} time={item.time} sentByMe={item.sentByMe} lastMessage={item.lastMessage} />
-        </View>
     }
 
     const onScrollEndDrag = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -219,10 +249,10 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
                     onViewableItemsChanged={_onViewableItemsChanged}
                     onScrollEndDrag={onScrollEndDrag}
                     renderItem={renderChatElement}
-                    keyExtractor={(item) => item.time.toISOString() + item.isVolunteer + item.lastMessage + item.sentByMe}
+                    keyExtractor={(item, index) => index.toString()}
                     bounces={false}
                 />
-                <ChatNewerChatButton newerChats={chat.filter(x => x.sentByMe === false && x.seen === false).length} onPress={() => scrollToEnd()} />
+                <ChatNewerChatButton newerChats={chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length} onPress={() => scrollToEnd()} />
                 <View style={{ height: 40, width: '100%' }}>
                     {chatBotIsTyping ? <ChatTypping userType='chatbot' /> : null}
                     {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
@@ -253,6 +283,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         left: 10,
+    },
+    chatTextInfo: {
+        fontFamily: FontIndex.WorkSans.Regular,
+        fontSize: 14,
+        marginTop: 15,
+        color: Colors.secondaryGray,
+        textAlign: 'center',
     }
 });
 

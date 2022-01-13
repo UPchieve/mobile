@@ -15,6 +15,7 @@ interface SocketHandlerType {
 export interface AuthContext {
     socketHandler: SocketHandlerType,
     user: User,
+    refreshUser: () => void,
     currentSession?: Session,
     sessionState?: SessionStateChangedSocketType,
 }
@@ -57,6 +58,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         user,
         currentSession,
         sessionState,
+        refreshUser: () => loadUser()
     }}>
         {children}
     </AuthContext.Provider>

@@ -4,8 +4,9 @@ import { User } from "../models/user";
 import { Message } from "../components/atoms/chat/ChatTypes";
 
 interface ChatMarkSeenPayload {
-    chatItem: ChatItem,
+    chatItem: ChatType,
 }
+
 interface ChatSessionOpenedPayload {
     userId: string,
     messages: (ChatIncomingData | ChatoutcomingData)[]
@@ -19,6 +20,10 @@ interface ChatOutcomingAction {
     payload: ChatOutcomingData
 }
 
+interface ChatAddText {
+    type: 'chat_add_text',
+    payload: string,
+}
 interface ChatSessionOpenedAction {
     type: 'chat_session_open',
     payload: ChatSessionOpenedPayload
@@ -30,9 +35,16 @@ interface ChatMarkSeenAction {
 }
 
 
-type Action = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction | ChatSessionOpenedAction;
+type Action = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction | ChatSessionOpenedAction | ChatAddText;
+
+export interface TextItem {
+    type: 'text',
+    text: string,
+    time: Date,
+}
 
 export interface ChatItem {
+    type: 'message',
     sentByMe: boolean,
     text: string,
     time: Date,
@@ -42,63 +54,43 @@ export interface ChatItem {
     seen?: boolean,
 }
 
+export type ChatType = ChatItem | TextItem
 
 
-export const chatReducer = (state: ChatItem[] = [], action: Action): ChatItem[] => {
+export const chatReducer = (state: ChatType[] = [], action: Action): ChatType[] => {
     switch (action.type) {
         case 'chat_incoming': return handleChatIncoming(state, action.payload);
         case 'chat_outcoming': return handleChatOutcoming(state, action.payload);
         case 'chat_mark_seen': return handleChatMarkSeen(state, action.payload);
         case 'chat_session_open': return handleChatSession(state, action.payload);
+        case 'chat_add_text': return handleChatAddText(state, action.payload);
     }
 }
 
-const handleChatOutcoming = (state: ChatItem[], payload: ChatOutcomingData): ChatItem[] => {
-    let newMessage = false;
-    const messageDate = new Date();
-    if (state.length > 0 && state[state.length - 1].user === payload.user) {
-        const diff = dayjs(state[state.length - 1].time).diff(messageDate, 'm');
-        if (diff !== 0) {
-            newMessage = true;
+const isNewMessage = (state: ChatType[], payload: { user: string, messageDate: Date }) => {
+    if (state.length > 0) {
+        const previousState = state[state.length - 1];
+        if (previousState.type === 'text') {
+            return true;
+        } else if (previousState.user === payload.user) {
+            const diff = dayjs(previousState.time).diff(payload.messageDate, 'm');
+            return diff !== 0;
         }
-    } else {
-        newMessage = true;
     }
+    return true;
+}
+
+const handleChatOutcoming = (state: ChatType[], payload: ChatOutcomingData): ChatType[] => {
+    const messageDate = new Date();
+    const newMessage = isNewMessage(state, { user: payload.user, messageDate });
     const newChat: ChatItem = {
+        type: 'message',
         sentByMe: true,
         isVolunteer: payload.isVolunteer,
         lastMessage: true,
         text: payload.contents,
         time: messageDate,
         user: payload.user,
-    }
-    if (!newMessage) {
-        const penUltimate = { ...state[state.length - 1], lastMessage: false, };
-        return [...state.slice(0, state.length - 1), penUltimate, newChat];
-    }
-    return [...state, newChat];
-}
-
-const handleChatIncoming = (state: ChatItem[], payload: ChatIncomingData): ChatItem[] => {
-    let newMessage = false;
-    //check if the last message is from the same person.
-    if (state.length > 0 && state[state.length - 1].user === payload.user) {
-        //check dates
-        const diff = dayjs(state[state.length - 1].time).diff(payload.createdAt, 'm');
-        if (diff !== 0) {
-            newMessage = true;
-        }
-    } else {
-        newMessage = true;
-    }
-    const newChat: ChatItem = {
-        sentByMe: false,
-        isVolunteer: payload.isVolunteer,
-        lastMessage: true,
-        text: payload.contents,
-        time: new Date(payload.createdAt),
-        user: payload.user,
-        seen: payload.seen === undefined ? true : payload.seen,
     };
     if (!newMessage) {
         const penUltimate = { ...state[state.length - 1], lastMessage: false, };
@@ -107,7 +99,29 @@ const handleChatIncoming = (state: ChatItem[], payload: ChatIncomingData): ChatI
     return [...state, newChat];
 }
 
-const handleChatMarkSeen = (state: ChatItem[], payload: ChatMarkSeenPayload): ChatItem[] => {
+const handleChatIncoming = (state: ChatType[], payload: ChatIncomingData): ChatType[] => {
+    const newMessage = isNewMessage(state, { user: payload.user, messageDate: new Date(payload.createdAt) });
+    const newChat: ChatItem = {
+        type: 'message',
+        sentByMe: false,
+        isVolunteer: payload.isVolunteer,
+        lastMessage: true,
+        text: payload.contents,
+        time: new Date(payload.createdAt),
+        user: payload.user,
+        seen: payload.seen === undefined ? true : payload.seen,
+    };
+
+    if (!newMessage) {
+        const penUltimate = { ...state[state.length - 1], lastMessage: false, };
+        return [...state.slice(0, state.length - 1), penUltimate, newChat];
+    }
+    return [...state, newChat];
+}
+
+const handleChatMarkSeen = (state: ChatType[], payload: ChatMarkSeenPayload): ChatType[] => {
+    console.log('marking seen..');
+
     return state.map(x => {
         if (x === payload.chatItem) {
             return { ...x, seen: true };
@@ -116,7 +130,7 @@ const handleChatMarkSeen = (state: ChatItem[], payload: ChatMarkSeenPayload): Ch
     });
 }
 
-const handleChatSession = (state: ChatItem[], payload: ChatSessionOpenedPayload): ChatItem[] => {
+const handleChatSession = (state: ChatType[], payload: ChatSessionOpenedPayload): ChatType[] => {
     const newState: ChatItem[] = [];
     for (let i = 0; i < payload.messages.length; i++) {
         const message = payload.messages[i];
@@ -130,6 +144,7 @@ const handleChatSession = (state: ChatItem[], payload: ChatSessionOpenedPayload)
             newMessage = true;
         }
         newState.push({
+            type: 'message',
             sentByMe: payload.userId === message.user,
             isVolunteer: message.isVolunteer,
             lastMessage: true,
@@ -143,4 +158,13 @@ const handleChatSession = (state: ChatItem[], payload: ChatSessionOpenedPayload)
         }
     }
     return newState;
+}
+
+const handleChatAddText = (state: ChatType[], payload: string): ChatType[] => {
+    const newItem: TextItem = {
+        type: 'text',
+        text: payload,
+        time: new Date(),
+    }
+    return [...state, newItem];
 }
