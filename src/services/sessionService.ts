@@ -6,6 +6,14 @@ const getCurrentSession = async (): Promise<Session> => {
     return response.data;
 }
 
+const endSession = async (sessionId: string): Promise<void> => {
+    const { data } = await http.post('/api/session/end', {
+        sessionId,
+    });
+    return data;
+}
+
 export const sessionService = {
     getCurrentSession,
+    endSession
 }

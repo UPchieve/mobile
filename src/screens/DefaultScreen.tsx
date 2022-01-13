@@ -2,40 +2,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, View, StyleSheet, TextInput } from 'react-native';
 import { MainStackParamList } from '../routes/MainStackNavigator';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
-import axios from 'axios';
 import { Colors } from '../../assets/Colors';
-import { useSocket } from '../hooks/useSocket';
-import { SocketContextComponent } from '../providers/SocketProvider';
+import { AuthContext, } from '../providers/AuthProvider';
 import { authService } from '../services/authService';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
-  const [sessionId, setSessionId] = useState('61df386ab6721300227c7043');
-  // useEffect(() => {
-  //   const url = `https://demo.upchieve.org`;
-  //   axios.post(`${url}/auth/login`, {
-  //       "email": "volunteer@nnnp.com",
-  //       "password": "Demovolunteerpassword!"
-  //   }).then(response => {
-  //       console.log('logged in');
-  //       const socket = io(url);
-  //       socket.connect();
-  //       setTimeout(() => console.log(socket.connected), 5000);
-  //   });
-  // }, []);
+  const [sessionId, setSessionId] = useState('61e032e6b6721300227c8a33');
 
-  
-  const { connected } = useContext(SocketContextComponent);
-  
+  const { socketHandler } = useContext(AuthContext);
+
   useEffect(() => {
     authService.login().then(() => console.log('loguea2'));
   }, []);
 
-  // const { on, connected } = useSocket();
   useEffect(() => {
-   console.log('connected change', connected);
-  }, [connected]);
-  
+    console.log('connected change', socketHandler.connected);
+  }, [socketHandler.connected]);
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -54,6 +38,11 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
       />
       <View style={[styles.separator, { borderBottomWidth: 2, borderBottomColor: 'black' }]} />
       <Button
+        title="Join"
+        disabled={sessionId.length === 0}
+        onPress={() => navigation.navigate('Session', { sessionId })}
+      />
+      {/* <Button
         title="Whiteboard"
         disabled={sessionId.length === 0}
         onPress={() => navigation.navigate('Whiteboard', { sessionId })}
@@ -69,7 +58,7 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
         title="Chat"
         disabled={sessionId.length === 0}
         onPress={() => navigation.navigate('Chat', { sessionId })}
-      />
+      /> */}
     </View>
   );
 };

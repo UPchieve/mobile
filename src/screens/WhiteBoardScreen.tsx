@@ -4,7 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   View,
-  StyleSheet, Dimensions, ScaledSize,
+  StyleSheet, Dimensions, ScaledSize, Pressable,
 } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import { MainStackParamList } from '../routes/MainStackNavigator';
@@ -26,12 +26,12 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import { DeviceMotion } from "expo-sensors";
 import { useDeviceOrientation } from '@react-native-community/hooks'
 
-type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
-export const WhiteBoardScreen: React.FC<WhiteboardType> = ({route}) => {
-  const {sessionId} = route.params;
-  // const session = '61d6ed8510a97c0022ab6330';
-  // const getSessionRoom = (): string => `sessions-${session}`;
-
+// type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
+type WhiteboardType = {
+  sessionId: string,
+  onSwitchPress: () => void;
+}
+export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchPress}) => {
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
@@ -153,9 +153,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({route}) => {
     if (orientation === "PORTRAIT") {
       return <MenuProvider>
         <View style={styles.topToolsWrapper}>
-          <View style={styles.chatIconWrapper}>
+          <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
             <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
-          </View>
+          </Pressable>
           <View style={styles.rightTopPanelWrapper}>
             <TouchableOpacity onPress={zwibblerManager?.undo}>
               <SvgIcons.UndoIcon stroke={'gray'} style={{ marginRight: 30 }} />
@@ -187,9 +187,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({route}) => {
     } else {
       return <MenuProvider>
         <View style={styles.topToolsWrapper}>
-          <View style={styles.chatIconWrapper}>
+          <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
             <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
-          </View>
+          </Pressable>
           <View style={styles.rightTopPanelWrapper}>
             <View style={styles.topToolsWrapperLandscape}>
               <WhiteboardToolsMenu

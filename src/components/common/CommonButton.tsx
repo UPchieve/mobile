@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
+  ActivityIndicator,
 } from 'react-native';
 import { Colors, PrimaryColorType } from '../../../assets/Colors';
 import { FontIndex } from "../../../assets/FontIndex";

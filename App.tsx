@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { MainStackNavigator } from './src/routes/MainStackNavigator';
-import { LoginScreen } from './src/screens/LoginScreen';
-import { DeviceMotion } from "expo-sensors";
-import * as ScreenOrientation from 'expo-screen-orientation';
-import { SocketProvider } from './src/providers/SocketProvider';
-import axios from 'axios';
-import { authService } from './src/services/authService';
-import { FeedbackForm1Screen } from './src/screens/FeedbackForm1Screen';
+import React, { useEffect } from 'react';
+import { AuthProvider } from './src/providers/AuthProvider';
 import { useFonts } from 'expo-font';
 import { Text, View } from 'react-native';
-import { ChatScreen } from './src/screens/ChatScreen';
+import { SessionScreen } from './src/screens/SessionScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { MainStackNavigator } from './src/routes/MainStackNavigator';
+import { AlertProvider } from './src/providers/AlertProvider';
 
 export default function App() {
 
@@ -34,11 +29,14 @@ export default function App() {
   }
 
   return (
-    <SocketProvider>
-      <NavigationContainer>
-      <MainStackNavigator />
-       {/* <FeedbackForm1Screen /> */}
-      </NavigationContainer>
-    </SocketProvider>
+    <AlertProvider>
+      <AuthProvider>
+        <NavigationContainer>
+          <MainStackNavigator />
+          {/* <FeedbackForm1Screen /> */}
+          {/* <SessionScreen/> */}
+        </NavigationContainer>
+      </AuthProvider>
+    </AlertProvider>
   );
 }

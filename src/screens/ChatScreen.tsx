@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react'
-import { View, StyleSheet, FlatList, Text, ViewToken, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Image, KeyboardAvoidingView } from 'react-native'
+import { View, StyleSheet, FlatList, ViewToken, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native'
 import { Colors } from '../../assets/Colors';
 import { config } from '../../config';
 import { ChatMessage } from '../components/atoms/chat/ChatMessage';
@@ -10,40 +10,29 @@ import io from 'socket.io-client'
 import { authService } from '../services/authService';
 import { ChatIncomingData, ChatoutcomingData } from '../interfaces/chatInterfaces';
 import { ChatItem, chatReducer } from '../reducers/chatReducer';
-import { Session } from '../interfaces/sessionInterfaces';
+import { Session, SessionType } from '../interfaces/sessionInterfaces';
 import { sessionService } from '../services/sessionService';
 import { ChatTypping } from '../components/atoms/chat/ChatTypping';
 import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButton';
 import { ImageIndex } from '../../assets/ImageIndex';
 import { User } from '../models/user';
-import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
-import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack';
-import { MainStackParamList } from '../routes/MainStackNavigator';
-import { CurrentSessionHeader, } from '../components/molecules/common/CurrentSessionHeader';
 
 let chatt = [];
-const auxiliaryType = (session?: Session): 'DOCUMENT' | 'WHITEBOARD' => {
-    const documentEditorSubTopics = [
-        'planning',
-        'essays',
-        'applications',
-        'satReading',
-        'humanitiesEssays'
-    ]
-    if (session && documentEditorSubTopics.includes(session.data.subTopic))
-        return 'DOCUMENT'
-    else return 'WHITEBOARD'
-}
+
 interface Partner {
     _id: string;
     firstname: string;
     isVolunteer: boolean;
     type: string;
 }
-type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
-export const ChatScreen: React.FC<Props> = ({ route }) => {
-    const { sessionId } = route.params;
-    console.log(sessionId);
+// type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
+type Props = {
+    sessionId: string;
+    onSwitchPress: () => void;
+    sessionType: SessionType,
+}
+export const ChatScreen: React.FC<Props> = ({ sessionId, onSwitchPress, sessionType }) => {
+    // const { sessionId } = route.params;
 
     const chatListRef = useRef<FlatList<ChatItem>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
@@ -115,11 +104,8 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
     }
 
     useEffect(() => {
-        console.log('state updated.');
-        console.log('efecto', chat.length);
         chatt = chat;
         if (shouldAutoScroll) {
-            console.log('scrolling. ');
             setTimeout(() => {
                 chatListRef.current?.scrollToEnd();
             }, 300);
@@ -127,7 +113,6 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
     }, [chat]);
 
     const onChatPress = (message: string) => {
-        console.log('on chatting', user._id)
         socket.emit('message', {
             sessionId: sessionId,
             user: user,
@@ -156,7 +141,6 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
 
     const onStartTyping = () => {
         // sessionId: this.currentSession._id
-        console.log('start tiping.');
         socket.emit('typing', {
             sessionId: currentSession?.sessionId
         });
@@ -210,7 +194,6 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
             }
             socket.connect();
             socket.on('connect', async () => {
-                console.log('Socket connected.')
                 //subscribing to events
                 addSocketEventListeners(user);
                 socket.emit(
@@ -242,9 +225,8 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
     }
 
     return (
-        <CommonKeyboardAvoidingView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
             <View style={styles.container}>
-                <CurrentSessionHeader isVolunteer={true} isSessionEnded={false} />
                 <FlatList
                     style={{ paddingRight: 40, }}
                     ref={chatListRef}
@@ -262,11 +244,11 @@ export const ChatScreen: React.FC<Props> = ({ route }) => {
                 <View style={styles.inputWrapper}>
                     <ChatInput value={chatMessage} setValue={setChatMessage} onPress={onChatPress} onStartTyping={onStartTyping} onEndTyping={onEndTyping} />
                 </View>
-                <TouchableOpacity style={styles.swapIcon}>
-                    <Image source={auxiliaryType(currentSession) === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} width={42} height={40} />
+                <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} width={42} height={40} />
                 </TouchableOpacity>
             </View>
-        </CommonKeyboardAvoidingView>
+        </View>
     )
 }
 

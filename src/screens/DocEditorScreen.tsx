@@ -1,49 +1,41 @@
-import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, ViewStyle } from 'react-native';
+import React, { useContext, useEffect, useRef } from 'react';
+import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native';
-import QuillEditor, {
-  EditorChangeData,
-  EditorEventHandler,
-  QuillToolbar,
-} from 'react-native-cn-quill';
-import { SelectionChangeData, SelectionChangeHandler } from 'react-native-cn-quill/lib/typescript/constants/editor-event';
 
 //@ts-ignore
-import { config } from '../../config';
 import { authService } from '../services/authService';
 import WebView, { WebViewMessageEvent } from "react-native-webview";
-import { Colors } from "../../assets/Colors";
-import { SvgIcons } from "../../assets/IndexIcons";
-import { ToolbarComponent } from "../components/toolbar/ToolbarComponent";
 import { quill } from "../../assets/quill-editor/quill";
-import { ZwibblerTool } from "../types/zwibblerTypes";
-import { QuillTypes } from "../types/quillTypes";
-import { ZwibblerManager } from "../../assets/zwibbler/zwibbler";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { QuillEditorEvent } from "../types/WebViewTypes";
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainStackParamList } from '../routes/MainStackNavigator';
-import { SocketContextComponent } from '../providers/SocketProvider';
-import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../providers/AuthProvider';
+import { ImageIndex } from '../../assets/ImageIndex';
+import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
+import { SvgIcons } from '../../assets/IndexIcons';
+import { Colors } from '../../assets/Colors';
 
 
-type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'DocEditor'>;
-export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
+// type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'DocEditor'>;
+type DocEditorType = {
+  sessionId: string
+  onSwitchPress: () => void;
+}
+export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPress }) => {
   const webViewRef = useRef<WebView>(null);
-  const { sessionId } = route.params;
-  const { connected, on, emit } = useContext(SocketContextComponent);
+  // const { sessionId } = route.params;
+  const { socketHandler } = useContext(AuthContext);
 
   const addSocketListeners = () => {
-    const l1 = on('quillState', ({ delta }: any) => {
+    const l1 = socketHandler.on('quillState', ({ delta }: any) => {
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'setContents', eventValue: delta }));
     });
 
-    const l2 = on('partnerQuillDelta', ({ delta }: any) => {
+    const l2 = socketHandler.on('partnerQuillDelta', ({ delta }: any) => {
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'updateContents', eventValue: delta }));
     });
 
-    const l3 = on('quillPartnerSelection', ({ range }: any) => {
+    const l3 = socketHandler.on('quillPartnerSelection', ({ range }: any) => {
       console.log('range', range);
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'setSelection', eventValue: range }));
     })
@@ -52,11 +44,12 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
 
 
   useEffect(() => {
-
+    console.log('executed effect');
+    return () => console.log('closed efffect');
   }, []);
 
 
-  useFocusEffect(() => {
+  useEffect(() => {
     let unsubscribe: any;
     (async () => {
       // socket.disconnect();
@@ -67,11 +60,11 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
       unsubscribe = addSocketListeners();
 
       //RequestQuillState
-      emit('requestQuillState', {
+      socketHandler.emit('requestQuillState', {
         sessionId: sessionId,
       });
 
-      emit(
+      socketHandler.emit(
         'join',
         {
           sessionId: sessionId,
@@ -83,15 +76,20 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
     return () => {
       unsubscribe();
     }
-  });
+  }, []);
 
+  useEffect(() => {
+    if (webViewRef) {
+      webViewRef.current?.postMessage(JSON.stringify({ eventType: 'hideToolBar' }));
+    }
+  }, [webViewRef]);
 
   const onMessage = (payload: WebViewMessageEvent) => {
     const data = JSON.parse(payload.nativeEvent.data);
     const event = data as QuillEditorEvent;
     if (event.eventType === 'text-change') {
       if (event.eventValue.source === 'user') {
-        emit('transmitQuillDelta', {
+        socketHandler.emit('transmitQuillDelta', {
           sessionId: sessionId,
           delta: event.eventValue.delta,
         });
@@ -99,7 +97,7 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
     } else if (event.eventType === 'selection-change') {
       if (event.eventValue.source === 'user') {
         console.log('emiting selection');
-        emit('transmitQuillSelection', {
+        socketHandler.emit('transmitQuillSelection', {
           sessionId: sessionId,
           range: data.eventValue.range,
         })
@@ -108,8 +106,9 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
-      <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+    <View style={styles.root}>
+      {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}> */}
+      <View style={{ flex: 1, }}>
         <WebView
           style={styles.webView}
           javaScriptEnabled={true}
@@ -118,8 +117,13 @@ export const DocEditorScreen: React.FC<WhiteboardType> = ({ route }) => {
           cacheEnabled={true}
           onMessage={onMessage}
           source={{ html: quill.html }} />
-      </KeyboardAwareScrollView>
-    </SafeAreaView>
+      </View>
+      {/* </KeyboardAwareScrollView> */}
+      <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+        {/* <Image source={ImageIndex.icons.chatEditor} /> */}
+        <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -133,14 +137,15 @@ const styles = StyleSheet.create({
     marginTop: 0,
     backgroundColor: '#FFF',
   },
-  editor: {
-    flex: 1,
-    padding: 0,
-    width: Dimensions.get('window').width,
-    borderWidth: 0,
-    backgroundColor: 'white',
-  },
   webView: {
-    width: '100%',
+    flex: 1,
   },
+  swapIcon: {
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: Colors.success,
+    position: 'absolute',
+    top: 5,
+    right: 10,
+  }
 });

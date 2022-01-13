@@ -4,12 +4,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { DocEditorScreen } from '../screens/DocEditorScreen';
 import { DefaultScreen } from '../screens/DefaultScreen';
 import { ChatScreen } from '../screens/ChatScreen';
+import { SessionScreen } from '../screens/SessionScreen';
 
 export type MainStackParamList = {
   Home: undefined;
-  Whiteboard: { sessionId: string, };
-  DocEditor: { sessionId: string, };
-  Chat: { sessionId: string, };
+  Session: { sessionId: string, }
+  // Whiteboard: { sessionId: string, };
+  // DocEditor: { sessionId: string, };
+  // Chat: { sessionId: string, };
 };
 
 export const MainStackNavigator = () => {
@@ -24,6 +26,11 @@ export const MainStackNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name='Session'
+        component={SessionScreen}
+        options={{ headerShown: false }}
+      />
+      {/* <Stack.Screen
         name="Whiteboard"
         component={WhiteBoardScreen}
         options={{ headerShown: false }}
@@ -36,7 +43,7 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

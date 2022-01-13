@@ -26,3 +26,5 @@ export interface Session {
         }[]
     }
 }
+
+export type SessionType = 'DOCUMENT' | 'WHITEBOARD';

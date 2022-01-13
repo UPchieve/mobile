@@ -124,18 +124,19 @@ const html = `
         top: -50 !important;
         right: -15 !important;
     }
+
 </style>
 
 <body>
     <div id="toolbar">
-        <span class="ql-formats">
+        <span class="ql-formats hiddeable">
             <select class="ql-header">
                 <option value="1"></option>
                 <option value="2"></option>
                 <option selected></option>
             </select>
         </span>
-        <span class="ql-formats">
+        <span class="ql-formats hiddeable">
             <button type="button" class="ql-list" value="ordered"></button>
             <button type="button" class="ql-list" value="bullet"></button>
         </span>
@@ -208,6 +209,15 @@ const html = `
             quill.updateContents(data.eventValue);
         } else if (data.eventType === 'setSelection') {
             cursors.moveCursor('partnerCursor', data.eventValue);
+        } else if (data.eventType === 'hideToolBar') {
+            const elements = document.querySelectorAll('.hiddeable');
+            elements.forEach(x => {
+                if(x.style.display === 'none'){
+                    x.style.display = 'inline-block';
+                } else {
+                    x.style.display = 'none';
+                }
+            })
         }
     });
 
