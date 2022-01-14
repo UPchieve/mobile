@@ -16,10 +16,10 @@ import { MenuProvider } from 'react-native-popup-menu';
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
 import { CustomWebViewEvent, WebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
-import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
 import { AlertContext, AlertProvider } from '../providers/AlertProvider';
+import { AuthContext } from '../providers/AuthProvider';
 
 // type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 type WhiteboardType = {
@@ -27,7 +27,7 @@ type WhiteboardType = {
   onSwitchPress: () => void;
 }
 
-export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchPress}) => {
+export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress }) => {
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
@@ -97,6 +97,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
       confirmText: 'Erase',
       cancelText: 'Cancel',
       onConfirm: () => zwibblerManager?.reset()
+      // onConfirm: () => socketHandler.emit('resetWhiteboard', {
+      //   sessionId,
+      // }),
     });
   };
 
@@ -139,7 +142,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
 
   const renderWhiteboard = () => {
     if (orientation === "PORTRAIT") {
-      return <MenuProvider>
+      return <>
         <View style={styles.topToolsWrapper}>
           <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
             <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
@@ -170,9 +173,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
           />
         </View>
         <WhiteboardTextPicker {...textModalProps} />
-      </MenuProvider>
+      </>
     } else {
-      return <MenuProvider>
+      return <>
         <View style={styles.topToolsWrapper}>
           <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
             <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
@@ -203,13 +206,15 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
         <View style={styles.body}>
           {renderWebView()}
         </View>
-      </MenuProvider>
+      </>
     }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      {renderWhiteboard()}
+      <MenuProvider >
+        {renderWhiteboard()}
+      </MenuProvider>
     </SafeAreaView>
   );
 };
