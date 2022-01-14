@@ -212,9 +212,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
 
   return (
     <SafeAreaView style={styles.container}>
-      <MenuProvider >
-        {renderWhiteboard()}
-      </MenuProvider>
+      {renderWhiteboard()}
     </SafeAreaView>
   );
 };

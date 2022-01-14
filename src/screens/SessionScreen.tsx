@@ -2,13 +2,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useState } from 'react'
 
 import { Keyboard, StyleSheet, View } from "react-native";
+import { MenuProvider } from 'react-native-popup-menu';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from "../components/molecules/common/CurrentSessionHeader";
 import { AuthContext } from '../providers/AuthProvider';
 import { MainStackParamList } from '../routes/MainStackNavigator';
-import { getSessionType,} from '../utils/utils';
+import { getSessionType, } from '../utils/utils';
 import { ChatScreen } from "./ChatScreen"
 import { DocEditorScreen } from './DocEditorScreen';
 import { WhiteBoardScreen } from './WhiteBoardScreen';
@@ -16,7 +17,7 @@ import { WhiteBoardScreen } from './WhiteBoardScreen';
 type SessionScreenType = NativeStackScreenProps<MainStackParamList, 'Session'>;
 export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }) => {
     const { sessionId } = route.params;
-    const { user, sessionState ,socketHandler } = useContext(AuthContext);
+    const { user, sessionState, socketHandler } = useContext(AuthContext);
     const [showChat, setShowChat] = useState<boolean>(true);
     const onSwitchPress = () => {
         Keyboard.dismiss();
@@ -25,9 +26,9 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
 
     useEffect(() => {
         console.log('complete user', user);
-        
+
         console.log(`Joining to ${sessionId}, as Volunteer:${user.isVolunteer}`);
-        
+
         socketHandler.emit(
             'join',
             {
@@ -51,15 +52,17 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
 
     return (
         <SafeAreaView style={{ flex: 1, }}>
-            <CommonKeyboardAvoidingView style={{ flex: 1, }}>
-                <CurrentSessionHeader navigation={navigation}/>
-                <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
-                    <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(sessionState!)} />
-                </View>
-                <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
-                    {renderElement()}
-                </View>
-            </CommonKeyboardAvoidingView>
+            <MenuProvider>
+                <CommonKeyboardAvoidingView style={{ flex: 1, }}>
+                    <CurrentSessionHeader navigation={navigation} />
+                    <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
+                        <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(sessionState!)} />
+                    </View>
+                    <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
+                        {renderElement()}
+                    </View>
+                </CommonKeyboardAvoidingView>
+            </MenuProvider>
         </SafeAreaView>);
 }
 
