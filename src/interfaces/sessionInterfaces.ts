@@ -22,4 +22,7 @@ export type SessionUser = {
     isVolunteer: boolean;
     type: string;
 };
+
 export type SessionType = 'DOCUMENT' | 'WHITEBOARD';
+
+export type SessionSubjectType = 'math' | 'science' | 'college' | 'sat' | 'training' | 'readingWriting';

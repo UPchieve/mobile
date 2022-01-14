@@ -1,3 +1,4 @@
+import { SessionSubjectType } from "../interfaces/sessionInterfaces"
 import { User } from "../models/user"
 
 export type SessionStateChangedSocketType = {
@@ -11,7 +12,7 @@ export type SessionStateChangedSocketType = {
     isReported: boolean,
     isStudentBanned: boolean,
     student: User,
-    type: "math",
+    type: SessionSubjectType,
     subTopic: string,
     toReview: false,
     volunteer?: User

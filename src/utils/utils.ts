@@ -6,7 +6,7 @@ export const randomString = (): string => {
     return rs();
 }
 
-export const getSessionType = (session: Session): SessionType => {
+export const getSessionType = (session: SessionStateChangedSocketType): SessionType => {
     const documentEditorSubTopics = [
         'planning',
         'essays',
@@ -14,7 +14,7 @@ export const getSessionType = (session: Session): SessionType => {
         'satReading',
         'humanitiesEssays'
     ]
-    if (session && documentEditorSubTopics.includes(session.data.subTopic))
+    if (session && documentEditorSubTopics.includes(session.subTopic))
         return 'DOCUMENT'
     else return 'WHITEBOARD'
 }

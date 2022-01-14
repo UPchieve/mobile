@@ -12,14 +12,29 @@ import { isSessionEnded } from '../../../utils/utils';
 
 export const CurrentSessionHeader: React.FC = () => {
 
-
     const { user, sessionState } = useContext(AuthContext);
     const { showPrompt } = useContext(AlertContext);
-
+    
     const isSessionStarted = () => !!sessionState?.volunteer;
 
+    console.log(sessionState);
+    
+
+    const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState));
+
     const handleButtonClick = async () => {
-        if (!isSessionEnded(sessionState)) {
+        if (isWaitingForVolunteer()) {
+            showPrompt({
+                title: 'Cancel Request',
+                text: 'If you haven’t been waiting for at least 5 minutes, you won’t be able to make another request right away.',
+                icon: SvgIcons.StopIcon,
+                type: 'error',
+                confirmText: 'Cancel',
+                onConfirm: async () => await sessionService.endSession(sessionState!._id),
+                cancelText: 'Not Now'
+            })
+        }
+        else if (!isSessionEnded(sessionState)) {
             showPrompt({
                 title: 'End Session',
                 text: 'Are you sure you want to end the session?',
@@ -29,6 +44,22 @@ export const CurrentSessionHeader: React.FC = () => {
                 onConfirm: async () => await sessionService.endSession(sessionState!._id),
                 cancelText: 'Not Now'
             })
+        } else if (isSessionEnded(sessionState)) {
+            showPrompt({
+                title: 'Leave the session',
+                text: 'Are you sure you want to leave the session?',
+                icon: SvgIcons.LogoutIcon,
+                type: 'information',
+                confirmText: 'Leave',
+                onConfirm: () => {
+                    if(sessionState?.type === 'college'){
+                        //navegar al collegefeedback
+                    } else {
+                        //navegar al otro feedback.
+                    }
+                },
+                cancelText: 'Not now',
+            });
         }
     }
 
@@ -46,6 +77,13 @@ export const CurrentSessionHeader: React.FC = () => {
         return !user.isVolunteer ? ImageIndex.avatars.volunteer : ImageIndex.avatars.student;
     }
 
+    const getButtonText = () => {
+        if (isWaitingForVolunteer()) {
+            return 'Cancel'
+        }
+        return !isSessionEnded(sessionState) ? 'End Session' : 'Leave'
+    }
+
     return <View style={[styles.container, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
         {!isSessionEnded(sessionState) ?
             <View style={styles.userContainer}>
@@ -59,7 +97,7 @@ export const CurrentSessionHeader: React.FC = () => {
         }
         {isSessionEnded(sessionState) && user.isVolunteer ? <Text style={styles.reportText}>Report</Text> : null}
         <Pressable style={styles.buttonWrapper} onPress={handleButtonClick}>
-            <Text style={styles.buttonTextStyle}>{!isSessionEnded ? 'End Session' : 'Leave'}</Text>
+            <Text style={styles.buttonTextStyle}>{getButtonText()}</Text>
         </Pressable>
     </View>
 }

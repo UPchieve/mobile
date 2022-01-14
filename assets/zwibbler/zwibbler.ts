@@ -23,6 +23,8 @@ const html = `
             showToolbar: false,
             showColourPanel: false,
             multilineText: true,
+            defaultZoom: 'width',
+            zoomOnResize: true,
             collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
         });
         

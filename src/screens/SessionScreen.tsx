@@ -8,8 +8,7 @@ import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from "../components/molecules/common/CurrentSessionHeader";
 import { AuthContext } from '../providers/AuthProvider';
 import { MainStackParamList } from '../routes/MainStackNavigator';
-import { SessionStateChangedSocketType } from '../types/socketTypes';
-import { getSessionType, isSessionEnded } from '../utils/utils';
+import { getSessionType,} from '../utils/utils';
 import { ChatScreen } from "./ChatScreen"
 import { DocEditorScreen } from './DocEditorScreen';
 import { WhiteBoardScreen } from './WhiteBoardScreen';
@@ -17,7 +16,7 @@ import { WhiteBoardScreen } from './WhiteBoardScreen';
 type SessionScreenType = NativeStackScreenProps<MainStackParamList, 'Session'>;
 export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
     const { sessionId } = route.params;
-    const { user, currentSession, sessionState ,socketHandler } = useContext(AuthContext);
+    const { user, sessionState ,socketHandler } = useContext(AuthContext);
     const [showChat, setShowChat] = useState<boolean>(true);
     const onSwitchPress = () => {
         Keyboard.dismiss();
@@ -36,7 +35,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
     }, [sessionId]);
 
     const renderElement = () => {
-        const sessionType = getSessionType(currentSession!);
+        const sessionType = getSessionType(sessionState!);
         return sessionType === 'DOCUMENT'
             ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
             : <WhiteBoardScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
@@ -51,7 +50,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
             <CommonKeyboardAvoidingView style={{ flex: 1, }}>
                 <CurrentSessionHeader />
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
-                    <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(currentSession!)} />
+                    <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(sessionState!)} />
                 </View>
                 <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
                     {renderElement()}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -19,23 +19,22 @@ import { ZwibblerTool } from '../types/zwibblerTypes';
 import { CommonModal, ICommonModal } from '../components/common/CommonModal';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
+import { AlertContext, AlertProvider } from '../providers/AlertProvider';
 
 // type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 type WhiteboardType = {
   sessionId: string,
   onSwitchPress: () => void;
 }
+
 export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchPress}) => {
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
   });
 
-  const [commonModalProps, setCommonModalProps] = useState<ICommonModal>({
-    visible: false,
-  });
-
   const [orientation, setOrientation] = useState('PORTRAIT');
+  const { showPrompt } = useContext(AlertContext);
 
   const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
   const webViewRef = useRef<WebView>(null);
@@ -90,19 +89,14 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
   };
 
   const openDeleteModal = () => {
-    setCommonModalProps({
-      visible: true,
+    showPrompt({
       type: 'error',
-      actionButtonPress: () => {
-        zwibblerManager?.reset();
-        setCommonModalProps({ visible: false });
-      },
-      actionButtonText: 'Erase',
-      cancelButtonPress: () => setCommonModalProps({ visible: false }),
-      cancelButtonText: 'Cancel',
       title: 'Delete Whiteboard',
       text: 'You will not be able to undo.',
       icon: SvgIcons.LogoutIcon,
+      confirmText: 'Erase',
+      cancelText: 'Cancel',
+      onConfirm: () => zwibblerManager?.reset()
     });
   };
 
@@ -176,7 +170,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
           />
         </View>
         <WhiteboardTextPicker {...textModalProps} />
-        <CommonModal {...commonModalProps} />
       </MenuProvider>
     } else {
       return <MenuProvider>
@@ -193,7 +186,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({sessionId, onSwitchP
               />
             </View>
             <WhiteboardTextPicker {...textModalProps} />
-            <CommonModal {...commonModalProps} />
           </View>
           <TouchableOpacity onPress={zwibblerManager?.undo} style={{ marginLeft: 50 }}>
             <SvgIcons.UndoIcon stroke={'gray'} />

@@ -144,12 +144,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       name: 'text',
       icon: SvgIcons.TextIcon,
       handler: () => zwibblerManager.useTextTool(),
-      // handler: async () => {
-      //   const text = await openTextEditor();
-      //   if (text) {
-      //     zwibblerManager.addText(text);
-      //   }
-      // },
     },
     {
       id: 6,
