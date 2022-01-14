@@ -1,16 +1,20 @@
 import React from 'react';
-import { WhiteBoardScreen } from '../screens/WhiteBoardScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { DocEditorScreen } from '../screens/DocEditorScreen';
 import { DefaultScreen } from '../screens/DefaultScreen';
-import { ChatScreen } from '../screens/ChatScreen';
 import { SessionScreen } from '../screens/SessionScreen';
-import { FeedbackForm1Screen } from '../screens/FeedbackForm1Screen';
+import { PostSessionSurveyScreen } from '../screens/feedback/PostSessionSurveyScreen';
+import { PostSessionSurveyCollegeScreen } from '../screens/feedback/PostSessionSurveyCollegeScreen';
+import { PostSessionSurveySuccessScreen } from '../screens/feedback/PostSessionSurveySuccessScreen';
+import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen';
+
 
 export type MainStackParamList = {
   Home: undefined;
   Session: { sessionId: string, }
-  FeedbackScreen: undefined,
+  PostSessionSurvey: undefined,
+  PostSessionSurveyCollege: undefined,
+  PostSessionSurveySuccess: undefined,
+  ReportSessionScreen: undefined,
   // Whiteboard: { sessionId: string, };
   // DocEditor: { sessionId: string, };
   // Chat: { sessionId: string, };
@@ -33,8 +37,23 @@ export const MainStackNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name='FeedbackScreen'
-        component={FeedbackForm1Screen}
+        name='PostSessionSurvey'
+        component={PostSessionSurveyScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='PostSessionSurveyCollege'
+        component={PostSessionSurveyCollegeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='PostSessionSurveySuccess'
+        component={PostSessionSurveySuccessScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='ReportSessionScreen'
+        component={ReportSessionScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

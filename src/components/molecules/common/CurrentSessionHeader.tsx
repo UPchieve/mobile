@@ -1,3 +1,5 @@
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FontDisplay } from 'expo-font';
 import React, { useContext } from 'react';
 import { Text, Image, View, StyleSheet, Pressable } from "react-native";
@@ -7,18 +9,23 @@ import { ImageIndex } from '../../../../assets/ImageIndex';
 import { SvgIcons } from '../../../../assets/IndexIcons';
 import { AlertContext } from '../../../providers/AlertProvider';
 import { AuthContext } from '../../../providers/AuthProvider';
+import { MainStackParamList } from '../../../routes/MainStackNavigator';
 import { sessionService } from '../../../services/sessionService';
 import { isSessionEnded } from '../../../utils/utils';
 
-export const CurrentSessionHeader: React.FC = () => {
+type CurrentSessionHeaderType = {
+    navigation: NativeStackNavigationProp<MainStackParamList, "Session">
+}
+
+export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation }) => {
 
     const { user, sessionState } = useContext(AuthContext);
     const { showPrompt } = useContext(AlertContext);
-    
+
     const isSessionStarted = () => !!sessionState?.volunteer;
 
     console.log(sessionState);
-    
+
 
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState));
 
@@ -52,10 +59,10 @@ export const CurrentSessionHeader: React.FC = () => {
                 type: 'information',
                 confirmText: 'Leave',
                 onConfirm: () => {
-                    if(sessionState?.type === 'college'){
-                        //navegar al collegefeedback
+                    if (sessionState?.type === 'college') {
+                        navigation.navigate('PostSessionSurveyCollege');
                     } else {
-                        //navegar al otro feedback.
+                        navigation.navigate('PostSessionSurvey');
                     }
                 },
                 cancelText: 'Not now',
@@ -95,7 +102,9 @@ export const CurrentSessionHeader: React.FC = () => {
             </View>
             : <Text style={styles.titleText}>Session Ended</Text>
         }
-        {isSessionEnded(sessionState) && user.isVolunteer ? <Text style={styles.reportText}>Report</Text> : null}
+        {isSessionEnded(sessionState) && user.isVolunteer ? <Pressable onPress={() => navigation.navigate('ReportSessionScreen')}>
+            <Text style={styles.reportText}>Report</Text>
+        </Pressable> : null}
         <Pressable style={styles.buttonWrapper} onPress={handleButtonClick}>
             <Text style={styles.buttonTextStyle}>{getButtonText()}</Text>
         </Pressable>

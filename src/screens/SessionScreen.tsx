@@ -14,7 +14,7 @@ import { DocEditorScreen } from './DocEditorScreen';
 import { WhiteBoardScreen } from './WhiteBoardScreen';
 
 type SessionScreenType = NativeStackScreenProps<MainStackParamList, 'Session'>;
-export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
+export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }) => {
     const { sessionId } = route.params;
     const { user, sessionState ,socketHandler } = useContext(AuthContext);
     const [showChat, setShowChat] = useState<boolean>(true);
@@ -48,7 +48,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route }) => {
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <CommonKeyboardAvoidingView style={{ flex: 1, }}>
-                <CurrentSessionHeader />
+                <CurrentSessionHeader navigation={navigation}/>
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
                     <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(sessionState!)} />
                 </View>

@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Question } from '../components/atoms/session-experience/Question';
-import { SessionFeedbackHeader } from '../components/atoms/session-experience/SessionFeedbackHeader';
-import { RateNumbers } from '../components/molecules/session-experience/RateNumbers';
-import { RateStars } from "../components/molecules/session-experience/RateStars";
-import { Colors } from "../../assets/Colors";
-import { CommonButton } from "../components/common/CommonButton";
-import { RadioGroup } from '../components/molecules/common/RadioGroup';
-import {CommonInput} from "../components/common/CommonInput";
+import { Question } from '../../components/atoms/session-experience/Question';
+import { SessionFeedbackHeader } from '../../components/atoms/session-experience/SessionFeedbackHeader';
+import { RateNumbers } from '../../components/molecules/session-experience/RateNumbers';
+import { RateStars } from "../../components/molecules/session-experience/RateStars";
+import { Colors } from "../../../assets/Colors";
+import { CommonButton } from "../../components/common/CommonButton";
+import { RadioGroup } from '../../components/molecules/common/RadioGroup';
+import { CommonInput } from "../../components/common/CommonInput";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainStackParamList } from '../../routes/MainStackNavigator';
 
 const pickerOptions = [
     'I am very comfortable with this topic.',
@@ -33,7 +35,8 @@ const initialValues: formType = {
     rateAcademicCoach: undefined,
     textInput: undefined,
 }
-export const FeedbackForm1Screen = () => {
+type PostSessionSurveyType = NativeStackScreenProps<MainStackParamList, 'PostSessionSurvey'>;
+export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navigation }) => {
     const formik = useFormik({
         initialValues,
         validateOnMount: true,
@@ -47,28 +50,21 @@ export const FeedbackForm1Screen = () => {
         },
         onSubmit: (values) => {
             //TODO handle form submit
+            navigation.navigate('PostSessionSurveySuccess');
             console.log(values);
         }
     });
-    const [isFocused, setIsFocused] = useState(false);
 
-    const handleBlur = () => {
-        setIsFocused(false)
-    }
-
-    const handleFocus = () => {
-        setIsFocused(true);
-    }
     return <SafeAreaView>
         {/*TODO Icon in the right must navigate to dashboard*/}
-        <SessionFeedbackHeader />
+        <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'Home' }] })} />
         <KeyboardAwareScrollView
-        enableResetScrollToCoords={false}
-        style={{
-            paddingLeft: 23,
-            paddingRight: 23,
-            paddingTop: 24,
-        }}>
+            enableResetScrollToCoords={false}
+            style={{
+                paddingLeft: 23,
+                paddingRight: 23,
+                paddingTop: 24,
+            }}>
             <FormikProvider value={formik}>
                 <View style={styles.questionWrapper}>
                     <Question text='Your goal for this session was to BLANK. Did we help you achieve your goal?' highlight='BLANK' />
@@ -88,7 +84,7 @@ export const FeedbackForm1Screen = () => {
                             additionalText='This feedback will be anonymous! You can be honest. :)'
                         />
                         <CommonInput onChangeText={formik.handleChange('whatCanDoBetter')}
-                                     value={formik.values.whatCanDoBetter}/>
+                            value={formik.values.whatCanDoBetter} />
                     </View>
 
                     : null}
@@ -97,7 +93,7 @@ export const FeedbackForm1Screen = () => {
                         additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
                         informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
                     {/*TODO Text alignment on the input must be at top*/}
-                    <CommonInput onChangeText={formik.handleChange('textInput')} value={formik.values.textInput}/>
+                    <CommonInput onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
                 </View>
                 <View style={styles.buttonWrapper}>
                     <CommonButton title={'Submit'} disabled={!formik.isValid} onPress={formik.handleSubmit} type={'success'} style={{ width: 89, height: 40 }} />

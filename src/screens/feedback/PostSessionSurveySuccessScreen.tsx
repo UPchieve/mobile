@@ -1,13 +1,16 @@
 import React from 'react';
-import {Dimensions, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
-import {ImageIndex} from "../../assets/ImageIndex";
-import {FontIndex} from "../../assets/FontIndex";
-import {Colors} from "../../assets/Colors";
-import {CommonButton} from "../components/common/CommonButton";
+import { Dimensions, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ImageIndex } from "../../../assets/ImageIndex";
+import { FontIndex } from "../../../assets/FontIndex";
+import { Colors } from "../../../assets/Colors";
+import { CommonButton } from "../../components/common/CommonButton";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainStackParamList } from '../../routes/MainStackNavigator';
 
 
 
-export const FeedbackSuccessfullyScreen = () => {
+type PostSessionSurveySuccess = NativeStackScreenProps<MainStackParamList, 'PostSessionSurveySuccess'>;
+export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> = ({navigation}) => {
     return (
         <SafeAreaView>
             <ScrollView>
@@ -16,7 +19,7 @@ export const FeedbackSuccessfullyScreen = () => {
                         <View style={styles.bodyWrapper}>
                             <View style={styles.imagePosition}>
                                 <Image style={styles.image}
-                                       source={ImageIndex.feedback.postFeedback}/>
+                                    source={ImageIndex.feedback.postFeedback} />
                             </View>
                             <View style={styles.textWrapper}>
                                 <Text style={styles.title}>Thank you for your feedback!</Text>
@@ -25,13 +28,17 @@ export const FeedbackSuccessfullyScreen = () => {
                                 <Text style={styles.subtitle}>Your feedback is very important to us.   Without it we wouldn’t know how to improve your experience on our platform. </Text>
                             </View>
                             <View style={styles.textWrapper}>
-                                <CommonButton title={'Go to my dashboard'} onPress={() => ''} type={'success'} style={{alignItems: 'center'}} rightIcon={ImageIndex.feedback.goArrow}/>
+                                <CommonButton title={'Go to my dashboard'} onPress={() => {
+                                    navigation.reset({
+                                        routes: [{name: 'Home'}]
+                                    });
+                                }} type={'success'} style={{ alignItems: 'center' }} rightIcon={ImageIndex.feedback.goArrow} />
                             </View>
                         </View>
                     </View>
                 </View>
             </ScrollView>
-    </SafeAreaView>
+        </SafeAreaView>
 
     )
 }

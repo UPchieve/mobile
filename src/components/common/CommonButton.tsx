@@ -15,7 +15,7 @@ interface ICommonButton {
   type?: PrimaryColorType;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
-  rightIcon?: ImageSourcePropType
+  rightIcon?: any
 }
 
 export const CommonButton: React.FC<ICommonButton> = ({
@@ -24,7 +24,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
   type,
   style,
   disabled = false,
-    rightIcon = null
+  rightIcon = null
 }) => {
 
   return (
@@ -42,9 +42,10 @@ export const CommonButton: React.FC<ICommonButton> = ({
         <Text style={[styles.buttonText, type && { color: 'white' }, disabled && styles.buttonTextDisabled]}>
           {title}
         </Text>
-        {rightIcon &&
-        <Image style={styles.icon}
-               source={rightIcon}/>
+        {rightIcon ?
+          <Image style={styles.icon}
+            source={rightIcon} />
+          : null
         }
       </View>
 
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   buttonWrap: {
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center'
   }

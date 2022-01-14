@@ -1,17 +1,22 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
 import { HouseIcon } from '../../../../assets/icons/HouseIcon';
 import { Separator } from '../common/Separator';
 
-export const SessionFeedbackHeader: React.FC = () => {
+type SessionFeedbackHeaderType = {
+    onIconPress: () => void;
+}
+export const SessionFeedbackHeader: React.FC<SessionFeedbackHeaderType> = ({onIconPress}) => {
     return <><View style={styles.container}>
         <View />
         <Text style={styles.text}>
             Session Feedback
         </Text>
-        <HouseIcon />
+        <TouchableOpacity onPress={onIconPress}>
+            <HouseIcon />
+        </TouchableOpacity>
     </View>
         <View style={styles.shadows}>
             <Separator />
