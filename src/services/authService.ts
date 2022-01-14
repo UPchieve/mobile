@@ -4,8 +4,8 @@ import { config } from '../../config';
 import { Student, User, Volunteer } from '../models/user';
 
 const login = async (
-  email: string = 'volunteer@nnnp.com',
-  password: string = 'Demovolunteerpassword!'
+  email: string,
+  password: string,
 ) => {
   try {
     const response = await axios.post(`${config.baseUrl}/auth/login`, { email, password });

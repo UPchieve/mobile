@@ -10,12 +10,6 @@ import { AlertProvider } from './src/providers/AlertProvider';
 export default function App() {
 
 
-  useEffect(() => {
-    // axios.get('https://demo.upchieve.org/auth/logout').then(() => console.log('logged out'));
-    // axios.get('https://demo.upchieve.org/api/user').then((us) => console.log(us));
-    // authService.login().then(() => console.log('logged'));
-  }, []);
-
   const [fontsLoaded] = useFonts({
     WorkSans: require('./assets/fonts/work-sans/WorkSans-Regular.ttf'),
     WorkSansBold: require('./assets/fonts/work-sans/WorkSans-Bold.ttf'),

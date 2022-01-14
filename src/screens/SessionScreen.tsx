@@ -24,11 +24,15 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }
 
     useEffect(() => {
+        console.log('complete user', user);
+        
+        console.log(`Joining to ${sessionId}, as Volunteer:${user.isVolunteer}`);
+        
         socketHandler.emit(
             'join',
             {
                 sessionId: sessionId,
-                user,
+                user: user,
                 joinedFrom: '',
             }
         );

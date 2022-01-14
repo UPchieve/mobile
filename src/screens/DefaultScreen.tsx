@@ -9,28 +9,30 @@ import { delay } from '../utils/utils';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
-  const [sessionId, setSessionId] = useState('61e190eab6721300227caa71');
+  const [sessionId, setSessionId] = useState('61e1bfb2a554a5de30174725');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { refreshUser } = useContext(AuthContext);
 
-  useEffect(() => {
-    //login as student;
-    // authService.login('student@nnnp.com', 'Demostudentpassword!').then(() => console.log('loguea2'));
-    //login as volVnteer
-  }, []);
-
 
   const enterAs = async (type: 'student' | 'volunteer') => {
-    await authService.logout();
-    if (type === 'student') {
-      await authService.login('student@nnnp.com', 'Demostudentpassword!');
-    } else {
-      await authService.login();
+    setIsLoading(true);
+    try {
+      const data = await authService.logout();
+      console.log('logout response', data);
+      if (type === 'student') {
+        await authService.login('student@nnnp.com', 'Demostudentpassword!');
+      } else {
+        await authService.login('volunteer@nnnp.com', 'Demovolunteerpassword!');
+      }
+      refreshUser();
+      await delay(1000);
+      navigation.navigate('Session', { sessionId });
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsLoading(false);
     }
-    refreshUser();
-    await delay(1000);
-    navigation.navigate('Session', { sessionId });
   }
 
 
@@ -61,7 +63,7 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
         disabled={sessionId.length === 0}
         onPress={() => enterAs('volunteer')}
       />
-      <View style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', height: 200 }}>
         {isLoading ? <ActivityIndicator /> : null}
       </View>
 

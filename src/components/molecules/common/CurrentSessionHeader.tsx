@@ -27,7 +27,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     console.log(sessionState);
 
 
-    const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState));
+    const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
 
     const handleButtonClick = async () => {
         if (isWaitingForVolunteer()) {
@@ -71,7 +71,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     }
 
     const getTitleText = () => {
-        if (!isSessionStarted()) {
+        if (isWaitingForVolunteer()) {
             return 'UPchieve Bot'
         }
         return !user.isVolunteer ? 'Volunteer' : 'Student';
@@ -97,7 +97,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 <Image style={styles.icon} source={renderImage()} />
                 <View style={styles.textWrapper}>
                     <Text style={styles.titleText}>{getTitleText()}</Text>
-                    <Text style={styles.inSessionText}>{isSessionStarted() ? 'In Session' : 'Contacting coaches...'}</Text>
+                    <Text style={styles.inSessionText}>{!isWaitingForVolunteer() ? 'In Session' : 'Contacting coaches...'}</Text>
                 </View>
             </View>
             : <Text style={styles.titleText}>Session Ended</Text>

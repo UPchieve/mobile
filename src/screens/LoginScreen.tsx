@@ -13,13 +13,6 @@ export const LoginScreen = () => {
         },
         onSubmit: async (values: any) => {
             console.log(values);
-            // const user = await authService.login2('volunteer@nnnp.com', 'Demovolunteerpassword!');
-            // if (user?.isVolunteer) {
-            //     console.log('is volunteer');
-
-            // } else {
-            //     console.log('is student');
-            // }
         }
     });
 

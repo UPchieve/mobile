@@ -8,7 +8,7 @@ export interface SocketHandlerType {
     connect: () => void;
     disconnect: () => void;
     on: (event: string, eventHandler: (payload?: any) => void) => void;
-    off: (event: string) => (() => void);
+    off: (event?: string) => (() => void);
     emit: (event: string, payload?: object) => void;
 }
 
