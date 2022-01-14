@@ -8,5 +8,9 @@ export const ImageIndex = {
   icons: {
     chatEditor: require('./images/icons/doc_editor.png'),
     whiteBoard: require('./images/icons/whiteboard.png')
+  },
+  feedback: {
+    postFeedback: require('./images/feedback/feedbackSuccessfully.png'),
+    goArrow: require('./images/feedback/GoArrow.png')
   }
 };

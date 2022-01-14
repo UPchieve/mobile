@@ -10,6 +10,7 @@ import { RateStars } from "../components/molecules/session-experience/RateStars"
 import { Colors } from "../../assets/Colors";
 import { CommonButton } from "../components/common/CommonButton";
 import { RadioGroup } from '../components/molecules/common/RadioGroup';
+import {CommonInput} from "../components/common/CommonInput";
 
 const pickerOptions = [
     'I am very comfortable with this topic.',
@@ -28,6 +29,7 @@ interface formType {
 const initialValues: formType = {
     didWeHelp: undefined,
     understandingAfterSession: undefined,
+    whatCanDoBetter: undefined,
     rateAcademicCoach: undefined,
     textInput: undefined,
 }
@@ -60,7 +62,7 @@ export const FeedbackForm1Screen = () => {
     return <SafeAreaView>
         {/*TODO Icon in the right must navigate to dashboard*/}
         <SessionFeedbackHeader />
-        <KeyboardAwareScrollView 
+        <KeyboardAwareScrollView
         enableResetScrollToCoords={false}
         style={{
             paddingLeft: 23,
@@ -85,12 +87,8 @@ export const FeedbackForm1Screen = () => {
                         <Question text='What could your coach have done better?'
                             additionalText='This feedback will be anonymous! You can be honest. :)'
                         />
-                        <TextInput style={[styles.textInput, isFocused && styles.textInputSelected]}
-                            onFocus={handleFocus}
-                            onBlur={handleBlur}
-                            onChangeText={formik.handleChange('whatCanDoBetter')}
-                            value={formik.values.whatCanDoBetter}
-                        />
+                        <CommonInput onChangeText={formik.handleChange('whatCanDoBetter')}
+                                     value={formik.values.whatCanDoBetter}/>
                     </View>
 
                     : null}
@@ -99,12 +97,7 @@ export const FeedbackForm1Screen = () => {
                         additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
                         informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
                     {/*TODO Text alignment on the input must be at top*/}
-                    <TextInput style={[styles.textInput, isFocused && styles.textInputSelected]}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        onChangeText={formik.handleChange('textInput')}
-                        value={formik.values.textInput}
-                    />
+                    <CommonInput onChangeText={formik.handleChange('textInput')} value={formik.values.textInput}/>
                 </View>
                 <View style={styles.buttonWrapper}>
                     <CommonButton title={'Submit'} disabled={!formik.isValid} onPress={formik.handleSubmit} type={'success'} style={{ width: 89, height: 40 }} />
@@ -117,16 +110,6 @@ export const FeedbackForm1Screen = () => {
 const styles = StyleSheet.create({
     questionWrapper: {
         marginBottom: 36,
-    },
-    textInput: {
-        height: 148,
-        borderWidth: 0.5,
-        padding: 10,
-        borderColor: Colors.borderGray,
-        textAlignVertical: 'top',
-    },
-    textInputSelected: {
-        borderColor: Colors.success
     },
     buttonWrapper: {
         marginBottom: 50,

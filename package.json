@@ -32,6 +32,7 @@
     "react-native-modal-popover": "^2.1.0",
     "react-native-modal-selector": "^2.1.0",
     "react-native-popup-menu": "^0.15.12",
+    "react-native-read-more-text": "^1.1.2",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-svg": "^12.1.1",
@@ -44,6 +45,7 @@
     "@babel/core": "^7.12.9",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
+    "@types/react-native-read-more-text": "^1.0.1",
     "@types/socket.io-client": "^3.0.0",
     "prettier": "2.5.1",
     "typescript": "~4.3.5"

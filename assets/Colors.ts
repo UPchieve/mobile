@@ -17,6 +17,8 @@ export const Colors = {
   selectedGreen: '#F2FBF9',
   hoverGreen: '#0D8269',
 
+  linkBlue: '#0F44FF'
+
 };
 
 export type PrimaryColorType = 'success' | 'error' | 'warning' | 'information';

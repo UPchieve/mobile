@@ -9,9 +9,9 @@ interface MedalType {
     value: number | string,
     onPress?: () => void,
 }
-export const Medal: React.FC<MedalType> = ({ value, disabled, selected, fullRounded, onPress = () => { } }) => {
+export const Medal: React.FC<MedalType> = ({ value, disabled = false, selected, fullRounded, onPress = () => { } }) => {
     return <View>
-        <TouchableOpacity style={
+        <TouchableOpacity disabled={disabled} style={
             [styles.container
                 , fullRounded && styles.fullRoundedContainer
                 , disabled && styles.disabledContainer
