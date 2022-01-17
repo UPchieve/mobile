@@ -18,6 +18,7 @@ import { MessageIcon } from './icons/MessageIcon';
 import { HouseIcon } from './icons/HouseIcon';
 import { StarIcon } from './icons/StartIcon';
 import { StopIcon } from './icons/StopIcon';
+import { RobotIcon } from './icons/RobotIcon';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -40,4 +41,5 @@ export const SvgIcons = {
   HouseIcon,
   StarIcon,
   StopIcon,
+  RobotIcon,
 };

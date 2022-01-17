@@ -52,8 +52,8 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
 
     return (
         <SafeAreaView style={{ flex: 1, }}>
-            <MenuProvider>
-                <CommonKeyboardAvoidingView style={{ flex: 1, }}>
+            <CommonKeyboardAvoidingView style={{ flex: 1, }}>
+                <MenuProvider>
                     <CurrentSessionHeader navigation={navigation} />
                     <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
                         <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(sessionState!)} />
@@ -61,8 +61,8 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
                     <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
                         {renderElement()}
                     </View>
-                </CommonKeyboardAvoidingView>
-            </MenuProvider>
+                </MenuProvider>
+            </CommonKeyboardAvoidingView>
         </SafeAreaView>);
 }
 

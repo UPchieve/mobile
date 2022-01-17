@@ -16,8 +16,17 @@ type showPromptType = {
     coloredIcon?: boolean,
 }
 
+type showAlertType = {
+    title: string,
+    text: string,
+    icon: SvgFC | React.FC,
+    type: PrimaryColorType,
+    onConfirm?: (() => void) | (() => Promise<void>),
+    confirmText?: string,
+    coloredIcon?: boolean,
+}
 interface AlertContextType {
-    showAlert: () => void
+    showAlert: (params: showAlertType) => void
     showPrompt: (params: showPromptType) => void
 }
 export const AlertContext = createContext<AlertContextType>({} as AlertContextType);
@@ -54,8 +63,28 @@ export const AlertProvider: React.FC = ({ children }) => {
             cancelButtonText: cancelText,
         });
     }
+    const showAlert = ({ title, text, icon, coloredIcon, type
+        , confirmText, onConfirm = () => { } }: showAlertType) => {
+            setAlertProps({
+                visible: true,
+                title,
+                text,
+                icon, 
+                coloredIcon, 
+                type,
+                actionButtonText: confirmText,
+                actionButtonPress: async () => {
+                    if (onConfirm.constructor.name == 'AsyncFunction') {
+                        await onConfirm();
+                    } else {
+                        onConfirm();
+                    }
+                    hideAlert();
+                },
+            })
+    }
     return <AlertContext.Provider value={{
-        showAlert: () => { },
+        showAlert,
         showPrompt,
     }}>
         {children}

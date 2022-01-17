@@ -100,9 +100,6 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
 
     useEffect(() => {
         if (sessionState && previousSessionState) {
-            console.log('sessionState', sessionState);
-            console.log('previousSessionState', previousSessionState);
-            console.log('isvolunteer', user.isVolunteer);
             if (!!sessionState.volunteerJoinedAt && !previousSessionState.volunteerJoinedAt) {
                 if(user.isVolunteer === false){
                     dispatch({

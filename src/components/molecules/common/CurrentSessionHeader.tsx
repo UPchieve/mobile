@@ -1,7 +1,5 @@
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FontDisplay } from 'expo-font';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, Image, View, StyleSheet, Pressable } from "react-native";
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
@@ -20,14 +18,39 @@ type CurrentSessionHeaderType = {
 export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation }) => {
 
     const { user, sessionState } = useContext(AuthContext);
-    const { showPrompt } = useContext(AlertContext);
-
+    const { showPrompt, showAlert } = useContext(AlertContext);
+    const [waitingTimeout, setWaitingTimeout] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
 
-    console.log(sessionState);
-
-
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
+
+    useEffect(() => {
+
+        return () => waitingTimeout && clearTimeout();
+    }, []);
+
+    useEffect(() => {
+        console.log('new date', sessionState);
+        if (isWaitingForVolunteer() && !waitingTimeout) {
+            const timeout = setTimeout(() => {
+                showAlert({
+                    title: 'We’re having trouble matching you with a coach',
+                    text: 'Please try again later.',
+                    icon: SvgIcons.RobotIcon,
+                    type: 'success',
+                    confirmText: 'Back to Dashboard',
+                    onConfirm: () => {
+                        console.log('ok.');
+                    }
+                })
+            }, 1000 * 60 * 10); // 10 mins.
+            setWaitingTimeout(timeout);
+        }
+        if (!!waitingTimeout && !isWaitingForVolunteer()) {
+            clearTimeout(waitingTimeout)
+            setWaitingTimeout(undefined);
+        }
+    }, [sessionState]);
 
     const handleButtonClick = async () => {
         if (isWaitingForVolunteer()) {
