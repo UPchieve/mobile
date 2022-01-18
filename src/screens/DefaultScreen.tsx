@@ -9,7 +9,7 @@ import { delay } from '../utils/utils';
 
 type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
-  const [sessionId, setSessionId] = useState('61e5c701a554a5de3017597b');
+  const [sessionId, setSessionId] = useState('61e5d752a554a5de30175c80');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { refreshUser } = useContext(AuthContext);

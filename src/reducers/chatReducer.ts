@@ -35,7 +35,7 @@ interface ChatMarkSeenAction {
 }
 
 
-type Action = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction | ChatSessionOpenedAction | ChatAddText;
+export type ChatReducerAction = ChatIncominAction | ChatOutcomingAction | ChatMarkSeenAction | ChatSessionOpenedAction | ChatAddText;
 
 export interface TextItem {
     type: 'text',
@@ -57,7 +57,7 @@ export interface ChatItem {
 export type ChatType = ChatItem | TextItem
 
 
-export const chatReducer = (state: ChatType[] = [], action: Action): ChatType[] => {
+export const chatReducer = (state: ChatType[] = [], action: ChatReducerAction): ChatType[] => {
     switch (action.type) {
         case 'chat_incoming': return handleChatIncoming(state, action.payload);
         case 'chat_outcoming': return handleChatOutcoming(state, action.payload);

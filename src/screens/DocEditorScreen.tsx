@@ -1,17 +1,12 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Dimensions, Image, Keyboard, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Keyboard, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { SafeAreaView } from 'react-native';
 
 //@ts-ignore
-import { authService } from '../services/authService';
 import WebView, { WebViewMessageEvent } from "react-native-webview";
 import { quill } from "../../assets/quill-editor/quill";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { QuillEditorEvent } from "../types/WebViewTypes";
 import { AuthContext } from '../providers/AuthProvider';
-import { ImageIndex } from '../../assets/ImageIndex';
-import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { SvgIcons } from '../../assets/IndexIcons';
 import { Colors } from '../../assets/Colors';
 import { useKeyboard } from '@react-native-community/hooks';
@@ -20,8 +15,9 @@ import { FontIndex } from '../../assets/FontIndex';
 type DocEditorType = {
   sessionId: string
   onSwitchPress: () => void;
+  hasNotifications: boolean;
 }
-export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPress }) => {
+export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPress, hasNotifications }) => {
   const webViewRef = useRef<WebView>(null);
   // const { sessionId } = route.params;
   const { socketHandler } = useContext(AuthContext);
@@ -66,7 +62,7 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
   }, []);
 
   const onKeyboardActionPress = () => {
-    if(keyboardShown){
+    if (keyboardShown) {
       webViewRef.current?.postMessage(JSON.stringify({ eventType: 'blur' }));
       Keyboard.dismiss();
     } else {
@@ -92,7 +88,6 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
       }
     } else if (event.eventType === 'selection-change') {
       if (event.eventValue.source === 'user') {
-        console.log('emiting selection');
         socketHandler.emit('transmitQuillSelection', {
           sessionId: sessionId,
           range: data.eventValue.range,
@@ -104,9 +99,12 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
   return (
     <View style={styles.root}>
       {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}> */}
-      <View style={{ flex: 1, }}>
+      <View style={{
+        flex: 1,
+        width: '100%',
+        // height: 200,
+      }}>
         <WebView
-          style={styles.webView}
           javaScriptEnabled={true}
           ref={webViewRef}
           originWhitelist={['*']}
@@ -118,9 +116,12 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
       <View style={styles.customToolbar}>
         {!keyboardShown
           ? <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
-            <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
+            <View>
+              <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
+              <View style={hasNotifications && styles.notificationRedBall} />
+            </View>
           </TouchableOpacity>
-          : <View/>}
+          : <View />}
         <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
           <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
         </TouchableOpacity>
@@ -138,9 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 0,
     backgroundColor: '#FFF',
-  },
-  webView: {
-    flex: 1,
   },
   customToolbar: {
     position: 'absolute',
@@ -166,5 +164,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.information,
     alignSelf: 'center',
+  },
+  notificationRedBall: {
+    backgroundColor: Colors.error,
+    height: 12,
+    width: 12,
+    borderRadius: 100,
+    position: 'absolute',
+    right: -2,
+    top: -3,
   }
 });

@@ -25,9 +25,10 @@ import { AuthContext } from '../providers/AuthProvider';
 type WhiteboardType = {
   sessionId: string,
   onSwitchPress: () => void;
+  hasNotifications: boolean
 }
 
-export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress }) => {
+export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress, hasNotifications }) => {
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
@@ -140,13 +141,20 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
     }
   };
 
+  const renderSwapToChatIcon = () => {
+    return <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
+      <View>
+        <SvgIcons.WordBubbleIcon stroke={'white'} width={27} height={24} />
+        <View style={hasNotifications && styles.notificationRedBall} />
+      </View>
+    </Pressable>
+  }
+
   const renderWhiteboard = () => {
     if (orientation === "PORTRAIT") {
       return <>
         <View style={styles.topToolsWrapper}>
-          <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
-            <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
-          </Pressable>
+          {renderSwapToChatIcon()}
           <View style={styles.rightTopPanelWrapper}>
             <TouchableOpacity onPress={zwibblerManager?.undo}>
               <SvgIcons.UndoIcon stroke={'gray'} style={{ marginRight: 30 }} />
@@ -177,9 +185,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
     } else {
       return <>
         <View style={styles.topToolsWrapper}>
-          <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
-            <SvgIcons.WordBubbleIcon stroke={'white'} width={24} height={24} />
-          </Pressable>
+          {renderSwapToChatIcon()}
           <View style={styles.rightTopPanelWrapper}>
             <View style={styles.topToolsWrapperLandscape}>
               <WhiteboardToolsMenu
@@ -294,4 +300,13 @@ const styles = StyleSheet.create({
   selectedIconWrapper: {
     backgroundColor: darkGray,
   },
+  notificationRedBall: {
+    backgroundColor: Colors.error,
+    height: 12,
+    width: 12,
+    borderRadius: 100,
+    position: 'absolute',
+    right: -2,
+    top: -3,
+  }
 });

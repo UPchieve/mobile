@@ -6,7 +6,7 @@ import { messageUserType } from '../components/atoms/chat/ChatTypes';
 import { ChatInput } from '../components/atoms/chat/ChatInput';
 //@ts-ignore
 import { ChatIncomingData, ChatoutcomingData } from '../interfaces/chatInterfaces';
-import { chatReducer, ChatType } from '../reducers/chatReducer';
+import { chatReducer, ChatReducerAction, ChatType } from '../reducers/chatReducer';
 import { SessionType } from '../interfaces/sessionInterfaces';
 import { ChatTypping } from '../components/atoms/chat/ChatTypping';
 import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButton';
@@ -22,6 +22,8 @@ import { usePrevious } from '../hooks/usePrevious';
 type Props = {
     onSwitchPress: () => void;
     sessionType: SessionType,
+    chat: ChatType[],
+    dispatch: React.Dispatch<ChatReducerAction>
 }
 
 const botMessages = [
@@ -30,11 +32,10 @@ const botMessages = [
     'What kind of help do you need today?',
 ];
 
-export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
+export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, dispatch }) => {
 
     const chatListRef = useRef<FlatList<ChatType>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
-    const [chat, dispatch] = useReducer(chatReducer, []);
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
@@ -101,14 +102,14 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType }) => {
     useEffect(() => {
         if (sessionState && previousSessionState) {
             if (!!sessionState.volunteerJoinedAt && !previousSessionState.volunteerJoinedAt) {
-                if(user.isVolunteer === false){
+                if (user.isVolunteer === false) {
                     dispatch({
                         type: 'chat_add_text',
                         payload: 'A Volunteer has entered the chat room',
                     });
                 }
-            } else if(sessionState?.endedBy === sessionState.student._id){
-                if(user.isVolunteer === true){
+            } else if (sessionState?.endedBy === sessionState.student._id) {
+                if (user.isVolunteer === true) {
                     dispatch({
                         type: 'chat_add_text',
                         payload: 'Student has left the chat room'
@@ -287,7 +288,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         color: Colors.secondaryGray,
         textAlign: 'center',
-    }
-});
+    },
 
-// TODO add the message when the volunteer enter to the room
+});

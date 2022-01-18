@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 
 import { Keyboard, StyleSheet, View } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
@@ -8,6 +8,7 @@ import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardA
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from "../components/molecules/common/CurrentSessionHeader";
 import { AuthContext } from '../providers/AuthProvider';
+import { chatReducer } from '../reducers/chatReducer';
 import { MainStackParamList } from '../routes/MainStackNavigator';
 import { getSessionType, } from '../utils/utils';
 import { ChatScreen } from "./ChatScreen"
@@ -17,12 +18,9 @@ import { WhiteBoardScreen } from './WhiteBoardScreen';
 type SessionScreenType = NativeStackScreenProps<MainStackParamList, 'Session'>;
 export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }) => {
     const { sessionId } = route.params;
+    const [chat, dispatchChat] = useReducer(chatReducer, []);
     const { user, sessionState, socketHandler } = useContext(AuthContext);
     const [showChat, setShowChat] = useState<boolean>(true);
-    const onSwitchPress = () => {
-        Keyboard.dismiss();
-        setShowChat((oldValue) => !oldValue);
-    }
 
     useEffect(() => {
         console.log('complete user', user);
@@ -39,11 +37,18 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         );
     }, [sessionId]);
 
+    const onSwitchPress = () => {
+        Keyboard.dismiss();
+        setShowChat((oldValue) => !oldValue);
+    }
+
+
+    const hasNotifications = () => chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length>0;
     const renderElement = () => {
         const sessionType = getSessionType(sessionState!);
         return sessionType === 'DOCUMENT'
-            ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
-            : <WhiteBoardScreen sessionId={sessionId} onSwitchPress={onSwitchPress} />
+            ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
+            : <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
     }
 
     if (!sessionState) {
@@ -56,7 +61,11 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
                 <MenuProvider>
                     <CurrentSessionHeader navigation={navigation} />
                     <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
-                        <ChatScreen onSwitchPress={onSwitchPress} sessionType={getSessionType(sessionState!)} />
+                        <ChatScreen
+                            onSwitchPress={onSwitchPress}
+                            sessionType={getSessionType(sessionState!)}
+                            chat={chat} dispatch={dispatchChat}
+                        />
                     </View>
                     <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
                         {renderElement()}

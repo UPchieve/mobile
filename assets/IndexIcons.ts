@@ -19,6 +19,7 @@ import { HouseIcon } from './icons/HouseIcon';
 import { StarIcon } from './icons/StartIcon';
 import { StopIcon } from './icons/StopIcon';
 import { RobotIcon } from './icons/RobotIcon';
+import { CheckIcon } from './icons/CheckIcon';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -42,4 +43,5 @@ export const SvgIcons = {
   StarIcon,
   StopIcon,
   RobotIcon,
+  CheckIcon,
 };

@@ -6,6 +6,7 @@ import { SessionScreen } from './src/screens/SessionScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainStackNavigator } from './src/routes/MainStackNavigator';
 import { AlertProvider } from './src/providers/AlertProvider';
+import { OnboardingStackNavigator } from './src/routes/OnboardingStackNavigator';
 
 export default function App() {
 
@@ -26,9 +27,8 @@ export default function App() {
     <AlertProvider>
       <AuthProvider>
         <NavigationContainer>
-          <MainStackNavigator />
-          {/* <FeedbackForm1Screen /> */}
-          {/* <SessionScreen/> */}
+          {/* <MainStackNavigator /> */}
+          <OnboardingStackNavigator/>
         </NavigationContainer>
       </AuthProvider>
     </AlertProvider>
