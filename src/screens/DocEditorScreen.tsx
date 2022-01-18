@@ -101,8 +101,9 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
       {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}> */}
       <View style={{
         flex: 1,
+        // marginTop: 100,
         width: '100%',
-        // height: 200,
+        // height: 180,
       }}>
         <WebView
           javaScriptEnabled={true}
@@ -113,7 +114,7 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
           source={{ html: quill.html }} />
       </View>
       {/* </KeyboardAwareScrollView> */}
-      <View style={styles.customToolbar}>
+      <View style={[styles.customToolbar, keyboardShown && { alignSelf: 'flex-end' }]}>
         {!keyboardShown
           ? <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
             <View>
@@ -121,10 +122,10 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
               <View style={hasNotifications && styles.notificationRedBall} />
             </View>
           </TouchableOpacity>
-          : <View />}
-        <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
-          <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
-        </TouchableOpacity>
+          : <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
+            <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
+          </TouchableOpacity>
+        }
       </View>
     </View>
   );
@@ -143,9 +144,7 @@ const styles = StyleSheet.create({
   customToolbar: {
     position: 'absolute',
     top: 0,
-    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingRight: 20,
     height: 58,
   },
@@ -158,6 +157,7 @@ const styles = StyleSheet.create({
   },
   textActionWrapper: {
     justifyContent: 'center',
+    alignItems: 'center',
   },
   textAction: {
     fontFamily: FontIndex.WorkSans.Regular,

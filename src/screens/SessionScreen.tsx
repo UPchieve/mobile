@@ -48,7 +48,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         const sessionType = getSessionType(sessionState!);
         return sessionType === 'DOCUMENT'
             ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
-            : <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
+            : <WhiteBoardScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
     }
 
     if (!sessionState) {

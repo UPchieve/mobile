@@ -27,8 +27,8 @@ export default function App() {
     <AlertProvider>
       <AuthProvider>
         <NavigationContainer>
-          {/* <MainStackNavigator /> */}
-          <OnboardingStackNavigator/>
+          <MainStackNavigator />
+          {/* <OnboardingStackNavigator/> */}
         </NavigationContainer>
       </AuthProvider>
     </AlertProvider>

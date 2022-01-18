@@ -4,6 +4,9 @@ const html = `
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <style>
+    #editor{
+        padding-bottom: 50px !important;
+    }
     .ql-toolbar.ql-snow {
         padding: 4px 0 0 0;
         height: 50px;
@@ -35,8 +38,11 @@ const html = `
         padding: 4px 8px;
         width: 100%;
         background-color: #fff;
-        top: 92vh;
-        position: absolute;
+        position: fixed;
+        bottom: 0;
+        z-index: 10000;
+        height: 50px;
+        background-color: 'aqua';
         width: 99%;
     }
 
