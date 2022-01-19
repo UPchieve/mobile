@@ -2,6 +2,7 @@
     "expo": {
         "name": "upchieve-app",
         "slug": "upchieve-app",
+        "scheme": "com.upchieve.app",
         "version": "1.0.0",
         "orientation": "default",
         "icon": "./assets/images/icon.png",

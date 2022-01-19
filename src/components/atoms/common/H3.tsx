@@ -13,7 +13,6 @@ export const H3: React.FC<H3Type> = ({ children, color = Colors.black }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
     },
     text: {
         fontFamily: FontIndex.WorkSans.Regular,

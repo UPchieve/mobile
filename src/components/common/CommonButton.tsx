@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   StyleProp,
-  ViewStyle, Image, View, ImageSourcePropType,
+  ViewStyle, Image, View, ImageSourcePropType, ImageBackgroundBase,
 } from 'react-native';
 import { Colors, PrimaryColorType } from '../../../assets/Colors';
 import { FontIndex } from "../../../assets/FontIndex";
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.defaultGray,
     borderRadius: 30,
+    justifyContent: 'center',
   },
   buttonText: {
     fontFamily: FontIndex.WorkSans.Regular,
@@ -81,6 +82,6 @@ const styles = StyleSheet.create({
   buttonWrap: {
     justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   }
 });

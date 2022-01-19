@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MainStackNavigator } from './src/routes/MainStackNavigator';
 import { AlertProvider } from './src/providers/AlertProvider';
 import { OnboardingStackNavigator } from './src/routes/OnboardingStackNavigator';
+import { Routes } from './src/routes/Routes';
 
 export default function App() {
 
@@ -26,10 +27,7 @@ export default function App() {
   return (
     <AlertProvider>
       <AuthProvider>
-        <NavigationContainer>
-          <MainStackNavigator />
-          {/* <OnboardingStackNavigator/> */}
-        </NavigationContainer>
+        <Routes/>
       </AuthProvider>
     </AlertProvider>
   );

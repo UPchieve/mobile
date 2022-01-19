@@ -1,19 +1,23 @@
 import React from 'react'
-import { View, StyleSheet, TextInput, Text } from "react-native"
+import { View, StyleSheet, TextInput, Text, TextInputBase, TextInputProps } from "react-native"
 import { Colors } from "../../../../assets/Colors"
 import { FontIndex } from '../../../../assets/FontIndex'
 import { SvgIcons } from '../../../../assets/IndexIcons'
 
-type InputType = {
+export type InputType = {
     value?: string,
     onChangeText?: (value: string) => void,
     isValid?: boolean,
+    touched?: boolean,
     errorMessage?: string,
     placeholder?: string,
     password?: boolean,
-}
-export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false }) => {
+} & TextInputProps;
+export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, ...props }) => {
+    TextInputBase
     const renderIcon = () => {
+        if (!touched)
+            return null;
         if (isValid === true) {
             return <SvgIcons.CheckIcon fill={Colors.success} />
         } else if (isValid === false) {
@@ -23,24 +27,25 @@ export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, error
     }
     return <>
         <View style={[styles.container
-            , isValid === false && styles.containerError
-            , isValid === true && styles.containerSuccess]}>
+            , touched && isValid === false && styles.containerError
+            , touched && isValid === true && styles.containerSuccess]}>
             <View style={styles.inputWrapper}>
                 <TextInput
                     style={[styles.input
-                        , isValid === false && styles.inputError]}
+                        , touched && isValid === false && styles.inputError]}
                     placeholder={placeholder}
                     placeholderTextColor={Colors.secondaryGray}
                     value={value}
                     secureTextEntry={password === true}
                     onChangeText={(value) => onChangeText && onChangeText(value)}
+                    {...props}
                 />
                 <View style={styles.icons}>
                     {renderIcon()}
                 </View>
             </View>
         </View>
-        {isValid === false && errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+        {touched && isValid === false && errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
     </>
 }
 
