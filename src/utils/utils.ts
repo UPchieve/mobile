@@ -30,3 +30,15 @@ export const delay = (time: number): Promise<void> => {
         }, time);
     });
 }
+
+export const hasLowerCase = (value: string) => {
+    return (/[a-z]/.test(value));
+}
+
+export const hasUpperCase = (value: string) => {
+    return (/[A-Z]/.test(value));
+}
+
+export const hasNumbers = (value: string) => {
+    return (/[0-9]/.test(value));
+}

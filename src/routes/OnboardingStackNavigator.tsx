@@ -9,6 +9,7 @@ import { ResetPasswordStep3Screen } from '../screens/onboarding/login/ResetPassw
 import { ResetPasswordStep4Screen } from '../screens/onboarding/login/ResetPasswordStep4';
 import { RegisterScreen } from '../screens/onboarding/register/RegisterScreen';
 import { EligibleResultScreen } from '../screens/onboarding/register/EligibleResultScreen';
+import { CreateAccountScreen } from '../screens/onboarding/register/CreateAccountScreen';
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -19,6 +20,7 @@ export type OnboardingStackParamList = {
     ResetPasswordStep4: undefined;
     Register: undefined;
     EligibleResult: { eligible: boolean };
+    CreateAccount: undefined;
 };
 
 export const OnboardingStackNavigator = () => {
@@ -70,6 +72,11 @@ export const OnboardingStackNavigator = () => {
                 name="EligibleResult"
                 options={({route}) => ({ headerTitle: '', headerShown: !route.params.eligible})}
                 component={EligibleResultScreen}
+            />
+            <Stack.Screen
+                name="CreateAccount"
+                options={{headerShown: false,}}
+                component={CreateAccountScreen}
             />
         </Stack.Navigator>
     );

@@ -24,7 +24,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
 
     const renderNotEligible = () => {
         return <View style={[styles.wrapper, styles.wrapperNotEligible]}>
-            <Text style={styles.title}>You’re Eligible!</Text>
+            <Text style={styles.title}>Sorry, we can’t verify {'\n'} your eligibility yet.</Text>
             <Image source={ImageIndex.onboarding.notEligible} style={{ marginBottom: 30 }} />
             <Text style={{ fontSize: 16, fontFamily: FontIndex.WorkSans.Regular, textAlign: 'center' }}>
                 <Text style={{ fontFamily: FontIndex.WorkSans.Bold }}>Don’t worry: you may still be eligible!{"\n"}</Text>
@@ -35,13 +35,17 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
     return (
         <SafeAreaView>
             {/* {eligible ? renderEligible() : null} */}
-            {renderNotEligible()}
+            {eligible ? renderEligible() : renderNotEligible()}
             <View style={{ paddingHorizontal: 20, }}>
                 <CommonButton
                     title="Continue"
                     type="information"
                     style={{ height: 48, }}
-                    onPress={() => { }}
+                    onPress={() => {
+                        if(eligible){
+                            navigation.navigate('CreateAccount');
+                        }
+                     }}
                 />
             </View>
         </SafeAreaView>

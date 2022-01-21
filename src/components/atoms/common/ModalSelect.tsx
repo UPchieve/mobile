@@ -56,4 +56,3 @@ export const ModalSelect = React.forwardRef<refType, ModalSelectorType>((props, 
         </View>
     </Modalize>
 })
-

@@ -20,6 +20,11 @@ import { StarIcon } from './icons/StartIcon';
 import { StopIcon } from './icons/StopIcon';
 import { RobotIcon } from './icons/RobotIcon';
 import { CheckIcon } from './icons/CheckIcon';
+import { GlassIcon } from './icons/GlassIcon';
+import { ClearInputIcon } from './icons/ClearInputIcon';
+import { DropdownIcon } from './icons/DropdownIcon';
+import { VisibilityHiddenIcon } from './icons/VisibilityHiddenIcon';
+import { VisibilityShowIcon } from './icons/VisibilityShowIcon';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -44,4 +49,9 @@ export const SvgIcons = {
   StopIcon,
   RobotIcon,
   CheckIcon,
+  GlassIcon,
+  ClearInputIcon,
+  DropdownIcon,
+  VisibilityHiddenIcon,
+  VisibilityShowIcon
 };

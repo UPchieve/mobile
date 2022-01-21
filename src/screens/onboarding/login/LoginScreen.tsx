@@ -63,7 +63,7 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
             </View>
             <View style={{ marginVertical: 16, alignItems: 'center' }}>
                 <Text style={styles.dontHaveAccountText}>Dont have an account?</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                     <Text style={[styles.dontHaveAccountText, { color: Colors.information }]}>See if you are eligible</Text>
                 </TouchableOpacity>
             </View>

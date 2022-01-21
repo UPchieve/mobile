@@ -9,4 +9,10 @@ const getSchools = async (q: string): Promise<School[]> => {
     return data?.results || [];
 }
 
-export const eligibilityService = { getSchools };
+const check = async (request: CheckEligibilityRequest): Promise<boolean> => {
+    const { data } = await http.post<{ isEligible?: boolean }>('/api-public/eligibility/check', request);
+    const { isEligible } = data;
+    return isEligible !== undefined ? isEligible : true;
+}
+
+export const eligibilityService = { getSchools, check };

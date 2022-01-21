@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   StyleProp,
-  ViewStyle, Image, View, ImageSourcePropType, ImageBackgroundBase,
+  ViewStyle, Image, View, ImageSourcePropType, ImageBackgroundBase, ActivityIndicator,
 } from 'react-native';
 import { Colors, PrimaryColorType } from '../../../assets/Colors';
 import { FontIndex } from "../../../assets/FontIndex";
@@ -15,7 +15,8 @@ interface ICommonButton {
   type?: PrimaryColorType;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
-  rightIcon?: any
+  rightIcon?: any;
+  loading?: boolean;
 }
 
 export const CommonButton: React.FC<ICommonButton> = ({
@@ -23,8 +24,9 @@ export const CommonButton: React.FC<ICommonButton> = ({
   onPress,
   type,
   style,
+  loading = false,
   disabled = false,
-  rightIcon = null
+  rightIcon = null,
 }) => {
 
   return (
@@ -39,7 +41,8 @@ export const CommonButton: React.FC<ICommonButton> = ({
       onPress={onPress}
     >
       <View style={styles.buttonWrap}>
-        <Text style={[styles.buttonText, type && { color: 'white' }, disabled && styles.buttonTextDisabled]}>
+        <Text style={[styles.buttonText, type && { color: 'white' }, disabled && styles.buttonTextDisabled, 
+        loading && {color: 'transparent'}]}>
           {title}
         </Text>
         {rightIcon ?
@@ -47,6 +50,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
             source={rightIcon} />
           : null
         }
+        {loading ? <ActivityIndicator style={styles.loadingIndicator}/> : null}
       </View>
 
     </TouchableOpacity>
@@ -83,5 +87,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  loadingIndicator: {
+    position: 'absolute',
   }
 });

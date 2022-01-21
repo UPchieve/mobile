@@ -4,10 +4,11 @@ import { Input, InputType } from "../Input";
 
 type FormikInputType = {
     name: string,
-    placeholder?: string
+    placeholder?: string,
+    password?: boolean,
 } & InputType;
 
-export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, ...props }) => {
+export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, password = false, ...props }) => {
     const formik = useFormikContext<any>();
     return <Input
         placeholder={placeholder}
@@ -17,6 +18,7 @@ export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, ...p
         errorMessage={formik.errors[name] as string}
         value={formik.values[name]}
         onBlur={formik.handleBlur(name)}
+        password={password}
         {...props}
     />
 }

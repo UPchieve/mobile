@@ -1,73 +1,106 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { FormikProvider, useFormik } from 'formik'
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Modalize } from 'react-native-modalize'
-import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack'
 import { FontIndex } from '../../../../../assets/FontIndex'
 import { FormikInput } from '../../../../components/atoms/common/Formik/FormikInput'
 import { Input } from '../../../../components/atoms/common/Input'
-import { Separator } from '../../../../components/atoms/common/Separator'
 import { HelperText } from '../../../../components/atoms/onboarding/HelperText'
 import { CommonButton } from '../../../../components/common/CommonButton'
+import { HighSchoolPicker } from '../../../../components/molecules/onboarding/HighSchoolPicker'
 import { OnboardingStackParamList } from '../../../../routes/OnboardingStackNavigator'
+import { schoolUtils } from '../../../../utils/eligibilityUtils'
+import * as Yup from 'yup';
+import { eligibilityService } from '../../../../services/eligibilityService'
 
 type CheckEligibilityType = {
     navigation: NativeStackNavigationProp<OnboardingStackParamList, "Register">
     selectRef: any;
 }
 type formValueType = {
-    highSchool: string,
-    grade: string,
+    highSchool: School,
+    grade: SelectItem,
     zipCode: string,
     email: string,
 }
+const validationSchema = Yup.object().shape({
+    highSchool: Yup.object().required(),
+    grade: Yup.object().required(),
+    zipCode: Yup.string().required(),
+    email: Yup.string().email('Invalid email').required('Required'),
+    //TODO missing password length definition.
+});
 export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, selectRef }) => {
+    const [highSchoolModalVisible, setHighSchoolModalVisible] = useState<boolean>(false);
     const formik = useFormik<formValueType>({
         initialValues: {} as formValueType,
-        onSubmit: () => { }
+        validationSchema,
+        onSubmit: async ({email, highSchool, zipCode, grade}: formValueType) => {
+            const response = await eligibilityService.check({
+    
+                email: email,
+                schoolUpchieveId: highSchool._id,
+                zipCode: zipCode,
+                currentGrade: grade.value,
+            });
+            
+            navigation.navigate('EligibleResult', { eligible: response });
+        }
     });
     const renderInput = (name: string, placeholder: string) => {
         return <View style={{ marginBottom: 20 }}>
             <FormikInput name={name} placeholder={placeholder} />
         </View>
     }
+
+
     return (
         <FormikProvider value={formik}>
             <Text style={styles.title}>Don’t have a sign up code?</Text>
             <HelperText>Let’s check if your eligible!</HelperText>
             <View style={styles.form}>
-                {renderInput('highSchool', 'High School')}
                 <View style={{ marginBottom: 20 }}>
                     <Input
                         editable={false}
-                        value={formik.values.grade}
+                        value={formik.values.highSchool == undefined ? '' : schoolUtils.getAsString(formik.values.highSchool)}
+                        placeholder="High School"
+                        errorMessage={formik.errors.highSchool as string}
+                        isValid={!formik.errors.highSchool}
+                        touched={formik.touched.highSchool as boolean}
+                        onPressIn={() => setHighSchoolModalVisible(true)} />
+                </View>
+                <View style={{ marginBottom: 20 }}>
+                    <Input
+                        editable={false}
+                        value={formik.values.grade?.label || ''}
                         placeholder="Select your grade"
-                        errorMessage={formik.errors.grade}
+                        errorMessage={formik.errors.grade as string}
                         isValid={!formik.errors.grade}
-                        touched={formik.touched.grade}
-                        onPressIn={() => selectRef.current.open((selected: string) => {
+                        touched={formik.touched.grade as boolean}
+                        onPressIn={() => selectRef.current.open((selected: SelectItem) => {
                             formik.setFieldTouched('grade');
                             formik.setFieldValue('grade', selected);
                         })} />
                 </View>
+
                 {renderInput('zipCode', 'Zip Code')}
                 {renderInput('email', 'Your email')}
             </View>
-            {/* <CommonButton
-                title='Check Your Eligibility'
-                type='information'
-                style={{ height: 48, }}
-                onPress={() => navigation.navigate('EligibleResult', { eligible: true })}
-            /> */}
             <CommonButton
                 title='Check Your Eligibility'
                 type='information'
                 style={{ height: 48, }}
-                onPress={() => {
-                    selectRef.current.open((e: string) => { alert(e) })
-                }}
+                disabled={!formik.isValid || formik.isSubmitting}
+                loading={formik.isSubmitting}
+                // onPress={() => navigation.navigate('EligibleResult', { eligible: true })}
+                onPress={formik.handleSubmit}
             />
+            <HighSchoolPicker visible={highSchoolModalVisible}
+                onSelect={(value) => {
+                    formik.setFieldTouched('highSchool');
+                    formik.setFieldValue('highSchool', value);
+                }}
+                onCancel={() => setHighSchoolModalVisible(false)} />
         </FormikProvider>
     )
 }

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, TextInput, Text, TextInputBase, TextInputProps } from "react-native"
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from "../../../../assets/Colors"
 import { FontIndex } from '../../../../assets/FontIndex'
 import { SvgIcons } from '../../../../assets/IndexIcons'
@@ -15,13 +16,14 @@ export type InputType = {
 } & TextInputProps;
 export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, ...props }) => {
     TextInputBase
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
     const renderIcon = () => {
         if (!touched)
             return null;
         if (isValid === true) {
             return <SvgIcons.CheckIcon fill={Colors.success} />
         } else if (isValid === false) {
-            return <SvgIcons.CloseIcon stroke={Colors.error} />
+            return <SvgIcons.CloseIcon stroke={Colors.error} height={15} width={15}/>
         }
         return null;
     }
@@ -34,15 +36,21 @@ export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, error
                     style={[styles.input
                         , touched && isValid === false && styles.inputError]}
                     placeholder={placeholder}
-                    placeholderTextColor={Colors.secondaryGray}
+                    placeholderTextColor={Colors.defaultGray}
                     value={value}
-                    secureTextEntry={password === true}
+                    secureTextEntry={password && secureTextEntry === true}
                     onChangeText={(value) => onChangeText && onChangeText(value)}
                     {...props}
                 />
-                <View style={styles.icons}>
-                    {renderIcon()}
-                </View>
+                {renderIcon()}
+                {password ?
+                    <TouchableOpacity onPress={() => setSecureTextEntry(currentValue => !currentValue)}>
+                        {secureTextEntry
+                            ? <SvgIcons.VisibilityHiddenIcon fill={Colors.secondaryGray} />
+                            : <SvgIcons.VisibilityShowIcon fill={Colors.secondaryGray} />
+                        }
+                    </TouchableOpacity>
+                    : null}
             </View>
         </View>
         {touched && isValid === false && errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
@@ -69,11 +77,13 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         paddingRight: 0,
+        alignItems: 'center'
     },
     input: {
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 15,
         // flexGrow: 1,
+        color: Colors.softBlack,
         flex: 1,
         marginRight: 10,
     },
@@ -83,6 +93,7 @@ const styles = StyleSheet.create({
     errorMessage: {
         marginLeft: 2,
         marginTop: 15,
+        marginBottom: 10,
         color: Colors.error,
         fontSize: 14,
         fontFamily: FontIndex.WorkSans.Regular,
