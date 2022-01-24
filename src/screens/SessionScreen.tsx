@@ -43,12 +43,12 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }
 
 
-    const hasNotifications = () => chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length>0;
+    const hasNotifications = () => chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length > 0;
     const renderElement = () => {
         const sessionType = getSessionType(sessionState!);
         return sessionType === 'DOCUMENT'
-            ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
-            : <WhiteBoardScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()}/>
+            ? <DocEditorScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()} />
+            : <WhiteBoardScreen sessionId={sessionId} onSwitchPress={onSwitchPress} hasNotifications={hasNotifications()} />
     }
 
     if (!sessionState) {
@@ -59,7 +59,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         <SafeAreaView style={{ flex: 1, }}>
             <CommonKeyboardAvoidingView style={{ flex: 1, }}>
                 <MenuProvider>
-                    <CurrentSessionHeader navigation={navigation} />
+                    <CurrentSessionHeader navigation={navigation} onSwitchPress={onSwitchPress} currentlyShowingChat={showChat} />
                     <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
                         <ChatScreen
                             onSwitchPress={onSwitchPress}

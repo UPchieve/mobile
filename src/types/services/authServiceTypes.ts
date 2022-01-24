@@ -1,0 +1,33 @@
+interface CreateAccountRequest {
+    email: string,
+    password: string,
+    highSchoolId: string,
+    zipCode: string,
+    firstName: string,
+    lastName: string,
+    currentGrade: string,
+}
+
+interface CreateAccountResponse {
+    _id: string,
+    zipCode: string,
+    currentGrade: string,
+    inGatesStudy: boolean,
+    email: string,
+    password: string,
+    verified: boolean,
+    verifiedEmail: boolean,
+    verifiedPhone: boolean,
+    firstname: string,
+    lastname: string,
+    isVolunteer: boolean,
+    isAdmin: boolean,
+    isBanned: boolean,
+    isTestUser: boolean,
+    isFakeUser: boolean,
+    isDeactivated: boolean,
+    type: string,
+    createdAt: string,
+    lastActivityAt: string,
+    referralCode: string,
+}

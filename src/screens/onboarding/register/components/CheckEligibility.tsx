@@ -35,16 +35,22 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
     const formik = useFormik<formValueType>({
         initialValues: {} as formValueType,
         validationSchema,
-        onSubmit: async ({email, highSchool, zipCode, grade}: formValueType) => {
+        onSubmit: async ({ email, highSchool, zipCode, grade }: formValueType) => {
             const response = await eligibilityService.check({
-    
+
                 email: email,
                 schoolUpchieveId: highSchool._id,
                 zipCode: zipCode,
                 currentGrade: grade.value,
             });
-            
-            navigation.navigate('EligibleResult', { eligible: response });
+
+            navigation.navigate('EligibleResult', {
+                eligible: response,
+                grade: grade.value,
+                zipCode,
+                highSchoolId: highSchool._id,
+                email,
+            });
         }
     });
     const renderInput = (name: string, placeholder: string) => {
@@ -92,7 +98,6 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
                 style={{ height: 48, }}
                 disabled={!formik.isValid || formik.isSubmitting}
                 loading={formik.isSubmitting}
-                // onPress={() => navigation.navigate('EligibleResult', { eligible: true })}
                 onPress={formik.handleSubmit}
             />
             <HighSchoolPicker visible={highSchoolModalVisible}

@@ -12,7 +12,7 @@ import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigat
 
 type EligibleResultScreenType = NativeStackScreenProps<OnboardingStackParamList, 'EligibleResult'>;
 export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route, navigation }) => {
-    const { eligible } = route.params;
+    const { eligible, grade, highSchoolId, zipCode, email } = route.params;
 
     const renderEligible = () => {
         return <><ImageBackground source={ImageIndex.onboarding.confetti} style={styles.wrapper}>
@@ -43,7 +43,9 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
                     style={{ height: 48, }}
                     onPress={() => {
                         if(eligible){
-                            navigation.navigate('CreateAccount');
+                            navigation.navigate('CreateAccount', {
+                                grade, highSchoolId, zipCode, email
+                            });
                         }
                      }}
                 />

@@ -35,6 +35,10 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
         })();
     }, [term]);
 
+    useEffect(() => {
+        searchInputRef.current?.focus();
+    }, [visible]);
+
     const itemPicked = (item: School) => {
         onSelect(item);
         searchInputRef.current?.setText('');

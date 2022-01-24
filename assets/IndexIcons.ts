@@ -25,6 +25,8 @@ import { ClearInputIcon } from './icons/ClearInputIcon';
 import { DropdownIcon } from './icons/DropdownIcon';
 import { VisibilityHiddenIcon } from './icons/VisibilityHiddenIcon';
 import { VisibilityShowIcon } from './icons/VisibilityShowIcon';
+import { DocEditorIcon } from './icons/DocEditorIcon';
+import { WhiteboardIcon } from './icons/WhiteboardIcon';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -53,5 +55,7 @@ export const SvgIcons = {
   ClearInputIcon,
   DropdownIcon,
   VisibilityHiddenIcon,
-  VisibilityShowIcon
+  VisibilityShowIcon,
+  DocEditorIcon,
+  WhiteboardIcon
 };

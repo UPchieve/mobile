@@ -16,6 +16,9 @@ import { FormikPicker } from '../../../components/atoms/common/Formik/FormikPick
 import * as Yup from 'yup';
 import { PasswordInput } from '../../../components/atoms/onboarding/PasswordInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { formatValueType } from 'react-native-cn-quill/lib/typescript/constants/formats';
+import { authService } from '../../../services/authService';
+import { Routes } from '../../../routes/Routes';
 
 
 interface formTypeValues {
@@ -46,11 +49,26 @@ const validationSchema = Yup.object().shape({
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     olderThan13: Yup.boolean().isTrue()
 });
-export const CreateAccountScreen: React.FC<CreateAccountScreenType> = () => {
+export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({route}) => {
     const formik = useFormik<formTypeValues>({
         initialValues,
         validationSchema,
-        onSubmit: () => { }
+        onSubmit: async (values: formTypeValues) => {
+            try {
+                await authService.createAccount({
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    password: values.password,
+                    highSchoolId: route.params.highSchoolId,
+                    zipCode: route.params.zipCode,
+                    currentGrade: route.params.grade,
+                    email: route.params.email
+                });
+            } catch (error: any) {
+                const { err } = error?.response?.data ?? 'Error';
+                alert(err);
+            }
+        }
     });
 
     const renderInput = (name: string, placeholder: string, password: boolean = false) => {

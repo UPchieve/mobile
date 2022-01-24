@@ -10,6 +10,8 @@ import { ResetPasswordStep4Screen } from '../screens/onboarding/login/ResetPassw
 import { RegisterScreen } from '../screens/onboarding/register/RegisterScreen';
 import { EligibleResultScreen } from '../screens/onboarding/register/EligibleResultScreen';
 import { CreateAccountScreen } from '../screens/onboarding/register/CreateAccountScreen';
+import { VerifyAccountStep1Screen } from '../screens/onboarding/register/VerifyAccountStep1Screen';
+import { VerifyAccountStep2Screen } from '../screens/onboarding/register/VerifyAccountStep2Screen';
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -19,8 +21,27 @@ export type OnboardingStackParamList = {
     ResetPasswordStep3: { token: string };
     ResetPasswordStep4: undefined;
     Register: undefined;
-    EligibleResult: { eligible: boolean };
-    CreateAccount: undefined;
+    VerifyAccount: {
+        firstName: string,
+        email: string,
+    };
+    VerifyAccountStep2: {
+        verificationType: 'sms' | 'email'
+        email: string,
+    },
+    EligibleResult: {
+        eligible: boolean,
+        highSchoolId: string,
+        grade: string,
+        zipCode: string,
+        email: string,
+    };
+    CreateAccount: {
+        highSchoolId: string,
+        grade: string,
+        zipCode: string,
+        email: string,
+    };
 };
 
 export const OnboardingStackNavigator = () => {
@@ -70,13 +91,21 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name="EligibleResult"
-                options={({route}) => ({ headerTitle: '', headerShown: !route.params.eligible})}
+                options={({ route }) => ({ headerTitle: '', headerShown: !route.params.eligible })}
                 component={EligibleResultScreen}
             />
             <Stack.Screen
                 name="CreateAccount"
-                options={{headerShown: false,}}
+                options={{ headerShown: false, }}
                 component={CreateAccountScreen}
+            />
+            <Stack.Screen
+                name='VerifyAccount'
+                component={VerifyAccountStep1Screen}
+            />
+            <Stack.Screen
+                name='VerifyAccountStep2'
+                component={VerifyAccountStep2Screen}
             />
         </Stack.Navigator>
     );

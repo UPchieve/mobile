@@ -1856,6 +1856,11 @@ big-integer@1.6.x:
   resolved "https://registry.npmjs.org/big-integer/-/big-integer-1.6.51.tgz"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
 
+bignumber.js@^9.0.1:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.2.tgz#71c6c6bed38de64e24a65ebe16cfcf23ae693673"
+  integrity sha512-GAcQvbpsM0pUb0zw1EI0KhQEZ+lRwR5fYaAp3vPOYuP7aDvGy6cVN6XHLauvF8SOga2y0dcLcjt3iQDTSEliyw==
+
 blob@0.0.5:
   version "0.0.5"
   resolved "https://registry.npmjs.org/blob/-/blob-0.0.5.tgz"
@@ -4886,6 +4891,13 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
+
+react-native-mask-text@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-mask-text/-/react-native-mask-text-0.7.0.tgz#82e004ee4caef6805f0004d99dad65d0fe58dca8"
+  integrity sha512-gp6GGDsI3s+UP8TIhh+iIjkIgnq0HsZGuMa9qW1+BdcPr9u9rpEzghPhcnWJd5sj/0ONqpudBI5Z8OABB5WH/g==
+  dependencies:
+    bignumber.js "^9.0.1"
 
 react-native-modal-popover@^2.1.0:
   version "2.1.0"

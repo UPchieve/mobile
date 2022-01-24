@@ -9,13 +9,16 @@ import { AlertContext } from '../../../providers/AlertProvider';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { MainStackParamList } from '../../../routes/MainStackNavigator';
 import { sessionService } from '../../../services/sessionService';
-import { isSessionEnded } from '../../../utils/utils';
+import { getSessionType, isSessionEnded } from '../../../utils/utils';
+import { ChatInput } from '../../atoms/chat/ChatInput';
 
 type CurrentSessionHeaderType = {
     navigation: NativeStackNavigationProp<MainStackParamList, "Session">
+    onSwitchPress: () => void;
+    currentlyShowingChat: boolean;
 }
 
-export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation }) => {
+export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation, onSwitchPress, currentlyShowingChat }) => {
 
     const { user, sessionState } = useContext(AuthContext);
     const { showPrompt, showAlert } = useContext(AlertContext);
@@ -117,7 +120,18 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     return <View style={[styles.container, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
         {!isSessionEnded(sessionState) ?
             <View style={styles.userContainer}>
-                <Image style={styles.icon} source={renderImage()} />
+                <Pressable style={styles.swapIcon} onPress={() => { onSwitchPress && onSwitchPress(); }}>
+                    <View>
+                        {!currentlyShowingChat
+                            ? <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
+                            : getSessionType(sessionState!) === 'DOCUMENT'
+                                ? <SvgIcons.DocEditorIcon fill={'white'}/>
+                                : <SvgIcons.WhiteboardIcon stroke={'white'}/>
+                        }
+                        {/* <View style={hasNotifications && styles.notificationRedBall} /> */}
+                    </View>
+                </Pressable>
+                {/* <Image style={styles.icon} source={renderImage()} /> */}
                 <View style={styles.textWrapper}>
                     <Text style={styles.titleText}>{getTitleText()}</Text>
                     <Text style={styles.inSessionText}>{!isWaitingForVolunteer() ? 'In Session' : 'Contacting coaches...'}</Text>
@@ -142,7 +156,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingLeft: 20,
+        // paddingLeft: 20,
         paddingRight: 15,
     },
     containerSessionEnded: {
@@ -185,5 +199,12 @@ const styles = StyleSheet.create({
         color: '#FFFF',
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 16,
+    },
+    swapIcon: {
+        backgroundColor: Colors.success,
+        height: 69,
+        width: 69,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

@@ -56,11 +56,20 @@ const changePassword = async (email: string, password: string, token: string) =>
   return data;
 }
 
+const createAccount = async (request: CreateAccountRequest): Promise<CreateAccountResponse> => {
+  const { data } = await http.post<CreateAccountResponse>('/auth/register/student/open', {
+    ...request,
+    terms: true,
+  });
+  return data;
+}
+
 export const authService = {
   // login,
   login,
   getCurrentUser,
   logout,
   sendResetPasswordEmail,
-  changePassword
+  changePassword,
+  createAccount
 }

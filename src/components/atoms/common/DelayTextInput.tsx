@@ -1,8 +1,7 @@
-import React, { useRef } from 'react'
+import React, { createRef, useRef } from 'react'
 import { useImperativeHandle } from 'react';
 import { useEffect, useState } from "react";
-import { TextInputProps } from "react-native"
-import { TextInput } from "react-native-gesture-handler"
+import { TextInputProps, TextInput } from "react-native"
 
 type DelayTextInputType = {
     value: string;
@@ -12,16 +11,20 @@ type DelayTextInputType = {
 
 export type DelayTextInputHandle = {
     setText: (value: string) => void;
+    focus: () => void;
 }
 
 const Component: React.ForwardRefRenderFunction<DelayTextInputHandle, DelayTextInputType> =
     (props, ref) => {
         const { delay = 500, value, onChangeText } = props;
         const [query, setQuery] = useState("");
-
+        const inputRef = useRef<TextInput>(null);
         useImperativeHandle(ref, () => ({
             setText: (value) => {
                 setQuery(value);
+            },
+            focus: () => {
+                inputRef.current?.focus();
             }
         }));
 
@@ -30,7 +33,7 @@ const Component: React.ForwardRefRenderFunction<DelayTextInputHandle, DelayTextI
             return () => clearTimeout(timeOutId);
         }, [query]);
 
-        return <TextInput {...props} value={query} onChangeText={setQuery} />
+        return <TextInput {...props} ref={inputRef} value={query} onChangeText={setQuery} />
     }
 
 export const DelayTextInput = React.forwardRef(Component);
