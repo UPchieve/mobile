@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Colors, PrimaryColorType } from '../../../assets/Colors';
 import { FontIndex } from "../../../assets/FontIndex";
+import { SvgFC } from '../../../assets/icons/SvgInterface';
 
 interface ICommonButton {
   title: string;
@@ -17,6 +18,7 @@ interface ICommonButton {
   style?: StyleProp<ViewStyle>;
   rightIcon?: any;
   loading?: boolean;
+  SvgIcon?: SvgFC;
 }
 
 export const CommonButton: React.FC<ICommonButton> = ({
@@ -27,6 +29,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
   loading = false,
   disabled = false,
   rightIcon = null,
+  SvgIcon = null,
 }) => {
 
   return (
@@ -50,6 +53,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
             source={rightIcon} />
           : null
         }
+        {SvgIcon ? <View style={{ marginLeft: 15, }}><SvgIcon fill="white" /></View> : null}
         {loading ? <ActivityIndicator style={styles.loadingIndicator} /> : null}
       </View>
 

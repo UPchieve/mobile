@@ -27,6 +27,7 @@ import { VisibilityHiddenIcon } from './icons/VisibilityHiddenIcon';
 import { VisibilityShowIcon } from './icons/VisibilityShowIcon';
 import { DocEditorIcon } from './icons/DocEditorIcon';
 import { WhiteboardIcon } from './icons/WhiteboardIcon';
+import { GoArrow } from './icons/GoArrow';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -57,5 +58,6 @@ export const SvgIcons = {
   VisibilityHiddenIcon,
   VisibilityShowIcon,
   DocEditorIcon,
-  WhiteboardIcon
+  WhiteboardIcon,
+  GoArrow,
 };

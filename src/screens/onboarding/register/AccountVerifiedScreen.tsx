@@ -3,6 +3,7 @@ import React from 'react';
 import { Image, View } from 'react-native';
 import { Colors } from '../../../../assets/Colors';
 import { ImageIndex } from '../../../../assets/ImageIndex';
+import { SvgIcons } from '../../../../assets/IndexIcons';
 import { H3 } from '../../../components/atoms/common/H3';
 import { HelperText } from '../../../components/atoms/onboarding/HelperText';
 import { CommonButton } from '../../../components/common/CommonButton';
@@ -39,6 +40,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({navi
                 type='information'
                 title='I’m listening'
                 onPress={() => navigation.navigate('Welcome')}
+                SvgIcon={SvgIcons.GoArrow}
             />
         </View>
     </View>
