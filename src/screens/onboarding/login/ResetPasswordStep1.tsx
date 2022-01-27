@@ -38,7 +38,7 @@ export const ResetPasswordStep1Screen: React.FC<ResetPasswordStep1ScreenType> = 
             <Separator backgroundColor="transparent" marginVertical={35} />
             <CommonButton
                 title="Send Instructions"
-                type="information"
+                type="success"
                 disabled={!formik.isValid || formik.isSubmitting}
                 onPress={formik.handleSubmit}
                 style={{height: 48,}}

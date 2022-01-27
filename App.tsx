@@ -8,6 +8,8 @@ import { MainStackNavigator } from './src/routes/MainStackNavigator';
 import { AlertProvider } from './src/providers/AlertProvider';
 import { OnboardingStackNavigator } from './src/routes/OnboardingStackNavigator';
 import { Routes } from './src/routes/Routes';
+import {RegisterSignUpCodeStep1Screen} from "./src/screens/onboarding/register/RegisterSignUpCodeStep1Screen";
+import {RegisterSignUpCodeStep2Screen} from "./src/screens/onboarding/register/RegisterSignUpCodeStep2Screen";
 
 export default function App() {
 

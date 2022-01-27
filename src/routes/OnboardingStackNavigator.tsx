@@ -12,6 +12,9 @@ import { EligibleResultScreen } from '../screens/onboarding/register/EligibleRes
 import { CreateAccountScreen } from '../screens/onboarding/register/CreateAccountScreen';
 import { VerifyAccountStep1Screen } from '../screens/onboarding/register/VerifyAccountStep1Screen';
 import { VerifyAccountStep2Screen } from '../screens/onboarding/register/VerifyAccountStep2Screen';
+import {RegisterSignUpCodeStep1Screen} from "../screens/onboarding/register/RegisterSignUpCodeStep1Screen";
+import {SignUpCode} from "../screens/onboarding/register/components/SignUpCode";
+import {RegisterSignUpCodeStep2Screen} from "../screens/onboarding/register/RegisterSignUpCodeStep2Screen";
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -42,6 +45,8 @@ export type OnboardingStackParamList = {
         zipCode: string,
         email: string,
     };
+    RegisterSignUpCodeStep1Screen: undefined,
+    RegisterSignUpCodeStep2: undefined
 };
 
 export const OnboardingStackNavigator = () => {
@@ -107,6 +112,14 @@ export const OnboardingStackNavigator = () => {
                 name='VerifyAccountStep2'
                 component={VerifyAccountStep2Screen}
             />
+            <Stack.Screen
+                name='RegisterSignUpCodeStep1Screen'
+                options={{ headerShown: true, headerBackTitle: 'Back'}}
+                component={RegisterSignUpCodeStep1Screen}
+            />
+            <Stack.Screen
+                name={'RegisterSignUpCodeStep2'}
+                component={RegisterSignUpCodeStep2Screen}/>
         </Stack.Navigator>
     );
 };

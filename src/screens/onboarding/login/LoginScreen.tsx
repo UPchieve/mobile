@@ -46,18 +46,19 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
         <View style={styles.container}>
             <H3>Welcome Back!</H3>
             <HelperText mt={8} mb={25}>Sign in to your account.</HelperText>
-            <FormikInput name="email" placeholder="Email" />
+            <FormikInput name="email" placeholder="Email" isValid={undefined} />
             <Separator backgroundColor='transparent' marginVertical={8} />
             <FormikInput
                 name="password"
                 placeholder='Password'
                 password
+                isValid={undefined}
             />
             <TouchableOpacity style={{ width: '100%', alignItems: 'flex-end', marginTop: 8, }} onPress={() => navigation.navigate('ResetPasswordStep1')}>
                 <Text style={styles.forgotYourPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
             <View style={styles.buttonWrapper}>
-                <CommonButton title='Continue' type='information'
+                <CommonButton title='Continue' type='success'
                     disabled={!formik.isValid || formik.isSubmitting}
                     onPress={formik.handleSubmit} />
             </View>

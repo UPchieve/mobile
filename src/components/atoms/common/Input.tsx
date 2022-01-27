@@ -12,7 +12,7 @@ export type InputType = {
     touched?: boolean,
     errorMessage?: string,
     placeholder?: string,
-    password?: boolean,
+    password?: boolean
 } & TextInputProps;
 export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, ...props }) => {
     TextInputBase

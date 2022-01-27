@@ -1,12 +1,18 @@
 import { FormikProvider, useFormik } from 'formik'
 import React from 'react'
-import { Text, View } from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import { FormikInput } from '../../../../components/atoms/common/Formik/FormikInput'
 import { H3 } from '../../../../components/atoms/common/H3'
 import { CommonButton } from '../../../../components/common/CommonButton'
+import {Colors} from "../../../../../assets/Colors";
+import {FontIndex} from "../../../../../assets/FontIndex";
+import {Popover, usePopover} from "react-native-modal-popover";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {OnboardingStackParamList} from "../../../../routes/OnboardingStackNavigator";
 
 type formValueType = { code: string }
-export const SignUpCode: React.FC = () => {
+// type SignUpCodeScreenType = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCode'>;
+export const SignUpCode = ({}) => {
     const formik = useFormik<formValueType>({
         initialValues: {} as formValueType,
         validateOnBlur: false,
@@ -15,14 +21,75 @@ export const SignUpCode: React.FC = () => {
 
         }
     });
+
+    const {
+        openPopover,
+        closePopover,
+        popoverVisible,
+        touchableRef,
+        popoverAnchorRect,
+    } = usePopover();
+
     return <FormikProvider value={formik}>
-        <H3>Enter your sign up code</H3>
+        <View style={{flexDirection: 'row'}}>
+            <H3>Enter your sign up code</H3>
+            <View style={{marginLeft: 20, justifyContent: 'center'}}>
+                <TouchableOpacity style={styles.informationIcon} onPress={() => openPopover()} ref={touchableRef}>
+                    <Text style={styles.informationIconText}>i</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+
         <View style={{ marginVertical: 20, }}>
             <FormikInput name="code" placeholder="Sign up Code" />
         </View>
         <CommonButton title='Sign Up'
             style={{ height: 48, }}
             type="information"
-            onPress={() => { }} />
+            onPress={() => ''} />
+        < Popover
+            contentStyle={styles.content}
+            backgroundStyle={styles.background}
+            visible={popoverVisible}
+            onClose={closePopover}
+            fromRect={popoverAnchorRect}
+            placement='bottom'
+            supportedOrientations={['portrait']}>
+            <Text style={styles.popoverText}>Have a sign up code from your school or organization? Enter it here!</Text>
+        </Popover>
     </FormikProvider>
 }
+
+const styles = StyleSheet.create({
+    informationIcon: {
+        borderColor: Colors.defaultGray,
+        borderWidth: 1,
+        borderRadius: 100,
+        height: 18,
+        width: 18,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    informationIconText: {
+        color: Colors.defaultGray,
+        fontSize: 12,
+        fontFamily: FontIndex.WorkSans.Regular
+    },
+    //popover
+    content: {
+        paddingBottom: 14,
+        paddingTop: 14,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 8,
+        width: 250,
+    },
+    background: {
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    },
+    popoverText: {
+        color: Colors.secondaryGray,
+        fontSize: 12,
+        fontFamily: FontIndex.WorkSans.Regular,
+    }
+})

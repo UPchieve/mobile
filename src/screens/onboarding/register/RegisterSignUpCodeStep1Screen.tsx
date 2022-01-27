@@ -1,0 +1,149 @@
+import React from "react";
+import {StyleSheet, Text, View} from "react-native";
+import {H3} from "../../../components/atoms/common/H3";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {FormikProvider, useFormik} from "formik";
+import {authService} from "../../../services/authService";
+import * as Yup from "yup";
+import {FontIndex} from "../../../../assets/FontIndex";
+import {Colors} from "../../../../assets/Colors";
+import {Separator} from "../../../components/atoms/common/Separator";
+import {Stepper} from "../../../components/molecules/onboarding/Stepper";
+import {schoolUtils} from "../../../utils/eligibilityUtils";
+import {Input} from "../../../components/atoms/common/Input";
+import {FormikInput} from "../../../components/atoms/common/Formik/FormikInput";
+import {PasswordInput} from "../../../components/atoms/onboarding/PasswordInput";
+import {InputCheckBox} from "../../../components/atoms/common/InputCheckBox";
+import {CommonButton} from "../../../components/common/CommonButton";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {OnboardingStackParamList} from "../../../routes/OnboardingStackNavigator";
+
+
+interface formTypeValues {
+    email: string,
+    password: string,
+    confirmPassword: string,
+    olderThan13: boolean,
+}
+const initialValues: formTypeValues = {
+    email: '',
+    password: '',
+    confirmPassword: '',
+    olderThan13: false,
+}
+//type RegisterSignUpCodeStep1Type = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCodeStep1Screen'>;
+export const RegisterSignUpCodeStep1Screen = ({}) => {
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().required(),
+        //TODO missing password length definition.
+        password: Yup.string().required('Required').matches(/^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/
+            , "Password must contain at least one uppercase, one lower case, and 1 number."),
+        confirmPassword: Yup.string().required()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+        olderThan13: Yup.boolean().isTrue()
+    });
+
+    const formik = useFormik<formTypeValues>({
+        initialValues,
+        validationSchema,
+        onSubmit: async (values: formTypeValues) => {
+            //navigation.navigate('RegisterSignUpCodeStep2')
+        }
+    });
+
+    const renderInput = (name: string, placeholder: string, password: boolean = false) => {
+        return <View style={{ marginBottom: 8, }}>
+            <FormikInput name={name} placeholder={placeholder} password={password} />
+        </View>
+    }
+
+    return (
+        <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20}}>
+            <FormikProvider value={formik}>
+                    <H3>Welcome XXX Student!</H3>
+                    <Separator marginVertical={8} backgroundColor='transparent' />
+                        <Text style={styles.notWithText}>Not with ____ ?</Text>
+                    <Separator marginVertical={8} backgroundColor='transparent' />
+                    <Stepper data={[{
+                        stepNumber: 1,
+                        stepState: 'active'
+                    }, { stepNumber: 2, stepState: 'not-started' }, { stepNumber: 3, stepState: 'not-started' }]} />
+                    <Separator marginVertical={12} backgroundColor='transparent' />
+                    <FormikInput
+                        placeholder="Email"
+                        name={formik.values.email}/>
+                    <Separator marginVertical={6} backgroundColor='transparent' />
+                    <PasswordInput value={formik.values.password} onChangeText={(value: string) => {
+                        formik.setFieldTouched('password');
+                        formik.handleChange('password')(value);
+                    }
+                    }
+                                   touched={formik.touched.password}
+                                   onBlur={formik.handleBlur('password')}
+                                   isValid={!formik.errors.password}
+                                   allwaysShowMessage={true}
+                                   placeholder="Create Password"
+                                   message='Password must contain at least one uppercase, one lower case, and number'/>
+                    <Separator marginVertical={6} backgroundColor='transparent' />
+                    {renderInput('confirmPassword', 'Confirm Password', true)}
+                    <InputCheckBox mt={15} mb={24} label="I am at least 13 years old" value={formik.values.olderThan13}
+                                   onChange={(value) => formik.setFieldValue('olderThan13', value)}
+                                   touched={formik.touched.olderThan13}
+                                   isValid={false}
+                                   errorMessage={formik.errors.olderThan13}
+                    />
+                    <CommonButton
+                        title='Continue'
+                        disabled={formik.isValid || formik.isSubmitting}
+                        loading={formik.isSubmitting}
+                        type='success'
+                        onPress={() => formik.handleSubmit()}
+                        style={{ height: 42 }}
+                    />
+                    <Separator marginVertical={16} backgroundColor='transparent' />
+                    <View style={{ alignSelf: 'center' }}>
+                        <Text style={styles.bottomText}>By signing up, you agree to our</Text>
+                        <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                            <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Terms of use</Text></TouchableOpacity>
+                            <Text style={styles.bottomText}> and </Text>
+                            <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text></TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{justifyContent: 'flex-end', alignItems: 'center', flex: 1}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.questionText}>Already have an account?</Text>
+                            <Text style={[styles.questionText, styles.linkText]}> Log In</Text>
+                        </View>
+                    </View>
+            </FormikProvider>
+        </KeyboardAwareScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+    },
+    notWithText: {
+        fontFamily: FontIndex.WorkSans.Regular,
+        fontSize: 16,
+        color: Colors.information
+    },
+    bottomText: {
+        fontFamily: FontIndex.WorkSans.Regular,
+        fontSize: 14,
+        textAlign: 'center'
+    },
+    linkText: {
+        color: Colors.information,
+        textAlignVertical: 'bottom'
+    },
+    questionText: {
+        fontFamily: FontIndex.WorkSans.Regular,
+        fontSize: 16,
+        textAlign: 'center',
+        fontWeight: 'bold'
+    }
+})

@@ -90,7 +90,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
                 </View>
 
                 {renderInput('zipCode', 'Zip Code')}
-                {renderInput('email', 'Your email')}
+                {renderInput('email', 'Email')}
             </View>
             <CommonButton
                 title='Check Your Eligibility'
