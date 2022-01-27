@@ -8,7 +8,7 @@ import { CommonButton } from '../../components/common/CommonButton';
 import { OnboardingStackParamList } from '../../routes/OnboardingStackNavigator';
 
 type WelcomeScreenType = NativeStackScreenProps<OnboardingStackParamList, 'Welcome'>;
-export const WelcomeScreen: React.FC<WelcomeScreenType> = ({navigation}) => {
+export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
     return <SafeAreaView style={styles.container}>
         <View style={styles.content}>
 
@@ -17,9 +17,12 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({navigation}) => {
             <CommonButton title="Log in" onPress={() => navigation.navigate('Login')}
                 type='information'
             />
-            <Separator backgroundColor='transparent' marginVertical={8}/>
+            <Separator backgroundColor='transparent' marginVertical={8} />
             <CommonButton title="Sign Up" onPress={() => navigation.navigate('Register')}
             />
+            <CommonButton title='account verified' onPress={() => navigation.navigate('VerifyAccount',
+                { userId: '61f30bed36fcb79872be1024', email: 'juan.portugal+3@nonerds.com', firstName: 'Juan 3' }
+            )} />
         </View>
     </SafeAreaView>
 }

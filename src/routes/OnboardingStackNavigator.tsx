@@ -12,9 +12,10 @@ import { EligibleResultScreen } from '../screens/onboarding/register/EligibleRes
 import { CreateAccountScreen } from '../screens/onboarding/register/CreateAccountScreen';
 import { VerifyAccountStep1Screen } from '../screens/onboarding/register/VerifyAccountStep1Screen';
 import { VerifyAccountStep2Screen } from '../screens/onboarding/register/VerifyAccountStep2Screen';
-import {RegisterSignUpCodeStep1Screen} from "../screens/onboarding/register/RegisterSignUpCodeStep1Screen";
-import {SignUpCode} from "../screens/onboarding/register/components/SignUpCode";
-import {RegisterSignUpCodeStep2Screen} from "../screens/onboarding/register/RegisterSignUpCodeStep2Screen";
+import { RegisterSignUpCodeStep1Screen } from "../screens/onboarding/register/RegisterSignUpCodeStep1Screen";
+import { RegisterSignUpCodeStep2Screen } from "../screens/onboarding/register/RegisterSignUpCodeStep2Screen";
+import { VerificationMethod } from '../types/services/authServiceTypes';
+import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVerifiedScreen';
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -25,13 +26,17 @@ export type OnboardingStackParamList = {
     ResetPasswordStep4: undefined;
     Register: undefined;
     VerifyAccount: {
+        userId: string,
         firstName: string,
         email: string,
     };
     VerifyAccountStep2: {
-        verificationType: 'sms' | 'email'
-        email: string,
+        verificationType: VerificationMethod
+        sendTo: string,
+        firstName: string,
+        userId: string,
     },
+    AccountVerified: undefined,
     EligibleResult: {
         eligible: boolean,
         highSchoolId: string,
@@ -114,12 +119,17 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name='RegisterSignUpCodeStep1Screen'
-                options={{ headerShown: true, headerBackTitle: 'Back'}}
+                options={{ headerShown: true, headerBackTitle: 'Back' }}
                 component={RegisterSignUpCodeStep1Screen}
             />
             <Stack.Screen
                 name={'RegisterSignUpCodeStep2'}
-                component={RegisterSignUpCodeStep2Screen}/>
+                component={RegisterSignUpCodeStep2Screen} />
+            <Stack.Screen 
+                name='AccountVerified'
+                component={AccountVerifiedScreen}
+                options={{headerShown: false}}
+            />
         </Stack.Navigator>
     );
 };

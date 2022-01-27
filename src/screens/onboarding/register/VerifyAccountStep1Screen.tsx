@@ -15,6 +15,9 @@ import { CommonButton } from '../../../components/common/CommonButton';
 import { Stepper } from '../../../components/molecules/onboarding/Stepper';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
 import * as Yup from 'yup';
+import { authService } from '../../../services/authService';
+import { VerificationMethod } from '../../../types/services/authServiceTypes';
+import { getErrorFromBackendResponse } from '../../../utils/utils';
 
 interface formValueType {
     code: string,
@@ -24,6 +27,7 @@ const validationSchema = Yup.object().shape({
 });
 type VerifyAccountScreenType = NativeStackScreenProps<OnboardingStackParamList, 'VerifyAccount'>;
 export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ route, navigation }) => {
+    const { firstName, email, userId } = route.params;
     const inputRef = useRef<TextInput>(null);
     const formik = useFormik<formValueType>({
         initialValues: {
@@ -31,9 +35,17 @@ export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ ro
             code: ''
         } as formValueType,
         validationSchema,
-        onSubmit: (values, { setSubmitting }) => {
-            console.log('Sent sms code.');
-            setSubmitting(false);
+        onSubmit: async ({ code }, { setSubmitting }) => {
+            try {
+                //TODO check how is the expected number format for the request.
+                await sendVerification(code, 'sms');
+            } catch (error) {
+                const err = getErrorFromBackendResponse(error);
+                alert(err);
+            }
+            finally {
+                setSubmitting(false);
+            }
         }
     });
 
@@ -41,11 +53,23 @@ export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ ro
         inputRef.current?.focus();
     }, [inputRef]);
 
-    const onEmailVerify = async () => {
-        navigation.navigate('VerifyAccountStep2', {
-            verificationType: 'email',
-            email: route.params.email
+    const sendVerification = async (sendTo: string, type: VerificationMethod) => {
+        await authService.createAccountSendValidation({
+            _id: userId,
+            firstName,
+            sendTo,
+            verificationMethod: type,
         });
+        navigation.navigate('VerifyAccountStep2', {
+            verificationType: type,
+            firstName,
+            userId,
+            sendTo
+        });
+    }
+
+    const onEmailVerifyPress = async () => {
+        await sendVerification(email, 'email');
     }
 
     return <View style={{ padding: 20, }}>
@@ -62,7 +86,7 @@ export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ ro
             <PhoneInput onChangeText={(_, rawText) => formik.handleChange('code')(rawText)} ref={inputRef} />
             <View style={styles.bottomTextWrapper}>
                 <Text style={styles.bottomText}>or  </Text>
-                <TouchableOpacity onPress={onEmailVerify}>
+                <TouchableOpacity onPress={onEmailVerifyPress}>
                     <Text style={[styles.bottomText, { color: Colors.information }]}>verify with your email.</Text>
                 </TouchableOpacity>
             </View>
@@ -70,6 +94,7 @@ export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ ro
                 title='Continue'
                 type='success'
                 disabled={formik.isSubmitting || !formik.isValid}
+                loading={formik.isSubmitting}
                 onPress={formik.handleSubmit}
                 style={{ height: 48, }}
             />

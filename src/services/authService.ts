@@ -2,6 +2,7 @@ import axios from 'axios';
 import http from './http';
 import { config } from '../../config';
 import { Student, User, Volunteer } from '../models/user';
+import { ConfirmValidationRequest, CreateAccountRequest, CreateAccountResponse, SendValidationRequest } from '../types/services/authServiceTypes';
 
 // const login = async (
 //   email: string,
@@ -64,12 +65,27 @@ const createAccount = async (request: CreateAccountRequest): Promise<CreateAccou
   return data;
 }
 
+const createAccountSendValidation = async (request: SendValidationRequest): Promise<boolean> => {
+  await http.post('/api/verify/send', request);
+  return true;
+}
+
+const createAccountVerifyValidation = async (request: ConfirmValidationRequest): Promise<boolean> => {
+  console.log('request',request);
+  
+  const { data } = await http.post<{ success: boolean }>('/api/verify/confirm', request);
+  console.log('response',data);
+  
+  return data.success;
+}
+
 export const authService = {
-  // login,
   login,
   getCurrentUser,
   logout,
   sendResetPasswordEmail,
   changePassword,
-  createAccount
+  createAccount,
+  createAccountSendValidation,
+  createAccountVerifyValidation
 }

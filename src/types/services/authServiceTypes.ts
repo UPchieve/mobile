@@ -1,4 +1,4 @@
-interface CreateAccountRequest {
+export interface CreateAccountRequest {
     email: string,
     password: string,
     highSchoolId: string,
@@ -8,7 +8,7 @@ interface CreateAccountRequest {
     currentGrade: string,
 }
 
-interface CreateAccountResponse {
+export interface CreateAccountResponse {
     _id: string,
     zipCode: string,
     currentGrade: string,
@@ -30,4 +30,20 @@ interface CreateAccountResponse {
     createdAt: string,
     lastActivityAt: string,
     referralCode: string,
+}
+
+export type VerificationMethod = 'email' | 'sms';
+
+export interface SendValidationRequest {
+    _id: string,
+    firstName: string,
+    sendTo: string,
+    verificationMethod: VerificationMethod,
+}
+
+export interface ConfirmValidationRequest {
+    userId: string,
+    sendTo: string,
+    verificationMethod: VerificationMethod,
+    verificationCode: string,
 }

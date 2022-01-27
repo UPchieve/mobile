@@ -4815,6 +4815,13 @@ range-parser@~1.2.1:
   resolved "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
+react-countdown@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.npmjs.org/react-countdown/-/react-countdown-2.3.2.tgz#4cc27f28f2dcd47237ee66e4b9f6d2a21fc0b0ad"
+  integrity sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-devtools-core@^4.6.0:
   version "4.21.0"
   resolved "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.21.0.tgz"

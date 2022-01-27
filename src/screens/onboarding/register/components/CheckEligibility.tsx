@@ -18,10 +18,10 @@ type CheckEligibilityType = {
     selectRef: any;
 }
 type formValueType = {
-    highSchool: School,
-    grade: SelectItem,
-    zipCode: string,
-    email: string,
+    highSchool?: School,
+    grade?: SelectItem,
+    zipCode?: string,
+    email?: string,
 }
 const validationSchema = Yup.object().shape({
     highSchool: Yup.object().required(),
@@ -33,23 +33,27 @@ const validationSchema = Yup.object().shape({
 export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, selectRef }) => {
     const [highSchoolModalVisible, setHighSchoolModalVisible] = useState<boolean>(false);
     const formik = useFormik<formValueType>({
-        initialValues: {} as formValueType,
+        initialValues: {
+            email: undefined,
+            grade: undefined,
+            highSchool: undefined,
+            zipCode: undefined,
+        },
         validationSchema,
         onSubmit: async ({ email, highSchool, zipCode, grade }: formValueType) => {
             const response = await eligibilityService.check({
-
-                email: email,
-                schoolUpchieveId: highSchool._id,
-                zipCode: zipCode,
-                currentGrade: grade.value,
+                email: email!,
+                schoolUpchieveId: highSchool!._id,
+                zipCode: zipCode!,
+                currentGrade: grade!.value,
             });
 
             navigation.navigate('EligibleResult', {
                 eligible: response,
-                grade: grade.value,
-                zipCode,
-                highSchoolId: highSchool._id,
-                email,
+                grade: grade!.value,
+                zipCode: zipCode!,
+                highSchoolId: highSchool!._id,
+                email: email!,
             });
         }
     });

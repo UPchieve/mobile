@@ -41,8 +41,8 @@ export const CommonButton: React.FC<ICommonButton> = ({
       onPress={onPress}
     >
       <View style={styles.buttonWrap}>
-        <Text style={[styles.buttonText, type && { color: 'white' }, disabled && styles.buttonTextDisabled, 
-        loading && {color: 'transparent'}]}>
+        <Text style={[styles.buttonText, type && { color: 'white' }, disabled && styles.buttonTextDisabled,
+        loading && { color: 'transparent' }]}>
           {title}
         </Text>
         {rightIcon ?
@@ -50,7 +50,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
             source={rightIcon} />
           : null
         }
-        {loading ? <ActivityIndicator style={styles.loadingIndicator}/> : null}
+        {loading ? <ActivityIndicator style={styles.loadingIndicator} /> : null}
       </View>
 
     </TouchableOpacity>
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.defaultGray,
     borderRadius: 30,
     justifyContent: 'center',
+    height: 48,
   },
   buttonText: {
     fontFamily: FontIndex.WorkSans.Regular,

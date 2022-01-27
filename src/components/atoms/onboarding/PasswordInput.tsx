@@ -7,7 +7,20 @@ import { FontIndex } from '../../../../assets/FontIndex'
 import { SvgIcons } from '../../../../assets/IndexIcons'
 import { hasLowerCase, hasNumbers, hasUpperCase, randomString } from '../../../utils/utils'
 
-const passwordValidationSteps = [hasLowerCase, hasUpperCase, hasNumbers];
+const passwordValidationSteps = [
+    {
+        fn: hasLowerCase,
+        errorMessage: 'one lower case'
+    },
+    {
+        fn: hasUpperCase,
+        errorMessage: 'one upper case'
+    },
+    {
+        fn: hasNumbers,
+        errorMessage: '1 number'
+    }
+];
 
 export type PasswordInputType = {
     value: string,
@@ -32,20 +45,36 @@ export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText
         return null;
     }
     const renderMessage = () => {
+        const msg = buildErrorMessage();
         if (touched && isValid === false) {
-            return <Text style={[styles.message, styles.errorMessage]}>{message}</Text>
+            return <Text style={[styles.message, styles.errorMessage]}>{msg}</Text>
         }
         if (allwaysShowMessage) {
-            return <Text style={[styles.message]}>{message}</Text>
+            return <Text style={[styles.message]}>{msg}</Text>
         }
         return null;
     }
 
+    const buildErrorMessage = (): string | null => {
+        const errors = passwordValidationSteps.filter(x => !x.fn(value)).map(e => e.errorMessage);
+        if (errors.length === 0) {
+            return null;
+        }
+        let msg = `Password must contain at least ${errors[0]}`;
+        if (errors[1] && !errors[2]) {
+            msg += ` and ${errors[1]}`;
+        }
+        else if (errors[1] && errors[2]) {
+            msg += `, ${errors[1]} and ${errors[2]}`;
+        }
+        return msg;
+    }
+
     const renderSteps = () => {
-        const validationResults = passwordValidationSteps.reduce((acum, fn) => {
-            return !fn(value) ? (acum + 1) : acum
+        const validationResults = passwordValidationSteps.reduce((acum, x) => {
+            return !x.fn(value) ? (acum + 1) : acum
         }, 0);
-        return <View style={{ width: '100%', height: 4, marginTop: 8, flexDirection: 'row-reverse' }}>
+        return <><View style={{ width: '100%', height: 4, marginTop: 8, flexDirection: 'row-reverse' }}>
             {passwordValidationSteps.map((_, i) => <View key={randomString()}
                 style={{
                     flex: 1,
@@ -57,6 +86,8 @@ export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText
                     marginRight: i === 0 ? 0 : 8
                 }} />)}
         </View>
+            {renderMessage()}
+        </>
     }
 
     return <>
@@ -84,7 +115,6 @@ export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText
             </View>
         </View>
         {renderSteps()}
-        {renderMessage()}
     </>
 }
 

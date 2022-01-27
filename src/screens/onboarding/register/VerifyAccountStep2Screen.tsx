@@ -1,30 +1,121 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormikProvider, useFormik } from 'formik';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Countdown from 'react-countdown';
+import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
 import { H3 } from '../../../components/atoms/common/H3';
+import { Input } from '../../../components/atoms/common/Input';
+import { authService } from '../../../services/authService';
 import { HelperText } from '../../../components/atoms/onboarding/HelperText';
+import { CommonButton } from '../../../components/common/CommonButton';
 import { Stepper } from '../../../components/molecules/onboarding/Stepper';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
+import * as Yup from 'yup';
+import { MaskedText } from 'react-native-mask-text';
+import { getErrorFromBackendResponse } from '../../../utils/utils';
 
 interface formValueType {
     code: string,
 }
 
 type VerifyAccountStep2ScreenType = NativeStackScreenProps<OnboardingStackParamList, 'VerifyAccountStep2'>;
-export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = ({ route }) => {
-    const { verificationType, email } = route.params;
-    const formik = useFormik({
+const validationSchema = Yup.object().shape({
+    code: Yup.string().required().length(6),
+    //TODO missing password length definition.
+});
+export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = ({ route, navigation }) => {
+    const { verificationType, sendTo, userId, firstName } = route.params;
+    const countdownRef = useRef<Countdown>(null);
+    const [countdownKey, setCountdownKey] = useState(0);
+
+
+    const formik = useFormik<formValueType>({
         initialValues: {
             code: ''
         },
-        onSubmit: (values, { setSubmitting }) => {
+        validationSchema,
+        validateOnMount: true,
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                console.log('handling');
 
+                const result = await authService.createAccountVerifyValidation({
+                    verificationMethod: verificationType,
+                    sendTo,
+                    userId: userId,
+                    verificationCode: values.code
+                });
+                if (result) {
+                    navigation.navigate('AccountVerified');
+                } else {
+                    alert('Incorrect verification code.');
+                }
+            } catch (error: any) {
+                const err = getErrorFromBackendResponse(error);
+                alert(err);
+            } finally {
+                setSubmitting(false);
+            }
         }
     });
+
+
+    const onResendCode = async () => {
+        await authService.createAccountSendValidation({
+            _id: userId,
+            firstName,
+            sendTo,
+            verificationMethod: verificationType,
+        });
+        setCountdownKey(s => s + 1);
+    }
+
+    const renderInput = () => {
+        return <Input
+            autoFocus={verificationType === 'sms'}
+            maxLength={6}
+            value={formik.values.code}
+            onChangeText={formik.handleChange('code')}
+            placeholder="Verification Code"
+            keyboardType='number-pad'
+        />
+    }
+
+    const renderTimer = () => {
+        return <Countdown ref={countdownRef}
+            date={Date.now() + 59000}
+            autoStart
+            key={countdownKey}
+            renderer={({ completed, minutes, seconds }) => {
+                if (!completed) {
+                    if (verificationType === 'email')
+                        return <Text>Didn’t receive an email? {minutes}:{seconds}</Text>
+                    return <Text>Didn’t receive a code? {minutes}:{seconds}</Text>
+                } else {
+                    return <View style={{ flexDirection: 'row' }}>
+                        {verificationType === 'email'
+                            ?
+                            <><Text style={styles.contactUsText}>Didn’t receive an email? </Text>
+                                <TouchableOpacity onPress={onResendCode}>
+                                    <Text style={[styles.contactUsText, { color: Colors.information }]}>Resend</Text>
+                                </TouchableOpacity>
+                            </>
+                            : <>
+                                <Text style={styles.contactUsText}>Didn’t receive a code? </Text>
+                                <TouchableOpacity onPress={onResendCode}>
+                                    <Text style={[styles.contactUsText, { color: Colors.information }]}>Resend Code</Text>
+                                </TouchableOpacity>
+                            </>
+                        }
+                    </View>
+                }
+            }} />
+    }
+
+    const renderTimeMemo = useMemo(() => renderTimer(), [countdownKey]);
 
     const renderHeader = () => {
         if (verificationType === 'email') {
@@ -36,11 +127,11 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
                     ]}
                     />
                 </View>
-                <HelperText mb={6}>Your verification code was sent to {email}. Check your email.</HelperText>
-                <View style={{flexDirection: 'row'}}>
+                <HelperText mb={6}>Your verification code was sent to {sendTo}. Check your email.</HelperText>
+                <View style={{ flexDirection: 'row', marginBottom: 20, }}>
                     <Text style={styles.contactUsText}>Incorrect email? </Text>
                     <TouchableOpacity>
-                        <Text style={[styles.contactUsText, {color: Colors.information}]}>Contact Us</Text>
+                        <Text style={[styles.contactUsText, { color: Colors.information }]}>Contact Us</Text>
                     </TouchableOpacity>
                 </View>
             </>
@@ -53,7 +144,7 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
                     ]}
                     />
                 </View>
-                <HelperText mb={29}>Confirm you’re not a robot by verifying your account. Please select how you would like to receive your verification code.</HelperText>
+                <HelperText mb={29}>Please enter the 4- digit verification code we sent to (+1) <MaskedText mask='999-999-999'>{sendTo}</MaskedText></HelperText>
             </>
         }
     }
@@ -61,6 +152,15 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
     return <View style={{ padding: 20, }}>
         <FormikProvider value={formik}>
             {renderHeader()}
+            {renderInput()}
+            <View style={{ marginTop: 25, alignItems: 'center' }}>
+                {renderTimeMemo}
+            </View>
+            <CommonButton title="Verify!" type='information'
+                onPress={formik.handleSubmit} style={{ marginTop: 28, }}
+                disabled={formik.isSubmitting || !formik.isValid}
+                loading={formik.isSubmitting}
+            />
         </FormikProvider>
     </View>;
 };

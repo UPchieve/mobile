@@ -16,6 +16,7 @@ export const ImageIndex = {
   onboarding: {
     allSet: require('./images/onboarding/dog-all-set.png'),
     eligible: require('./images/onboarding/dog_eligible.png'),
+    accountVerified: require('./images/onboarding/dog_account_verified.png'),
     notEligible: require('./images/onboarding/dot_not_eligible.png'),
     confetti: require('./images/onboarding/confetti.png'),
   }

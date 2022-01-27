@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { formatValueType } from 'react-native-cn-quill/lib/typescript/constants/formats';
 import { authService } from '../../../services/authService';
 import { Routes } from '../../../routes/Routes';
+import { NavigationRouteContext } from '@react-navigation/native';
 
 
 interface formTypeValues {
@@ -42,20 +43,19 @@ type CreateAccountScreenType = NativeStackScreenProps<OnboardingStackParamList, 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required(),
     lastName: Yup.string().required(),
-    //TODO missing password length definition.
     password: Yup.string().required('Required').matches(/^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/
         , "Password must contain at least one uppercase, one lower case, and 1 number."),
     confirmPassword: Yup.string().required()
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     olderThan13: Yup.boolean().isTrue()
 });
-export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({route}) => {
+export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, navigation }) => {
     const formik = useFormik<formTypeValues>({
         initialValues,
         validationSchema,
-        onSubmit: async (values: formTypeValues) => {
+        onSubmit: async (values: formTypeValues, {setSubmitting}) => {
             try {
-                await authService.createAccount({
+                const newAccount = await authService.createAccount({
                     firstName: values.firstName,
                     lastName: values.lastName,
                     password: values.password,
@@ -64,9 +64,18 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({route}) 
                     currentGrade: route.params.grade,
                     email: route.params.email
                 });
+                console.log("new account", newAccount);
+
+                navigation.navigate('VerifyAccount', {
+                    email: route.params.email,
+                    firstName: values.firstName,
+                    userId: newAccount._id,
+                });
             } catch (error: any) {
                 const { err } = error?.response?.data ?? 'Error';
                 alert(err);
+            } finally {
+                setSubmitting(false);
             }
         }
     });

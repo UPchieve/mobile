@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, Text, TextInputBase, TextInputProps } from "react-native"
+import { View, StyleSheet, TextInput, Text, TextInputBase, TextInputProps, NativeSyntheticEvent, TextInputFocusEventData } from "react-native"
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from "../../../../assets/Colors"
 import { FontIndex } from '../../../../assets/FontIndex'
@@ -17,18 +17,28 @@ export type InputType = {
 export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, ...props }) => {
     TextInputBase
     const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const [isInFocus, setIsInFocus] = useState(false);
+
+    const handleBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+        setIsInFocus(false);
+        if (props.onBlur) {
+            props.onBlur(event);
+        }
+    }
+
     const renderIcon = () => {
         if (!touched)
             return null;
         if (isValid === true) {
             return <SvgIcons.CheckIcon fill={Colors.success} />
         } else if (isValid === false) {
-            return <SvgIcons.CloseIcon stroke={Colors.error} height={15} width={15}/>
+            return <SvgIcons.CloseIcon stroke={Colors.error} height={15} width={15} />
         }
         return null;
     }
     return <>
         <View style={[styles.container
+            , isInFocus && styles.containerInFocus
             , touched && isValid === false && styles.containerError
             , touched && isValid === true && styles.containerSuccess]}>
             <View style={styles.inputWrapper}>
@@ -40,7 +50,9 @@ export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, error
                     value={value}
                     secureTextEntry={password && secureTextEntry === true}
                     onChangeText={(value) => onChangeText && onChangeText(value)}
+                    onFocus={() => setIsInFocus(true)}
                     {...props}
+                    onBlur={handleBlur}
                 />
                 {renderIcon()}
                 {password ?
@@ -69,6 +81,9 @@ const styles = StyleSheet.create({
     },
     containerError: {
         borderColor: Colors.error,
+    },
+    containerInFocus: {
+        borderColor: Colors.information
     },
     containerSuccess: {
         borderColor: Colors.success,
