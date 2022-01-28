@@ -43,7 +43,7 @@ export const hasNumbers = (value: string) => {
     return (/[0-9]/.test(value));
 }
 
-export const getErrorFromBackendResponse = (error: any) => {
+export const getErrorFromBackendResponse = (error: any): string => {
     const { err } = error?.response?.data ?? 'Error';
     return err;
 }
