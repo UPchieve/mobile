@@ -51,6 +51,7 @@ export const ResetPasswordStep3Screen: React.FC<ResetPasswordStep3ScreenType> = 
             <View style={{ marginBottom: 35 }}>
                 <FormikInput name='email' placeholder="Email" />
                 <Separator backgroundColor='transparent' marginVertical={8} />
+                {/*TODO Change password component*/}
                 <FormikInput name='password' password placeholder="New Password" />
                 <Separator backgroundColor='transparent' marginVertical={8} />
                 <FormikInput name='passwordConfirmation' password placeholder="Confirm New Password" />

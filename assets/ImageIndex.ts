@@ -19,5 +19,6 @@ export const ImageIndex = {
     accountVerified: require('./images/onboarding/dog_account_verified.png'),
     notEligible: require('./images/onboarding/dot_not_eligible.png'),
     confetti: require('./images/onboarding/confetti.png'),
+    messageSent: require('./images/onboarding/message_sent.png')
   }
 };

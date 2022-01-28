@@ -17,6 +17,8 @@ import { RegisterSignUpCodeStep2Screen } from "../screens/onboarding/register/Re
 import { VerificationMethod } from '../types/services/authServiceTypes';
 import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVerifiedScreen';
 import { WrongEmailScreen } from '../screens/onboarding/register/WrongEmailScreen';
+import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
+import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScreen";
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -53,6 +55,8 @@ export type OnboardingStackParamList = {
     };
     RegisterSignUpCodeStep1Screen: undefined,
     RegisterSignUpCodeStep2: undefined,
+    ContactUs: undefined,
+    MessageSent: undefined
     WrongEmail: undefined,
 };
 
@@ -130,7 +134,17 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='AccountVerified'
                 component={AccountVerifiedScreen}
-                options={{ headerShown: false }}
+                options={{headerShown: false}}
+            />
+            <Stack.Screen
+                name='ContactUs'
+                component={ContactUsScreen}
+                options={{headerShown: true}}
+            />
+            <Stack.Screen
+                name='MessageSent'
+                component={MessageSentScreen}
+                options={{headerShown: false}}
             />
             <Stack.Screen
                 name='WrongEmail'

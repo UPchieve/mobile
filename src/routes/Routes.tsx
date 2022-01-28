@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native"
 import { OnboardingStackNavigator } from "./OnboardingStackNavigator"
 import * as Linking from 'expo-linking';
 import { MainStackNavigator } from './MainStackNavigator';
+import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
+import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScreen";
 
 const prefix = Linking.createURL('/');
 

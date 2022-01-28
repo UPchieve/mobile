@@ -18,7 +18,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
                 type='information'
             />
             <Separator backgroundColor='transparent' marginVertical={8} />
-            <CommonButton title="Sign Up" onPress={() => navigation.navigate('Register')}
+            <CommonButton title="Sign Up" onPress={() => navigation.navigate('ContactUs')}
             />
         </View>
     </SafeAreaView>

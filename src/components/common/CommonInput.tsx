@@ -8,9 +8,10 @@ interface ICommonButton {
     onChangeText?: (arg: string) => void | undefined ;
     style?: StyleProp<ViewStyle>;
     placeholder?: string;
+    borderColorSelected?: string;
 }
 
-export const CommonInput: React.FC<ICommonButton> = ({style, onChangeText, value, placeholder = ''}) => {
+export const CommonInput: React.FC<ICommonButton> = ({style, onChangeText, value, placeholder = '', borderColorSelected = Colors.success }) => {
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -23,7 +24,7 @@ export const CommonInput: React.FC<ICommonButton> = ({style, onChangeText, value
     }
     return (
         <TextInput
-            style={[styles.textInput, isFocused && styles.textInputSelected, style, placeholder !== '' && styles.placeholder ]}
+            style={[styles.textInput, isFocused && {borderColor: borderColorSelected}, style, placeholder !== '' && styles.placeholder ]}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChangeText={onChangeText}

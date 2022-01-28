@@ -12,11 +12,12 @@ type FormikPickerType = {
     placeholder?: string;
     title: string;
     options: any[];
+    initialColor?: string;
 }
-export const FormikPicker: React.FC<FormikPickerType> = ({ name, placeholder, options, title, getLabel = (e) => e }) => {
+export const FormikPicker: React.FC<FormikPickerType> = ({ name, placeholder, options, title, getLabel = (e) => e, initialColor = Colors.borderGray }) => {
     const formik = useFormikContext<any>();
     const [showOptions, setShowOptions] = useState<boolean>(false);
-    return <><View style={[styles.container, !!formik.values[name] && { borderColor: Colors.success }]}>
+    return <><View style={[styles.container, !!formik.values[name] && initialColor === Colors.borderGray ? { borderColor: Colors.success } : { borderColor: Colors.information }, {borderColor: initialColor}]}>
         <Pressable onPress={() => setShowOptions(true)} style={styles.selectWrapper}>
             <View style={{ flex: 1, }}>
                 {formik.values[name]
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 10,
         paddingVertical: 13,
-        borderColor: Colors.borderGray,
         borderWidth: 1,
         borderRadius: 4,
     },
