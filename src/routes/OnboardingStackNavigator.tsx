@@ -78,21 +78,22 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name="Login"
+                options={{ headerTitle: '' }}
                 component={LoginScreen}
             />
             <Stack.Screen
                 name="ResetPasswordStep1"
-                options={{ headerTitle: 'Reset password' }}
+                options={{ headerTitle: '' }}
                 component={ResetPasswordStep1Screen}
             />
             <Stack.Screen
                 name="ResetPasswordStep2"
-                options={{ headerTitle: 'Reset password' }}
+                options={{ headerTitle: '' }}
                 component={ResetPasswordStep2Screen}
             />
             <Stack.Screen
                 name="ResetPasswordStep3"
-                options={{ headerTitle: 'Reset password' }}
+                options={{ headerTitle: '' }}
                 component={ResetPasswordStep3Screen}
             />
             <Stack.Screen
@@ -132,7 +133,7 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name={'RegisterSignUpCodeStep2'}
-                component={RegisterSignUpCodeStep2Screen} 
+                component={RegisterSignUpCodeStep2Screen}
                 options={{headerTitle: ''}}
                 />
             <Stack.Screen
@@ -152,7 +153,7 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name='WrongEmail'
-                component={WrongEmailScreen} 
+                component={WrongEmailScreen}
                 options={{headerTitle: ''}}
                 />
         </Stack.Navigator>

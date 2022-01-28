@@ -92,7 +92,7 @@ export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ ro
             </View>
             <CommonButton
                 title='Continue'
-                type='success'
+                type='information'
                 disabled={formik.isSubmitting || !formik.isValid}
                 loading={formik.isSubmitting}
                 onPress={formik.handleSubmit}

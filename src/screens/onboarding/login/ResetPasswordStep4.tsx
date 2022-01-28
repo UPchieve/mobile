@@ -16,9 +16,9 @@ export const ResetPasswordStep4Screen: React.FC = () => {
         marginVertical: 60,
         marginBottom: 20,
     }}/>
-    <CommonButton 
+    <CommonButton
         title='Go to my Dashboard'
-        type='success'
+        type='information'
         onPress={() => {}}
         style={{width: '80%', height: 48}}
     />

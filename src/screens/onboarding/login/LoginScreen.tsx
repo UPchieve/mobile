@@ -58,7 +58,7 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
                 <Text style={styles.forgotYourPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
             <View style={styles.buttonWrapper}>
-                <CommonButton title='Continue' type='success'
+                <CommonButton title='Continue' type='information'
                     disabled={!formik.isValid || formik.isSubmitting}
                     onPress={formik.handleSubmit} />
             </View>

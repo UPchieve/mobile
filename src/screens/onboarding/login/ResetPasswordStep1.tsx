@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import { authService } from '../../../services/authService'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator'
+import {useFocusEffect} from "@react-navigation/native";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -30,6 +31,7 @@ export const ResetPasswordStep1Screen: React.FC<ResetPasswordStep1ScreenType> = 
             }
         }
     });
+
     return <FormikProvider value={formik}>
         <View style={{ padding: 20, flex: 1, }}>
             <H3>Reset your password</H3>
@@ -38,7 +40,7 @@ export const ResetPasswordStep1Screen: React.FC<ResetPasswordStep1ScreenType> = 
             <Separator backgroundColor="transparent" marginVertical={35} />
             <CommonButton
                 title="Send Instructions"
-                type="success"
+                type="information"
                 disabled={!formik.isValid || formik.isSubmitting}
                 onPress={formik.handleSubmit}
                 style={{height: 48,}}
