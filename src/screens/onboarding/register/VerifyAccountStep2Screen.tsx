@@ -144,7 +144,7 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
                     ]}
                     />
                 </View>
-                <HelperText mb={29}>Please enter the 4- digit verification code we sent to (+1) <MaskedText mask='999-999-999'>{sendTo}</MaskedText></HelperText>
+                <HelperText mb={29}>Please enter the 6- digit verification code we sent to (+1) <MaskedText mask='999-999-999'>{sendTo}</MaskedText></HelperText>
             </>
         }
     }

@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AuthProvider } from './src/providers/AuthProvider';
 import { useFonts } from 'expo-font';
 import { Text, View } from 'react-native';
-import { SessionScreen } from './src/screens/SessionScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { MainStackNavigator } from './src/routes/MainStackNavigator';
 import { AlertProvider } from './src/providers/AlertProvider';
-import { OnboardingStackNavigator } from './src/routes/OnboardingStackNavigator';
 import { Routes } from './src/routes/Routes';
-import {RegisterSignUpCodeStep1Screen} from "./src/screens/onboarding/register/RegisterSignUpCodeStep1Screen";
-import {RegisterSignUpCodeStep2Screen} from "./src/screens/onboarding/register/RegisterSignUpCodeStep2Screen";
+// import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+// LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
 export default function App() {
-
 
   const [fontsLoaded] = useFonts({
     WorkSans: require('./assets/fonts/work-sans/WorkSans-Regular.ttf'),
@@ -29,7 +26,7 @@ export default function App() {
   return (
     <AlertProvider>
       <AuthProvider>
-        <Routes/>
+        <Routes />
       </AuthProvider>
     </AlertProvider>
   );

@@ -71,12 +71,17 @@ const createAccountSendValidation = async (request: SendValidationRequest): Prom
 }
 
 const createAccountVerifyValidation = async (request: ConfirmValidationRequest): Promise<boolean> => {
-  console.log('request',request);
-  
   const { data } = await http.post<{ success: boolean }>('/api/verify/confirm', request);
-  console.log('response',data);
-  
   return data.success;
+}
+
+const validateSignInCode = async (partnerSignupCode: string): Promise<string> => {
+  const { data } = await http.get<{ studentPartnerKey: string }>('/auth/partner/student/code', {
+    params: {
+      partnerSignupCode,
+    }
+  });
+  return data.studentPartnerKey;
 }
 
 export const authService = {
@@ -87,5 +92,6 @@ export const authService = {
   changePassword,
   createAccount,
   createAccountSendValidation,
-  createAccountVerifyValidation
+  createAccountVerifyValidation,
+  validateSignInCode
 }

@@ -1,24 +1,35 @@
 import { FormikProvider, useFormik } from 'formik'
 import React from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FormikInput } from '../../../../components/atoms/common/Formik/FormikInput'
 import { H3 } from '../../../../components/atoms/common/H3'
 import { CommonButton } from '../../../../components/common/CommonButton'
-import {Colors} from "../../../../../assets/Colors";
-import {FontIndex} from "../../../../../assets/FontIndex";
-import {Popover, usePopover} from "react-native-modal-popover";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {OnboardingStackParamList} from "../../../../routes/OnboardingStackNavigator";
+import { Colors } from "../../../../../assets/Colors";
+import { FontIndex } from "../../../../../assets/FontIndex";
+import { Popover, usePopover } from "react-native-modal-popover";
+import * as Yup from 'yup';
+import { authService } from '../../../../services/authService'
+import { getErrorFromBackendResponse } from '../../../../utils/utils'
 
 type formValueType = { code: string }
 // type SignUpCodeScreenType = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCode'>;
-export const SignUpCode = ({}) => {
+const validationSchema = Yup.object().shape({
+    code: Yup.string().required('Required'),
+});
+export const SignUpCode = ({ }) => {
     const formik = useFormik<formValueType>({
-        initialValues: {} as formValueType,
-        validateOnBlur: false,
-        validateOnChange: false,
-        onSubmit: () => {
-
+        initialValues: { code: '' },
+        validationSchema,
+        onSubmit: async ({ code }, { setSubmitting }) => {
+            try {
+                const response = await authService.validateSignInCode(code);
+                alert(response);
+            } catch (error) {
+                const err = getErrorFromBackendResponse(error);
+                alert(err);
+            } finally {
+                setSubmitting(false);
+            }
         }
     });
 
@@ -31,9 +42,9 @@ export const SignUpCode = ({}) => {
     } = usePopover();
 
     return <FormikProvider value={formik}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
             <H3>Enter your sign up code</H3>
-            <View style={{marginLeft: 20, justifyContent: 'center'}}>
+            <View style={{ marginLeft: 20, justifyContent: 'center' }}>
                 <TouchableOpacity style={styles.informationIcon} onPress={() => openPopover()} ref={touchableRef}>
                     <Text style={styles.informationIconText}>i</Text>
                 </TouchableOpacity>
@@ -41,13 +52,15 @@ export const SignUpCode = ({}) => {
         </View>
 
         <View style={{ marginVertical: 20, }}>
-            <FormikInput name="code" placeholder="Sign up Code" />
+            <FormikInput name="code" placeholder="Sign up Code" autoCorrect={false} autoCapitalize='none'/>
         </View>
         <CommonButton title='Sign Up'
             style={{ height: 48, }}
             type="information"
-            onPress={() => ''} />
-        < Popover
+            disabled={formik.isSubmitting || !formik.isValid}
+            loading={formik.isSubmitting}
+            onPress={formik.handleSubmit} />
+        <Popover
             contentStyle={styles.content}
             backgroundStyle={styles.background}
             visible={popoverVisible}
