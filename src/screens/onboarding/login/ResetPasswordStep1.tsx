@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { FormikProvider, useFormik } from "formik"
 import { View } from "react-native"
 import { FormikInput } from "../../../components/atoms/common/Formik/FormikInput"
@@ -17,7 +17,8 @@ const validationSchema = Yup.object().shape({
 });
 
 type ResetPasswordStep1ScreenType = NativeStackScreenProps<OnboardingStackParamList, 'ResetPasswordStep1'>;
-export const ResetPasswordStep1Screen: React.FC<ResetPasswordStep1ScreenType> = ({ navigation }) => {
+export const ResetPasswordStep1Screen: React.FC<ResetPasswordStep1ScreenType> = ({ navigation, route}) => {
+
     const formik = useFormik<{ email: string }>({
         initialValues: {} as { email: string },
         validationSchema,
@@ -31,6 +32,13 @@ export const ResetPasswordStep1Screen: React.FC<ResetPasswordStep1ScreenType> = 
             }
         }
     });
+    //TODO Review
+    useEffect(() => {
+        if (!!route.params?.resetForm) {
+            formik.setFieldValue('email', '', false);
+            formik.setFieldTouched('email', false, true);
+        }
+    }, [route.params?.resetForm])
 
     return <FormikProvider value={formik}>
         <View style={{ padding: 20, flex: 1, }}>

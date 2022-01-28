@@ -129,7 +129,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
                 title='Sign Up'
                 disabled={!formik.isValid || formik.isSubmitting}
                 loading={formik.isSubmitting}
-                type='success'
+                type='information'
                 onPress={() => formik.handleSubmit()}
                 style={{ height: 42 }}
             />

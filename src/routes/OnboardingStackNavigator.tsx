@@ -23,7 +23,7 @@ import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScree
 export type OnboardingStackParamList = {
     Welcome: undefined;
     Login: undefined;
-    ResetPasswordStep1: undefined;
+    ResetPasswordStep1: undefined | {resetForm: boolean};
     ResetPasswordStep2: { email: string };
     ResetPasswordStep3: { token: string };
     ResetPasswordStep4: undefined;
