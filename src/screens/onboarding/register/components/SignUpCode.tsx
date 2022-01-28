@@ -29,7 +29,6 @@ export const SignUpCode = ({ }) => {
                 if(err.startsWith('No partner key found for')) {
                     formik.setFieldError('code', 'Invalid Code');
                 }
-                alert(err);
             } finally {
                 setSubmitting(false);
             }
