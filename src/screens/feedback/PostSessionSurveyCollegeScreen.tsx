@@ -11,7 +11,7 @@ import { RateNumbers } from "../../components/molecules/session-experience/RateN
 import { Colors } from "../../../assets/Colors";
 import { CommonButton } from "../../components/common/CommonButton";
 import { MedalPicker } from "../../components/molecules/session-experience/MedalPicker";
-import { CommonInput } from "../../components/common/CommonInput";
+import { CommonTextArea } from "../../components/common/CommonTextArea";
 import { MainStackParamList } from "../../routes/MainStackNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -101,7 +101,7 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
                             additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
                             informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
                         {/*TODO Text alignment on the input must be at top*/}
-                        <CommonInput onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
+                        <CommonTextArea onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
                     </View>
                     <View style={styles.buttonWrapper}>
                         <CommonButton title={'Submit'} disabled={!formik.isValid} onPress={formik.handleSubmit} type={'success'} style={{ width: 89, height: 40 }} />

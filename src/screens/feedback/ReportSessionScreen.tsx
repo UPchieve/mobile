@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-na
 import { FontIndex } from "../../../assets/FontIndex";
 import { Colors } from "../../../assets/Colors";
 import ReadMore from 'react-native-read-more-text';
-import { CommonInput } from "../../components/common/CommonInput";
+import { CommonTextArea } from "../../components/common/CommonTextArea";
 import { FormikProvider, useFormik } from "formik";
 import { RadioGroup } from "../../components/molecules/common/RadioGroup";
 import { CommonButton } from "../../components/common/CommonButton";
@@ -104,7 +104,7 @@ export const ReportSessionScreen: React.FC<ReportSessionScreenType> = ({navigati
                         <View style={styles.textWrapper}>
                             <Text style={styles.subtitle}>Tell us what happened</Text>
                         </View>
-                        <CommonInput onChangeText={formik.handleChange('textInput')}
+                        <CommonTextArea onChangeText={formik.handleChange('textInput')}
                             value={formik.values.textInput}
                             placeholder={'(Optional) Write a 1-2 sentence summary of what happened.'} />
                         <View style={styles.textWrapper}>

@@ -4,7 +4,7 @@ import {FormikProvider, useFormik} from "formik";
 import {H3} from "../../components/atoms/common/H3";
 import * as Yup from "yup";
 import {Separator} from "../../components/atoms/common/Separator";
-import {CommonInput} from "../../components/common/CommonInput";
+import {CommonTextArea} from "../../components/common/CommonTextArea";
 import {Colors} from "../../../assets/Colors";
 import {CommonButton} from "../../components/common/CommonButton";
 import {FormikPicker} from "../../components/atoms/common/Formik/FormikPicker";
@@ -54,7 +54,7 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({navigation}) => 
                               options={options}
                               initialColor={Colors.information}/>
                 <Separator marginVertical={24} backgroundColor='transparent' />
-                <CommonInput borderColorSelected={Colors.information}
+                <CommonTextArea borderColorSelected={Colors.information}
                              placeholder={'Tell us more. (min 5 words)'}
                              onChangeText={formik.handleChange('moreText')}
                               value={formik.values.moreText}/>

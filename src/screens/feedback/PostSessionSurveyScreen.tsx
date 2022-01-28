@@ -10,7 +10,7 @@ import { RateStars } from "../../components/molecules/session-experience/RateSta
 import { Colors } from "../../../assets/Colors";
 import { CommonButton } from "../../components/common/CommonButton";
 import { RadioGroup } from '../../components/molecules/common/RadioGroup';
-import { CommonInput } from "../../components/common/CommonInput";
+import { CommonTextArea } from "../../components/common/CommonTextArea";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../routes/MainStackNavigator';
 
@@ -83,7 +83,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
                         <Question text='What could your coach have done better?'
                             additionalText='This feedback will be anonymous! You can be honest. :)'
                         />
-                        <CommonInput onChangeText={formik.handleChange('whatCanDoBetter')}
+                        <CommonTextArea onChangeText={formik.handleChange('whatCanDoBetter')}
                             value={formik.values.whatCanDoBetter} />
                     </View>
 
@@ -93,7 +93,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
                         additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
                         informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
                     {/*TODO Text alignment on the input must be at top*/}
-                    <CommonInput onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
+                    <CommonTextArea onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
                 </View>
                 <View style={styles.buttonWrapper}>
                     <CommonButton title={'Submit'} disabled={!formik.isValid} onPress={formik.handleSubmit} type={'success'} style={{ width: 89, height: 40 }} />

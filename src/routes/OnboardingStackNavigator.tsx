@@ -118,19 +118,23 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='VerifyAccount'
                 component={VerifyAccountStep1Screen}
+                options={{headerTitle: ''}}
             />
             <Stack.Screen
                 name='VerifyAccountStep2'
                 component={VerifyAccountStep2Screen}
+                options={{headerTitle: ''}}
             />
             <Stack.Screen
                 name='RegisterSignUpCodeStep1Screen'
-                options={{ headerShown: true, headerBackTitle: 'Back' }}
+                options={{ headerShown: true, headerTitle: '' }}
                 component={RegisterSignUpCodeStep1Screen}
             />
             <Stack.Screen
                 name={'RegisterSignUpCodeStep2'}
-                component={RegisterSignUpCodeStep2Screen} />
+                component={RegisterSignUpCodeStep2Screen} 
+                options={{headerTitle: ''}}
+                />
             <Stack.Screen
                 name='AccountVerified'
                 component={AccountVerifiedScreen}
@@ -139,7 +143,7 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='ContactUs'
                 component={ContactUsScreen}
-                options={{headerShown: true}}
+                options={{headerTitle: ''}}
             />
             <Stack.Screen
                 name='MessageSent'
@@ -148,7 +152,9 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name='WrongEmail'
-                component={WrongEmailScreen} />
+                component={WrongEmailScreen} 
+                options={{headerTitle: ''}}
+                />
         </Stack.Navigator>
     );
 };
