@@ -8,7 +8,7 @@ import { ModalBottomPicker } from '../ModalBottomPicker'
 
 type FormikPickerType = {
     name: string;
-    getLabel?: (item: string) => string;
+    getLabel?: (item: any) => string;
     placeholder?: string;
     title: string;
     options: any[];
@@ -31,6 +31,7 @@ export const FormikPicker: React.FC<FormikPickerType> = ({ name, placeholder, op
             title={title}
             options={options}
             visible={showOptions}
+            getLabel={getLabel}
             dismiss={() => setShowOptions(false)}
             onSelect={(e) => formik.setFieldValue(name, e)}
         />

@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Question } from '../../components/atoms/session-experience/Question';
-import { SessionFeedbackHeader } from '../../components/atoms/session-experience/SessionFeedbackHeader';
-import { RateNumbers } from '../../components/molecules/session-experience/RateNumbers';
-import { RateStars } from "../../components/molecules/session-experience/RateStars";
-import { Colors } from "../../../assets/Colors";
-import { CommonButton } from "../../components/common/CommonButton";
-import { RadioGroup } from '../../components/molecules/common/RadioGroup';
-import { CommonTextArea } from "../../components/common/CommonTextArea";
+import { Question } from '../../../components/atoms/session-experience/Question';
+import { SessionFeedbackHeader } from '../../../components/atoms/session-experience/SessionFeedbackHeader';
+import { RateNumbers } from '../../../components/molecules/session-experience/RateNumbers';
+import { RateStars } from "../../../components/molecules/session-experience/RateStars";
+import { Colors } from "../../../../assets/Colors";
+import { CommonButton } from "../../../components/common/CommonButton";
+import { RadioGroup } from '../../../components/molecules/common/RadioGroup';
+import { CommonTextArea } from "../../../components/common/CommonTextArea";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainStackParamList } from '../../routes/MainStackNavigator';
+import { MainStackParamList } from '../../../routes/MainStackNavigator';
 
 const pickerOptions = [
     'I am very comfortable with this topic.',

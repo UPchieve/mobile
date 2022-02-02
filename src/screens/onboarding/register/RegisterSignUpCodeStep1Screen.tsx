@@ -32,8 +32,8 @@ const initialValues: formTypeValues = {
     confirmPassword: '',
     olderThan13: false,
 }
-//type RegisterSignUpCodeStep1Type = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCodeStep1Screen'>;
-export const RegisterSignUpCodeStep1Screen = ({}) => {
+type RegisterSignUpCodeStep1Type = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCodeStep1'>;
+export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type> = ({navigation}) => {
     const validationSchema = Yup.object().shape({
         email: Yup.string().required(),
         //TODO missing password length definition.
@@ -47,8 +47,9 @@ export const RegisterSignUpCodeStep1Screen = ({}) => {
     const formik = useFormik<formTypeValues>({
         initialValues,
         validationSchema,
+        validateOnMount: true,
         onSubmit: async (values: formTypeValues) => {
-            //navigation.navigate('RegisterSignUpCodeStep2')
+            navigation.navigate('RegisterSignUpCodeStep2', {email: values.email, password: values.password});
         }
     });
 
@@ -61,9 +62,8 @@ export const RegisterSignUpCodeStep1Screen = ({}) => {
     return (
         <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20}}>
             <FormikProvider value={formik}>
-                    <H3>Welcome XXX Student!</H3>
-                    <Separator marginVertical={8} backgroundColor='transparent' />
-                        <Text style={styles.notWithText}>Not with ____ ?</Text>
+                <Separator marginVertical={45} backgroundColor='transparent' />
+                    <H3>Choose your log-in details</H3>
                     <Separator marginVertical={8} backgroundColor='transparent' />
                     <Stepper data={[{
                         stepNumber: 1,
@@ -72,7 +72,7 @@ export const RegisterSignUpCodeStep1Screen = ({}) => {
                     <Separator marginVertical={12} backgroundColor='transparent' />
                     <FormikInput
                         placeholder="Email"
-                        name={formik.values.email}/>
+                        name={'email'}/>
                     <Separator marginVertical={6} backgroundColor='transparent' />
                     <PasswordInput value={formik.values.password} onChangeText={(value: string) => {
                         formik.setFieldTouched('password');
@@ -95,10 +95,10 @@ export const RegisterSignUpCodeStep1Screen = ({}) => {
                     />
                     <CommonButton
                         title='Continue'
-                        disabled={formik.isValid || formik.isSubmitting}
+                        disabled={!formik.isValid || formik.isSubmitting}
                         loading={formik.isSubmitting}
-                        type='success'
-                        onPress={() => formik.handleSubmit()}
+                        type='information'
+                        onPress={formik.handleSubmit}
                         style={{ height: 42 }}
                     />
                     <Separator marginVertical={16} backgroundColor='transparent' />
@@ -108,12 +108,6 @@ export const RegisterSignUpCodeStep1Screen = ({}) => {
                             <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Terms of use</Text></TouchableOpacity>
                             <Text style={styles.bottomText}> and </Text>
                             <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={{justifyContent: 'flex-end', alignItems: 'center', flex: 1}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <Text style={styles.questionText}>Already have an account?</Text>
-                            <Text style={[styles.questionText, styles.linkText]}> Log In</Text>
                         </View>
                     </View>
             </FormikProvider>

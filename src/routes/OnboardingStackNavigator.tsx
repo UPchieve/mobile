@@ -19,6 +19,7 @@ import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVer
 import { WrongEmailScreen } from '../screens/onboarding/register/WrongEmailScreen';
 import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
 import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScreen";
+import {WelcomeSignUpCodeScreen} from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -53,11 +54,15 @@ export type OnboardingStackParamList = {
         zipCode: string,
         email: string,
     };
-    RegisterSignUpCodeStep1Screen: undefined,
-    RegisterSignUpCodeStep2: undefined,
+    RegisterSignUpCodeStep1: undefined,
+    RegisterSignUpCodeStep2: {
+        email: string,
+        password: string
+    },
     ContactUs: undefined,
     MessageSent: undefined
     WrongEmail: undefined,
+    WelcomeSignUpCode: undefined
 };
 
 export const OnboardingStackNavigator = () => {
@@ -127,8 +132,8 @@ export const OnboardingStackNavigator = () => {
                 options={{headerTitle: ''}}
             />
             <Stack.Screen
-                name='RegisterSignUpCodeStep1Screen'
-                options={{ headerShown: true, headerTitle: '' }}
+                name='RegisterSignUpCodeStep1'
+                options={{ headerShown: false}}
                 component={RegisterSignUpCodeStep1Screen}
             />
             <Stack.Screen
@@ -156,6 +161,11 @@ export const OnboardingStackNavigator = () => {
                 component={WrongEmailScreen}
                 options={{headerTitle: ''}}
                 />
+            <Stack.Screen
+                name='WelcomeSignUpCode'
+                component={WelcomeSignUpCodeScreen}
+                options={{headerShown: false}}
+            />
         </Stack.Navigator>
     );
 };

@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FormikProvider, useFormik } from "formik";
-import { SessionFeedbackHeader } from "../../components/atoms/session-experience/SessionFeedbackHeader";
-import { FontIndex } from "../../../assets/FontIndex";
-import { RateStars } from "../../components/molecules/session-experience/RateStars";
-import { Question } from "../../components/atoms/session-experience/Question";
-import { Medal } from "../../components/atoms/session-experience/Medal";
-import { RateNumbers } from "../../components/molecules/session-experience/RateNumbers";
-import { Colors } from "../../../assets/Colors";
-import { CommonButton } from "../../components/common/CommonButton";
-import { MedalPicker } from "../../components/molecules/session-experience/MedalPicker";
-import { CommonTextArea } from "../../components/common/CommonTextArea";
-import { MainStackParamList } from "../../routes/MainStackNavigator";
+import { SessionFeedbackHeader } from "../../../components/atoms/session-experience/SessionFeedbackHeader";
+import { FontIndex } from "../../../../assets/FontIndex";
+import { RateStars } from "../../../components/molecules/session-experience/RateStars";
+import { Question } from "../../../components/atoms/session-experience/Question";
+import { Medal } from "../../../components/atoms/session-experience/Medal";
+import { RateNumbers } from "../../../components/molecules/session-experience/RateNumbers";
+import { Colors } from "../../../../assets/Colors";
+import { CommonButton } from "../../../components/common/CommonButton";
+import { MedalPicker } from "../../../components/molecules/session-experience/MedalPicker";
+import { CommonTextArea } from "../../../components/common/CommonTextArea";
+import { MainStackParamList } from "../../../routes/MainStackNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 

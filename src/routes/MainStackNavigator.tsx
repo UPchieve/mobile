@@ -2,9 +2,9 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { DefaultScreen } from '../screens/DefaultScreen';
 import { SessionScreen } from '../screens/SessionScreen';
-import { PostSessionSurveyScreen } from '../screens/feedback/PostSessionSurveyScreen';
-import { PostSessionSurveyCollegeScreen } from '../screens/feedback/PostSessionSurveyCollegeScreen';
-import { PostSessionSurveySuccessScreen } from '../screens/feedback/PostSessionSurveySuccessScreen';
+import { PostSessionSurveyScreen } from '../screens/feedback/post-session/PostSessionSurveyScreen';
+import { PostSessionSurveyCollegeScreen } from '../screens/feedback/post-session/PostSessionSurveyCollegeScreen';
+import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session/PostSessionSurveySuccessScreen';
 import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen';
 
 

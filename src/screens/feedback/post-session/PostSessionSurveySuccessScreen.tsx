@@ -1,11 +1,11 @@
 import React from 'react';
 import { Dimensions, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import { ImageIndex } from "../../../assets/ImageIndex";
-import { FontIndex } from "../../../assets/FontIndex";
-import { Colors } from "../../../assets/Colors";
-import { CommonButton } from "../../components/common/CommonButton";
+import { ImageIndex } from "../../../../assets/ImageIndex";
+import { FontIndex } from "../../../../assets/FontIndex";
+import { Colors } from "../../../../assets/Colors";
+import { CommonButton } from "../../../components/common/CommonButton";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { MainStackParamList } from '../../routes/MainStackNavigator';
+import { MainStackParamList } from '../../../routes/MainStackNavigator';
 
 
 

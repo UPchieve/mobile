@@ -10,13 +10,19 @@ import { Popover, usePopover } from "react-native-modal-popover";
 import * as Yup from 'yup';
 import { authService } from '../../../../services/authService'
 import { getErrorFromBackendResponse } from '../../../../utils/utils'
+import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
+import {OnboardingStackParamList} from "../../../../routes/OnboardingStackNavigator";
+
+type SignUpCodeType = {
+    navigation: NativeStackNavigationProp<OnboardingStackParamList, "Register">
+}
 
 type formValueType = { code: string }
-// type SignUpCodeScreenType = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCode'>;
+
 const validationSchema = Yup.object().shape({
     code: Yup.string().required('Required'),
 });
-export const SignUpCode = ({ }) => {
+export const SignUpCode:React.FC<SignUpCodeType> = ({ navigation }) => {
     const formik = useFormik<formValueType>({
         initialValues: { code: '' },
         validationSchema,
@@ -24,6 +30,7 @@ export const SignUpCode = ({ }) => {
             try {
                 const response = await authService.validateSignInCode(code);
                 alert(response);
+                navigation.navigate('WelcomeSignUpCode');
             } catch (error) {
                 const err = getErrorFromBackendResponse(error);
                 if(err.startsWith('No partner key found for')) {

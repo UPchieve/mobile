@@ -23,7 +23,7 @@ export const RegisterScreen: React.FC<RegisterScreenType> = ({ navigation }) => 
 
     return <><KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} extraScrollHeight={50}>
         <View style={{ flex: 1, padding: 20, }}>
-            <SignUpCode />
+            <SignUpCode navigation={navigation} />
             <Separator marginVertical={10} text='or' backgroundColor={Colors.defaultGray} />
             <CheckEligibility navigation={navigation} selectRef={selectRef} />
         </View>
