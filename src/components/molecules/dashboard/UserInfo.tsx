@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, } from 'react-native';
 import Modal from 'react-native-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,16 +8,18 @@ import { DotIcon } from '../../../../assets/icons/DotIcon';
 import { SvgFC } from '../../../../assets/icons/SvgInterface';
 import { ImageIndex } from '../../../../assets/ImageIndex';
 import { SvgIcons } from '../../../../assets/IndexIcons';
+import { AuthContext } from '../../../providers/AuthProvider';
 import { Separator } from '../../atoms/common/Separator';
 type UserInfoType = {
-    visible: boolean;
     dismiss: () => void;
 }
 const avatar = ImageIndex.avatars.student;
-const userName = 'Victoria';
 const userType = 'Student';
 
-export const UserInfo: React.FC<UserInfoType> = ({ visible, dismiss }) => {
+//TODO REVIEW THIS SCREEN
+export const UserInfo: React.FC<UserInfoType> = ({ dismiss }) => {
+
+    const { user } = useContext(AuthContext);
 
     const renderIcon = (Icon: SvgFC, text: string, action?: () => void,) => {
         return <View style={styles.menuItemContainer}>
@@ -27,38 +29,36 @@ export const UserInfo: React.FC<UserInfoType> = ({ visible, dismiss }) => {
         </View>
     }
 
-    // return <Modal isVisible={visible} style={styles.modal}>
-
-        return <SafeAreaView>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Image source={avatar} style={styles.avatar} />
-                    <View style={styles.userInfoContainer}>
-                        <Text style={styles.userNameText}>{userName}</Text>
-                        <View style={{ marginVertical: 1 }} />
-                        <Text style={styles.userTypeText}>{userType}</Text>
-                    </View>
-                    <TouchableOpacity onPress={dismiss} style={styles.closeIconContainer}>
-                        <SvgIcons.CloseIcon stroke={Colors.softBlack} />
-                    </TouchableOpacity>
+    return <SafeAreaView>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Image source={avatar} style={styles.avatar} />
+                <View style={styles.userInfoContainer}>
+                    <Text style={styles.userNameText}>{user.firstname}</Text>
+                    <View style={{ marginVertical: 1 }} />
+                    <Text style={styles.userTypeText}>{userType}</Text>
                 </View>
-                <View style={styles.userStateContainer}>
-                    <SvgIcons.DotIcon width={8} fill={Colors.warning} stroke={Colors.warning} />
-                    <Text style={styles.userStateText}>Waiting</Text>
-                </View>
-                <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
-                <FlatList
-                    data={[
-                        { icon: SvgIcons.HouseIcon, title: 'Dashboard', },
-                        { icon: SvgIcons.ProfileIcon, title: 'Profile' },
-                        { icon: SvgIcons.EmailIcon, title: 'Contact Us' }
-                    ]}
-                    renderItem={({item}) => renderIcon(item.icon, item.title)}
-                    ItemSeparatorComponent={() => <View style={{marginTop: 4,}}/>}
-                    keyExtractor={item => `usermenu_${item.title}`}
-                />
+                <TouchableOpacity onPress={dismiss} style={styles.closeIconContainer}>
+                    <SvgIcons.CloseIcon stroke={Colors.softBlack} />
+                </TouchableOpacity>
             </View>
-        </SafeAreaView>
+            <View style={styles.userStateContainer}>
+                <SvgIcons.DotIcon width={8} fill={Colors.warning} stroke={Colors.warning} />
+                <Text style={styles.userStateText}>Waiting</Text>
+            </View>
+            <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
+            <FlatList
+                data={[
+                    { icon: SvgIcons.HouseIcon, title: 'Dashboard', },
+                    { icon: SvgIcons.ProfileIcon, title: 'Profile' },
+                    { icon: SvgIcons.EmailIcon, title: 'Contact Us' }
+                ]}
+                renderItem={({ item }) => renderIcon(item.icon, item.title)}
+                ItemSeparatorComponent={() => <View style={{ marginTop: 4, }} />}
+                keyExtractor={item => `usermenu_${item.title}`}
+            />
+        </View>
+    </SafeAreaView>
     // </Modal>
 }
 

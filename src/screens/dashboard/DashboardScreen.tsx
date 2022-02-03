@@ -1,5 +1,5 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,21 +9,33 @@ import { FontIndex } from '../../../assets/FontIndex';
 import { ImageIndex } from '../../../assets/ImageIndex';
 import { ModalSelect } from '../../components/atoms/common/ModalSelect';
 import { SubjectCard } from '../../components/molecules/dashboard/SubjectCard';
+import { AuthContext } from '../../providers/AuthProvider';
 import { DrawerParamList } from '../../routes/DrawerNavigator';
+import { MainStackParamList } from '../../routes/MainStackNavigator';
 import { topics } from '../../utils/dashboardUtils';
 
-type DashboardScreenType = DrawerScreenProps<DrawerParamList, 'Dashboard'>;
+type DashboardScreenType = DrawerScreenProps<MainStackParamList, 'DashboardScreen'>;
 export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) => {
+
+    const { user } = useContext(AuthContext);
+    console.log(user);
+    
 
     const insets = useSafeAreaInsets();
     const modalizeRef = useRef<Modalize>(null);
     const selectRef = useRef<ModalSelect>(null);
 
+    const onSessionSelected = (topic: string, subTopic: string) => {
+        navigation.navigate('PreSessionQuestionScreen', {
+            sessionType: topic,
+            sessionSubTopic: subTopic
+        });
+    }
 
     return <View style={styles.container}>
         <ImageBackground source={ImageIndex.dashboard.background} style={[styles.headerBackground]}>
             <View style={styles.header}>
-                <Text style={styles.helloText}>Hello, Victoria</Text>
+                <Text style={styles.helloText}>Hello, {user.firstname}</Text>
                 <Text style={[styles.helloText, { fontSize: 18, }]}>Welcome back to UPchieve!</Text>
             </View>
             <TouchableOpacity style={[styles.buttonImage, { top: insets.top }]} onPress={() => navigation.openDrawer()}>
@@ -41,18 +53,13 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             withOverlay={false}
             flatListProps={{
                 data: topics,
-                renderItem: (({ item }) => <SubjectCard topic={item} selectRef={selectRef}/>),
+                renderItem: (({ item }) => <SubjectCard topic={item} selectRef={selectRef} onSelect={onSessionSelected} />),
                 keyExtractor: item => `dashboardSubjectList_${item.key}`,
                 ItemSeparatorComponent: () => <View style={{ marginVertical: 8, }} />,
                 showsVerticalScrollIndicator: false,
             }}
         />
-        <ModalSelect 
-            // data={[1,2,3,4,5,6,7]}
-            // title='Lalalala'
-            // getLabel={e => e.toString()}
-            ref={selectRef}
-        />
+        <ModalSelect ref={selectRef} />
     </View>
 }
 

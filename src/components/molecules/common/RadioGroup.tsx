@@ -7,9 +7,10 @@ type RadioGroupType<T> = {
     getText: (data: T) => string,
     onSelectedChanged?: (data: T) => void;
     defaultValue?: T;
+    itemMinHeight?: number;
 }
 export const RadioGroup = <T extends unknown>(props: PropsWithChildren<RadioGroupType<T>>): ReactElement | null => {
-    const { data, getText } = props;
+    const { data, getText, itemMinHeight = 60 } = props;
     const [selected, setSelected] = useState<T | undefined>(props.defaultValue);
     const onPress = (t: T) => {
         if (t !== selected) {
@@ -19,7 +20,7 @@ export const RadioGroup = <T extends unknown>(props: PropsWithChildren<RadioGrou
     }
     return <View>
         {data.map(x => <React.Fragment key={randomString()}>
-            <RadioButton selected={selected === x} text={getText(x)} onPress={() => onPress(x)} />
+            <RadioButton selected={selected === x} text={getText(x)} onPress={() => onPress(x)} minHeight={itemMinHeight}/>
             <View style={{marginVertical: 8,}}/>
         </React.Fragment>)}
     </View>

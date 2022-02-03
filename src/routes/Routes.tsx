@@ -5,6 +5,7 @@ import { OnboardingStackNavigator } from "./OnboardingStackNavigator"
 import * as Linking from 'expo-linking';
 import { MainStackNavigator } from './MainStackNavigator';
 import { DrawerNavigator } from './DrawerNavigator';
+import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSessionQuestionScreen';
 
 const prefix = Linking.createURL('/');
 
@@ -22,5 +23,6 @@ export const Routes = () => {
         {/* <MainStackNavigator /> */}
         {/* <OnboardingStackNavigator /> */}
         <DrawerNavigator/>
+        {/* <PreSessionQuestionScreen/> */}
     </NavigationContainer>
 }

@@ -8,12 +8,13 @@ import { ModalSelect } from '../../atoms/common/ModalSelect';
 type SubjectType = {
     topic: Topic;
     selectRef: React.RefObject<ModalSelect>;
+    onSelect: (topic: string, subTopic: string) => void;
 }
-export const SubjectCard: React.FC<SubjectType> = ({ topic, selectRef }) => {
+export const SubjectCard: React.FC<SubjectType> = ({ topic, selectRef, onSelect }) => {
     return <>
         <Pressable style={styles.container} onPress={() => selectRef.current?.open({
             data: topic.subTopics,
-            onSelect: (e) => console.log('picked', e),
+            onSelect: (e) => onSelect(topic.key, e.key),
             title: topic.displayName,
             getLabel: (e: SubTopic) => e.displayName,
         })}>

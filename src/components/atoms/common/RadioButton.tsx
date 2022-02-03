@@ -5,10 +5,11 @@ import { FontIndex } from '../../../../assets/FontIndex';
 type RadioButtonType = {
     selected: boolean,
     text: string,
+    minHeight?: number,
     onPress?: () => void,
 }
-export const RadioButton: React.FC<RadioButtonType> = ({ selected, text, onPress }) => {
-    return <Pressable style={[styles.container, selected && styles.containerSelected]} onPress={() => onPress && onPress()}>
+export const RadioButton: React.FC<RadioButtonType> = ({ selected, text, onPress, minHeight = 60 }) => {
+    return <Pressable style={[styles.container, selected && styles.containerSelected, { minHeight }]} onPress={() => onPress && onPress()}>
         <View style={[styles.radio, selected && styles.radioSelected]} />
         <Text numberOfLines={2} style={styles.text}>{text}</Text>
     </Pressable>
@@ -17,7 +18,6 @@ export const RadioButton: React.FC<RadioButtonType> = ({ selected, text, onPress
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        minHeight: 60,
         borderWidth: 1,
         borderColor: Colors.borderGray,
         flexDirection: 'row',
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         paddingLeft: 16,
         paddingRight: 20,
+        paddingVertical: 8,
     },
     containerSelected: {
         borderColor: Colors.success,

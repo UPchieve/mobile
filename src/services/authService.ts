@@ -19,7 +19,7 @@ import { ConfirmValidationRequest, CreateAccountRequest, CreateAccountResponse, 
 
 
 const login = async (email: string, password: string): Promise<Student | Volunteer | null> => {
-  const { data } = await axios.post<{ user: User }>(`${config.baseUrl}/auth/login`, { email, password });
+  const { data } = await http.post<{ user: User }>('/auth/login', { email, password });
   console.log(data);
   if (data.user) {
     return data.user.isVolunteer ? data.user as Volunteer : data.user as Student;

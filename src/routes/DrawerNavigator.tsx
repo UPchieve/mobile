@@ -4,6 +4,7 @@ import { OnboardingStackNavigator } from "./OnboardingStackNavigator";
 import { Dimensions, View } from 'react-native';
 import { UserInfo } from '../components/molecules/dashboard/UserInfo';
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
+import { MainStackNavigator } from './MainStackNavigator';
 
 
 
@@ -26,7 +27,7 @@ export const DrawerNavigator = () => {
             drawerContent={({navigation}) => <UserInfo visible={true} dismiss={() => navigation.closeDrawer()} />}
         >
             <Drawer.Screen name="Home" component={OnboardingStackNavigator} />
-            <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+            <Drawer.Screen name="Dashboard" component={MainStackNavigator} />
         </Drawer.Navigator>
     );
 }

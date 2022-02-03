@@ -6,6 +6,8 @@ import { PostSessionSurveyScreen } from '../screens/feedback/post-session/PostSe
 import { PostSessionSurveyCollegeScreen } from '../screens/feedback/post-session/PostSessionSurveyCollegeScreen';
 import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session/PostSessionSurveySuccessScreen';
 import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen';
+import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
+import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSessionQuestionScreen';
 
 
 export type MainStackParamList = {
@@ -15,6 +17,11 @@ export type MainStackParamList = {
   PostSessionSurveyCollege: undefined,
   PostSessionSurveySuccess: undefined,
   ReportSessionScreen: undefined,
+  DashboardScreen: undefined,
+  PreSessionQuestionScreen: {
+    sessionType: string,
+    sessionSubTopic: string,
+  }
   // Whiteboard: { sessionId: string, };
   // DocEditor: { sessionId: string, };
   // Chat: { sessionId: string, };
@@ -24,7 +31,7 @@ export const MainStackNavigator = () => {
   const Stack = createNativeStackNavigator<MainStackParamList>();
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="DashboardScreen"
     >
       <Stack.Screen
         name="Home"
@@ -55,6 +62,15 @@ export const MainStackNavigator = () => {
         name='ReportSessionScreen'
         component={ReportSessionScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='DashboardScreen'
+        component={DashboardScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='PreSessionQuestionScreen'
+        component={PreSessionQuestionScreen}
       />
       {/* <Stack.Screen
         name="Whiteboard"
