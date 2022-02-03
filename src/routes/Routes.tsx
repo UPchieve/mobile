@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { OnboardingStackNavigator } from "./OnboardingStackNavigator"
 import * as Linking from 'expo-linking';
 import { MainStackNavigator } from './MainStackNavigator';
+import { DrawerNavigator } from './DrawerNavigator';
 
 const prefix = Linking.createURL('/');
 
@@ -19,6 +20,7 @@ const linking = {
 export const Routes = () => {
     return <NavigationContainer linking={linking}>
         {/* <MainStackNavigator /> */}
-        <OnboardingStackNavigator />
+        {/* <OnboardingStackNavigator /> */}
+        <DrawerNavigator/>
     </NavigationContainer>
 }

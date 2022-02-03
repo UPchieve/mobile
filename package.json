@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.0",
     "@react-native-community/hooks": "^2.8.1",
+    "@react-navigation/drawer": "^6.3.0",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.24.0",
@@ -39,6 +40,7 @@
     "react-native-modalize": "^2.0.13",
     "react-native-popup-menu": "^0.15.12",
     "react-native-read-more-text": "^1.1.2",
+    "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-svg": "^12.1.1",

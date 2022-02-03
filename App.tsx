@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import { Text, View } from 'react-native';
 import { AlertProvider } from './src/providers/AlertProvider';
 import { Routes } from './src/routes/Routes';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 // import { LogBox } from 'react-native';
 // LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 // LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -24,10 +25,12 @@ export default function App() {
   }
 
   return (
-    <AlertProvider>
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
-    </AlertProvider>
+    <SafeAreaProvider>
+      <AlertProvider>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </AlertProvider>
+    </SafeAreaProvider>
   );
 }

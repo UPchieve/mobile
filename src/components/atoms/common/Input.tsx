@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     inputError: {
         color: Colors.error,
     },
+    //TODO Review the size of the top margin.
     errorMessage: {
         marginLeft: 2,
         marginTop: 15,

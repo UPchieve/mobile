@@ -28,6 +28,8 @@ import { VisibilityShowIcon } from './icons/VisibilityShowIcon';
 import { DocEditorIcon } from './icons/DocEditorIcon';
 import { WhiteboardIcon } from './icons/WhiteboardIcon';
 import { GoArrow } from './icons/GoArrow';
+import { ProfileIcon } from './icons/ProfileIcon';
+import { EmailIcon } from './icons/EmailIcon';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -60,4 +62,6 @@ export const SvgIcons = {
   DocEditorIcon,
   WhiteboardIcon,
   GoArrow,
+  ProfileIcon,
+  EmailIcon,
 };

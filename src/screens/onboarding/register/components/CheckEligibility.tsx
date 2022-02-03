@@ -12,10 +12,11 @@ import { OnboardingStackParamList } from '../../../../routes/OnboardingStackNavi
 import { schoolUtils } from '../../../../utils/eligibilityUtils'
 import * as Yup from 'yup';
 import { eligibilityService } from '../../../../services/eligibilityService'
+import { ModalSelect } from '../../../../components/atoms/common/ModalSelect'
 
 type CheckEligibilityType = {
     navigation: NativeStackNavigationProp<OnboardingStackParamList, "Register">
-    selectRef: any;
+    selectRef: React.RefObject<ModalSelect>;
 }
 type formValueType = {
     highSchool?: School,
@@ -87,10 +88,10 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
                         errorMessage={formik.errors.grade as string}
                         isValid={!formik.errors.grade}
                         touched={formik.touched.grade as boolean}
-                        onPressIn={() => selectRef.current.open((selected: SelectItem) => {
+                        onPressIn={() => selectRef.current?.open({onSelect: (selected: SelectItem) => {
                             formik.setFieldTouched('grade');
                             formik.setFieldValue('grade', selected);
-                        })} />
+                        }})} />
                 </View>
 
                 {renderInput('zipCode', 'Zip Code')}

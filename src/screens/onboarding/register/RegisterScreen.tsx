@@ -5,7 +5,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Colors } from '../../../../assets/Colors'
 import { ModalSelect } from '../../../components/atoms/common/ModalSelect'
 import { Separator } from '../../../components/atoms/common/Separator'
-import { HighSchoolPicker } from '../../../components/molecules/onboarding/HighSchoolPicker'
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator'
 import { gradesUtils } from '../../../utils/eligibilityUtils'
 import { CheckEligibility } from './components/CheckEligibility'
@@ -19,7 +18,7 @@ export const RegisterScreen: React.FC<RegisterScreenType> = ({ navigation }) => 
     //     <HighSchoolPicker/>
     // </View>
 
-    const selectRef = useRef<any>(null);
+    const selectRef = useRef<ModalSelect>(null);
 
     return <><KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} extraScrollHeight={50}>
         <View style={{ flex: 1, padding: 20, }}>

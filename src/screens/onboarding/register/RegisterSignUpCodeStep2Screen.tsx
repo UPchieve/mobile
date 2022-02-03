@@ -11,7 +11,6 @@ import {Stepper} from "../../../components/molecules/onboarding/Stepper";
 import {Input} from "../../../components/atoms/common/Input";
 import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {OnboardingStackParamList} from "../../../routes/OnboardingStackNavigator";
-import {ModalSelect} from "../../../components/atoms/common/ModalSelect";
 import {gradesUtils, schoolUtils} from "../../../utils/eligibilityUtils";
 import {FormikInput} from "../../../components/atoms/common/Formik/FormikInput";
 import {CommonButton} from "../../../components/common/CommonButton";

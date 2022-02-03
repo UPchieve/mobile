@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useState } from 'react'
+import React, { useEffect, useImperativeHandle, useState } from 'react'
 import { createRef } from 'react'
 import { useRef } from 'react'
 import { Pressable, Text, View } from 'react-native'
@@ -10,26 +10,42 @@ import { randomString } from '../../../utils/utils'
 import { Separator } from './Separator'
 
 type ModalSelectorType = {
-    title: string,
-    data: any[]
-    getLabel: (obj: any) => string;
+    title?: string,
+    data?: any[]
+    getLabel?: (obj: any) => string;
 }
 
-type refType = {
-    open: ((selected?: any) => void)
+type ModalSelectOpenProps = {
+    onSelect?: (selected: any) => void;
+    data?: any[];
+    getLabel?: (obj: any) => string;
+    title?: string;
 }
 
-export const ModalSelect = React.forwardRef<refType, ModalSelectorType>((props, ref) => {
-    const {title, data, getLabel} = props;
+export type ModalSelect = {
+    open: (props: ModalSelectOpenProps) => void;
+}
+
+const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> = ((props, ref) => {
+    // const { title, data, getLabel } = props;
+    const [title, setTitle] = useState<string>(props.title || '');
+    const [data, setData] = useState<any[]>(props.data || []);
+    const [getLabel, setGetLabel] = useState<((obj: any) => string)>(props.getLabel ? props.getLabel : ((e) => e));
     const [onSelect, setOnSelect] = useState<(selected?: any) => any>();
     const modalizeRef = useRef<Modalize>(null);
     useImperativeHandle(ref, () => ({
-        open: (onSelect: (selected?: any) => void) => {
+        open: (params: ModalSelectOpenProps) => {
+
             modalizeRef.current?.open();
-            setOnSelect((_: any) => onSelect);
+            params.data && setData(params.data);
+            params.title && setTitle(params.title);
+            params.getLabel && setGetLabel((_: any) => params.getLabel!);
+            setOnSelect((_: any) => params.onSelect);
         }
     }));
+
     return <Modalize
+        threshold={20}
         HeaderComponent={
             <Text style={{
                 marginTop: 20,
@@ -40,7 +56,7 @@ export const ModalSelect = React.forwardRef<refType, ModalSelectorType>((props, 
         ref={modalizeRef} adjustToContentHeight={true}>
         <View style={{ paddingBottom: 20, }}>
             {data.map(x => {
-                return <React.Fragment key={getLabel(x)+randomString()}>
+                return <React.Fragment key={randomString()}>
                     <Separator backgroundColor={Colors.borderGray} />
                     <Pressable style={{ alignItems: 'flex-start', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 20 }}
                         onPress={() => {
@@ -49,10 +65,12 @@ export const ModalSelect = React.forwardRef<refType, ModalSelectorType>((props, 
                         }}
                     >
                         <Text style={{ fontFamily: FontIndex.WorkSans.Regular, fontSize: 14, color: Colors.softBlack }}
-                        >{getLabel(x)}</Text>
+                        >{getLabel !== undefined && getLabel(x)}</Text>
                     </Pressable>
                 </React.Fragment>
             })}
         </View>
     </Modalize>
 })
+
+export const ModalSelect = React.forwardRef(Component);
