@@ -18,7 +18,7 @@ import {HighSchoolPicker} from "../../../components/molecules/onboarding/HighSch
 import {FormikPicker} from "../../../components/atoms/common/Formik/FormikPicker";
 import {authService} from "../../../services/authService";
 
-
+//TODO check this options.
 const options = ['xxx', 'xxx', 'xxxx', 'xxxx', 'xxx', 'xxx'];
 
 interface formTypeValues {

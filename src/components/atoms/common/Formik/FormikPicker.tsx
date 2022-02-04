@@ -17,7 +17,9 @@ type FormikPickerType = {
 export const FormikPicker: React.FC<FormikPickerType> = ({ name, placeholder, options, title, getLabel = (e) => e, initialColor = Colors.borderGray }) => {
     const formik = useFormikContext<any>();
     const [showOptions, setShowOptions] = useState<boolean>(false);
-    return <><View style={[styles.container, !!formik.values[name] && initialColor === Colors.borderGray ? { borderColor: Colors.success } : { borderColor: Colors.information }, {borderColor: initialColor}]}>
+    return <><View style={[styles.container, !!formik.values[name] && initialColor === Colors.borderGray ? { borderColor: Colors.success } : { borderColor: Colors.information }, { borderColor: initialColor },
+    !!formik.values[name] && { borderColor: Colors.success }
+    ]}>
         <Pressable onPress={() => setShowOptions(true)} style={styles.selectWrapper}>
             <View style={{ flex: 1, }}>
                 {formik.values[name]
