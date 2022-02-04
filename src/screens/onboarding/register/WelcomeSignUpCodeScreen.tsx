@@ -1,38 +1,44 @@
 import React from "react";
-import {Dimensions, Image, ImageBackground, Linking, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {ImageIndex} from "../../../../assets/ImageIndex";
-import {CommonButton} from "../../../components/common/CommonButton";
-import {SafeAreaView} from "react-native-safe-area-context";
-import {config} from "../../../../config";
-import {FontIndex} from "../../../../assets/FontIndex";
-import {Colors} from "../../../../assets/Colors";
-import {Separator} from "../../../components/atoms/common/Separator";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {OnboardingStackParamList} from "../../../routes/OnboardingStackNavigator";
+import { Dimensions, Image, ImageBackground, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ImageIndex } from "../../../../assets/ImageIndex";
+import { CommonButton } from "../../../components/common/CommonButton";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { config } from "../../../../config";
+import { FontIndex } from "../../../../assets/FontIndex";
+import { Colors } from "../../../../assets/Colors";
+import { Separator } from "../../../components/atoms/common/Separator";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigator";
 
 type WelcomeSignUpCodeType = NativeStackScreenProps<OnboardingStackParamList, 'WelcomeSignUpCode'>;
-export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({navigation}) => {
+export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({ navigation, route }) => {
+
+    const { studentPartnerManifest } = route.params;
 
     return (
         <SafeAreaView>
             <ImageBackground source={ImageIndex.onboarding.confetti} style={styles.wrapper}>
-                <Text style={styles.title}>Welcome _____________ {'\n'} Student!</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={styles.notWithText}>Not with _____ ?</Text>
-                </TouchableOpacity>
-                <Image source={ImageIndex.onboarding.eligible} />
+                <View style={{ paddingHorizontal: 22, alignItems: 'center' }}>
+                    <Text style={styles.title}>Welcome {studentPartnerManifest?.name || '_____________'} {'\n'} Student!</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                        <Text style={styles.notWithText}>Not with {studentPartnerManifest?.name || '_____'} ?</Text>
+                    </TouchableOpacity>
+                    <Image source={ImageIndex.onboarding.eligible} />
+                </View>
             </ImageBackground>
-            <View style={{ paddingHorizontal: 20, paddingTop: 30}}>
+            <View style={{ paddingHorizontal: 20, paddingTop: 30 }}>
                 <CommonButton
                     title="Continue"
                     type="information"
                     style={{ height: 48, }}
-                    onPress={() => navigation.navigate('RegisterSignUpCodeStep1')}
+                    onPress={() => navigation.navigate('RegisterSignUpCodeStep1', {
+                        studentPartnerManifest,
+                    })}
                 />
-                <Separator marginVertical={8} backgroundColor={'transparent'}/>
-                    <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(`${config.baseUrl}/students`)}>
-                        <Text style={styles.buttonText}>What is UPchieve?</Text>
-                    </TouchableOpacity>
+                <Separator marginVertical={8} backgroundColor={'transparent'} />
+                <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(`${config.baseUrl}/students`)}>
+                    <Text style={styles.buttonText}>What is UPchieve?</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
@@ -41,7 +47,7 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({naviga
 const styles = StyleSheet.create({
     wrapper: {
         width: '100%',
-        height: (Dimensions.get('screen').height / 2) - 50,
+        height: (Dimensions.get('screen').height / 2) - 10,
         paddingTop: 85,
         alignItems: 'center',
         marginBottom: 75,

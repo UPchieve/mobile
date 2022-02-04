@@ -68,7 +68,7 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             alwaysOpen={Dimensions.get('screen').height - 250}
             snapPoint={Dimensions.get('screen').height - 200}
             HeaderComponent={<View style={{ marginTop: 30, }}>
-                <DashboardMessageList messages={messages} autoChange={5000}/>
+                <DashboardMessageList messages={messages} autoChange={10000}/>
                 <Text style={styles.chooseText}>Choose a subject to get help with:</Text>
             </View>}
             modalStyle={{ paddingHorizontal: 20, }}

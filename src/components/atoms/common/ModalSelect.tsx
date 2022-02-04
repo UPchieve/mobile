@@ -26,6 +26,7 @@ export type ModalSelect = {
     open: (props: ModalSelectOpenProps) => void;
 }
 
+//TODO add min height
 const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> = ((props, ref) => {
     // const { title, data, getLabel } = props;
     

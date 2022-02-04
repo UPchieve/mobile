@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
+import { useContext } from 'react';
 import { Image, View } from 'react-native';
 import { Colors } from '../../../../assets/Colors';
 import { ImageIndex } from '../../../../assets/ImageIndex';
@@ -7,10 +8,15 @@ import { SvgIcons } from '../../../../assets/IndexIcons';
 import { H3 } from '../../../components/atoms/common/H3';
 import { HelperText } from '../../../components/atoms/onboarding/HelperText';
 import { CommonButton } from '../../../components/common/CommonButton';
+import { AuthContext } from '../../../providers/AuthProvider';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
 
 type AccountVerifiedScreenType = NativeStackScreenProps<OnboardingStackParamList, 'AccountVerified'>;
-export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({navigation}) => {
+export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ navigation }) => {
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const { refreshUser } = useContext(AuthContext);
+
     return <View style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 45, }}>
         <View>
             <Image
@@ -39,7 +45,11 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({navi
             <CommonButton
                 type='information'
                 title='I’m listening'
-                onPress={() => navigation.navigate('Welcome')}
+                loading={loading}
+                onPress={() => {
+                    setLoading(true);
+                    refreshUser();
+                }}
                 SvgIcon={SvgIcons.GoArrow}
             />
         </View>

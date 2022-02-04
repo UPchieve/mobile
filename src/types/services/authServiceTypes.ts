@@ -47,3 +47,16 @@ export interface ConfirmValidationRequest {
     verificationMethod: VerificationMethod,
     verificationCode: string,
 }
+
+export interface CreateAccountWithWithPartnerRequest {
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    terms: boolean,
+    college: string,
+    highSchoolId?: string,
+    studentPartnerOrg: string,
+    // "partnerUserId": "string",
+    // "partnerSite": "string",
+}

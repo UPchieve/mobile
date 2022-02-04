@@ -17,14 +17,14 @@ import { RegisterSignUpCodeStep2Screen } from "../screens/onboarding/register/Re
 import { VerificationMethod } from '../types/services/authServiceTypes';
 import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVerifiedScreen';
 import { WrongEmailScreen } from '../screens/onboarding/register/WrongEmailScreen';
-import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
-import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScreen";
-import {WelcomeSignUpCodeScreen} from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
+import { ContactUsScreen } from "../screens/contact/ContactUsScreen";
+import { MessageSentScreen } from "../screens/onboarding/register/MessageSentScreen";
+import { WelcomeSignUpCodeScreen } from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
     Login: undefined;
-    ResetPasswordStep1: undefined | {resetForm: boolean};
+    ResetPasswordStep1: undefined | { resetForm: boolean };
     ResetPasswordStep2: { email: string };
     ResetPasswordStep3: { token: string };
     ResetPasswordStep4: undefined;
@@ -54,15 +54,20 @@ export type OnboardingStackParamList = {
         zipCode: string,
         email: string,
     };
-    RegisterSignUpCodeStep1: undefined,
+    RegisterSignUpCodeStep1: {
+        studentPartnerManifest: StudentPartnerManifest
+    },
     RegisterSignUpCodeStep2: {
         email: string,
-        password: string
+        password: string,
+        studentPartnerManifest: StudentPartnerManifest
     },
     ContactUs: undefined,
     MessageSent: undefined
     WrongEmail: undefined,
-    WelcomeSignUpCode: undefined
+    WelcomeSignUpCode: {
+        studentPartnerManifest: StudentPartnerManifest
+    }
 };
 
 export const OnboardingStackNavigator = () => {
@@ -71,8 +76,9 @@ export const OnboardingStackNavigator = () => {
         <Stack.Navigator
             initialRouteName="Welcome"
             screenOptions={{
+                headerBackTitleVisible: false,
                 contentStyle: {
-                    backgroundColor: Colors.white
+                    backgroundColor: Colors.white,
                 }
             }}
         >
@@ -124,47 +130,47 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='VerifyAccount'
                 component={VerifyAccountStep1Screen}
-                options={{headerTitle: ''}}
+                options={{ headerTitle: '' }}
             />
             <Stack.Screen
                 name='VerifyAccountStep2'
                 component={VerifyAccountStep2Screen}
-                options={{headerTitle: ''}}
+                options={{ headerTitle: '' }}
             />
             <Stack.Screen
                 name='RegisterSignUpCodeStep1'
-                options={{ headerShown: false}}
+                options={{ headerShown: false }}
                 component={RegisterSignUpCodeStep1Screen}
             />
             <Stack.Screen
                 name={'RegisterSignUpCodeStep2'}
                 component={RegisterSignUpCodeStep2Screen}
-                options={{headerTitle: ''}}
-                />
+                options={{ headerTitle: '' }}
+            />
             <Stack.Screen
                 name='AccountVerified'
                 component={AccountVerifiedScreen}
-                options={{headerShown: false}}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name='ContactUs'
                 component={ContactUsScreen}
-                options={{headerTitle: ''}}
+                options={{ headerTitle: '' }}
             />
             <Stack.Screen
                 name='MessageSent'
                 component={MessageSentScreen}
-                options={{headerShown: false}}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name='WrongEmail'
                 component={WrongEmailScreen}
-                options={{headerTitle: ''}}
-                />
+                options={{ headerTitle: '' }}
+            />
             <Stack.Screen
                 name='WelcomeSignUpCode'
                 component={WelcomeSignUpCodeScreen}
-                options={{headerShown: false}}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );

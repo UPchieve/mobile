@@ -14,3 +14,12 @@ interface CheckEligibilityRequest {
     referredByCode?: string,
     currentGrade?: string
 }
+
+interface StudentPartnerManifest {
+    name: string,
+    signupCode: string,
+    studentPartnerOrg: string,
+    highSchoolSignup: boolean,
+    schoolSignupRequired: boolean,
+    collegeSignup: boolean,
+}

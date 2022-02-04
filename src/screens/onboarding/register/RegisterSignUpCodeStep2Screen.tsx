@@ -1,24 +1,22 @@
-import React, {useRef, useState} from 'react';
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import React, { useState } from 'react';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
-import {FormikProvider, useFormik} from "formik";
-import {H3} from "../../../components/atoms/common/H3";
-import {Separator} from "../../../components/atoms/common/Separator";
-import {StyleSheet, Text, View} from "react-native";
-import {FontIndex} from "../../../../assets/FontIndex";
-import {Colors} from "../../../../assets/Colors";
-import {Stepper} from "../../../components/molecules/onboarding/Stepper";
-import {Input} from "../../../components/atoms/common/Input";
-import {NativeStackNavigationProp, NativeStackScreenProps} from "@react-navigation/native-stack";
-import {OnboardingStackParamList} from "../../../routes/OnboardingStackNavigator";
-import {gradesUtils, schoolUtils} from "../../../utils/eligibilityUtils";
-import {FormikInput} from "../../../components/atoms/common/Formik/FormikInput";
-import {CommonButton} from "../../../components/common/CommonButton";
-import {HighSchoolPicker} from "../../../components/molecules/onboarding/HighSchoolPicker";
-import {FormikPicker} from "../../../components/atoms/common/Formik/FormikPicker";
-import {authService} from "../../../services/authService";
+import { FormikProvider, useFormik } from "formik";
+import { H3 } from "../../../components/atoms/common/H3";
+import { Separator } from "../../../components/atoms/common/Separator";
+import { View } from "react-native";
+import { Stepper } from "../../../components/molecules/onboarding/Stepper";
+import { Input } from "../../../components/atoms/common/Input";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigator";
+import { gradesUtils, schoolUtils } from "../../../utils/eligibilityUtils";
+import { FormikInput } from "../../../components/atoms/common/Formik/FormikInput";
+import { CommonButton } from "../../../components/common/CommonButton";
+import { HighSchoolPicker } from "../../../components/molecules/onboarding/HighSchoolPicker";
+import { FormikPicker } from "../../../components/atoms/common/Formik/FormikPicker";
+import { authService } from "../../../services/authService";
 
-//TODO check this options.
+//TODO check this options (it have to come from the student partner request).
 const options = ['xxx', 'xxx', 'xxxx', 'xxxx', 'xxx', 'xxx'];
 
 interface formTypeValues {
@@ -29,7 +27,7 @@ interface formTypeValues {
     highSchool: School
 }
 type RegisterSignUpCodeStep2Type = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCodeStep2'>;
-export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type> = ( { navigation, route}) => {
+export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type> = ({ navigation, route }) => {
 
     const [highSchoolModalVisible, setHighSchoolModalVisible] = useState<boolean>(false);
 
@@ -45,18 +43,18 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
         initialValues: {} as formTypeValues,
         validationSchema,
         validateOnMount: true,
-        onSubmit: async (values: formTypeValues, {setSubmitting}) => {
+        onSubmit: async (values: formTypeValues, { setSubmitting }) => {
             try {
-                const newAccount = await authService.createAccount({
+                const newAccount = await authService.createAccountWithPartner({
+                    email: route.params.email,
+                    password: route.params.password,
+                    studentPartnerOrg: route.params.studentPartnerManifest.studentPartnerOrg,
                     firstName: values.firstName,
                     lastName: values.lastName,
-                    password: route.params.password,
-                    highSchoolId: values.highSchool && values.highSchool._id,
-                    zipCode: '',
-                    currentGrade: values.grade.value,
-                    email: route.params.email
+                    college: values.grade.value,
+                    highSchoolId: values.highSchool?._id,
+                    terms: true,
                 });
-                console.log("new account", newAccount);
 
                 navigation.navigate('VerifyAccount', {
                     email: route.params.email,
@@ -81,7 +79,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
 
     const renderHighSchoolInput = (grade: SelectItem) => {
         if (grade && (grade.value === '9th' || grade.value === '10th' ||
-            grade.value  === '11th' || grade.value === '12th')) {
+            grade.value === '11th' || grade.value === '12th')) {
             return <Input
                 editable={false}
                 value={formik.values.highSchool == undefined ? '' : schoolUtils.getAsString(formik.values.highSchool)}
@@ -94,7 +92,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
     }
 
     return (
-        <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20}}>
+        <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20 }}>
             <FormikProvider value={formik}>
                 <H3>Tell us more about you</H3>
                 <Separator marginVertical={8} backgroundColor='transparent' />
@@ -132,11 +130,11 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
                 />
             </FormikProvider>
             <HighSchoolPicker visible={highSchoolModalVisible}
-                              onSelect={(value) => {
-                                  formik.setFieldTouched('highSchool');
-                                  formik.setFieldValue('highSchool', value);
-                              }}
-                              onCancel={() => setHighSchoolModalVisible(false)} />
+                onSelect={(value) => {
+                    formik.setFieldTouched('highSchool');
+                    formik.setFieldValue('highSchool', value);
+                }}
+                onCancel={() => setHighSchoolModalVisible(false)} />
         </KeyboardAwareScrollView>
 
     )
