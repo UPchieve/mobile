@@ -19,7 +19,10 @@ type SessionScreenType = NativeStackScreenProps<MainStackParamList, 'Session'>;
 export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }) => {
     const { sessionId } = route.params;
     const [chat, dispatchChat] = useReducer(chatReducer, []);
-    const { user, sessionState, socketHandler } = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
+    const { sessionState, socketHandler } = authContext;
+    const user = authContext.user!;
+
     const [showChat, setShowChat] = useState<boolean>(true);
 
     useEffect(() => {
@@ -59,7 +62,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         <SafeAreaView style={{ flex: 1, }}>
             <CommonKeyboardAvoidingView style={{ flex: 1, }}>
                 <MenuProvider>
-                    <CurrentSessionHeader navigation={navigation} onSwitchPress={onSwitchPress} currentlyShowingChat={showChat} />
+                    <CurrentSessionHeader navigation={navigation} />
                     <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
                         <ChatScreen
                             onSwitchPress={onSwitchPress}

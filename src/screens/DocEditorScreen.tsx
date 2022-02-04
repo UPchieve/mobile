@@ -99,12 +99,24 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
   return (
     <View style={styles.root}>
       {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}> */}
+      <View style={[styles.customToolbar]}>
+        <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+          <View>
+            <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
+            <View style={hasNotifications && styles.notificationRedBall} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
+          <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
+        </TouchableOpacity>
+      </View>
       <View style={{
         flex: 1,
         // marginTop: 100,
         width: '100%',
         // height: 180,
       }}>
+
         <WebView
           javaScriptEnabled={true}
           ref={webViewRef}
@@ -114,19 +126,7 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
           source={{ html: quill.html }} />
       </View>
       {/* </KeyboardAwareScrollView> */}
-      <View style={[styles.customToolbar, keyboardShown && { alignSelf: 'flex-end' }]}>
-        {!keyboardShown
-          ? <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
-            <View>
-              <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
-              <View style={hasNotifications && styles.notificationRedBall} />
-            </View>
-          </TouchableOpacity>
-          : <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
-            <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
-          </TouchableOpacity>
-        }
-      </View>
+
     </View>
   );
 };
@@ -142,9 +142,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   customToolbar: {
-    position: 'absolute',
+    // position: 'absolute',
     top: 0,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingRight: 20,
     height: 58,
   },

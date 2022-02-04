@@ -135,14 +135,14 @@ const html = `
 
 <body>
     <div id="toolbar">
-        <span class="ql-formats hiddeable" style="display: none">
+        <span class="ql-formats">
             <select class="ql-header">
                 <option value="1"></option>
                 <option value="2"></option>
                 <option selected></option>
             </select>
         </span>
-        <span class="ql-formats hiddeable" style="display: none">
+        <span class="ql-formats">
             <button type="button" class="ql-list" value="ordered"></button>
             <button type="button" class="ql-list" value="bullet"></button>
         </span>

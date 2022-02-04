@@ -9,16 +9,13 @@ import { AlertContext } from '../../../providers/AlertProvider';
 import { AuthContext } from '../../../providers/AuthProvider';
 import { MainStackParamList } from '../../../routes/MainStackNavigator';
 import { sessionService } from '../../../services/sessionService';
-import { getSessionType, isSessionEnded } from '../../../utils/utils';
-import { ChatInput } from '../../atoms/chat/ChatInput';
+import { isSessionEnded } from '../../../utils/utils';
 
 type CurrentSessionHeaderType = {
     navigation: NativeStackNavigationProp<MainStackParamList, "Session">
-    onSwitchPress: () => void;
-    currentlyShowingChat: boolean;
 }
 
-export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation, onSwitchPress, currentlyShowingChat }) => {
+export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation, }) => {
 
     const authContext = useContext(AuthContext);
     const { sessionState } = authContext;
@@ -122,17 +119,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     return <View style={[styles.container, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
         {!isSessionEnded(sessionState) ?
             <View style={styles.userContainer}>
-                <Pressable style={styles.swapIcon} onPress={() => { onSwitchPress && onSwitchPress(); }}>
-                    <View>
-                        {!currentlyShowingChat
-                            ? <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
-                            : getSessionType(sessionState!) === 'DOCUMENT'
-                                ? <SvgIcons.DocEditorIcon fill={'white'} />
-                                : <SvgIcons.WhiteboardIcon stroke={'white'} />
-                        }
-                        {/* <View style={hasNotifications && styles.notificationRedBall} /> */}
-                    </View>
-                </Pressable>
+                <Image style={styles.icon} source={renderImage()} />
                 {/* <Image style={styles.icon} source={renderImage()} /> */}
                 <View style={styles.textWrapper}>
                     <Text style={styles.titleText}>{getTitleText()}</Text>
@@ -158,7 +145,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        // paddingLeft: 20,
+        paddingLeft: 20,
         paddingRight: 15,
     },
     containerSessionEnded: {
