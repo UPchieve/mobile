@@ -51,7 +51,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
                     firstName: values.firstName,
                     lastName: values.lastName,
                     password: route.params.password,
-                    highSchoolId: values.highSchool._id,
+                    highSchoolId: values.highSchool && values.highSchool._id,
                     zipCode: '',
                     currentGrade: values.grade.value,
                     email: route.params.email
