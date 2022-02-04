@@ -17,7 +17,9 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({naviga
         <SafeAreaView>
             <ImageBackground source={ImageIndex.onboarding.confetti} style={styles.wrapper}>
                 <Text style={styles.title}>Welcome _____________ {'\n'} Student!</Text>
-                <Text style={styles.notWithText}>Not with _____ ?</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                    <Text style={styles.notWithText}>Not with _____ ?</Text>
+                </TouchableOpacity>
                 <Image source={ImageIndex.onboarding.eligible} />
             </ImageBackground>
             <View style={{ paddingHorizontal: 20, paddingTop: 30}}>

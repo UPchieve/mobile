@@ -26,10 +26,10 @@ export const SignUpCode:React.FC<SignUpCodeType> = ({ navigation }) => {
     const formik = useFormik<formValueType>({
         initialValues: { code: '' },
         validationSchema,
+        validateOnMount: true,
         onSubmit: async ({ code }, { setSubmitting }) => {
             try {
                 const response = await authService.validateSignInCode(code);
-                alert(response);
                 navigation.navigate('WelcomeSignUpCode');
             } catch (error) {
                 const err = getErrorFromBackendResponse(error);

@@ -41,6 +41,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
             zipCode: undefined,
         },
         validationSchema,
+        validateOnMount: true,
         onSubmit: async ({ email, highSchool, zipCode, grade }: formValueType) => {
             const response = await eligibilityService.check({
                 email: email!,

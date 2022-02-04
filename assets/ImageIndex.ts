@@ -1,5 +1,6 @@
 export const ImageIndex = {
   logo: require('./images/logo.png'),
+  welcome: require('./images/welcome.png'),
   avatars: {
     chatbot: require('./images/avatars/chatbot.png'),
     student: require('./images/avatars/student.png'),
