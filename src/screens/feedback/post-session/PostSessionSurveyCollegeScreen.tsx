@@ -58,13 +58,12 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
         onSubmit: (values) => {
             //TODO handle form submit
             navigation.navigate('PostSessionSurveySuccess');
-            console.log(values);
         }
     });
 
     return (
         <SafeAreaView>
-            <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'Home' }] })} />
+            <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'DashboardScreen' }] })} />
             <KeyboardAwareScrollView style={{
                 paddingLeft: 23,
                 paddingRight: 23,

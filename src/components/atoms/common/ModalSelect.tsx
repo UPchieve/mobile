@@ -28,14 +28,14 @@ export type ModalSelect = {
 
 const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> = ((props, ref) => {
     // const { title, data, getLabel } = props;
+    
     const [title, setTitle] = useState<string>(props.title || '');
     const [data, setData] = useState<any[]>(props.data || []);
-    const [getLabel, setGetLabel] = useState<((obj: any) => string)>(props.getLabel ? props.getLabel : ((e) => e));
+    const [getLabel, setGetLabel] = useState<((obj: any) => string)>(() => !!props.getLabel ? props.getLabel : ((e: any) => e));
     const [onSelect, setOnSelect] = useState<(selected?: any) => any>();
     const modalizeRef = useRef<Modalize>(null);
     useImperativeHandle(ref, () => ({
         open: (params: ModalSelectOpenProps) => {
-
             modalizeRef.current?.open();
             params.data && setData(params.data);
             params.title && setTitle(params.title);
@@ -46,6 +46,7 @@ const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> 
 
     return <Modalize
         threshold={20}
+        panGestureComponentEnabled
         HeaderComponent={
             <Text style={{
                 marginTop: 20,

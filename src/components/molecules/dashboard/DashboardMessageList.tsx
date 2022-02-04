@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { Platform, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler'
 import { DashboardMessage, DashboardMessageType } from '../../atoms/dashboard/DashboardMessage';
 import Animated, { interpolateColor, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { Colors } from '../../../../assets/Colors';
@@ -39,14 +40,20 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
     const [autoChangeInterval, setAutoChangeInterval] = useState<any>(null);
 
     const startAutoChange = () => {
+        console.log('start autochange ');
+
         let interval: any;
         if (autoChange) {
             autoChangeInterval && clearInterval(autoChangeInterval);
             interval = setInterval(() => {
                 const index = pageNum.value < messages.length - 1 ? pageNum.value + 1 : 0;
+                console.log({ pageNum: pageNum.value, index });
                 flatListRef.current?.scrollToIndex({
                     index,
                 });
+                if(Platform.OS === 'android'){
+                    pageNum.value = index;
+                }
             }, autoChange);
             setAutoChangeInterval(interval);
         }
@@ -60,6 +67,7 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
 
     return <View>
         <FlatList
+            //@ts-ignore
             ref={flatListRef}
             onLayout={({ nativeEvent }) => {
                 setWidth(nativeEvent.layout.width);
@@ -75,6 +83,7 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
                 const viewSize = nativeEvent.layoutMeasurement;
                 const newPageNum = Math.floor(contentOffset.x / viewSize.width);
                 pageNum.value = newPageNum;
+                console.log('seteado el nuevo pagenum', pageNum.value);
             }}
             pagingEnabled
             showsHorizontalScrollIndicator={false}

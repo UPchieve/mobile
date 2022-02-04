@@ -27,6 +27,6 @@ export const RegisterScreen: React.FC<RegisterScreenType> = ({ navigation }) => 
             <CheckEligibility navigation={navigation} selectRef={selectRef} />
         </View>
     </KeyboardAwareScrollView>
-        <ModalSelect title="Select your grade" data={gradesUtils.GRADE_OPTIONS} getLabel={e => e.label} ref={selectRef} />
+        <ModalSelect title="Select your grade" data={gradesUtils.GRADE_OPTIONS} getLabel={(e) => e.label} ref={selectRef} />
     </>
 }

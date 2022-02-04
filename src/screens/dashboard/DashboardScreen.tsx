@@ -64,6 +64,7 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
         </ImageBackground>
         <Modalize
             ref={modalizeRef}
+            panGestureComponentEnabled
             alwaysOpen={Dimensions.get('screen').height - 250}
             snapPoint={Dimensions.get('screen').height - 200}
             HeaderComponent={<View style={{ marginTop: 30, }}>
