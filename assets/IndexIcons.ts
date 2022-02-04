@@ -30,6 +30,7 @@ import { WhiteboardIcon } from './icons/WhiteboardIcon';
 import { GoArrow } from './icons/GoArrow';
 import { ProfileIcon } from './icons/ProfileIcon';
 import { EmailIcon } from './icons/EmailIcon';
+import { LogoutDrawIcon } from './icons/LogoutDrawIcon';
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -64,4 +65,5 @@ export const SvgIcons = {
   GoArrow,
   ProfileIcon,
   EmailIcon,
+  LogoutDrawIcon,
 };

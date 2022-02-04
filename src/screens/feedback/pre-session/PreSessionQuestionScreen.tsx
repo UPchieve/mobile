@@ -16,6 +16,7 @@ import { SessionFeedbackHeader } from "../../../components/atoms/session-experie
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../routes/MainStackNavigator";
 import { NavigationRouteContext } from "@react-navigation/native";
+import { authService } from "../../../services/authService";
 
 
 type QuestionFCType = {
@@ -80,12 +81,15 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                     //@ts-ignore
                     payload[key] = { answer: values[key] }
                 }
+
                 const sessionId = await sessionService.newSession(route.params.sessionType, route.params.sessionSubTopic);
                 sessionService.sendPreSesionFeedback(sessionId, payload);
                 console.log('feedback submitted.');
                 navigation.navigate('Session', { sessionId, });
 
             } catch (error) {
+                console.log(error);
+                
                 alert(error);
             }
             finally {

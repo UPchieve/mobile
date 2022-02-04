@@ -1,5 +1,5 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,18 +8,38 @@ import { Colors } from '../../../assets/Colors';
 import { FontIndex } from '../../../assets/FontIndex';
 import { ImageIndex } from '../../../assets/ImageIndex';
 import { ModalSelect } from '../../components/atoms/common/ModalSelect';
+import { DashboardMessage } from '../../components/atoms/dashboard/DashboardMessage';
+import { DashboardMessageList } from '../../components/molecules/dashboard/DashboardMessageList';
 import { SubjectCard } from '../../components/molecules/dashboard/SubjectCard';
 import { AuthContext } from '../../providers/AuthProvider';
 import { DrawerParamList } from '../../routes/DrawerNavigator';
 import { MainStackParamList } from '../../routes/MainStackNavigator';
+import { sessionService } from '../../services/sessionService';
 import { topics } from '../../utils/dashboardUtils';
 
+const messages = [
+    { message: 'This is a great time to make a request! We have plenty of coaches available between 12 pm - 2 am ET' },
+    { message: 'This is another great momento to make a request!'},
+    { message: 'The last message is just a little test!, its amazing!' }]
 type DashboardScreenType = DrawerScreenProps<MainStackParamList, 'DashboardScreen'>;
+
 export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) => {
 
     const { user } = useContext(AuthContext);
-    console.log(user);
-    
+
+    useEffect(() => {
+        //check if the user is already in an active session.
+        (async () => {
+            try {
+                const currentSession = await sessionService.getCurrentSession();
+                if (currentSession) {
+                    navigation.navigate('Session', { sessionId: currentSession.sessionId })
+                }
+            } catch (error) {
+
+            }
+        })()
+    }, []);
 
     const insets = useSafeAreaInsets();
     const modalizeRef = useRef<Modalize>(null);
@@ -35,7 +55,7 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
     return <View style={styles.container}>
         <ImageBackground source={ImageIndex.dashboard.background} style={[styles.headerBackground]}>
             <View style={styles.header}>
-                <Text style={styles.helloText}>Hello, {user.firstname}</Text>
+                <Text style={styles.helloText}>Hello, {user?.firstname}</Text>
                 <Text style={[styles.helloText, { fontSize: 18, }]}>Welcome back to UPchieve!</Text>
             </View>
             <TouchableOpacity style={[styles.buttonImage, { top: insets.top }]} onPress={() => navigation.openDrawer()}>
@@ -47,9 +67,11 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             alwaysOpen={Dimensions.get('screen').height - 250}
             snapPoint={Dimensions.get('screen').height - 200}
             HeaderComponent={<View style={{ marginTop: 30, }}>
+                <DashboardMessageList messages={messages} autoChange={5000}/>
                 <Text style={styles.chooseText}>Choose a subject to get help with:</Text>
             </View>}
             modalStyle={{ paddingHorizontal: 20, }}
+            handleStyle={{ top: 27, backgroundColor: Colors.borderGray }}
             withOverlay={false}
             flatListProps={{
                 data: topics,

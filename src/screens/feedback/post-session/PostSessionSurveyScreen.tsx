@@ -57,7 +57,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
 
     return <SafeAreaView>
         {/*TODO Icon in the right must navigate to dashboard*/}
-        <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'Home' }] })} />
+        <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'DashboardScreen' }] })} />
         <KeyboardAwareScrollView
             enableResetScrollToCoords={false}
             style={{

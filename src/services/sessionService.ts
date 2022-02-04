@@ -7,7 +7,7 @@ const getCurrentSession = async (): Promise<Session> => {
 }
 
 const newSession = async (sessionType: string, sessionSubTopic: string): Promise<string> => {
-    //{"sessionType":"math","sessionSubTopic":"geometry"}
+    
     const { data } = await http.post<{sessionId: string}>('/api/session/new', {
         sessionType, sessionSubTopic
     });

@@ -12,14 +12,17 @@ interface SocketHandlerType {
 
 export interface AuthContext {
     socketHandler: SocketHandlerType,
-    user: User,
+    user?: User,
     refreshUser: () => void,
+    loadingUser: boolean;
     sessionState?: SessionStateChangedSocketType,
 }
 export const AuthContext = React.createContext<AuthContext>({} as AuthContext);
 export const AuthProvider: React.FC = ({ children }) => {
     const [connected, setConnected] = useState<boolean>(false);
-    const [user, setUser] = useState<User>({} as User);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [user, setUser] = useState<User | undefined>(undefined);
+
     const [sessionState, setSessionState] = useState<SessionStateChangedSocketType | undefined>();
     const emit = (event: string, payload?: object) => {
         socketHandler.emit(event, payload);
@@ -29,15 +32,20 @@ export const AuthProvider: React.FC = ({ children }) => {
         return () => socketHandler.off(event);
     }
     const loadUser = async () => {
-        const user = await authService.getCurrentUser();
-        if (user) {
-            setUser(user);
+        setUser(undefined);
+        try {
+            setLoading(true)
+            const user = await authService.getCurrentUser();
+            if (user) {
+                setUser(user);
+            }
+        } catch (error) {
+
+        }
+        finally{
+            setLoading(false);
         }
     }
-
-    useEffect(() => {
-        loadUser();
-    }, []);
 
     useEffect(() => {
         setConnected(false);
@@ -56,6 +64,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         return () => socketHandler.disconnect();
     }, [user]);
     return <AuthContext.Provider value={{
+        loadingUser: loading,
         socketHandler: { connected, on, emit },
         user,
         sessionState,

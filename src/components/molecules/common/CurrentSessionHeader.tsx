@@ -20,7 +20,9 @@ type CurrentSessionHeaderType = {
 
 export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation, onSwitchPress, currentlyShowingChat }) => {
 
-    const { user, sessionState } = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
+    const { sessionState } = authContext;
+    const user = authContext.user!;
     const { showPrompt, showAlert } = useContext(AlertContext);
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
@@ -125,8 +127,8 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                         {!currentlyShowingChat
                             ? <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
                             : getSessionType(sessionState!) === 'DOCUMENT'
-                                ? <SvgIcons.DocEditorIcon fill={'white'}/>
-                                : <SvgIcons.WhiteboardIcon stroke={'white'}/>
+                                ? <SvgIcons.DocEditorIcon fill={'white'} />
+                                : <SvgIcons.WhiteboardIcon stroke={'white'} />
                         }
                         {/* <View style={hasNotifications && styles.notificationRedBall} /> */}
                     </View>

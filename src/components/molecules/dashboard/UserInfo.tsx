@@ -9,6 +9,7 @@ import { SvgFC } from '../../../../assets/icons/SvgInterface';
 import { ImageIndex } from '../../../../assets/ImageIndex';
 import { SvgIcons } from '../../../../assets/IndexIcons';
 import { AuthContext } from '../../../providers/AuthProvider';
+import { authService } from '../../../services/authService';
 import { Separator } from '../../atoms/common/Separator';
 type UserInfoType = {
     dismiss: () => void;
@@ -19,44 +20,57 @@ const userType = 'Student';
 //TODO REVIEW THIS SCREEN
 export const UserInfo: React.FC<UserInfoType> = ({ dismiss }) => {
 
-    const { user } = useContext(AuthContext);
+    const { user, refreshUser } = useContext(AuthContext);
+
+    const logout = async () => {
+        await authService.logout();
+        refreshUser();
+    }
 
     const renderIcon = (Icon: SvgFC, text: string, action?: () => void,) => {
-        return <View style={styles.menuItemContainer}>
+        return <TouchableOpacity style={styles.menuItemContainer} onPress={() => action && action()}>
             <Icon />
             <View style={{ marginLeft: 16 }} />
             <Text style={styles.menuItemText}>{text}</Text>
-        </View>
+        </TouchableOpacity>
     }
 
-    return <SafeAreaView>
+    return <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Image source={avatar} style={styles.avatar} />
-                <View style={styles.userInfoContainer}>
-                    <Text style={styles.userNameText}>{user.firstname}</Text>
-                    <View style={{ marginVertical: 1 }} />
-                    <Text style={styles.userTypeText}>{userType}</Text>
+            <View>
+                <View style={styles.header}>
+                    <Image source={avatar} style={styles.avatar} />
+                    <View style={styles.userInfoContainer}>
+                        <Text style={styles.userNameText}>{user?.firstname}</Text>
+                        <View style={{ marginVertical: 1 }} />
+                        <Text style={styles.userTypeText}>{userType}</Text>
+                    </View>
+                    <TouchableOpacity onPress={dismiss} style={styles.closeIconContainer}>
+                        <SvgIcons.CloseIcon stroke={Colors.softBlack} />
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={dismiss} style={styles.closeIconContainer}>
-                    <SvgIcons.CloseIcon stroke={Colors.softBlack} />
-                </TouchableOpacity>
+                <View style={styles.userStateContainer}>
+                    <SvgIcons.DotIcon width={8} fill={Colors.warning} stroke={Colors.warning} />
+                    <Text style={styles.userStateText}>Waiting</Text>
+                </View>
+                <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
+                <FlatList
+                    data={[
+                        { icon: SvgIcons.HouseIcon, title: 'Dashboard', },
+                        { icon: SvgIcons.ProfileIcon, title: 'Profile' },
+                        { icon: SvgIcons.EmailIcon, title: 'Contact Us' }
+                    ]}
+                    renderItem={({ item }) => renderIcon(item.icon, item.title)}
+                    ItemSeparatorComponent={() => <View style={{ marginTop: 4, }} />}
+                    keyExtractor={item => `usermenu_${item.title}`}
+                />
             </View>
-            <View style={styles.userStateContainer}>
-                <SvgIcons.DotIcon width={8} fill={Colors.warning} stroke={Colors.warning} />
-                <Text style={styles.userStateText}>Waiting</Text>
+
+            <View>
+                <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
+                {renderIcon(SvgIcons.LogoutDrawIcon, 'Log out', async () => await logout())}
             </View>
-            <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
-            <FlatList
-                data={[
-                    { icon: SvgIcons.HouseIcon, title: 'Dashboard', },
-                    { icon: SvgIcons.ProfileIcon, title: 'Profile' },
-                    { icon: SvgIcons.EmailIcon, title: 'Contact Us' }
-                ]}
-                renderItem={({ item }) => renderIcon(item.icon, item.title)}
-                ItemSeparatorComponent={() => <View style={{ marginTop: 4, }} />}
-                keyExtractor={item => `usermenu_${item.title}`}
-            />
+
         </View>
     </SafeAreaView>
     // </Modal>
@@ -69,8 +83,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     container: {
+        flex: 1,
         paddingVertical: 10,
         paddingHorizontal: 20,
+        justifyContent: 'space-between'
     },
     avatar: {
         width: 48,

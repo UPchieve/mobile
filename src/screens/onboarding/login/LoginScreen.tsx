@@ -1,5 +1,5 @@
 import { FormikProvider, useFormik } from 'formik';
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import { FormikInput } from '../../../components/atoms/common/Formik/FormikInput';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
+import { AuthContext } from '../../../providers/AuthProvider';
 interface loginValues {
     email: string,
     password: string,
@@ -23,20 +24,30 @@ const validationSchema = Yup.object().shape({
 
 type LoginScreenType = NativeStackScreenProps<OnboardingStackParamList, 'Login'>;
 export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
+
+    const { refreshUser } = useContext(AuthContext);
+
     const formik = useFormik<loginValues>({
         initialValues: {
-            email: 'volunteer@nnnp.com',
-            password: 'Demovolunteerpassword!'
+            email: 'student@nnnp.com',
+            password: 'Demostudentpassword!'
         } as loginValues,
         validationSchema,
         validateOnMount: true,
-        onSubmit: async (values: loginValues) => {
+        onSubmit: async (values: loginValues, { setSubmitting }) => {
             try {
-                const loginResponse = await authService.login(values.email, values.password);
-                alert('login success.');
+                const user = await authService.login(values.email, values.password);
+                if (user?.isVolunteer) {
+                    await authService.logout();
+                    alert(`The app doesn't support login as volunteer yet.`);
+                } else {
+                    refreshUser();
+                }
             } catch (error) {
                 console.log(error);
                 alert('Wrong credentials.');
+            } finally {
+                setSubmitting(false);
             }
         }
     });
@@ -60,6 +71,7 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
             <View style={styles.buttonWrapper}>
                 <CommonButton title='Continue' type='information'
                     disabled={!formik.isValid || formik.isSubmitting}
+                    loading={formik.isSubmitting}
                     onPress={formik.handleSubmit} />
             </View>
             <View style={{ marginVertical: 16, alignItems: 'center' }}>
