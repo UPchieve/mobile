@@ -40,8 +40,6 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
     const [autoChangeInterval, setAutoChangeInterval] = useState<any>(null);
 
     const startAutoChange = () => {
-        console.log('start autochange ');
-
         let interval: any;
         if (autoChange) {
             autoChangeInterval && clearInterval(autoChangeInterval);
@@ -65,6 +63,10 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
         return () => clear();
     }, [autoChange])
 
+    useEffect(() => {
+        return () => autoChangeInterval && clearInterval(autoChangeInterval);
+    }, []);
+
     return <View>
         <FlatList
             //@ts-ignore
@@ -83,7 +85,6 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
                 const viewSize = nativeEvent.layoutMeasurement;
                 const newPageNum = Math.floor(contentOffset.x / viewSize.width);
                 pageNum.value = newPageNum;
-                console.log('seteado el nuevo pagenum', pageNum.value);
             }}
             pagingEnabled
             showsHorizontalScrollIndicator={false}
