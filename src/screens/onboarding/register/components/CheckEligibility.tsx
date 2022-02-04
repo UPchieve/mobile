@@ -61,7 +61,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
     });
     const renderInput = (name: string, placeholder: string) => {
         return <View style={{ marginBottom: 20 }}>
-            <FormikInput name={name} placeholder={placeholder} keyboardType={'numeric'} />
+            <FormikInput name={name} placeholder={placeholder} keyboardType={name === 'zipCode' ? 'numeric' : 'default'} />
         </View>
     }
 

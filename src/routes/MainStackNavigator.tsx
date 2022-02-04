@@ -71,6 +71,7 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name='PreSessionQuestionScreen'
         component={PreSessionQuestionScreen}
+        options={{ headerShown: true, headerTitle: '' }}
       />
       {/* <Stack.Screen
         name="Whiteboard"
