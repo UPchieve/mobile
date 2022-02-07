@@ -17,9 +17,12 @@ import { RegisterSignUpCodeStep2Screen } from "../screens/onboarding/register/Re
 import { VerificationMethod } from '../types/services/authServiceTypes';
 import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVerifiedScreen';
 import { WrongEmailScreen } from '../screens/onboarding/register/WrongEmailScreen';
-import { ContactUsScreen } from "../screens/contact/ContactUsScreen";
-import { MessageSentScreen } from "../screens/onboarding/register/MessageSentScreen";
-import { WelcomeSignUpCodeScreen } from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
+import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
+import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScreen";
+import {WelcomeSignUpCodeScreen} from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
+import {Image} from "react-native";
+import {ImageIndex} from "../../assets/ImageIndex";
+import {SvgIcons} from "../../assets/IndexIcons";
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -77,9 +80,11 @@ export const OnboardingStackNavigator = () => {
             initialRouteName="Welcome"
             screenOptions={{
                 headerBackTitleVisible: false,
+                headerBackImageSource: ImageIndex.icons.goBack,
                 contentStyle: {
                     backgroundColor: Colors.white,
-                }
+                },
+                headerTintColor: Colors.black,
             }}
         >
             <Stack.Screen
@@ -114,7 +119,7 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name="Register"
-                options={{ headerTitle: '' }}
+                options={{ headerTitle: ''}}
                 component={RegisterScreen}
             />
             <Stack.Screen
