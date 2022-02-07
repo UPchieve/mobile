@@ -20,11 +20,34 @@ const userType = 'Student';
 //TODO REVIEW THIS SCREEN
 export const UserInfo: React.FC<UserInfoType> = ({ dismiss }) => {
 
-    const { user, refreshUser } = useContext(AuthContext);
+    const { user, refreshUser, userState } = useContext(AuthContext);
 
     const logout = async () => {
         await authService.logout();
         refreshUser();
+    }
+
+    const renderUserStatus = () => {
+
+        switch (userState.userState) {
+            case 'banned': return <>
+                <SvgIcons.DotIcon width={8} fill={Colors.defaultGray} stroke={Colors.defaultGray} />
+                <Text style={styles.userStateText}>Paused</Text>
+            </>
+            case 'waiting': return <>
+                <SvgIcons.DotIcon width={8} fill={Colors.warning} stroke={Colors.warning} />
+                <Text style={styles.userStateText}>Waiting</Text>
+            </>
+            case 'in_session': return <>
+                <SvgIcons.DotIcon width={8} fill={Colors.success} stroke={Colors.success} />
+                <Text style={styles.userStateText}>Chat in session</Text>
+            </>
+            default: return <>
+                <SvgIcons.DotIcon width={8} fill={Colors.success} stroke={Colors.success} />
+                <Text style={styles.userStateText}>Ready to chat</Text>
+            </>
+
+        }
     }
 
     const renderIcon = (Icon: SvgFC, text: string, action?: () => void,) => {
@@ -50,8 +73,7 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.userStateContainer}>
-                    <SvgIcons.DotIcon width={8} fill={Colors.warning} stroke={Colors.warning} />
-                    <Text style={styles.userStateText}>Waiting</Text>
+                    {renderUserStatus()}
                 </View>
                 <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
                 <FlatList

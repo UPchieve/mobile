@@ -25,6 +25,11 @@ export const ImageIndex = {
   dashboard: {
     background: require('./images/dashboard/core_background.png'),
     openMenuButton: require('./images/dashboard/open_menu_button.png'),
+    state: {
+      inSession: require('./images/dashboard/dashboard_states/dashboard_state_in_session.png'),
+      Waiting: require('./images/dashboard/dashboard_states/dashboard_state_waiting.png'),
+      Banned: require('./images/dashboard/dashboard_states/dashboard_state_banned.png'),
+    },
     subjects: {
       college: require('./images/dashboard/subject_college.png'),
       math: require('./images/dashboard/subject_math.png'),

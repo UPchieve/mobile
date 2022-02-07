@@ -15,11 +15,11 @@ const getCsrfToken = async (): Promise<string> => {
 http.interceptors.request.use(async (e) => {
     let csrfToken: string = '';
     try {
-        const value = await AsyncStorage.getItem(csrfStorage);
+        // const value = await AsyncStorage.getItem(csrfStorage);
+        const value = null;
         if(value !== null){
             csrfToken = value;
         } else {
-            console.log('csrf');
             
             csrfToken = await getCsrfToken();
             AsyncStorage.setItem(csrfStorage, csrfToken);

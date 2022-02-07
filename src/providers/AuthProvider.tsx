@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { userStateType, useUserState, useUserStateType } from "../hooks/useUserState";
 import { User } from "../models/user";
 import { authService } from "../services/authService";
 import { SessionStateChangedSocketType } from "../types/socketTypes";
@@ -14,6 +15,7 @@ export interface AuthContext {
     socketHandler: SocketHandlerType,
     user?: User,
     refreshUser: () => void,
+    userState: useUserStateType;
     loadingUser: boolean;
     sessionState?: SessionStateChangedSocketType,
 }
@@ -22,7 +24,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [connected, setConnected] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [user, setUser] = useState<User | undefined>(undefined);
-
+    const userState = useUserState(user);
     const [sessionState, setSessionState] = useState<SessionStateChangedSocketType | undefined>();
     const emit = (event: string, payload?: object) => {
         socketHandler.emit(event, payload);
@@ -68,6 +70,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         socketHandler: { connected, on, emit },
         user,
         sessionState,
+        userState,
         refreshUser: () => loadUser()
     }}>
         {children}

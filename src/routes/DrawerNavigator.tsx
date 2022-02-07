@@ -24,7 +24,7 @@ export const DrawerNavigator = () => {
                     width: '100%',
                 }
             }}
-            drawerContent={({navigation}) => <UserInfo visible={true} dismiss={() => navigation.closeDrawer()} />}
+            drawerContent={({navigation}) => <UserInfo dismiss={() => navigation.closeDrawer()} />}
         >
             <Drawer.Screen name="Home" component={OnboardingStackNavigator} />
             <Drawer.Screen name="Dashboard" component={MainStackNavigator} />

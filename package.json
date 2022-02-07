@@ -21,6 +21,7 @@
     "expo": "~43.0.2",
     "expo-font": "~10.0.3",
     "expo-image-picker": "~11.0.3",
+    "expo-linear-gradient": "~10.0.3",
     "expo-linking": "~2.4.2",
     "expo-screen-orientation": "~4.0.3",
     "expo-sensors": "~11.0.3",

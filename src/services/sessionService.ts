@@ -1,8 +1,14 @@
 import { Session } from "../interfaces/sessionInterfaces";
+import { GetLatestSessionResponse } from "../types/services/sessionServiceTypes";
 import http from "./http"
 
 const getCurrentSession = async (): Promise<Session> => {
     const response = await http.post<Session>('/api/session/current');
+    return response.data;
+}
+
+const getLatestSession = async (userId: string,): Promise<GetLatestSessionResponse> => {
+    const response = await http.post<GetLatestSessionResponse>('/api/session/latest', {userId});
     return response.data;
 }
 
@@ -28,6 +34,7 @@ const endSession = async (sessionId: string): Promise<void> => {
 
 export const sessionService = {
     getCurrentSession,
+    getLatestSession,
     endSession,
     newSession,
     sendPreSesionFeedback
