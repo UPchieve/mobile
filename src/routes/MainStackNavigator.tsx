@@ -8,6 +8,8 @@ import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session
 import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen';
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSessionQuestionScreen';
+import {ImageIndex} from "../../assets/ImageIndex";
+import {Colors} from "../../assets/Colors";
 
 
 export type MainStackParamList = {
@@ -32,6 +34,11 @@ export const MainStackNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="DashboardScreen"
+      screenOptions={{
+        headerBackImageSource: ImageIndex.icons.goBack,
+        headerTintColor: Colors.black,
+        headerBackTitleVisible: false
+  }}
     >
       <Stack.Screen
         name="Home"
