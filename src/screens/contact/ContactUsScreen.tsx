@@ -11,6 +11,11 @@ import {FormikPicker} from "../../components/atoms/common/Formik/FormikPicker";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {MainStackParamList} from "../../routes/MainStackNavigator";
 import {OnboardingStackParamList} from "../../routes/OnboardingStackNavigator";
+import {Image, TouchableOpacity} from "react-native";
+import {ImageIndex} from "../../../assets/ImageIndex";
+import {DrawerScreenProps} from "@react-navigation/drawer";
+import {DrawerParamList} from "../../routes/DrawerNavigator";
+import {useNavigation} from "@react-navigation/native";
 
 interface formTypeValues {
     reason: string,
@@ -20,7 +25,12 @@ interface formTypeValues {
 const options = ['General question', 'General feedback', 'Technical issue', 'Feature request', 'Subject suggestion', 'Other'];
 
 type contactUsScreenType = NativeStackScreenProps<OnboardingStackParamList, 'ContactUs'>;
-export const ContactUsScreen: React.FC<contactUsScreenType> = ({navigation}) => {
+export const ContactUsScreen: React.FC<contactUsScreenType> = ({navigation, route}) => {
+
+    const {screen} = route.params;
+
+    type userInfoScreenType = DrawerScreenProps<DrawerParamList, 'Profile'>;
+    const navigationDrawer = useNavigation<userInfoScreenType>()
 
     const countWords = (str: string | undefined) => {
         let matches = str?.match(/[\w\d\’\'-]+/gi);
@@ -41,11 +51,19 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({navigation}) => 
         }
     });
 
-
+    // const renderNavigation = () => {
+    //     return screen === 'VerifyAccountStep2' ? navigation.goBack() : navigationDrawer.navigation.openDrawer()
+    // }
 
     return (
         <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20}}>
             <FormikProvider value={formik}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Image
+                        style={{width: 20, height: 20}}
+                        source={ImageIndex.icons.goBack}/>
+                </TouchableOpacity>
+                <Separator marginVertical={24} backgroundColor='transparent' />
                 <H3>Contact Us</H3>
                 <Separator marginVertical={24} backgroundColor='transparent' />
                 <FormikPicker title='What is your reason?'

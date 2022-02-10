@@ -83,7 +83,7 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
                     data={[
                         { icon: SvgIcons.HouseIcon, title: 'Dashboard', action: () =>  navigation.navigate('Dashboard')},
                         { icon: SvgIcons.ProfileIcon, title: 'Profile', action: () =>  navigation.navigate('Profile')},
-                        { icon: SvgIcons.EmailIcon, title: 'Contact Us' }
+                        { icon: SvgIcons.EmailIcon, title: 'Contact Us', action: () => navigation.navigate('ContactUs', {screen:'Home'}) }
                     ]}
                     renderItem={({ item }) => renderIcon(item.icon, item.title, item.action)}
                     ItemSeparatorComponent={() => <View style={{ marginTop: 4, }} />}

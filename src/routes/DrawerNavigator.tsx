@@ -6,6 +6,9 @@ import { UserInfo } from '../components/molecules/dashboard/UserInfo';
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 import { MainStackNavigator } from './MainStackNavigator';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
+import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
+import {ImageIndex} from "../../assets/ImageIndex";
+import {Colors} from "../../assets/Colors";
 
 
 
@@ -13,6 +16,7 @@ export type DrawerParamList = {
     Home: undefined;
     Dashboard: undefined;
     Profile: undefined;
+    ContactUs: undefined;
 }
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -34,6 +38,7 @@ export const DrawerNavigator = () => {
             <Drawer.Screen name="Home" component={OnboardingStackNavigator} />
             <Drawer.Screen name="Dashboard" component={MainStackNavigator} />
             <Drawer.Screen name="Profile" component={ProfileScreen} />
+            <Drawer.Screen name="ContactUs" component={ContactUsScreen}/>
         </Drawer.Navigator>
     );
 }

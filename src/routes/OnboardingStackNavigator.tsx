@@ -65,7 +65,9 @@ export type OnboardingStackParamList = {
         password: string,
         studentPartnerManifest: StudentPartnerManifest
     },
-    ContactUs: undefined,
+    ContactUs: {
+        screen: string
+    },
     MessageSent: undefined
     WrongEmail: undefined,
     WelcomeSignUpCode: {
@@ -160,7 +162,7 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='ContactUs'
                 component={ContactUsScreen}
-                options={{ headerTitle: '' }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name='MessageSent'

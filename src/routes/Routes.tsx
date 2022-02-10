@@ -9,6 +9,10 @@ import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSes
 import { AuthContext } from '../providers/AuthProvider';
 import { View } from 'react-native';
 import { AppLoading } from '../components/molecules/common/AppLoading';
+import {SettingsScreen} from "../screens/profile/SettingsScreen";
+import {DeleteAccountScreen} from "../screens/profile/DeleteAccountScreen";
+import {TellUsMoreScreen} from "../screens/profile/TellUsMoreScreen";
+import {RequestDeleteAccountScreen} from "../screens/profile/RequestDeleteAccountScreen";
 
 const prefix = Linking.createURL('/');
 
