@@ -24,9 +24,6 @@ export type MainStackParamList = {
     sessionType: string,
     sessionSubTopic: string,
   }
-  // Whiteboard: { sessionId: string, };
-  // DocEditor: { sessionId: string, };
-  // Chat: { sessionId: string, };
 };
 
 export const MainStackNavigator = () => {

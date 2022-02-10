@@ -1,3 +1,5 @@
+import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, } from 'react-native';
 import Modal from 'react-native-modal';
@@ -13,12 +15,13 @@ import { authService } from '../../../services/authService';
 import { Separator } from '../../atoms/common/Separator';
 type UserInfoType = {
     dismiss: () => void;
+    navigation: DrawerNavigationHelpers;
 }
 const avatar = ImageIndex.avatars.student;
 const userType = 'Student';
 
 //TODO REVIEW THIS SCREEN
-export const UserInfo: React.FC<UserInfoType> = ({ dismiss }) => {
+export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
 
     const { user, refreshUser, userState } = useContext(AuthContext);
 
@@ -78,11 +81,11 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss }) => {
                 <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
                 <FlatList
                     data={[
-                        { icon: SvgIcons.HouseIcon, title: 'Dashboard', },
-                        { icon: SvgIcons.ProfileIcon, title: 'Profile' },
+                        { icon: SvgIcons.HouseIcon, title: 'Dashboard', action: () =>  navigation.navigate('Dashboard')},
+                        { icon: SvgIcons.ProfileIcon, title: 'Profile', action: () =>  navigation.navigate('Profile')},
                         { icon: SvgIcons.EmailIcon, title: 'Contact Us' }
                     ]}
-                    renderItem={({ item }) => renderIcon(item.icon, item.title)}
+                    renderItem={({ item }) => renderIcon(item.icon, item.title, item.action)}
                     ItemSeparatorComponent={() => <View style={{ marginTop: 4, }} />}
                     keyExtractor={item => `usermenu_${item.title}`}
                 />
