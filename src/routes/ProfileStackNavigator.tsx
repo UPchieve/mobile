@@ -9,12 +9,15 @@ import { Colors } from '../../assets/Colors';
 import { DeleteAccountScreen } from '../screens/profile/DeleteAccountScreen';
 import { TellUsMoreScreen } from '../screens/profile/TellUsMoreScreen';
 import { ImageIndex } from '../../assets/ImageIndex';
+import { StackRouter } from '@react-navigation/native';
+import { RequestDeleteAccountScreen } from '../screens/profile/RequestDeleteAccountScreen';
 
 export type ProfileParamList = {
     ProfileIndex: undefined,
     ProfileSettings: undefined,
     ProfileDeleteAccount: undefined,
     ProfileTellUsMore: undefined,
+    ProfileDeleteReceived: undefined;
 }
 
 export const ProfileStackNavigator = () => {
@@ -45,7 +48,7 @@ export const ProfileStackNavigator = () => {
             component={DeleteAccountScreen}
             options={{
                 headerTitle: '',
-                headerStyle: {backgroundColor: 'transparent'}
+                headerStyle: { backgroundColor: 'transparent' }
             }}
         />
         <Stack.Screen
@@ -53,6 +56,13 @@ export const ProfileStackNavigator = () => {
             component={TellUsMoreScreen}
             options={{
                 headerTitle: ''
+            }}
+        />
+        <Stack.Screen
+            name='ProfileDeleteReceived'
+            component={RequestDeleteAccountScreen}
+            options={{
+                headerShown: false
             }}
         />
     </Stack.Navigator>

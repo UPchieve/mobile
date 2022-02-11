@@ -1,20 +1,23 @@
 import React from 'react';
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {FormikProvider, useFormik} from "formik";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import {Separator} from "../../components/atoms/common/Separator";
-import {H3} from "../../components/atoms/common/H3";
-import {CommonTextArea} from "../../components/common/CommonTextArea";
-import {Colors} from "../../../assets/Colors";
-import {StyleSheet, Text} from "react-native";
-import {FontIndex} from "../../../assets/FontIndex";
-import {CommonButton} from "../../components/common/CommonButton";
+import { Separator } from "../../components/atoms/common/Separator";
+import { H3 } from "../../components/atoms/common/H3";
+import { CommonTextArea } from "../../components/common/CommonTextArea";
+import { Colors } from "../../../assets/Colors";
+import { StyleSheet, Text } from "react-native";
+import { FontIndex } from "../../../assets/FontIndex";
+import { CommonButton } from "../../components/common/CommonButton";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ProfileParamList } from '../../routes/ProfileStackNavigator';
 
 interface formTypeValues {
     moreText: string
 }
 
-export const TellUsMoreScreen = () => {
+type TellUsMoreScreenType = NativeStackScreenProps<ProfileParamList, 'ProfileTellUsMore'>
+export const TellUsMoreScreen: React.FC<TellUsMoreScreenType> = ({ navigation }) => {
 
     const countWords = (str: string | undefined) => {
         let matches = str?.match(/[\w\d\’\'-]+/gi);
@@ -26,15 +29,17 @@ export const TellUsMoreScreen = () => {
     });
 
     const formik = useFormik<formTypeValues>({
-        initialValues: {moreText: ''} as formTypeValues,
+        initialValues: { moreText: '' } as formTypeValues,
         validateOnMount: true,
         validationSchema,
         onSubmit: async (values: formTypeValues) => {
+            //TODO missing request
+            navigation.navigate('ProfileDeleteReceived');
         }
     });
 
-    return(
-        <KeyboardAwareScrollView style={{ paddingHorizontal: 20}}>
+    return (
+        <KeyboardAwareScrollView style={{ paddingHorizontal: 20 }}>
             <FormikProvider value={formik}>
                 <Separator marginVertical={24} backgroundColor='transparent' />
                 <H3>Tell us more</H3>
@@ -44,11 +49,11 @@ export const TellUsMoreScreen = () => {
                 <Text style={styles.additionalText}>decided to delete your account. </Text>
                 <Separator marginVertical={24} backgroundColor='transparent' />
                 <CommonTextArea borderColorSelected={Colors.information}
-                                placeholder={'Why do you want to delete your account?. (min 5 words)'}
-                                onChangeText={formik.handleChange('moreText')}
-                                value={formik.values.moreText}/>
+                    placeholder={'Why do you want to delete your account?. (min 5 words)'}
+                    onChangeText={formik.handleChange('moreText')}
+                    value={formik.values.moreText} />
                 <Separator marginVertical={24} backgroundColor='transparent' />
-                <CommonButton title={'Submit request'} onPress={() => formik.handleSubmit()} type={'information'}  disabled={!formik.isValid} />
+                <CommonButton title={'Submit request'} onPress={formik.handleSubmit} type={'information'} disabled={!formik.isValid} />
             </FormikProvider>
         </KeyboardAwareScrollView>
     )
