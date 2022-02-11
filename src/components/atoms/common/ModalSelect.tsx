@@ -29,7 +29,7 @@ export type ModalSelect = {
 //TODO add min height
 const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> = ((props, ref) => {
     // const { title, data, getLabel } = props;
-    
+
     const [title, setTitle] = useState<string>(props.title || '');
     const [data, setData] = useState<any[]>(props.data || []);
     const [getLabel, setGetLabel] = useState<((obj: any) => string)>(() => !!props.getLabel ? props.getLabel : ((e: any) => e));
@@ -56,7 +56,7 @@ const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> 
             }}>{title}</Text>
         }
         ref={modalizeRef} adjustToContentHeight={true}>
-        <View style={{ paddingBottom: 20, }}>
+        <View style={{ paddingBottom: 20, minHeight: 200}}>
             {data.map(x => {
                 return <React.Fragment key={randomString()}>
                     <Separator backgroundColor={Colors.borderGray} />

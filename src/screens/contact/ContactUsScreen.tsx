@@ -11,7 +11,7 @@ import { FormikPicker } from "../../components/atoms/common/Formik/FormikPicker"
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../routes/MainStackNavigator";
 import { OnboardingStackParamList } from "../../routes/OnboardingStackNavigator";
-import { View, Image, TouchableOpacity } from "react-native";
+import {View, Image, TouchableOpacity, Dimensions} from "react-native";
 import { ImageIndex } from "../../../assets/ImageIndex";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerParamList } from "../../routes/DrawerNavigator";
@@ -52,15 +52,15 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
     });
 
     return (
-        <View>
-            <KeyboardAwareScrollView style={{ paddingHorizontal: 20, paddingTop: 24 }}>
+        <View style={{backgroundColor: 'white', height: Dimensions.get('window').height}}>
+            <KeyboardAwareScrollView style={{ paddingHorizontal: 20, paddingTop: 24}}>
                 <FormikProvider value={formik}>
                     {/* <TouchableOpacity onPress={() => navigation.canGoBack() && navigation.goBack()}>
                     <Image
                         style={{width: 20, height: 20}}
                         source={ImageIndex.icons.goBack}/>
                 </TouchableOpacity> */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                         <H3>Contact Us</H3>
                         {route.name === 'DrawerContactUs' ? <TouchableOpacity
                             onPress={() => (navigation.getParent() as any)?.openDrawer()}>
