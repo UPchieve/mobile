@@ -162,7 +162,9 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='ContactUs'
                 component={ContactUsScreen}
-                options={{ headerShown: false }}
+                options={{
+                    headerTitle: ''
+                }}
             />
             <Stack.Screen
                 name='MessageSent'

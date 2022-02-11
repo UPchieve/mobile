@@ -23,6 +23,15 @@ export type ProfileParamList = {
 export const ProfileStackNavigator = () => {
     const Stack = createNativeStackNavigator<ProfileParamList>();
     return <Stack.Navigator initialRouteName='ProfileIndex'
+        defaultScreenOptions={{
+            contentStyle: {
+                backgroundColor: Colors.white
+            },
+            // headerStyle: { backgroundColor: 'transparent' },
+            headerBackTitleVisible: false,
+            headerBackImageSource: ImageIndex.icons.goBack,
+            headerTintColor: Colors.black,
+        }}
         screenOptions={{
             contentStyle: {
                 backgroundColor: Colors.white
@@ -62,7 +71,7 @@ export const ProfileStackNavigator = () => {
             name='ProfileDeleteReceived'
             component={RequestDeleteAccountScreen}
             options={{
-                headerShown: false
+                headerShown: false,
             }}
         />
     </Stack.Navigator>
