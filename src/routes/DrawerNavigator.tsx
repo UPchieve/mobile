@@ -9,6 +9,8 @@ import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
 import {ImageIndex} from "../../assets/ImageIndex";
 import {Colors} from "../../assets/Colors";
+import { ContactUsStackNavigator } from './ContactUsStackNavigator';
+import { ProfileStackNavigator } from './ProfileStackNavigator';
 
 
 
@@ -37,8 +39,8 @@ export const DrawerNavigator = () => {
         >
             <Drawer.Screen name="Home" component={OnboardingStackNavigator} />
             <Drawer.Screen name="Dashboard" component={MainStackNavigator} />
-            <Drawer.Screen name="Profile" component={ProfileScreen} />
-            <Drawer.Screen name="ContactUs" component={ContactUsScreen}/>
+            <Drawer.Screen name="Profile" component={ProfileStackNavigator} />
+            <Drawer.Screen name="ContactUs" component={ContactUsStackNavigator}/>
         </Drawer.Navigator>
     );
 }

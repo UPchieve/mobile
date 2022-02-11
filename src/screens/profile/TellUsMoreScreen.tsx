@@ -34,7 +34,7 @@ export const TellUsMoreScreen = () => {
     });
 
     return(
-        <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20}}>
+        <KeyboardAwareScrollView style={{ paddingHorizontal: 20}}>
             <FormikProvider value={formik}>
                 <Separator marginVertical={24} backgroundColor='transparent' />
                 <H3>Tell us more</H3>

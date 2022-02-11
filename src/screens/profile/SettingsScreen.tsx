@@ -1,23 +1,23 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import {SafeAreaView, TouchableOpacity, Text, View, StyleSheet} from "react-native";
-import {Colors} from "../../../assets/Colors";
-import {FontIndex} from "../../../assets/FontIndex";
+import { SafeAreaView, TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack';
+import { Colors } from "../../../assets/Colors";
+import { FontIndex } from "../../../assets/FontIndex";
+import { ProfileParamList } from '../../routes/ProfileStackNavigator';
 
-export const SettingsScreen = () => {
+type SettingScreenType = NativeStackScreenProps<ProfileParamList, 'ProfileSettings'>
+export const SettingsScreen: React.FC<SettingScreenType> = ({navigation}) => {
     return (
         <SafeAreaView>
-            <View style={{marginHorizontal: 24}}>
-                <TouchableOpacity>
-                    <Text style={styles.settingsText}>Reset Password</Text>
-                </TouchableOpacity>
-            </View>
-                <View style={{ height: 1, backgroundColor: Colors.borderGray, marginTop: 10, marginBottom: 16 }} />
-            <View style={{marginHorizontal: 24}}>
-                <TouchableOpacity>
-                    <Text style={styles.settingsText}>Delete Account</Text>
-                </TouchableOpacity>
-            </View>
-                <View style={{ height: 1, backgroundColor: Colors.borderGray, marginTop: 10, marginBottom: 16 }} />
+            <TouchableOpacity style={styles.itemContainer}>
+                <Text style={styles.settingsText}>Reset Password</Text>
+            </TouchableOpacity>
+            <View style={{ height: 1, backgroundColor: Colors.borderGray, }} />
+            <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('ProfileDeleteAccount')}>
+                <Text style={styles.settingsText}>Delete Account</Text>
+            </TouchableOpacity>
+            <View style={{ height: 1, backgroundColor: Colors.borderGray, }} />
         </SafeAreaView>
     )
 }
@@ -27,5 +27,10 @@ const styles = StyleSheet.create({
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 14,
         color: Colors.secondaryGray,
+    },
+    itemContainer: {
+        justifyContent: 'center',
+        marginHorizontal: 24,
+        height: 56
     }
 })

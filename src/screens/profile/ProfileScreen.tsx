@@ -1,8 +1,10 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
+import { CompositeScreenProps } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from "react-native"
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack';
 import { Colors } from '../../../assets/Colors';
 import { FontIndex } from '../../../assets/FontIndex';
 import { ImageIndex } from '../../../assets/ImageIndex';
@@ -11,8 +13,12 @@ import { Separator } from '../../components/atoms/common/Separator';
 import { AuthContext } from '../../providers/AuthProvider';
 import { DrawerParamList } from '../../routes/DrawerNavigator';
 import { MainStackParamList } from '../../routes/MainStackNavigator';
+import { ProfileParamList } from '../../routes/ProfileStackNavigator';
 
-type ProfileScreenType = DrawerScreenProps<DrawerParamList, 'Profile'>;
+// type ProfileScreenType = DrawerScreenProps<DrawerParamList, 'Profile'>;
+type ProfileScreenType = CompositeScreenProps<DrawerScreenProps<DrawerParamList, 'Profile'>,
+    NativeStackScreenProps<ProfileParamList, 'ProfileIndex'>
+>
 export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
     const user = useContext(AuthContext).user!;
 
@@ -49,8 +55,8 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
             <Text style={styles.accountText}>Account</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 50, }}>
                 <Text style={styles.settingsText}>Settings</Text>
-                <TouchableOpacity>
-                    <SvgIcons.GoArrow />
+                <TouchableOpacity onPress={() => navigation.navigate('ProfileSettings')}>
+                    <SvgIcons.GoArrow/>
                 </TouchableOpacity>
             </View>
         </View>
