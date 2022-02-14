@@ -113,6 +113,11 @@ const html = `
         border-radius: 100%;
     }
 
+    .ql-picker-item.ql-primary[data-value="#FFFFFF"] {
+        background-color: #F1F3F6 !important;
+        border-color: #ABB2BD !important;
+    }
+
     span.ql-color>span.ql-picker-options[aria-hidden="false"] {
         display: flex !important;
         justify-content: space-around;

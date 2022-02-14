@@ -6,9 +6,10 @@ type FormikInputType = {
     name: string,
     placeholder?: string,
     password?: boolean,
+    showCheck?: boolean,
 } & InputType;
 
-export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, password = false, ...props }) => {
+export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, password = false, showCheck = false, ...props }) => {
     const formik = useFormikContext<any>();
     return <Input
         placeholder={placeholder}
@@ -19,6 +20,7 @@ export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, pass
         value={formik.values[name]}
         onBlur={formik.handleBlur(name)}
         password={password}
+        showCheck={showCheck}
         {...props}
     />
 }

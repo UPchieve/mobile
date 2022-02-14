@@ -73,7 +73,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
 
     const renderInput = (name: string, placeholder: string, password: boolean = false) => {
         return <View style={{ marginBottom: 8, }}>
-            <FormikInput name={name} placeholder={placeholder} password={password} />
+            <FormikInput name={name} placeholder={placeholder} password={password} showCheck/>
         </View>
     }
 

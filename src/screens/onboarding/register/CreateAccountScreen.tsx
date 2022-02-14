@@ -53,7 +53,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
     const formik = useFormik<formTypeValues>({
         initialValues,
         validationSchema,
-        onSubmit: async (values: formTypeValues, {setSubmitting}) => {
+        onSubmit: async (values: formTypeValues, { setSubmitting }) => {
             try {
                 const newAccount = await authService.createAccount({
                     firstName: values.firstName,
@@ -80,9 +80,9 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
         }
     });
 
-    const renderInput = (name: string, placeholder: string, password: boolean = false) => {
+    const renderInput = (name: string, placeholder: string, showCheck: boolean, password: boolean = false) => {
         return <View style={{ marginBottom: 8, }}>
-            <FormikInput name={name} placeholder={placeholder} password={password} />
+            <FormikInput name={name} placeholder={placeholder} password={password} showCheck={showCheck}/>
         </View>
     }
 
@@ -95,8 +95,8 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
                 stepState: 'active'
             }, { stepNumber: 2, stepState: 'not-started' }]} />
             <Separator marginVertical={12} backgroundColor='transparent' />
-            {renderInput('firstName', 'First Name')}
-            {renderInput('lastName', 'Last Name')}
+            {renderInput('firstName', 'First Name', true)}
+            {renderInput('lastName', 'Last Name', true)}
             <View style={{ marginBottom: 8 }}>
                 <PasswordInput value={formik.values.password}
                     onChangeText={(value: string) => {
@@ -112,7 +112,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
                     message='Password must contain at least one uppercase, one lower case, and 1 number'
                 />
             </View>
-            {renderInput('confirmPassword', 'Confirm Password', true)}
+            {renderInput('confirmPassword', 'Confirm Password', false, true)}
             <FormikPicker
                 title='how did you hear about us?'
                 placeholder='how did you hear about us?'

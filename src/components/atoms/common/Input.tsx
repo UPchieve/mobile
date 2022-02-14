@@ -12,9 +12,10 @@ export type InputType = {
     touched?: boolean,
     errorMessage?: string,
     placeholder?: string,
-    password?: boolean
+    password?: boolean,
+    showCheck?: boolean,
 } & TextInputProps;
-export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, ...props }) => {
+export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, showCheck = false, ...props }) => {
     TextInputBase
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [isInFocus, setIsInFocus] = useState(false);
@@ -29,10 +30,10 @@ export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, error
     const renderIcon = () => {
         if (!touched)
             return null;
-        if (isValid === true) {
-            return <SvgIcons.CheckIcon fill={Colors.success} />
-        } else if (isValid === false) {
+        if (isValid === false) {
             return <SvgIcons.CloseIcon stroke={Colors.error} height={15} width={15} />
+        } else if (isValid === true && showCheck) {
+            return <SvgIcons.CheckIcon fill={Colors.success} />
         }
         return null;
     }

@@ -100,7 +100,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const flatListRef = useRef<FlatList<QuestionType>>(null);
-    return <SafeAreaView style={{ flex: 1, }}>
+    return <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
         <View style={{ flex: 1, }}>
             <View style={{ paddingHorizontal: 20, }}>
                 <Separator backgroundColor={'transparent'} marginVertical={12} />
