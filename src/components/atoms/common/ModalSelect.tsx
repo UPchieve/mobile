@@ -13,6 +13,7 @@ type ModalSelectorType = {
     title?: string,
     data?: any[]
     getLabel?: (obj: any) => string;
+    onClose?: () => void;
 }
 
 type ModalSelectOpenProps = {
@@ -48,6 +49,7 @@ const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> 
     return <Modalize
         threshold={20}
         panGestureComponentEnabled
+        onClose={() => props?.onClose && props?.onClose()}
         HeaderComponent={
             <Text style={{
                 marginTop: 20,

@@ -9,15 +9,20 @@ type SubjectType = {
     topic: Topic;
     selectRef: React.RefObject<ModalSelect>;
     onSelect: (topic: string, subTopic: string) => void;
+    isOpen: boolean;
+    onBeforeOpen: () => void;
 }
-export const SubjectCard: React.FC<SubjectType> = ({ topic, selectRef, onSelect }) => {
+export const SubjectCard: React.FC<SubjectType> = ({ topic, selectRef, onSelect, isOpen, onBeforeOpen }) => {
     return <>
-        <Pressable style={styles.container} onPress={() => selectRef.current?.open({
-            data: topic.subTopics,
-            onSelect: (e) => onSelect(topic.key, e.key),
-            title: topic.displayName,
-            getLabel: (e: SubTopic) => e.displayName,
-        })}>
+        <Pressable style={[styles.container, isOpen && styles.containerIsOpen]} onPress={() => {
+            onBeforeOpen();
+            selectRef.current?.open({
+                data: topic.subTopics,
+                onSelect: (e) => onSelect(topic.key, e.key),
+                title: topic.displayName,
+                getLabel: (e: SubTopic) => e.displayName,
+            })
+        }}>
             <Image source={topic.image} style={styles.image} />
             <View style={styles.textContainer}>
                 <Text style={styles.topicText}>{topic.displayName}</Text>
@@ -36,6 +41,10 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: Colors.borderGray,
         borderRadius: 8,
+    },
+    containerIsOpen: {
+        borderColor: Colors.success,
+        backgroundColor: Colors.selectedGreen,
     },
     image: {
         height: 60,

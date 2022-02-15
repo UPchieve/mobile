@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     container: {
         minHeight: 87,
         width: '100%',
-        paddingVertical: 12,
-        paddingHorizontal: 34,
+        paddingVertical: 13,
+        paddingHorizontal: 14.6,
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 14,
         color: Colors.white,
+        textAlign: 'justify'
     }
 })

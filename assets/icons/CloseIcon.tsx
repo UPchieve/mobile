@@ -5,7 +5,8 @@ import { Svg, Path } from 'react-native-svg';
 export const CloseIcon: SvgFC = ({
   width = 20,
   height = 20,
-  stroke= "#000",
+  stroke = undefined,
+  fill = "#000",
   ...props
 }) => {
   return (
@@ -13,7 +14,7 @@ export const CloseIcon: SvgFC = ({
       width={width}
       height={height}
       viewBox="0 0 20 20"
-      fill="none"
+      fill={fill}
       stroke={stroke}
       {...props}
     >

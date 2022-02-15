@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { Keyboard, StyleSheet, View } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from '../../assets/Colors';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from "../components/molecules/common/CurrentSessionHeader";
@@ -59,7 +60,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white}}>
             <CommonKeyboardAvoidingView style={{ flex: 1, }}>
                 <MenuProvider>
                     <CurrentSessionHeader navigation={navigation} />

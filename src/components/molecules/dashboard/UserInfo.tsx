@@ -72,7 +72,7 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
                         <Text style={styles.userTypeText}>{userType}</Text>
                     </View>
                     <TouchableOpacity onPress={dismiss} style={styles.closeIconContainer}>
-                        <SvgIcons.CloseIcon stroke={Colors.softBlack} />
+                        <SvgIcons.CloseIcon fill={Colors.softBlack} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.userStateContainer}>
@@ -80,6 +80,8 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
                 </View>
                 <Separator backgroundColor={Colors.borderGray} marginVertical={16} />
                 <FlatList
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}
                     data={[
                         { icon: SvgIcons.HouseIcon, title: 'Dashboard', action: () =>  navigation.navigate('Dashboard')},
                         { icon: SvgIcons.ProfileIcon, title: 'Profile', action: () =>  navigation.navigate('Profile')},

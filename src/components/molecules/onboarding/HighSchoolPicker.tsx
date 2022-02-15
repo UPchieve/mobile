@@ -48,10 +48,12 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
     }
 
     const renderItem = ({ item }: { item: School }) => {
-        return <TouchableOpacity onPress={() => itemPicked(item)}>
-            <Text style={styles.itemText}>{item.name} ({item.city}, {item.state})</Text>
-            <Separator backgroundColor={Colors.defaultGray} marginVertical={6} />
-        </TouchableOpacity>
+        return <>
+            <TouchableOpacity onPress={() => itemPicked(item)} style={{minHeight: 34, justifyContent: 'center'}}>
+                <Text style={styles.itemText}>{item.name} ({item.city}, {item.state})</Text>
+            </TouchableOpacity>
+            <Separator backgroundColor={Colors.defaultGray} />
+        </>
     }
 
     const listFooterComponent = () => {
@@ -73,7 +75,7 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
                         <View style={styles.inputWrapper}>
                             <View style={styles.inputInternWrapper}>
                                 <SvgIcons.GlassIcon />
-                                <DelayTextInput value={term} onChangeText={setTerm} style={{ flex: 1, paddingHorizontal: 8 }}
+                                <DelayTextInput value={term} onChangeText={setTerm} style={{ flex: 1, paddingHorizontal: 8, fontSize: 14, fontFamily: FontIndex.WorkSans.Regular }}
                                     ref={searchInputRef} />
                                 {!!term ?
                                     <TouchableOpacity onPress={onClearPress}>

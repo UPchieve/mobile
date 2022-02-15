@@ -40,7 +40,7 @@ export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText
         if (isValid === true) {
             return <SvgIcons.CheckIcon fill={Colors.success} />
         } else if (isValid === false) {
-            return <SvgIcons.CloseIcon height={15} width={15} stroke={Colors.error} />
+            return <SvgIcons.CloseIcon height={15} width={15} fill={Colors.error} />
         }
         return null;
     }

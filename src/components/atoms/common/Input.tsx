@@ -31,7 +31,7 @@ export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, error
         if (!touched)
             return null;
         if (isValid === false) {
-            return <SvgIcons.CloseIcon stroke={Colors.error} height={15} width={15} />
+            return <SvgIcons.CloseIcon fill={Colors.error} height={15} width={15} />
         } else if (isValid === true && showCheck) {
             return <SvgIcons.CheckIcon fill={Colors.success} />
         }

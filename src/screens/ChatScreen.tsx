@@ -40,7 +40,10 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
 
-    const { socketHandler, user, sessionState } = useContext(AuthContext);
+    const context = useContext(AuthContext);
+    const { socketHandler, sessionState } = context;
+    const user = context.user!;
+
     const previousSessionState = usePrevious(sessionState);
 
     const _onViewableItemsChanged = useCallback(({ viewableItems, changed }: {

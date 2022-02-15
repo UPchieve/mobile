@@ -25,6 +25,7 @@ type DashboardScreenType = DrawerScreenProps<MainStackParamList, 'DashboardScree
 export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) => {
 
     const { user, userState } = useContext(AuthContext);
+    const [subjectOpened, setSubjectOpened] = useState<number>();
 
     const insets = useSafeAreaInsets();
     const modalizeRef = useRef<Modalize>(null);
@@ -67,13 +68,13 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             withOverlay={false}
             flatListProps={{
                 data: topics,
-                renderItem: (({ item }) => <SubjectCard topic={item} selectRef={selectRef} onSelect={onSessionSelected} />),
+                renderItem: (({ item, index }) => <SubjectCard topic={item} selectRef={selectRef} onBeforeOpen={() => setSubjectOpened(index)} onSelect={onSessionSelected} isOpen={index === subjectOpened}/>),
                 keyExtractor: item => `dashboardSubjectList_${item.key}`,
                 ItemSeparatorComponent: () => <View style={{ marginVertical: 8, }} />,
                 showsVerticalScrollIndicator: false,
             }}
         />
-        <ModalSelect ref={selectRef} />
+        <ModalSelect ref={selectRef} onClose={() => setSubjectOpened(undefined)}/>
     </View>
 }
 

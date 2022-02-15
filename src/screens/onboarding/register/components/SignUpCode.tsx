@@ -55,7 +55,7 @@ export const SignUpCode: React.FC<SignUpCodeType> = ({ navigation }) => {
 
     return <FormikProvider value={formik}>
         <View style={{ flexDirection: 'row' }}>
-            <H3>Enter your sign up code</H3>
+            <Text style={styles.title}>Enter your sign up code</Text>
             <View style={{ marginLeft: 20, justifyContent: 'center' }}>
                 <TouchableOpacity style={styles.informationIcon} onPress={() => openPopover()} ref={touchableRef}>
                     <Text style={styles.informationIconText}>i</Text>
@@ -86,6 +86,11 @@ export const SignUpCode: React.FC<SignUpCodeType> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    title: {
+        fontFamily: FontIndex.WorkSans.Medium,
+        fontWeight: '500',
+        fontSize: 22,
+    },
     informationIcon: {
         borderColor: Colors.defaultGray,
         borderWidth: 1,

@@ -27,7 +27,7 @@ type formValueType = {
 const validationSchema = Yup.object().shape({
     highSchool: Yup.object().required(),
     grade: Yup.object().required(),
-    zipCode: Yup.string().required(),
+    zipCode: Yup.string().required().min(5).max(5),
     email: Yup.string().email('Invalid email').required('Required'),
     //TODO missing password length definition.
 });
