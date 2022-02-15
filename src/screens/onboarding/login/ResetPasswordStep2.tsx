@@ -42,7 +42,7 @@ export const ResetPasswordStep2Screen: React.FC<ResetPasswordStep2ScreenType> = 
 
 const styles = StyleSheet.create({
     anotherEmail: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         marginTop: 2,
     }

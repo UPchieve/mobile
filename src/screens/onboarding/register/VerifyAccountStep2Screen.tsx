@@ -167,7 +167,7 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
 
 const styles = StyleSheet.create({
     contactUsText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
     }
 });

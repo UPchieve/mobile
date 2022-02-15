@@ -60,10 +60,13 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
         <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'DashboardScreen' }] })} />
         <KeyboardAwareScrollView
             enableResetScrollToCoords={false}
+            extraScrollHeight={110}
+            enableAutomaticScroll={true}
+            extraHeight={110}
+            enableOnAndroid={true}
             style={{
                 paddingLeft: 23,
                 paddingRight: 23,
-                paddingTop: 24,
             }}>
             <FormikProvider value={formik}>
                 <View style={styles.questionWrapper}>

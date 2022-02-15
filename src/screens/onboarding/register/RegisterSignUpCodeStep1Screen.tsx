@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         color: Colors.information
     },
     bottomText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         textAlign: 'center'
     },

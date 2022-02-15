@@ -3,14 +3,15 @@ export const ImageIndex = {
   welcome: require('./images/welcome.png'),
   avatars: {
     chatbot: require('./images/avatars/chatbot.png'),
-    student: require('./images/avatars/student.png'),
+    student: require('./images/avatars/profile.png'),
     volunteer: require('./images/avatars/volunteer.png'),
     profile: require('./images/avatars/profile.png'),
   },
   icons: {
     chatEditor: require('./images/icons/doc_editor.png'),
     whiteBoard: require('./images/icons/whiteboard.png'),
-    goBack: require('./images/icons/back.png')
+    goBack: require('./images/icons/back.png'),
+    check: require('./images/icons/check.png')
   },
   feedback: {
     postFeedback: require('./images/feedback/feedbackSuccessfully.png'),

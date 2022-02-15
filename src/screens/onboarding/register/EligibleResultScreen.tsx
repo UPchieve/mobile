@@ -18,7 +18,10 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
     const renderEligible = () => {
         return <><ImageBackground source={ImageIndex.onboarding.confetti} style={styles.wrapper}>
             <Text style={styles.title}>You’re Eligible!</Text>
-            <Image source={ImageIndex.onboarding.eligible} />
+            <Image style={{width: 193, height: 192}}
+                source={ImageIndex.onboarding.eligible} />
+            <Image style={{marginTop: 10}}
+                source={ImageIndex.icons.check} />
         </ImageBackground>
         </>
     }
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     title: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 24,
         textAlign: 'center',
         marginBottom: 68

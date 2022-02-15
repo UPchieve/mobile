@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
         marginBottom: 9
     },
     notWithText: {
-        fontFamily: FontIndex.WorkSans.Regular,
-        fontSize: 16,
+        fontFamily: FontIndex.WorkSans.Medium,
+        fontSize: 14,
         color: Colors.information,
         paddingBottom: 54
     },

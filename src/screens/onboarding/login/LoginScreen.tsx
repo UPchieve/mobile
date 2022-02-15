@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         // backgroundColor: Colors.white,
     },
     forgotYourPasswordText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         color: Colors.information,
         fontSize: 14,
     },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         marginTop: 23,
     },
     dontHaveAccountText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         marginTop: 2,
     }

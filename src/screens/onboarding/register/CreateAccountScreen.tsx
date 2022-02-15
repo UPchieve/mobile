@@ -88,6 +88,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
 
     return <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20, }}>
         <FormikProvider value={formik}>
+            <Separator marginVertical={26} backgroundColor='transparent' />
             <H3>Create Your Account</H3>
             <Separator marginVertical={8} backgroundColor='transparent' />
             <Stepper data={[{
@@ -151,7 +152,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
 
 const styles = StyleSheet.create({
     bottomText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         textAlign: 'center'
     },

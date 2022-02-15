@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     bottomText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         marginTop: 16,
         marginBottom: 25,

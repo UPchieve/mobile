@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         zIndex: 2
     },
     additionalText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 16,
         color: Colors.softBlack
     }

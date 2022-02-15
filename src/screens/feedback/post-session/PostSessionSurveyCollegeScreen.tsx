@@ -64,10 +64,14 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
     return (
         <SafeAreaView>
             <SessionFeedbackHeader onIconPress={() => navigation.reset({ routes: [{ name: 'DashboardScreen' }] })} />
-            <KeyboardAwareScrollView style={{
+            <KeyboardAwareScrollView
+                extraScrollHeight={110}
+                enableAutomaticScroll={true}
+                extraHeight={110}
+                enableOnAndroid={true}
+                style={{
                 paddingLeft: 23,
                 paddingRight: 23,
-                paddingTop: 24,
             }}>
                 <FormikProvider value={formik}>
                     <View style={styles.questionWrapper}>

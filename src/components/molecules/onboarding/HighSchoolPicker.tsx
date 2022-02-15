@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cancelText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 16,
         color: Colors.information
     },

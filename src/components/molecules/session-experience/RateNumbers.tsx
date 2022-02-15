@@ -6,7 +6,7 @@ import { Medal } from '../../atoms/session-experience/Medal';
 
 interface RateNumbers {
     selected?: number;
-    setSelected: (selected: number) => void
+    setSelected: (selected: number | undefined) => void
     parentStyle?: StyleProp<ViewStyle>
 }
 export const RateNumbers: React.FC<RateNumbers> = ({ selected, setSelected, parentStyle }) => {
@@ -18,7 +18,8 @@ export const RateNumbers: React.FC<RateNumbers> = ({ selected, setSelected, pare
                     disabled={false}
                     fullRounded={true}
                     selected={item === selected}
-                    onPress={() => setSelected(item)} />
+                              onPress={() => setSelected(item)}/>
+                    // onPress={() => setSelected(selected != undefined ? undefined : item)} />
             })}
         </View>
         <View style={styles.textIndicators}>

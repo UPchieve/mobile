@@ -1,5 +1,15 @@
 import React, { isValidElement, useRef, useState } from "react";
-import { Button, Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    Button,
+    Dimensions,
+    FlatList,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
 import { H3 } from "../../../components/atoms/common/H3";
 import { HelperText } from "../../../components/atoms/onboarding/HelperText";
 import { Colors } from "../../../../assets/Colors";
@@ -89,7 +99,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
 
             } catch (error) {
                 console.log(error);
-                
+
                 alert(error);
             }
             finally {
@@ -100,62 +110,64 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const flatListRef = useRef<FlatList<QuestionType>>(null);
-    return <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-        <View style={{ flex: 1, }}>
-            <View style={{ paddingHorizontal: 20, }}>
-                <Separator backgroundColor={'transparent'} marginVertical={12} />
-                <H3>Tell us about your request</H3>
-                <HelperText color={Colors.secondaryGray} mt={16}>This info will help us find the best coach to pair you with.</HelperText>
-            </View>
-            <View style={{ flexDirection: 'row', padding: 20, alignItems: 'center' }}>
-                <Text style={styles.questionText}> Question {currentQuestionIndex + 1}/{preSessionFeedbackQuestions.length}</Text>
-                <View style={{ flex: 1 }}>
-                    <ProgressBar color={Colors.success} value={currentQuestionIndex === 0 ? .5 : 1} />
+    return <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+            <View style={{ flex: 1, }}>
+                <View style={{ paddingHorizontal: 20, }}>
+                    <Separator backgroundColor={'transparent'} marginVertical={12} />
+                    <H3>Tell us about your request</H3>
+                    <HelperText color={Colors.secondaryGray} mt={16}>This info will help us find the best coach to pair you with.</HelperText>
+                </View>
+                <View style={{ flexDirection: 'row', padding: 20, alignItems: 'center' }}>
+                    <Text style={styles.questionText}> Question {currentQuestionIndex + 1}/{preSessionFeedbackQuestions.length}</Text>
+                    <View style={{ flex: 1 }}>
+                        <ProgressBar color={Colors.success} value={currentQuestionIndex === 0 ? .5 : 1} />
+                    </View>
+                </View>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: Colors.selectedGreen
+                }}>
+                    <FlatList
+                        ref={flatListRef}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        scrollEnabled={false}
+                        onMomentumScrollEnd={({ nativeEvent }) => {
+                            let contentOffset = nativeEvent.contentOffset;
+                            let viewSize = nativeEvent.layoutMeasurement;
+                            let pageNum = Math.floor(contentOffset.x / viewSize.width);
+                            setCurrentQuestionIndex(pageNum)
+                        }}
+                        keyExtractor={(item) => `pre_feedback_${item.key}`}
+                        pagingEnabled
+                        data={preSessionFeedbackQuestions}
+                        renderItem={({ item, index }) => {
+                            if (index === preSessionFeedbackQuestions.length - 1)
+                                return <Question {...item}
+                                                 isValid={formik.isValid && !formik.isSubmitting}
+                                                 isSubmitting={formik.isSubmitting}
+                                                 onSelect={({ value }) => formik.setFieldValue(item.key, value)}
+                                                 backButtonAction={
+                                                     () => flatListRef.current?.scrollToIndex({ index: index - 1 })}
+                                                 startChatButtonAction={formik.handleSubmit}
+                                />
+                            return <Question {...item} isSubmitting={false} isValid={false} onSelect={({ value }) => {
+                                formik.setFieldValue(item.key, value);
+                                flatListRef.current?.scrollToIndex({ index: index + 1 })
+                            }
+                            } />
+                        }
+                        }
+                    />
+
                 </View>
             </View>
-            <View style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: Colors.selectedGreen
-            }}>
-                <FlatList
-                    ref={flatListRef}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    scrollEnabled={false}
-                    onMomentumScrollEnd={({ nativeEvent }) => {
-                        let contentOffset = nativeEvent.contentOffset;
-                        let viewSize = nativeEvent.layoutMeasurement;
-                        let pageNum = Math.floor(contentOffset.x / viewSize.width);
-                        setCurrentQuestionIndex(pageNum)
-                    }}
-                    keyExtractor={(item) => `pre_feedback_${item.key}`}
-                    pagingEnabled
-                    data={preSessionFeedbackQuestions}
-                    renderItem={({ item, index }) => {
-                        if (index === preSessionFeedbackQuestions.length - 1)
-                            return <Question {...item}
-                                isValid={formik.isValid && !formik.isSubmitting}
-                                isSubmitting={formik.isSubmitting}
-                                onSelect={({ value }) => formik.setFieldValue(item.key, value)}
-                                backButtonAction={
-                                    () => flatListRef.current?.scrollToIndex({ index: index - 1 })}
-                                startChatButtonAction={formik.handleSubmit}
-                            />
-                        return <Question {...item} isSubmitting={false} isValid={false} onSelect={({ value }) => {
-                            formik.setFieldValue(item.key, value);
-                            flatListRef.current?.scrollToIndex({ index: index + 1 })
-                        }
-                        } />
-                    }
-                    }
-                />
-
-            </View>
-        </View>
-    </SafeAreaView>
+        </SafeAreaView>
+    </ScrollView>
 }
 
 const styles = StyleSheet.create({

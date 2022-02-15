@@ -63,7 +63,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
 
 const styles = StyleSheet.create({
     additionalText: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         color: Colors.secondaryGray,
         textAlign: 'center'

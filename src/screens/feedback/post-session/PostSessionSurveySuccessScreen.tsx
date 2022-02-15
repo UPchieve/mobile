@@ -13,7 +13,6 @@ type PostSessionSurveySuccess = NativeStackScreenProps<MainStackParamList, 'Post
 export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> = ({navigation}) => {
     return (
         <SafeAreaView>
-            <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.background}>
                         <View style={styles.bodyWrapper}>
@@ -37,7 +36,6 @@ export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> 
                         </View>
                     </View>
                 </View>
-            </ScrollView>
         </SafeAreaView>
 
     )
