@@ -19,6 +19,8 @@ interface ICommonButton {
   rightIcon?: any;
   loading?: boolean;
   SvgIcon?: SvgFC;
+  colorText?: string;
+  borderColor?: string;
 }
 
 export const CommonButton: React.FC<ICommonButton> = ({
@@ -30,13 +32,15 @@ export const CommonButton: React.FC<ICommonButton> = ({
   disabled = false,
   rightIcon = null,
   SvgIcon = null,
+  colorText= '#343440',
+  borderColor= Colors.defaultGray,
 }) => {
 
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        type && { backgroundColor: Colors[type], borderWidth: 0 },
+        type ? { backgroundColor: Colors[type], borderWidth: 0 } : {borderColor: borderColor},
         disabled && styles.buttonDisabled,
         style,
       ]}
@@ -44,7 +48,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
       onPress={onPress}
     >
       <View style={styles.buttonWrap}>
-        <Text style={[styles.buttonText, type && { color: 'white' }, disabled && styles.buttonTextDisabled,
+        <Text style={[styles.buttonText, type ? { color: 'white' } : {color: colorText}, disabled && styles.buttonTextDisabled,
         loading && { color: 'transparent' }]}>
           {title}
         </Text>
@@ -66,15 +70,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: Colors.defaultGray,
     borderRadius: 30,
     justifyContent: 'center',
     height: 48,
   },
   buttonText: {
-    fontFamily: FontIndex.WorkSans.Regular,
+    fontFamily: FontIndex.WorkSans.Medium,
     fontSize: 16,
-    color: '#343440',
     textAlign: 'center'
   },
   buttonDisabled: {
