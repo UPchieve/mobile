@@ -30,6 +30,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
             />
             <Separator backgroundColor='transparent' marginVertical={8} />
             <CommonButton title="Sign Up" onPress={() => navigation.navigate('Register')}
+                          colorText={Colors.information} borderColor={Colors.information}
             />
         </View>
     </SafeAreaView>
