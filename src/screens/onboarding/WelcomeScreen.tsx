@@ -15,9 +15,11 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
     return <SafeAreaView style={styles.container}>
         <View style={styles.content}>
             <Image source={ImageIndex.welcome} style={{
-                marginTop: 40,
+                marginTop: 25,
                 marginBottom: 20,
                 marginHorizontal: 17,
+                height: 423,
+                width: 312
             }}/>
         <H3>School just got easier</H3>
             <HelperText color={Colors.secondaryGray} mt={20}>Connect one-on-one with online tutors. {'\n'}
