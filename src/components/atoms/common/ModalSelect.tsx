@@ -60,8 +60,9 @@ const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> 
         ref={modalizeRef} adjustToContentHeight={true}>
         <View style={{ paddingBottom: 20, minHeight: 200}}>
             {data.map(x => {
-                return <React.Fragment key={randomString()}>
-                    <Separator backgroundColor={Colors.borderGray} />
+                return <View key={randomString()} style={{minHeight: 50, justifyContent: 'center',
+                    borderTopColor: Colors.borderGray, borderTopWidth: 1,
+                }}>
                     <Pressable style={{ alignItems: 'flex-start', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 20 }}
                         onPress={() => {
                             onSelect && onSelect(x);
@@ -71,7 +72,7 @@ const Component: React.ForwardRefRenderFunction<ModalSelect, ModalSelectorType> 
                         <Text style={{ fontFamily: FontIndex.WorkSans.Regular, fontSize: 14, color: Colors.softBlack }}
                         >{getLabel !== undefined && getLabel(x)}</Text>
                     </Pressable>
-                </React.Fragment>
+                </View>
             })}
         </View>
     </Modalize>

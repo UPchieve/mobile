@@ -18,8 +18,12 @@ type ModalBottomPickerType = {
 export const ModalBottomPicker: React.FC<ModalBottomPickerType> = ({ visible, dismiss, options, onSelect, title, getLabel = (x) => x }) => {
 
     const renderItem = (item: string) => {
-        return <View key={item + randomString()}>
-            <Separator backgroundColor={Colors.borderGray} />
+        return <View key={item + randomString()} style={{
+            minHeight: 50,
+            borderTopWidth: 1,
+            borderTopColor: Colors.borderGray,
+            justifyContent: 'center'
+        }}>
             <TouchableOpacity style={{ paddingLeft: 20, marginVertical: 12, }} onPress={() => {
                 onSelect && onSelect(item)
                 dismiss();

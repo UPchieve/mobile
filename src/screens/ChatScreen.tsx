@@ -65,10 +65,10 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
         }
     }, []);
 
-    const getPartner = (): User => {
-        return (user._id !== sessionState?.volunteer?._id)
+    const getPartner = (): User | null => {
+        return (user._id === sessionState?.volunteer?._id)
             ? sessionState!.student
-            : sessionState!.volunteer;
+            : sessionState!.volunteer!
     }
 
     const addSocketEventListeners = () => {
