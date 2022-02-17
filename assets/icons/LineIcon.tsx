@@ -5,7 +5,7 @@ import { SvgFC } from './SvgInterface';
 export const LineIcon: SvgFC = ({
   width = 20,
   height = 22,
-  stroke = '#000',
+  stroke = 'black',
   ...props
 }) => {
   return (

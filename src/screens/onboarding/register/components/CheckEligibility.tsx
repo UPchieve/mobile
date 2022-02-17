@@ -118,7 +118,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
 
 const styles = StyleSheet.create({
     title: {
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 18,
         marginBottom: 5,
     },

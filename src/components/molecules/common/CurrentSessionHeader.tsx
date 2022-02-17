@@ -10,6 +10,8 @@ import { AuthContext } from '../../../providers/AuthProvider';
 import { MainStackParamList } from '../../../routes/MainStackNavigator';
 import { sessionService } from '../../../services/sessionService';
 import { isSessionEnded } from '../../../utils/utils';
+import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {insert} from "formik";
 
 type CurrentSessionHeaderType = {
     navigation: NativeStackNavigationProp<MainStackParamList, "Session">
@@ -23,6 +25,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     const { showPrompt, showAlert } = useContext(AlertContext);
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
+    const insets = useSafeAreaInsets();
 
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
 
@@ -116,7 +119,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
         return !isSessionEnded(sessionState) ? 'End Session' : 'Leave'
     }
 
-    return <View style={[styles.container, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
+    return <View style={[styles.container, {height: 69 + insets.top, paddingTop: insets.top}, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
         {!isSessionEnded(sessionState) ?
             <View style={styles.userContainer}>
                 <Image style={styles.icon} source={renderImage()} />
@@ -139,7 +142,6 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
 
 const styles = StyleSheet.create({
     container: {
-        height: 69,
         width: '100%',
         backgroundColor: Colors.information,
         flexDirection: 'row',

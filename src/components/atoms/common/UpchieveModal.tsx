@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#565961',
     marginBottom: 25,
+    lineHeight: 21,
+    textAlign: 'center'
   },
   buttonContainer: {
     width: '100%',

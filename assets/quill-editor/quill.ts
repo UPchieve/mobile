@@ -155,9 +155,9 @@ const html = `
             <div class="wrapper-toolbar">
                 <div class="wrapper-box">
                     <button class="ql-bold mr-15"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
+                    <button class="ql-italic mr-15"></button>
+                    <button class="ql-underline mr-15"></button>
+                    <button class="ql-strike mr-15"></button>
                 </div>
                 <div class="wrapper-background-box">
                     <span class="ql-formats">

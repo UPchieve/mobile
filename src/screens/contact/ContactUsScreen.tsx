@@ -67,19 +67,19 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
                             <Image source={ImageIndex.dashboard.openMenuButton} style={{ width: 28, height: 28, }} />
                         </TouchableOpacity> : null}
                     </View>
-                    <Separator marginVertical={24} backgroundColor='transparent' />
+                    <Separator marginVertical={15} backgroundColor='transparent' />
 
                     <FormikPicker title='What is your reason?'
                         placeholder='What is your reason?'
                         name='reason'
                         options={options}
                         initialColor={Colors.information} />
-                    <Separator marginVertical={24} backgroundColor='transparent' />
+                    <Separator marginVertical={15} backgroundColor='transparent' />
                     <CommonTextArea borderColorSelected={Colors.information}
                         placeholder={'Tell us more. (min 5 words)'}
                         onChangeText={formik.handleChange('moreText')}
                         value={formik.values.moreText} />
-                    <Separator marginVertical={24} backgroundColor='transparent' />
+                    <Separator marginVertical={15} backgroundColor='transparent' />
                     <CommonButton title={'Send'} onPress={formik.handleSubmit} type={'information'} disabled={!formik.isValid} />
                 </FormikProvider>
             </KeyboardAwareScrollView>

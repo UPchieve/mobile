@@ -3,8 +3,8 @@ import Svg, { SvgProps, Circle, Path } from "react-native-svg"
 import { SvgFC } from "./SvgInterface"
 
 export const MessageIcon: SvgFC = ({
-    width = 24,
-    height = 24,
+    width = 28,
+    height = 28,
     fill = '#D8DEE5',
     ...props
 }) => (

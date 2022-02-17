@@ -14,7 +14,7 @@ import { RequestDeleteAccountScreen } from '../screens/profile/RequestDeleteAcco
 
 export type ProfileParamList = {
     ProfileIndex: undefined,
-    ProfileSettings: undefined,
+    Settings: undefined,
     ProfileDeleteAccount: undefined,
     ProfileTellUsMore: undefined,
     ProfileDeleteReceived: undefined;
@@ -49,7 +49,7 @@ export const ProfileStackNavigator = () => {
                 headerShown: false
             }} />
         <Stack.Screen
-            name='ProfileSettings'
+            name='Settings'
             component={SettingsScreen}
         />
         <Stack.Screen

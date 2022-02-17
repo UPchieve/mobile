@@ -14,6 +14,7 @@ import { MedalPicker } from "../../../components/molecules/session-experience/Me
 import { CommonTextArea } from "../../../components/common/CommonTextArea";
 import { MainStackParamList } from "../../../routes/MainStackNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {QuestionPopover} from "../../../components/atoms/session-experience/QuestionPopover";
 
 
 const pickerOptions = [
@@ -100,9 +101,9 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
                         <RateNumbers selected={formik.values.didWeHelp} setSelected={(selected) => formik.setFieldValue('didWeHelp', selected)} parentStyle={{ paddingHorizontal: 40, }} />
                     </View>
                     <View style={styles.questionWrapper}>
-                        <Question text='Do you have any other feedback you´d like to share with UPchieve?'
-                            additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
-                            informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
+                        <QuestionPopover text={`Do you have any other feedback ${"\n"} you´d like to share with UPchieve?`}
+                                         additionalText={'We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'}
+                                         textPopover={'This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc'}/>
                         {/*TODO Text alignment on the input must be at top*/}
                         <CommonTextArea onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
                     </View>

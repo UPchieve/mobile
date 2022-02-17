@@ -1,6 +1,6 @@
 import { FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View } from "react-native"
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Question } from '../../../components/atoms/session-experience/Question';
@@ -13,6 +13,9 @@ import { RadioGroup } from '../../../components/molecules/common/RadioGroup';
 import { CommonTextArea } from "../../../components/common/CommonTextArea";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../../routes/MainStackNavigator';
+import {FontIndex} from "../../../../assets/FontIndex";
+import {Popover, usePopover} from "react-native-modal-popover";
+import {QuestionPopover} from "../../../components/atoms/session-experience/QuestionPopover";
 
 const pickerOptions = [
     'I am very comfortable with this topic.',
@@ -92,9 +95,9 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
 
                     : null}
                 <View style={styles.questionWrapper}>
-                    <Question text='Do you have any other feedback you´d like to share with UPchieve?'
-                        additionalText='We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'
-                        informationText='This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc.' />
+                    <QuestionPopover text={`Do you have any other feedback ${"\n"} you´d like to share with UPchieve?`}
+                                     additionalText={'We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'}
+                                     textPopover={'This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc'}/>
                     {/*TODO Text alignment on the input must be at top*/}
                     <CommonTextArea onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
                 </View>
@@ -113,5 +116,5 @@ const styles = StyleSheet.create({
     buttonWrapper: {
         marginBottom: 50,
         alignItems: 'flex-end'
-    }
+    },
 });

@@ -92,10 +92,10 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   const openDeleteModal = () => {
     showPrompt({
       type: 'error',
-      title: 'Delete Whiteboard',
+      title: 'Clear Whiteboard',
       text: 'You will not be able to undo.',
-      icon: SvgIcons.LogoutIcon,
-      confirmText: 'Erase',
+      icon: SvgIcons.TrashIcon,
+      confirmText: 'Clear',
       cancelText: 'Cancel',
       onConfirm: () => zwibblerManager?.reset()
       // onConfirm: () => socketHandler.emit('resetWhiteboard', {

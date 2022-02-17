@@ -58,6 +58,7 @@
     "@types/react-native-read-more-text": "^1.0.1",
     "@types/socket.io-client": "^3.0.0",
     "prettier": "2.5.1",
+    "react-native-svg-transformer": "^1.0.0",
     "typescript": "~4.3.5"
   },
   "private": true

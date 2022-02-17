@@ -43,7 +43,7 @@ export const Question: React.FC<QuestionType> = ({ text, highlight, additionalTe
             </View>
             {informationText
                 ?
-                <View style={{justifyContent: 'center', marginRight: 45}}>
+                <View style={{justifyContent: 'center'}}>
                     <TouchableOpacity style={styles.informationIcon} onPress={() => openPopover()} ref={touchableRef}>
                         <Text style={styles.informationIconText}>i</Text>
                     </TouchableOpacity>

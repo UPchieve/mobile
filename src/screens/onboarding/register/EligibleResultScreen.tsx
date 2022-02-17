@@ -40,7 +40,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
         <SafeAreaView>
             {/* {eligible ? renderEligible() : null} */}
             {eligible ? renderEligible() : renderNotEligible()}
-            <View style={{ paddingHorizontal: 20, paddingVertical: 10}}>
+            <View style={{ paddingHorizontal: 20}}>
                 <CommonButton
                     title="Continue"
                     type="information"

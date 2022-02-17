@@ -16,6 +16,7 @@ export const PencilIcon: SvgFC = ({
       viewBox="0 0 23 22"
       fill={fill}
       stroke={stroke}
+      strokeWidth={1.4}
       {...props}
     >
       <Path

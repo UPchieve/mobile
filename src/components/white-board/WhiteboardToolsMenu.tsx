@@ -37,7 +37,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
     {
       id: 1,
       name: 'pick',
-      icon: SvgIcons.DragIcon,
+      icon: SvgIcons.SelectDragIcon,
       handler: () => {
         zwibblerManager.usePickTool();
       },
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   subMenuContainer: {
     width: 222,
     height: 52,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
   },
 });

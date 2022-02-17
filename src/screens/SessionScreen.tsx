@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useReducer, useState } from 'react'
 
 import { Keyboard, StyleSheet, View } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import { Colors } from '../../assets/Colors';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
@@ -23,7 +23,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     const authContext = useContext(AuthContext);
     const { sessionState, socketHandler } = authContext;
     const user = authContext.user!;
-
+    const insets = useSafeAreaInsets();
     const [showChat, setShowChat] = useState<boolean>(true);
 
     useEffect(() => {
@@ -60,11 +60,10 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white}}>
-            <CommonKeyboardAvoidingView style={{ flex: 1, }}>
+            <CommonKeyboardAvoidingView style={{ flex: 1}}>
                 <MenuProvider>
                     <CurrentSessionHeader navigation={navigation} />
-                    <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper]}>
+                    <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, {paddingBottom: insets.bottom, backgroundColor: 'white'}]}>
                         <ChatScreen
                             onSwitchPress={onSwitchPress}
                             sessionType={getSessionType(sessionState!)}
@@ -76,13 +75,13 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
                     </View>
                 </MenuProvider>
             </CommonKeyboardAvoidingView>
-        </SafeAreaView>);
+    )
 }
 
 const styles = StyleSheet.create({
     visiblePageWrapper: {
         flex: 1,
-        display: 'flex'
+        display: 'flex',
     },
     hiddenPageWrapper: {
         display: 'none',

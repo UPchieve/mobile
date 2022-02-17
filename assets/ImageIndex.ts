@@ -11,7 +11,8 @@ export const ImageIndex = {
     chatEditor: require('./images/icons/doc_editor.png'),
     whiteBoard: require('./images/icons/whiteboard.png'),
     goBack: require('./images/icons/back.png'),
-    check: require('./images/icons/check.png')
+    check: require('./images/icons/check.png'),
+    arrowhead: require('./images/icons/arrowhead.png')
   },
   feedback: {
     postFeedback: require('./images/feedback/feedbackSuccessfully.png'),
