@@ -3,8 +3,8 @@ import { Svg, Path } from 'react-native-svg';
 import { SvgFC } from './SvgInterface';
 
 export const TextIcon: SvgFC = ({
-  width = 24,
-  height = 24,
+  width = 28,
+  height = 30,
   stroke = 'none',
   fill = '#000',
   ...props
@@ -13,7 +13,7 @@ export const TextIcon: SvgFC = ({
     <Svg
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox="0 0 23 22"
       stroke={stroke}
       fill={fill}
       {...props}

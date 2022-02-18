@@ -86,6 +86,13 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
         </View>
     }
 
+    const setClearValue = (clean: boolean, value: string) => {
+        if (value) {
+            formik.setFieldValue(value, '', true);
+            formik.setFieldTouched(value, false, true);
+        }
+    }
+
     return <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20, }}>
         <FormikProvider value={formik}>
             <Separator marginVertical={26} backgroundColor='transparent' />
@@ -108,6 +115,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
                     touched={formik.touched.password}
                     onBlur={formik.handleBlur('password')}
                     isValid={!formik.errors.password}
+                    setClearValue={(v) => setClearValue(v, 'password')}
                     allwaysShowMessage={true}
                     placeholder="Password"
                     message='Password must contain at least one uppercase, one lower case, and 1 number'

@@ -79,7 +79,9 @@ const html = `
         margin-right: 15px;
     }
 
-
+    .mb-2 {
+    margin-bottom: 2px;
+    }
 
 
     #toolbar>span:nth-child(1)>span>span.ql-picker-options {
@@ -160,7 +162,7 @@ const html = `
                     <button class="ql-strike mr-15"></button>
                 </div>
                 <div class="wrapper-background-box">
-                    <span class="ql-formats">
+                    <span class="ql-formats mb-2">
                         <select class="ql-color">
                             <option value="#343440"></option>
                             <option value="#1855D1"></option>
@@ -169,9 +171,9 @@ const html = `
                             <option value="#FEDF85"></option>
                         </select>
                     </span>
-                    <span class="ql-formats">
+                    <span class="ql-formats mb-2">
                         <select class="ql-background">
-                            <option value="#FFFFFF"></option>
+                            <option value="white"></option>
                             <option value="#1855D1"></option>
                             <option value="#F44747"></option>
                             <option value="#16D2AA"></option>

@@ -27,7 +27,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                     right: 0,
                     zIndex: 1,
                 }}>
-                    <View style={{ marginTop: 32, alignItems: 'center' }}>
+                    <View style={{ marginTop: 156, alignItems: 'center' }}>
                         <H3>Are you sure you want to </H3>
                         <H3> delete your account?</H3>
                         <Separator marginVertical={24} backgroundColor='transparent' />

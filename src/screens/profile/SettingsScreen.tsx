@@ -6,7 +6,7 @@ import { Colors } from "../../../assets/Colors";
 import { FontIndex } from "../../../assets/FontIndex";
 import { ProfileParamList } from '../../routes/ProfileStackNavigator';
 
-type SettingScreenType = NativeStackScreenProps<ProfileParamList, 'ProfileSettings'>
+type SettingScreenType = NativeStackScreenProps<ProfileParamList, 'Settings'>
 export const SettingsScreen: React.FC<SettingScreenType> = ({navigation}) => {
     return (
         <SafeAreaView>

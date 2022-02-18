@@ -70,7 +70,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
                             chat={chat} dispatch={dispatchChat}
                         />
                     </View>
-                    <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper]}>
+                    <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper, {paddingBottom: 12, backgroundColor: 'white'}]}>
                         {renderElement()}
                     </View>
                 </MenuProvider>

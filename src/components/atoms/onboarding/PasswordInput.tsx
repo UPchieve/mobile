@@ -31,8 +31,9 @@ export type PasswordInputType = {
     allwaysShowMessage?: boolean,
     showPasswordBars?: string,
     placeholder?: string,
+    setClearValue: (arg: boolean) => void
 } & TextInputProps;
-export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText, isValid, message, placeholder, allwaysShowMessage = false, touched = false, ...props }) => {
+export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText, isValid, message, placeholder, allwaysShowMessage = false, touched = false, setClearValue, ...props }) => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const renderIcon = () => {
         if (!touched)
@@ -40,7 +41,10 @@ export const PasswordInput: React.FC<PasswordInputType> = ({ value, onChangeText
         if (isValid === true) {
             return <SvgIcons.CheckIcon fill={Colors.success} />
         } else if (isValid === false) {
-            return <SvgIcons.CloseIcon height={15} width={15} fill={Colors.error} />
+            return <TouchableOpacity onPress={() => setClearValue(true)}>
+                <SvgIcons.CloseIcon height={15} width={15} fill={Colors.error} />
+            </TouchableOpacity>
+
         }
         return null;
     }

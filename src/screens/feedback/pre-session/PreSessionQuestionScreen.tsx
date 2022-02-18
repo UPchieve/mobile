@@ -91,7 +91,6 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                     //@ts-ignore
                     payload[key] = { answer: values[key] }
                 }
-
                 const sessionId = await sessionService.newSession(route.params.sessionType, route.params.sessionSubTopic);
                 sessionService.sendPreSesionFeedback(sessionId, payload);
                 console.log('feedback submitted.');

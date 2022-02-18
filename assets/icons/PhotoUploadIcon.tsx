@@ -3,8 +3,8 @@ import { Svg, Path, Rect, Circle } from 'react-native-svg';
 import { SvgFC } from './SvgInterface';
 
 export const PhotoUploadIcon: SvgFC = ({
-  width = 25,
-  height = 28,
+  width = 27,
+  height = 30,
   stroke = '#000',
   ...props
 }) => {
@@ -12,7 +12,7 @@ export const PhotoUploadIcon: SvgFC = ({
     <Svg
       width={width}
       height={height}
-      viewBox="0 0 25 34"
+      viewBox="0 0 23 33"
       fill="none"
       {...props}
     >

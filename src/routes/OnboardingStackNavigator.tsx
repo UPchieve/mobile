@@ -163,7 +163,7 @@ export const OnboardingStackNavigator = () => {
                 name='ContactUs'
                 component={ContactUsScreen}
                 options={{
-                    headerTitle: ''
+                    headerTitle: '',
                 }}
             />
             <Stack.Screen

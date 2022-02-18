@@ -12,7 +12,7 @@ import { MainStackParamList } from '../../../routes/MainStackNavigator';
 type PostSessionSurveySuccess = NativeStackScreenProps<MainStackParamList, 'PostSessionSurveySuccess'>;
 export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> = ({navigation}) => {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
                 <View style={styles.container}>
                     <View style={styles.background}>
                         <View style={styles.bodyWrapper}>
@@ -20,10 +20,10 @@ export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> 
                                 <Image style={styles.image}
                                     source={ImageIndex.feedback.postFeedback} />
                             </View>
-                            <View style={styles.textWrapper}>
-                                <Text style={styles.title}>Thank you for your feedback!</Text>
+                            <View style={styles.textWrapperTitle}>
+                                <Text style={styles.title}>Thank you for your {"\n"} feedback!</Text>
                             </View>
-                            <View style={styles.textWrapper}>
+                            <View style={styles.textWrapperSubtitle}>
                                 <Text style={styles.subtitle}>Your feedback is very important to us.   Without it we wouldn’t know how to improve your experience on our platform. </Text>
                             </View>
                             <View style={styles.textWrapper}>
@@ -31,7 +31,7 @@ export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> 
                                     navigation.reset({
                                         routes: [{name: 'DashboardScreen'}]
                                     });
-                                }} type={'success'} style={{ alignItems: 'center' }} rightIcon={ImageIndex.feedback.goArrow} />
+                                }} type={'information'} style={{ alignItems: 'center' }} rightIcon={ImageIndex.feedback.goArrow} />
                             </View>
                         </View>
                     </View>
@@ -43,7 +43,8 @@ export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> 
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: 'white'
     },
     background: {
         marginTop: 100,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F3F7FD',
     },
     image: {
-        width: 241,
+        width: 256,
         height: 294
     },
     bodyWrapper: {
@@ -62,23 +63,30 @@ const styles = StyleSheet.create({
     },
     imagePosition: {
         marginTop: 46,
-        marginBottom: 10
     },
     title: {
         fontFamily: FontIndex.WorkSans.Regular,
-        fontSize: 22
+        fontSize: 22,
+        textAlign: 'center'
     },
     subtitle: {
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 14,
         color: Colors.secondaryGray,
-        textAlign: 'center'
+        textAlign: 'center',
+        lineHeight: 21
     },
     button: {
         width: '100%'
     },
     textWrapper: {
-        marginTop: 36,
+        marginTop: 32,
         width: '100%'
+    },
+    textWrapperTitle: {
+        marginTop: 9
+    },
+    textWrapperSubtitle: {
+        marginTop: 18
     }
 })

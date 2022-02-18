@@ -95,7 +95,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
 
                     : null}
                 <View style={styles.questionWrapper}>
-                    <QuestionPopover text={`Do you have any other feedback ${"\n"} you´d like to share with UPchieve?`}
+                    <QuestionPopover text={`Do you have any other feedback ${"\n"}you´d like to share with UPchieve?`}
                                      additionalText={'We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'}
                                      textPopover={'This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc'}/>
                     {/*TODO Text alignment on the input must be at top*/}
@@ -112,6 +112,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
 const styles = StyleSheet.create({
     questionWrapper: {
         marginBottom: 36,
+        marginTop: 24
     },
     buttonWrapper: {
         marginBottom: 50,

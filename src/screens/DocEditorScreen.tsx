@@ -102,13 +102,13 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
       <View style={[styles.customToolbar]}>
         <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
           <View>
-            <SvgIcons.WordBubbleIcon stroke={'white'} width={25} height={25} />
+            <SvgIcons.WordBubbleIcon stroke={'white'} width={27} height={24} />
             <View style={hasNotifications && styles.notificationRedBall} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>
-          <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>
-        </TouchableOpacity>
+        {/*<TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>*/}
+        {/*  <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>*/}
+        {/*</TouchableOpacity>*/}
       </View>
       <View style={{
         flex: 1,

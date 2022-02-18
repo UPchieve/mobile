@@ -11,6 +11,14 @@ type FormikInputType = {
 
 export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, password = false, showCheck = false, ...props }) => {
     const formik = useFormikContext<any>();
+
+
+    const setCleanValue = (clean: boolean, value: string) => {
+        if (value) {
+            formik.setFieldValue(value, '', true);
+            formik.setFieldTouched(value, false, true);
+        }
+    }
     return <Input
         placeholder={placeholder}
         onChangeText={formik.handleChange(name)}
@@ -21,6 +29,7 @@ export const FormikInput: React.FC<FormikInputType> = ({ name, placeholder, pass
         onBlur={formik.handleBlur(name)}
         password={password}
         showCheck={showCheck}
+        setClearValue={(v) => setCleanValue(v, name)}
         {...props}
     />
 }

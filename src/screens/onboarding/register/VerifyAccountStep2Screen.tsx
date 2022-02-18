@@ -129,7 +129,9 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
                 </View>
                 <HelperText mb={6}>Your verification code was sent to {sendTo}. Check your email.</HelperText>
                 <View style={{ flexDirection: 'row', marginBottom: 20, }}>
-                    <Text style={styles.contactUsText}>Incorrect email? </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('WrongEmail')}>
+                        <Text style={styles.contactUsText}>Incorrect email? </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('ContactUs', {screen: 'VerifyAccountStep2'})}>
                         <Text style={[styles.contactUsText, { color: Colors.information }]}>Contact Us</Text>
                     </TouchableOpacity>

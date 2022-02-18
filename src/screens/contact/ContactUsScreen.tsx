@@ -9,14 +9,10 @@ import { Colors } from "../../../assets/Colors";
 import { CommonButton } from "../../components/common/CommonButton";
 import { FormikPicker } from "../../components/atoms/common/Formik/FormikPicker";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MainStackParamList } from "../../routes/MainStackNavigator";
 import { OnboardingStackParamList } from "../../routes/OnboardingStackNavigator";
 import {View, Image, TouchableOpacity, Dimensions} from "react-native";
 import { ImageIndex } from "../../../assets/ImageIndex";
-import { DrawerScreenProps } from "@react-navigation/drawer";
-import { DrawerParamList } from "../../routes/DrawerNavigator";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 import { ContactUsParamList } from "../../routes/ContactUsStackNavigator";
 
 interface formTypeValues {
@@ -38,6 +34,8 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
         moreText: Yup.string().required().test('len', 'You must write at least 5 words', (val) => countWords(val))
     });
 
+    const insets = useSafeAreaInsets();
+
     const formik = useFormik<formTypeValues>({
         initialValues: { moreText: '' } as formTypeValues,
         validateOnMount: true,
@@ -52,8 +50,8 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
     });
 
     return (
-        <View style={{backgroundColor: 'white', height: Dimensions.get('window').height}}>
-            <KeyboardAwareScrollView style={{ paddingHorizontal: 20, paddingTop: 24}}>
+        <View style={{backgroundColor: 'white',height: Dimensions.get('window').height + insets.top}}>
+            <KeyboardAwareScrollView style={{ paddingHorizontal: 20, paddingTop: 24}} contentContainerStyle={{flexGrow: 1}}>
                 <FormikProvider value={formik}>
                     {/* <TouchableOpacity onPress={() => navigation.canGoBack() && navigation.goBack()}>
                     <Image

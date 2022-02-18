@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type ContactUsParamList = {
     DrawerContactUs: undefined,
-    MessageSent: { nextRoute: string },
+    MessageSent: { nextRoute: string }
 }
 
 export const ContactUsStackNavigator = () => {
@@ -15,14 +15,16 @@ export const ContactUsStackNavigator = () => {
         <Stack.Screen
             name='DrawerContactUs'
             options={{
-                headerShown: false
+                headerShown: false,
+                contentStyle: {backgroundColor: 'white'}
             }}
             children={(props) => <SafeAreaView><ContactUsScreen {...props} /></SafeAreaView>} />
         <Stack.Screen
             name='MessageSent'
             component={MessageSentScreen}
             options={{
-                headerShown: false
+                headerShown: false,
+                contentStyle: {backgroundColor: 'white'}
             }}
         />
     </Stack.Navigator>

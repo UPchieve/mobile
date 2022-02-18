@@ -13,7 +13,7 @@ const getLatestSession = async (userId: string,): Promise<GetLatestSessionRespon
 }
 
 const newSession = async (sessionType: string, sessionSubTopic: string): Promise<string> => {
-    
+
     const { data } = await http.post<{sessionId: string}>('/api/session/new', {
         sessionType, sessionSubTopic
     });
@@ -22,6 +22,10 @@ const newSession = async (sessionType: string, sessionSubTopic: string): Promise
 
 const sendPreSesionFeedback = async (sessionId: string, payload: any): Promise<void> => {
     await http.post<{sessionId: string}>(`/api/survey/presession/${sessionId}`, payload);
+}
+
+const getPreSessionFeedback = async (sessionId: string): Promise<void> => {
+    await http.get<{sessionId:string}>(`/api/survey/presession/${sessionId}`);
 }
 
 const endSession = async (sessionId: string): Promise<void> => {

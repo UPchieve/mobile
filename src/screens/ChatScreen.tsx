@@ -108,7 +108,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
                 if (user.isVolunteer === false) {
                     dispatch({
                         type: 'chat_add_text',
-                        payload: 'A Volunteer has entered the chat room',
+                        payload: 'A volunteer has entered the chat room',
                     });
                 }
             } else if (sessionState?.endedBy === sessionState.student._id) {
@@ -254,7 +254,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
                     bounces={false}
                 />
                 <ChatNewerChatButton newerChats={chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length} onPress={() => scrollToEnd()} />
-                <View style={{ height: 40, width: '100%' }}>
+                <View style={[styles.wrapperTyping, isTypping || chatBotIsTyping ? {opacity: 80} : {opacity: 0}]}>
                     {chatBotIsTyping ? <ChatTypping userType='chatbot' /> : null}
                     {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
                 </View>
@@ -292,5 +292,8 @@ const styles = StyleSheet.create({
         color: Colors.secondaryGray,
         textAlign: 'center',
     },
-
+   wrapperTyping: {
+       height: 40,
+       width: '100%'
+   }
 });

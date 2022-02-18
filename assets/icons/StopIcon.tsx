@@ -1,8 +1,7 @@
 import * as React from "react"
 import Svg, { SvgProps, Circle, Rect } from "react-native-svg"
-import { SvgFC } from "./SvgInterface"
 
-export const StopIcon: SvgFC = ({ ...props }) => (
+export const StopIcon = (props: SvgProps) => (
     <Svg
         width={58}
         height={58}
@@ -10,7 +9,7 @@ export const StopIcon: SvgFC = ({ ...props }) => (
         fill="none"
         {...props}
     >
-        <Circle cx={29} cy={29} r={29} fill="#F44747" />
+        <Circle cx={29} cy={29} r={28} fill="#F44747" />
         <Rect x={9} y={27} width={40} height={4} fill="white" />
     </Svg>
 )

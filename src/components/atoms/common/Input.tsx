@@ -14,8 +14,9 @@ export type InputType = {
     placeholder?: string,
     password?: boolean,
     showCheck?: boolean,
+    setClearValue?: (arg: boolean) => void
 } & TextInputProps;
-export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, showCheck = false, ...props }) => {
+export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, showCheck = false, setClearValue, ...props }) => {
     TextInputBase
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [isInFocus, setIsInFocus] = useState(false);
@@ -31,7 +32,7 @@ export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, error
         if (!touched)
             return null;
         if (isValid === false) {
-            return <TouchableOpacity onPress={() => ''}>
+            return <TouchableOpacity onPress={() => setClearValue && setClearValue(true)}>
                 <SvgIcons.CloseIcon fill={Colors.error} height={15} width={15} />
             </TouchableOpacity>
         } else if (isValid === true && showCheck) {

@@ -47,12 +47,12 @@ export const TellUsMoreScreen: React.FC<TellUsMoreScreenType> = ({ navigation })
                 <Text style={styles.additionalText}>To initiate the account deletion process, </Text>
                 <Text style={styles.additionalText}>please tell us more about why you've </Text>
                 <Text style={styles.additionalText}>decided to delete your account. </Text>
-                <Separator marginVertical={24} backgroundColor='transparent' />
+                <Separator marginVertical={20} backgroundColor='transparent' />
                 <CommonTextArea borderColorSelected={Colors.information}
                     placeholder={'Why do you want to delete your account?. (min 5 words)'}
                     onChangeText={formik.handleChange('moreText')}
                     value={formik.values.moreText} />
-                <Separator marginVertical={24} backgroundColor='transparent' />
+                <Separator marginVertical={20} backgroundColor='transparent' />
                 <CommonButton title={'Submit request'} onPress={formik.handleSubmit} type={'information'} disabled={!formik.isValid} />
             </FormikProvider>
         </KeyboardAwareScrollView>

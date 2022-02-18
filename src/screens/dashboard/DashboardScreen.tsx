@@ -18,7 +18,7 @@ import { topics } from '../../utils/dashboardUtils';
 
 const messages = [
     { message: 'This is a great time to make a request! We have plenty of coaches available between 12 pm - 2 am ET' },
-    { message: 'This is another great momento to make a request!' },
+    { message: 'This is another great moment to make a request!' },
     { message: 'The last message is just a little test!, its amazing!' }]
 type DashboardScreenType = DrawerScreenProps<MainStackParamList, 'DashboardScreen'>;
 

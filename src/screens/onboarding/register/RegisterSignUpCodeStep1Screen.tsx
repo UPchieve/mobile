@@ -63,6 +63,13 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
         </View>
     }
 
+    const setClearValue = (clean: boolean, value: string) => {
+        if (value) {
+            formik.setFieldValue(value, '', true);
+            formik.setFieldTouched(value, false, true);
+        }
+    }
+
     return (
         <KeyboardAwareScrollView style={{ paddingHorizontal: 20 }}>
             <FormikProvider value={formik}>
@@ -88,6 +95,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
                     isValid={!formik.errors.password}
                     allwaysShowMessage={true}
                     placeholder="Create Password"
+                               setClearValue={(v) => setClearValue(v, 'password')}
                     message='Password must contain at least one uppercase, one lower case, and number' />
                 <Separator marginVertical={6} backgroundColor='transparent' />
                 {renderInput('confirmPassword', 'Confirm Password', true)}
