@@ -40,7 +40,6 @@ export const ChatBubble: React.FC<ChatBubbleType> = ({ text, sentByMe, userType,
 
 const styles = StyleSheet.create({
     container: {
-        width: 245,
         paddingHorizontal: 16,
         paddingVertical: 10,
         borderRadius: 16,

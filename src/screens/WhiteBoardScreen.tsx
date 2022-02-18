@@ -280,9 +280,6 @@ const styles = StyleSheet.create({
   },
   body: {
     flexGrow: 1,
-    backgroundColor: darkGray,
-    padding: 5,
-    paddingTop: 8,
   },
   bottomToolsWrapper: {
     height: 48,

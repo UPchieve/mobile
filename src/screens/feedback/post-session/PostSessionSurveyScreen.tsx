@@ -102,7 +102,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
                     <CommonTextArea onChangeText={formik.handleChange('textInput')} value={formik.values.textInput} />
                 </View>
                 <View style={styles.buttonWrapper}>
-                    <CommonButton title={'Submit'} disabled={!formik.isValid} onPress={formik.handleSubmit} type={'success'} style={{ width: 89, height: 40 }} />
+                    <CommonButton title={'Submit'} disabled={!formik.isValid} onPress={formik.handleSubmit} type={'information'} style={{ width: 89, height: 40 }} />
                 </View>
             </FormikProvider>
         </KeyboardAwareScrollView>

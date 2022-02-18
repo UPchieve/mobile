@@ -64,7 +64,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 text: 'If you haven’t been waiting for at least 5 minutes, you won’t be able to make another request right away.',
                 icon: SvgIcons.StopIcon,
                 type: 'error',
-                confirmText: 'Cancel',
+                confirmText: 'Cancel   ',
                 onConfirm: async () => await sessionService.endSession(sessionState!._id),
                 cancelText: 'Not Now'
             })
