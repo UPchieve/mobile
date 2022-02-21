@@ -13,6 +13,7 @@ import {SettingsScreen} from "../screens/profile/SettingsScreen";
 import {DeleteAccountScreen} from "../screens/profile/DeleteAccountScreen";
 import {TellUsMoreScreen} from "../screens/profile/TellUsMoreScreen";
 import {RequestDeleteAccountScreen} from "../screens/profile/RequestDeleteAccountScreen";
+import { useOrientation } from '../hooks/useOrientation';
 
 const prefix = Linking.createURL('/');
 
@@ -28,8 +29,11 @@ const linking = {
 export const Routes = () => {
 
     const { user, refreshUser, loadingUser } = useContext(AuthContext);
+    const { lockAsync } = useOrientation();
 
     useEffect(() => {
+        //set rotation
+        lockAsync();
         refreshUser();
     }, [])
 

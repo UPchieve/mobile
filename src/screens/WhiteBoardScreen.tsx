@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
-  SafeAreaView,
   TouchableOpacity,
   View,
-  StyleSheet, Dimensions, Pressable,
+  StyleSheet, Dimensions, Pressable, ImageBackgroundComponent,
 } from 'react-native';
 import { SvgIcons } from '../../assets/IndexIcons';
 import {
@@ -18,8 +17,9 @@ import { ZwibblerTool } from '../types/zwibblerTypes';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
 import { AlertContext, AlertProvider } from '../providers/AlertProvider';
+import { useOrientation } from '../hooks/useOrientation';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-// type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 type WhiteboardType = {
   sessionId: string,
   onSwitchPress: () => void;
@@ -27,6 +27,10 @@ type WhiteboardType = {
 }
 
 export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress, hasNotifications }) => {
+  const { lockAsync, unlockAsync, orientation } = useOrientation()
+  const insets = useSafeAreaInsets();
+
+
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [canUndo, setCanUndo] = useState<boolean>(false);
   const [canRedo, setCanRedo] = useState<boolean>(false)
@@ -34,9 +38,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
     visible: false,
   });
 
-  const [orientation, setOrientation] = useState('PORTRAIT');
   const { showPrompt } = useContext(AlertContext);
-
   const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
   const webViewRef = useRef<WebView>(null);
   useEffect(() => {
@@ -46,26 +48,30 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
 
   useEffect(() => {
     (async () => {
+      await unlockAsync()
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     })();
+    return () => {
+      lockAsync();
+    }
   }, []);
 
 
 
-  useEffect(() => {
-    Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-      if (width < height) {
-        setOrientation("PORTRAIT")
-      } else {
-        setOrientation("LANDSCAPE")
+  // useEffect(() => {
+  //   Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+  //     if (width < height) {
+  //       setOrientation("PORTRAIT")
+  //     } else {
+  //       setOrientation("LANDSCAPE")
 
-      }
-    })
-  }, [orientation]);
+  //     }
+  //   })
+  // }, [orientation]);
 
   const debugging = `
   const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
@@ -99,9 +105,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       confirmText: 'Clear',
       cancelText: 'Cancel',
       onConfirm: () => zwibblerManager?.reset()
-      // onConfirm: () => socketHandler.emit('resetWhiteboard', {
-      //   sessionId,
-      // }),
     });
   };
 
@@ -132,7 +135,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       javaScriptEnabled={true}
       onLoadEnd={() => webViewRef.current?.injectJavaScript(`init('${sessionId}');`)}
       injectedJavaScript={debugging}
-      // injectedJavaScriptBeforeContentLoaded={`const sessionId = '${sessionId}'`}
       onMessage={onMessage}
       ref={webViewRef}
       originWhitelist={['*']}
@@ -195,7 +197,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       </>
     } else {
       return <>
-        <View style={styles.topToolsWrapper}>
+        <View style={[styles.topToolsWrapper, {
+          paddingRight: insets.right,
+        }]}>
           {renderSwapToChatIcon()}
           <View style={styles.rightTopPanelWrapper}>
             <View style={styles.topToolsWrapperLandscape}>
@@ -228,9 +232,11 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, orientation === 'PORTRAIT' && {
+      paddingBottom: insets.bottom > 0 ? 10 : 0,
+    }]}>
       {renderWhiteboard()}
-    </SafeAreaView>
+    </View>
   );
 };
 
