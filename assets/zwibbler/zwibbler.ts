@@ -1,9 +1,6 @@
 import WebView from 'react-native-webview';
 import React from 'react';
-import * as ImagePicker from 'expo-image-picker';
 import { config } from '../../config';
-
-console.log(config);
 
 const html = `
 <html>
@@ -18,17 +15,18 @@ const html = `
 <div id="zwibbler"></div>
 <script src="https://cdn.upchieve.org/zwibbler/june2021/zwibbler2.js"></script>
 <script type="text/javascript">
-
-        const zwibbler = Zwibbler.create("#zwibbler", {
+    let zwibbler;
+    const init = (sessionId) => {
+        zwibbler = Zwibbler.create("#zwibbler", {
             showToolbar: false,
             showColourPanel: false,
             multilineText: true,
-            defaultZoom: 'width',
-            zoomOnResize: true,
+            defaultZoom: 0.45,
+            zoomOnResize: false,
             collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
         });
         
-         zwibbler.removeSelectionHandles();
+        zwibbler.removeSelectionHandles();
         
         //Add the trash icon to delete the current selection.
         const imageUrl = 'https://i.postimg.cc/MTnNZDZ7/Trash.png';
@@ -41,11 +39,11 @@ const html = `
         zwibbler.addSelectionHandle(0.5, 0.0, 0, -30, rotateIConUrl, 'rotate');
         
         zwibbler.on("tool-changed", function(toolName) {
-           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
+          window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
         });
 
-         zwibbler.joinSharedSession(sessionId, true).then(response => {
-           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
+        zwibbler.joinSharedSession(sessionId, true).then(response => {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
         }).catch(err => {
             console.error('err', err);
         });
@@ -67,16 +65,16 @@ const html = `
           const data = JSON.parse(e.data);
           alert(e);
       });
-        
+    }
     </script>
 </body>
 
 </html>
 `;
 
-          // if(data.eventType === 'setProperty'){
+// if(data.eventType === 'setProperty'){
 
-          // }
+// }
 export const zwibbler = {
   html,
 };
@@ -90,6 +88,9 @@ export class ZwibblerManager {
     }
   }
 
+  init = (sessionId: string): void => {
+    this.webView.current?.injectJavaScript(`init('${sessionId}');`);
+  };
   addText = (text: string): void => {
     this.webView.current?.injectJavaScript(`addText('${text}');`);
   };

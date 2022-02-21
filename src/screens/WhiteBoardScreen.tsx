@@ -40,7 +40,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
   const webViewRef = useRef<WebView>(null);
   useEffect(() => {
-    setZwibblerManager(new ZwibblerManager(webViewRef));
+    const zwibblerManager = new ZwibblerManager(webViewRef);
+    setZwibblerManager(zwibblerManager);
   }, [webViewRef]);
 
   useEffect(() => {
@@ -123,10 +124,12 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
 
   const renderWebView = () => {
     return <WebView
+      androidHardwareAccelerationDisabled={true}
       style={styles.webView}
       javaScriptEnabled={true}
+      onLoadEnd={() => webViewRef.current?.injectJavaScript(`init('${sessionId}');`)}
       injectedJavaScript={debugging}
-      injectedJavaScriptBeforeContentLoaded={`const sessionId = '${sessionId}'`}
+      // injectedJavaScriptBeforeContentLoaded={`const sessionId = '${sessionId}'`}
       onMessage={onMessage}
       ref={webViewRef}
       originWhitelist={['*']}

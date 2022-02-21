@@ -51,6 +51,11 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
         changed: ViewToken[];
     }) => {
         const currentState = chatListRef.current?.props.data;
+      
+        if(viewableItems.length === 0){
+            return;
+        }
+        
         const max = viewableItems[viewableItems.length - 1];
         //@ts-ignore
         if (!currentState![max.index!].seen) {

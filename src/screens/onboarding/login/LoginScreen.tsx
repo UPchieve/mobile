@@ -29,8 +29,8 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
 
     const formik = useFormik<loginValues>({
         initialValues: {
-            email: 'volunteer@nnnp.com',
-            password: 'Demovolunteerpassword!'
+            email: 'student@nnnp.com',
+            password: 'Demostudentpassword!'
         } as loginValues,
         validationSchema,
         validateOnMount: true,
