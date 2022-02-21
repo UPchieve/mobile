@@ -1,7 +1,7 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { CompositeScreenProps } from '@react-navigation/native';
 import React, { useContext } from 'react';
-import {View, Text, Image, StyleSheet, TouchableHighlight} from "react-native"
+import {View, Text, Image, StyleSheet, TouchableHighlight, Pressable} from "react-native"
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack';
@@ -55,14 +55,19 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
             <View style={{ height: 1, backgroundColor: Colors.borderGray, marginTop: 10, marginBottom: 16 }} />
         <View style={{marginHorizontal: 20}}>
             <Text style={styles.accountText}>Account</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+        </View>
+                <Pressable onPress={() => navigation.navigate('Settings')} style={({pressed}) => [
+                    {
+                        backgroundColor: pressed ? Colors.backgroundGray : 'white'
+                    }
+                ]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 50, }}>
                     <Text style={styles.settingsText}>Settings</Text>
-                    <Image style={{width: 20, height: 20}}
+                    <Image style={{width: 20, height: 20, marginRight: 20}}
                         source={ImageIndex.icons.arrowhead}/>
                     </View>
-                </TouchableOpacity>
-        </View>
+                </Pressable>
+
     </SafeAreaView>
 }
 
@@ -120,6 +125,7 @@ const styles = StyleSheet.create({
         color: Colors.softBlack,
         fontSize: 14,
     },
+
     accountText: {
         fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 16,
@@ -130,5 +136,6 @@ const styles = StyleSheet.create({
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 16,
         color: Colors.softBlack,
+        marginLeft: 20
     }
 });

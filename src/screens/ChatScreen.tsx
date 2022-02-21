@@ -254,11 +254,11 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
                     bounces={false}
                 />
                 <ChatNewerChatButton newerChats={chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length} onPress={() => scrollToEnd()} />
-                <View style={[styles.wrapperTyping]}>
-                    {chatBotIsTyping ? <ChatTypping userType='chatbot' /> : null}
-                    {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
-                </View>
                 <View style={styles.inputWrapper}>
+                    <View style={[styles.wrapperTyping, isTypping || chatBotIsTyping ? {opacity: 0.6} : {opacity: 0}]}>
+                        {chatBotIsTyping ? <ChatTypping userType='chatbot' /> : null}
+                        {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
+                    </View>
                     <ChatInput value={chatMessage} setValue={setChatMessage} onPress={onChatPress} onStartTyping={onStartTyping} onEndTyping={onEndTyping} />
                 </View>
                 <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
@@ -295,5 +295,8 @@ const styles = StyleSheet.create({
    wrapperTyping: {
        height: 40,
        width: '100%',
+       position: 'absolute',
+       top: -50,
+       zIndex: 2,
    }
 });

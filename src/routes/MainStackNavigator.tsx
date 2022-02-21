@@ -55,7 +55,7 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name='PostSessionSurveyCollege'
         component={PostSessionSurveyCollegeScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, contentStyle: {backgroundColor: 'white'} }}
       />
       <Stack.Screen
         name='PostSessionSurveySuccess'

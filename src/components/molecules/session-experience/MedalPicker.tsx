@@ -25,8 +25,8 @@ export const MedalPicker = <T extends unknown>(props: PropsWithChildren<MedalPic
     return <View style={styles.medalWrapper}>
         {data.map(x => <React.Fragment key={randomString()}>
             <View style={styles.medal}>
-                <Medal fullRounded={false} disabled={selected != undefined && selected != x} selected={x === selected} value={getText(x)} onPress={() => {
-                     setSelected(selected != undefined ? undefined : x);
+                <Medal fullRounded={false} disabled={disabled} selected={x === selected} value={getText(x)} onPress={() => {
+                     setSelected( x);
                 }}/>
             </View>
         </React.Fragment>)}

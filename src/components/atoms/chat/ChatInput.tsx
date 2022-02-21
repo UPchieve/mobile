@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
         paddingTop: 3
     },
     input: {
-        paddingTop: 8,
-        paddingBottom: 7,
+        paddingTop: 7,
+        paddingBottom: 8,
         paddingHorizontal: 16,
         color: Colors.softBlack,
+        textAlignVertical: 'center',
         fontSize: 16,
         flexGrow: 1,
-        lineHeight: 22,
         // textAlignVertical: 'bottom',
         minHeight: 36,
         maxHeight: 105,

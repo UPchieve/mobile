@@ -75,7 +75,7 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
                 paddingRight: 23,
             }}>
                 <FormikProvider value={formik}>
-                    <View style={styles.questionWrapper}>
+                    <View style={[styles.questionWrapper, {marginTop: 15}]}>
                         <Text style={styles.title}>Rate your session</Text>
                     </View>
                     <View style={styles.questionWrapper}>

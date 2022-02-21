@@ -20,7 +20,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
             <Text style={styles.title}>You’re Eligible!</Text>
             <Image style={{width: 193, height: 192}}
                 source={ImageIndex.onboarding.eligible} />
-            <Image style={{marginTop: 10}}
+            <Image style={{marginTop: 15}}
                 source={ImageIndex.icons.check} />
         </ImageBackground>
         </>

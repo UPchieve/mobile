@@ -18,8 +18,8 @@ export const RateNumbers: React.FC<RateNumbers> = ({ selected, setSelected, pare
                     disabled={false}
                     fullRounded={true}
                     selected={item === selected}
-                              onPress={() => setSelected(item)}/>
-                    // onPress={() => setSelected(selected != undefined ? undefined : item)} />
+                             // onPress={() => setSelected(item)}/>
+                     onPress={() => setSelected(selected === item ? undefined : item)} />
             })}
         </View>
         <View style={styles.textIndicators}>
