@@ -29,17 +29,17 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
 
     const formik = useFormik<loginValues>({
         initialValues: {
-            email: 'student@nnnp.com',
-            password: 'Demostudentpassword!'
+            email: 'volunteer@nnnp.com',
+            password: 'Demovolunteerpassword!'
         } as loginValues,
         validationSchema,
         validateOnMount: true,
-        onSubmit: async (values: loginValues, { setSubmitting }) => {
+        onSubmit: async (values: loginValues, { setSubmitting, setFieldError }) => {
             try {
                 const user = await authService.login(values.email, values.password);
                 if (user?.isVolunteer) {
                     await authService.logout();
-                    alert(`The app doesn't support login as volunteer yet.`);
+                    setFieldError('email', 'Under construction! Our coach app is temporarily unavailable while we make improvements. Please log-in using your browser.');
                 } else {
                     refreshUser();
                 }
@@ -47,6 +47,7 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
                 console.log(error);
                 alert('Wrong credentials.');
             } finally {
+                console.log('submitting.');
                 setSubmitting(false);
             }
         }
@@ -57,13 +58,12 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
         <View style={styles.container}>
             <H3>Welcome Back!</H3>
             <HelperText mt={8} mb={25}>Sign in to your account.</HelperText>
-            <FormikInput name="email" placeholder="Email" isValid={undefined} />
+            <FormikInput name="email" placeholder="Email" />
             <Separator backgroundColor='transparent' marginVertical={8} />
             <FormikInput
                 name="password"
                 placeholder='Password'
                 password
-                isValid={undefined}
             />
             <TouchableOpacity style={{ width: '100%', alignItems: 'flex-end', marginTop: 8, }} onPress={() => navigation.navigate('ResetPasswordStep1')}>
                 <Text style={styles.forgotYourPasswordText}>Forgot Password?</Text>
