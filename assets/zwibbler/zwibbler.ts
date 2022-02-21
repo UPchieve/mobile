@@ -42,6 +42,13 @@ const html = `
           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
         });
 
+        zwibbler.on("document-changed", function() {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'document-changed', eventValue: {
+            canUndo: zwibbler.canUndo(),
+            canRedo: zwibbler.canRedo(),
+          } }));
+        });
+
         zwibbler.joinSharedSession(sessionId, true).then(response => {
           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
         }).catch(err => {

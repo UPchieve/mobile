@@ -12,14 +12,12 @@ import {
 } from '../components/white-board/WhiteboardTextPicker';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler';
-import { MenuProvider } from 'react-native-popup-menu';
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
 import { CustomWebViewEvent, WebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
 import { AlertContext, AlertProvider } from '../providers/AlertProvider';
-import { AuthContext } from '../providers/AuthProvider';
 
 // type WhiteboardType = NativeStackScreenProps<MainStackParamList, 'Whiteboard'>;
 type WhiteboardType = {
@@ -30,6 +28,8 @@ type WhiteboardType = {
 
 export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress, hasNotifications }) => {
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
+  const [canUndo, setCanUndo] = useState<boolean>(false);
+  const [canRedo, setCanRedo] = useState<boolean>(false)
   const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
     visible: false,
   });
@@ -119,6 +119,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       case 'connected':
         handleOnConnected(event as CustomWebViewEvent<boolean>);
         break;
+      case 'document-changed':
+        handleOnDocumentChanged(event as CustomWebViewEvent<any>);
+        break;
     }
   };
 
@@ -144,6 +147,11 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
     }
   };
 
+  const handleOnDocumentChanged = (event: CustomWebViewEvent<{ canUndo: boolean, canRedo: boolean }>) => {
+    setCanUndo(event.eventValue.canUndo);
+    setCanRedo(event.eventValue.canRedo);
+  }
+
   const renderSwapToChatIcon = () => {
     return <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
       <View>
@@ -159,11 +167,11 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
         <View style={styles.topToolsWrapper}>
           {renderSwapToChatIcon()}
           <View style={styles.rightTopPanelWrapper}>
-            <TouchableOpacity onPress={zwibblerManager?.undo}>
-              <SvgIcons.UndoIcon stroke={'gray'} style={{ marginRight: 30 }} />
+            <TouchableOpacity onPress={zwibblerManager?.undo} disabled={!canUndo}>
+              <SvgIcons.UndoIcon stroke={canUndo ? Colors.softBlack : Colors.disabledGray} style={{ marginRight: 30 }} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={zwibblerManager?.redo}>
-              <SvgIcons.RedoIcon stroke={'gray'} style={{ marginRight: 30 }} />
+            <TouchableOpacity onPress={zwibblerManager?.redo} disabled={!canRedo}>
+              <SvgIcons.RedoIcon stroke={canRedo ? Colors.softBlack : Colors.disabledGray} style={{ marginRight: 30 }} />
             </TouchableOpacity>
             <TouchableOpacity onPress={openDeleteModal}>
               <SvgIcons.TrashIcon
@@ -199,11 +207,11 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
             </View>
             <WhiteboardTextPicker {...textModalProps} />
           </View>
-          <TouchableOpacity onPress={zwibblerManager?.undo} style={{ marginLeft: 50 }}>
-            <SvgIcons.UndoIcon stroke={'gray'} />
+          <TouchableOpacity onPress={zwibblerManager?.undo} style={{ marginLeft: 50 }} disabled={!canUndo}>
+            <SvgIcons.UndoIcon stroke={canUndo ? Colors.softBlack : Colors.disabledGray} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={zwibblerManager?.redo} style={{ marginLeft: -10 }}>
-            <SvgIcons.RedoIcon stroke={'gray'} />
+          <TouchableOpacity onPress={zwibblerManager?.redo} style={{ marginLeft: -10 }} disabled={!canRedo}>
+            <SvgIcons.RedoIcon stroke={canRedo ? Colors.softBlack : Colors.disabledGray} />
           </TouchableOpacity>
           <TouchableOpacity onPress={openDeleteModal}>
             <SvgIcons.TrashIcon

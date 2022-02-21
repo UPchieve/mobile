@@ -1,10 +1,11 @@
 export interface WebViewEvent {
-  eventType: 'tool-changed' | 'connected';
+  eventType: 'tool-changed' | 'connected' | 'document-changed';
 }
 export interface CustomWebViewEvent<T> {
   eventType: 'tool-changed';
   eventValue: T;
 }
+
 
 interface QuillEditorTextChangeEvent {
   eventValue: {
