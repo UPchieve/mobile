@@ -26,6 +26,7 @@
     "expo-screen-orientation": "~4.0.3",
     "expo-sensors": "~11.0.3",
     "expo-status-bar": "~1.1.0",
+    "expo-updates": "~0.10.15",
     "formik": "^2.2.9",
     "random-string": "^0.2.0",
     "react": "17.0.1",

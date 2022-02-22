@@ -1,18 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { NavigationContainer } from "@react-navigation/native"
+import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
 import { OnboardingStackNavigator } from "./OnboardingStackNavigator"
 import * as Linking from 'expo-linking';
-import { MainStackNavigator } from './MainStackNavigator';
 import { DrawerNavigator } from './DrawerNavigator';
-import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSessionQuestionScreen';
 import { AuthContext } from '../providers/AuthProvider';
-import { View } from 'react-native';
 import { AppLoading } from '../components/molecules/common/AppLoading';
-import {SettingsScreen} from "../screens/profile/SettingsScreen";
-import {DeleteAccountScreen} from "../screens/profile/DeleteAccountScreen";
-import {TellUsMoreScreen} from "../screens/profile/TellUsMoreScreen";
-import {RequestDeleteAccountScreen} from "../screens/profile/RequestDeleteAccountScreen";
 import { useOrientation } from '../hooks/useOrientation';
 
 const prefix = Linking.createURL('/');
@@ -21,7 +14,8 @@ const linking = {
     prefixes: [prefix],
     config: {
         screens: {
-            ResetPasswordStep3: 'setpassword/:token'
+            ResetPasswordStep3: 'setpassword/:token',
+            VerifyAccount: 'verifyaccount/:email', //requires userId, firstName and email.
         }
     }
 };
@@ -30,6 +24,7 @@ export const Routes = () => {
 
     const { user, refreshUser, loadingUser } = useContext(AuthContext);
     const { lockAsync } = useOrientation();
+    const [navigationReady, setNavigationReady] = useState<boolean>(false);
 
     useEffect(() => {
         //set rotation
@@ -37,12 +32,27 @@ export const Routes = () => {
         refreshUser();
     }, [])
 
+    useEffect(() => {
+        if (!!user && !user?.verified && navigationReady) {
+            console.log('entre aca', user.email);
+            let redirectUrl = Linking.createURL(`verifyaccount/${user.email}`, {
+                queryParams: {
+                    userId: user._id,
+                    firstName: user.firstname,
+                },
+            });
+            Linking.openURL(redirectUrl);
+        }
+    }, [user, navigationReady]);
+
     if (loadingUser) {
         return <AppLoading />
     }
 
-    return <NavigationContainer linking={linking}>
-        {!!user ? <DrawerNavigator />
+    return <NavigationContainer linking={linking} onReady={() => setNavigationReady(true)}>
+        {!!user && user.verified ? <DrawerNavigator />
             : <OnboardingStackNavigator />}
     </NavigationContainer>
 }
+
+
