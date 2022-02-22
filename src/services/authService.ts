@@ -4,23 +4,17 @@ import { config } from '../../config';
 import { Student, User, Volunteer } from '../models/user';
 import { ConfirmValidationRequest, CreateAccountRequest, CreateAccountResponse, CreateAccountWithWithPartnerRequest, SendValidationRequest } from '../types/services/authServiceTypes';
 
-// const login = async (
-//   email: string,
-//   password: string,
-// ) => {
-//   try {
-//     const response = await axios.post(`${config.baseUrl}/auth/login`, { email, password });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Impossible to login', error);
-//     throw error;
-//   }
-// };
 
+const checkCredentials = async (payload: {email: string, password: string}) => {
+  console.log(payload);
+  
+  const { data } = await http.post<{checked: boolean}>('/auth/register/checkcred', payload);
+  
+  return data.checked;
+}
 
 const login = async (email: string, password: string): Promise<Student | Volunteer | null> => {
   const { data } = await http.post<{ user: User }>('/auth/login', { email, password });
-  console.log(data);
   if (data.user) {
     return data.user.isVolunteer ? data.user as Volunteer : data.user as Student;
   }
@@ -105,6 +99,7 @@ export const authService = {
   login,
   getCurrentUser,
   logout,
+  checkCredentials,
   sendResetPasswordEmail,
   changePassword,
   createAccount,

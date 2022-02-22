@@ -18,6 +18,8 @@ import { CommonButton } from "../../../components/common/CommonButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigator";
+import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from "../../../components/atoms/common/InputWithCustomErrorMessage";
+import { getErrorFromBackendResponse } from "../../../utils/utils";
 
 
 interface formTypeValues {
@@ -48,7 +50,18 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
         initialValues,
         validationSchema,
         validateOnMount: true,
-        onSubmit: async (values: formTypeValues) => {
+        onSubmit: async (values: formTypeValues, { setFieldError }) => {
+            try {
+                await authService.checkCredentials({
+                    email: values.email!, password: 'abcDEFG123123'
+                })
+            } catch (err: any) {
+                const response = getErrorFromBackendResponse(err);
+                if (response === 'The email address you entered is already in use') {
+                    setFieldError('email', 'email_already_exists');
+                    return;
+                }
+            }
             navigation.navigate('RegisterSignUpCodeStep2', {
                 email: values.email,
                 password: values.password,
@@ -81,9 +94,29 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
                     stepState: 'active'
                 }, { stepNumber: 2, stepState: 'not-started' }, { stepNumber: 3, stepState: 'not-started' }]} />
                 <Separator marginVertical={12} backgroundColor='transparent' />
-                <FormikInput
-                    placeholder="Email"
-                    name={'email'} />
+                <InputWithCustomErrorMessage
+                    placeholder='Email'
+                    value={formik.values.email}
+                    onChangeText={formik.handleChange('email')}
+                    onBlur={formik.handleBlur('email')}
+                    isValid={formik.errors.email === undefined}
+                    touched={formik.touched.email}
+                    errorMessage={formik.errors.email}
+                    setClearValue={() => {
+                        formik.setFieldValue('email', undefined, false);
+                        formik.setFieldTouched('email', false, false);
+                    }}
+                    errors={[
+                        {
+                            key: 'email_already_exists', Error: () => <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <Text style={InputWithCustomErrorMessageStyles.errorText}>An account with this email already exists. </Text>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('Login')}
+                                ><Text style={InputWithCustomErrorMessageStyles.errorLinkText}>logging In </Text></TouchableOpacity>
+                                <Text style={InputWithCustomErrorMessageStyles.errorText}>Try instead.</Text>
+                            </View>
+                        }
+                    ]} />
                 <Separator marginVertical={6} backgroundColor='transparent' />
                 <PasswordInput value={formik.values.password} onChangeText={(value: string) => {
                     formik.setFieldTouched('password');
@@ -95,7 +128,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
                     isValid={!formik.errors.password}
                     allwaysShowMessage={true}
                     placeholder="Create Password"
-                               setClearValue={(v) => setClearValue(v, 'password')}
+                    setClearValue={(v) => setClearValue(v, 'password')}
                     message='Password must contain at least one uppercase, one lower case, and number' />
                 <Separator marginVertical={6} backgroundColor='transparent' />
                 {renderInput('confirmPassword', 'Confirm Password', true)}

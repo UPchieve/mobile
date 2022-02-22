@@ -13,6 +13,11 @@ import { schoolUtils } from '../../../../utils/eligibilityUtils'
 import * as Yup from 'yup';
 import { eligibilityService } from '../../../../services/eligibilityService'
 import { ModalSelect } from '../../../../components/atoms/common/ModalSelect'
+import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from '../../../../components/atoms/common/InputWithCustomErrorMessage'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { authService } from '../../../../services/authService'
+import { AxiosError } from 'axios';
+import { getErrorFromBackendResponse } from '../../../../utils/utils'
 
 type CheckEligibilityType = {
     navigation: NativeStackNavigationProp<OnboardingStackParamList, "Register">
@@ -42,7 +47,18 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
         },
         validationSchema,
         validateOnMount: true,
-        onSubmit: async ({ email, highSchool, zipCode, grade }: formValueType) => {
+        onSubmit: async ({ email, highSchool, zipCode, grade }: formValueType, { setFieldError }) => {
+            try {
+                await authService.checkCredentials({
+                    email: email!, password: 'abcDEFG123123'
+                })
+            } catch (err: any) {
+                const response = getErrorFromBackendResponse(err);
+                if (response === 'The email address you entered is already in use') {
+                    setFieldError('email', 'email_already_exists');
+                    return;
+                }
+            }
             const response = await eligibilityService.check({
                 email: email!,
                 schoolUpchieveId: highSchool!._id,
@@ -89,14 +105,40 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
                         errorMessage={formik.errors.grade as string}
                         isValid={!formik.errors.grade}
                         touched={formik.touched.grade as boolean}
-                        onPressIn={() => selectRef.current?.open({onSelect: (selected: SelectItem) => {
-                            formik.setFieldTouched('grade');
-                            formik.setFieldValue('grade', selected);
-                        }})} />
+                        onPressIn={() => selectRef.current?.open({
+                            onSelect: (selected: SelectItem) => {
+                                formik.setFieldTouched('grade');
+                                formik.setFieldValue('grade', selected);
+                            }
+                        })} />
                 </View>
 
                 {renderInput('zipCode', 'Zip Code')}
-                {renderInput('email', 'Email')}
+                <View style={{ marginBottom: 20, }}>
+                    <InputWithCustomErrorMessage
+                        placeholder='Email'
+                        value={formik.values.email}
+                        onChangeText={formik.handleChange('email')}
+                        onBlur={formik.handleBlur('email')}
+                        isValid={formik.errors.email === undefined}
+                        touched={formik.touched.email}
+                        errorMessage={formik.errors.email}
+                        setClearValue={() => {
+                            formik.setFieldValue('email', undefined, false);
+                            formik.setFieldTouched('email', false, false);
+                        }}
+                        errors={[
+                            {
+                                key: 'email_already_exists', Error: () => <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                                    <Text style={InputWithCustomErrorMessageStyles.errorText}>An account with this email already exists. </Text>
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('Login')}
+                                    ><Text style={InputWithCustomErrorMessageStyles.errorLinkText}>logging In </Text></TouchableOpacity>
+                                    <Text style={InputWithCustomErrorMessageStyles.errorText}>Try instead.</Text>
+                                </View>
+                            }
+                        ]} />
+                </View>
             </View>
             <CommonButton
                 title='Check Your Eligibility'
