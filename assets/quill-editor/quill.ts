@@ -115,9 +115,8 @@ const html = `
         border-radius: 100%;
     }
 
-    .ql-picker-item.ql-primary[data-value="#FFFFFF"] {
-        background-color: #F1F3F6 !important;
-        border-color: #ABB2BD !important;
+    .ql-picker-item.ql-primary:first-child {
+        border-color: black !important;
     }
 
     span.ql-color>span.ql-picker-options[aria-hidden="false"] {
