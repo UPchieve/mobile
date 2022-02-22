@@ -35,9 +35,7 @@ export const WrongEmailScreen: React.FC<WrongEmailType> = ({ route, navigation }
                     topic: 'Technical issue',
                     message: `My correct email is ${values.email}. Can you update this for me?`
                 });
-                navigation.navigate('MessageSent', {
-
-                });
+                navigation.navigate('MessageSent');
             } catch (err: any) {
                 console.error(err);
                 const response = err?.response;
