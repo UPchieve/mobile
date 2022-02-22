@@ -64,7 +64,8 @@ export const VerifyAccountStep1Screen: React.FC<VerifyAccountScreenType> = ({ ro
             verificationType: type,
             firstName,
             userId,
-            sendTo
+            sendTo,
+            email
         });
     }
 

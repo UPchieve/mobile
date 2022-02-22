@@ -1,5 +1,5 @@
 import { Session } from "../interfaces/sessionInterfaces";
-import { GetLatestSessionResponse } from "../types/services/sessionServiceTypes";
+import { GetLatestSessionResponse, SendContactFormRequest } from "../types/services/sessionServiceTypes";
 import http from "./http"
 
 const getCurrentSession = async (): Promise<Session> => {
@@ -36,7 +36,7 @@ const endSession = async (sessionId: string): Promise<void> => {
     return data;
 }
 
-const sendContactForm = async (payload: any): Promise<void> => {
+const sendContactForm = async (payload: SendContactFormRequest): Promise<void> => {
     await http.post<{sessionId: string}>(`/api-public/contact/send`, payload);
 }
 

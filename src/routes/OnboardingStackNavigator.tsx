@@ -42,6 +42,7 @@ export type OnboardingStackParamList = {
         sendTo: string,
         firstName: string,
         userId: string,
+        email: string,
     },
     AccountVerified: undefined,
     EligibleResult: {
@@ -69,7 +70,10 @@ export type OnboardingStackParamList = {
         screen: string
     },
     MessageSent: undefined
-    WrongEmail: undefined,
+    WrongEmail: {
+        userId: string,
+        email: string,
+    },
     WelcomeSignUpCode: {
         studentPartnerManifest: StudentPartnerManifest
     }

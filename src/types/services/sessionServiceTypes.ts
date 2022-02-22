@@ -5,3 +5,10 @@ export interface GetLatestSessionResponse {
         createdAt: string,
     }
 }
+export type SendContactFormTopic = 'General question' | 'General feedback' | 'Technical issue' | 'Feature request' | 'Subject suggestion' | 'Other';
+export interface SendContactFormRequest {
+    userId: string,
+    userEmail: string,
+    topic:SendContactFormTopic,
+    message: string,
+}

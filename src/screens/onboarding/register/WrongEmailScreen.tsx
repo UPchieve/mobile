@@ -6,6 +6,11 @@ import { H3 } from '../../../components/atoms/common/H3';
 import { HelperText } from '../../../components/atoms/onboarding/HelperText';
 import { CommonButton } from '../../../components/common/CommonButton';
 import * as Yup from 'yup';
+import { sessionService } from '../../../services/sessionService';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
+import { AxiosError } from 'axios';
+import { NavigationRouteContext } from '@react-navigation/native';
 
 type formikValueType = {
     email: string,
@@ -15,15 +20,31 @@ const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
 });
 
-
-export const WrongEmailScreen = () => {
+type WrongEmailType = NativeStackScreenProps<OnboardingStackParamList, 'WrongEmail'>
+export const WrongEmailScreen: React.FC<WrongEmailType> = ({ route, navigation }) => {
+    const {userId, email} = route.params;
     const formik = useFormik<formikValueType>({
         initialValues: { email: '' },
         validationSchema,
         validateOnMount: true,
-        onSubmit: (values, { setSubmitting }) => {
-            //TODO Check the endpoint to send this message.
-            setSubmitting(false);
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                await sessionService.sendContactForm({
+                    userId,
+                    userEmail: email,
+                    topic: 'Technical issue',
+                    message: `My correct email is ${values.email}. Can you update this for me?`
+                });
+                navigation.navigate('MessageSent', {
+
+                });
+            } catch (err: any) {
+                console.error(err);
+                const response = err?.response;
+                console.error(response?.data);
+            } finally {
+                setSubmitting(false);
+            }
         }
     }
     );
@@ -37,6 +58,7 @@ export const WrongEmailScreen = () => {
             <FormikInput
                 name='email'
                 placeholder='Enter correct email'
+                keyboardType='email-address'
             />
             <View style={{ marginTop: 32, }}>
                 <CommonButton

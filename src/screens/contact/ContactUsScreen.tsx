@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react";
+import React, { useContext, useRef, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FormikProvider, useFormik } from "formik";
 import { H3 } from "../../components/atoms/common/H3";
@@ -10,16 +10,17 @@ import { CommonButton } from "../../components/common/CommonButton";
 import { FormikPicker } from "../../components/atoms/common/Formik/FormikPicker";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../routes/OnboardingStackNavigator";
-import {View, Image, TouchableOpacity, Dimensions} from "react-native";
+import { View, Image, TouchableOpacity, Dimensions } from "react-native";
 import { ImageIndex } from "../../../assets/ImageIndex";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ContactUsParamList } from "../../routes/ContactUsStackNavigator";
-import {sessionService} from "../../services/sessionService";
-import {AuthContext} from "../../providers/AuthProvider";
-import {CommonActions} from "@react-navigation/native";
+import { sessionService } from "../../services/sessionService";
+import { AuthContext } from "../../providers/AuthProvider";
+import { SendContactFormTopic } from "../../types/services/sessionServiceTypes";
+import { AxiosError } from 'axios';
 
 interface formTypeValues {
-    topic: string,
+    topic: SendContactFormTopic,
     message: string
 }
 
@@ -28,7 +29,7 @@ const options = ['General question', 'General feedback', 'Technical issue', 'Fea
 type contactUsScreenType = NativeStackScreenProps<OnboardingStackParamList | ContactUsParamList>;
 export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, route }) => {
 
-    const { user } = useContext(AuthContext);
+    const user = useContext(AuthContext).user!;
 
     const countWords = (str: string | undefined) => {
         let matches = str?.match(/[\w\d\’\'-]+/gi);
@@ -46,19 +47,32 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
         initialValues: { message: '' } as formTypeValues,
         validateOnMount: true,
         validationSchema,
-        onSubmit: async (values: formTypeValues) => {
-            //TODO add logic to send.
+        onSubmit: async ({ topic, message }: formTypeValues, { setSubmitting }) => {
             try {
-                const payload: any = {};
-                for (const key of Object.keys(values)) {
-                    //@ts-ignore
-                    payload[key] =  values[key];
+                //TODO review this logic fran
+                // const payload: any = {};
+                // for (const key of Object.keys(values)) {
+                //     //@ts-ignore
+                //     payload[key] =  values[key];
+                // }
+                // payload['userEmail'] = user?.email;
+                // payload['userId'] = user?._id;
+                // sessionService.sendContactForm(payload);
+                try {
+                    await sessionService.sendContactForm({
+                        userId: user._id,
+                        userEmail: user.email,
+                        topic: topic,
+                        message: message,
+                    });
+                    console.log('contact submitted.');
+                } catch (err) {
+                    const response = (err as AxiosError)?.response;
+                    console.log('Error info', response?.data);
+                } finally {
+                    setSubmitting(false);
                 }
-                payload['userEmail'] = user?.email;
-                payload['userId'] = user?._id;
-                //sessionService.sendContactForm(payload);
-                console.log('contact submitted.');
-                navigation.navigate('MessageSent', {nextRoute: route.name === 'DrawerContactUs' ? 'Dashboard' : ''})
+                navigation.navigate('MessageSent', { nextRoute: route.name === 'DrawerContactUs' ? 'Dashboard' : '' })
 
             } catch (error) {
                 console.log(error);
@@ -73,15 +87,15 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
     });
 
     return (
-        <View style={{backgroundColor: 'white',height: Dimensions.get('window').height + insets.top}}>
-            <KeyboardAwareScrollView style={{ paddingHorizontal: 20, paddingTop: 24}} contentContainerStyle={{flexGrow: 1}}>
+        <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height + insets.top }}>
+            <KeyboardAwareScrollView style={{ paddingHorizontal: 20, paddingTop: 24 }} contentContainerStyle={{ flexGrow: 1 }}>
                 <FormikProvider value={formik}>
                     {/* <TouchableOpacity onPress={() => navigation.canGoBack() && navigation.goBack()}>
                     <Image
                         style={{width: 20, height: 20}}
                         source={ImageIndex.icons.goBack}/>
                 </TouchableOpacity> */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <H3>Contact Us</H3>
                         {route.name === 'DrawerContactUs' ? <TouchableOpacity
                             onPress={() => (navigation.getParent() as any)?.openDrawer()}>
@@ -101,7 +115,7 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
                         onChangeText={formik.handleChange('message')}
                         value={formik.values.message} />
                     <Separator marginVertical={15} backgroundColor='transparent' />
-                    <CommonButton title={'Send'} onPress={formik.handleSubmit} type={'information'} disabled={!formik.isValid} />
+                    <CommonButton title={'Send'} onPress={formik.handleSubmit} type={'information'} disabled={!formik.isValid} loading={formik.isSubmitting} />
                 </FormikProvider>
             </KeyboardAwareScrollView>
         </View >
