@@ -7,6 +7,7 @@ import {FontIndex} from "../../../../assets/FontIndex";
 import {Separator} from "../../../components/atoms/common/Separator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ContactUsParamList } from "../../../routes/ContactUsStackNavigator";
+import {CommonActions} from "@react-navigation/native";
 
 type MessageSentScreenType = NativeStackScreenProps<ContactUsParamList, 'MessageSent'>;
 export const MessageSentScreen: React.FC<MessageSentScreenType> = ({route, navigation}) => {
@@ -38,6 +39,18 @@ export const MessageSentScreen: React.FC<MessageSentScreenType> = ({route, navig
                 onPress={() => {
                     //@ts-ignore
                     navigation.navigate(route.params?.nextRoute);
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index: 1,
+                            routes: [
+                                {
+                                    name: 'MessageSent',
+                                    params: {nextRoute: route.params?.nextRoute},
+                                },
+                                { name: 'DrawerContactUs' },
+                            ],
+                        })
+                    )
                 }}
                 style={{width: '80%', height: 48}}
             />

@@ -36,10 +36,15 @@ const endSession = async (sessionId: string): Promise<void> => {
     return data;
 }
 
+const sendContactForm = async (payload: any): Promise<void> => {
+    await http.post<{sessionId: string}>(`/api-public/contact/send`, payload);
+}
+
 export const sessionService = {
     getCurrentSession,
     getLatestSession,
     endSession,
     newSession,
-    sendPreSesionFeedback
+    sendPreSesionFeedback,
+    sendContactForm
 }

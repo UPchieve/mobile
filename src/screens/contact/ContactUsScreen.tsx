@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useContext, useRef, useState} from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FormikProvider, useFormik } from "formik";
 import { H3 } from "../../components/atoms/common/H3";
@@ -14,35 +14,58 @@ import {View, Image, TouchableOpacity, Dimensions} from "react-native";
 import { ImageIndex } from "../../../assets/ImageIndex";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import { ContactUsParamList } from "../../routes/ContactUsStackNavigator";
+import {sessionService} from "../../services/sessionService";
+import {AuthContext} from "../../providers/AuthProvider";
+import {CommonActions} from "@react-navigation/native";
 
 interface formTypeValues {
-    reason: string,
-    moreText: string
+    topic: string,
+    message: string
 }
 
 const options = ['General question', 'General feedback', 'Technical issue', 'Feature request', 'Subject suggestion', 'Other'];
 
 type contactUsScreenType = NativeStackScreenProps<OnboardingStackParamList | ContactUsParamList>;
 export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, route }) => {
+
+    const { user } = useContext(AuthContext);
+
     const countWords = (str: string | undefined) => {
         let matches = str?.match(/[\w\d\’\'-]+/gi);
         return matches ? matches.length > 4 : false;
     }
 
     const validationSchema = Yup.object().shape({
-        reason: Yup.string().required(),
-        moreText: Yup.string().required().test('len', 'You must write at least 5 words', (val) => countWords(val))
+        topic: Yup.string().required(),
+        message: Yup.string().required().test('len', 'You must write at least 5 words', (val) => countWords(val))
     });
 
     const insets = useSafeAreaInsets();
 
     const formik = useFormik<formTypeValues>({
-        initialValues: { moreText: '' } as formTypeValues,
+        initialValues: { message: '' } as formTypeValues,
         validateOnMount: true,
         validationSchema,
         onSubmit: async (values: formTypeValues) => {
             //TODO add logic to send.
-            navigation.navigate('MessageSent', {nextRoute: route.name === 'DrawerContactUs' ? 'Dashboard' : ''})
+            try {
+                const payload: any = {};
+                for (const key of Object.keys(values)) {
+                    //@ts-ignore
+                    payload[key] =  values[key];
+                }
+                payload['userEmail'] = user?.email;
+                payload['userId'] = user?._id;
+                //sessionService.sendContactForm(payload);
+                console.log('contact submitted.');
+                navigation.navigate('MessageSent', {nextRoute: route.name === 'DrawerContactUs' ? 'Dashboard' : ''})
+
+            } catch (error) {
+                console.log(error);
+
+                alert(error);
+            }
+
             // navigation.navigate('MessageSent', { buttonAction: () => {
             //     if(route.name === 'DrawerContactUs')
             // }})
@@ -69,14 +92,14 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({ navigation, rou
 
                     <FormikPicker title='What is your reason?'
                         placeholder='What is your reason?'
-                        name='reason'
+                        name='topic'
                         options={options}
                         initialColor={Colors.information} />
                     <Separator marginVertical={15} backgroundColor='transparent' />
                     <CommonTextArea borderColorSelected={Colors.information}
                         placeholder={'Tell us more. (min 5 words)'}
-                        onChangeText={formik.handleChange('moreText')}
-                        value={formik.values.moreText} />
+                        onChangeText={formik.handleChange('message')}
+                        value={formik.values.message} />
                     <Separator marginVertical={15} backgroundColor='transparent' />
                     <CommonButton title={'Send'} onPress={formik.handleSubmit} type={'information'} disabled={!formik.isValid} />
                 </FormikProvider>

@@ -28,15 +28,24 @@ const html = `
         
         zwibbler.removeSelectionHandles();
         
-        //Add the trash icon to delete the current selection.
         const imageUrl = 'https://i.postimg.cc/MTnNZDZ7/Trash.png';
         zwibbler.addSelectionHandle(1.0, 0.0, 20, -30, imageUrl, function (pageX, pageY) {
             zwibbler.deleteSelection();
         });
         
-        //Add the rotate icon to rotate the current selection.
+        
         const rotateIConUrl = 'https://i.postimg.cc/Qxg8rXyX/Group-1086352.png';
         zwibbler.addSelectionHandle(0.5, 0.0, 0, -30, rotateIConUrl, 'rotate');
+        
+        /* Position scaling handles at all four corners of the selection. */
+        zwibbler.addSelectionHandle(0.0, 0.0, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(1.0, 0.0, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(1.0, 1.0, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(0.0, 1.0, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(0.5, 0.0, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(1.0, 0.5, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(0.5, 1.0, 0, 0, '', 'scale')
+        zwibbler.addSelectionHandle(0.0, 0.5, 0, 0, '', 'scale')
         
         zwibbler.on("tool-changed", function(toolName) {
           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
