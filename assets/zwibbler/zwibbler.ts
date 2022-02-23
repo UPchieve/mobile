@@ -21,9 +21,15 @@ const html = `
             showToolbar: false,
             showColourPanel: false,
             multilineText: true,
-            defaultZoom: 0.45,
+            defaultZoom: .5,
             zoomOnResize: false,
             collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
+            pageView: true,
+            pageBorderColour: 'transparent',
+            pageInflation: 0,
+            pageShadow: false,
+            outsidePageColour: '#fff',
+            defaultSmoothness: 'sharpest',
         });
         
         zwibbler.removeSelectionHandles();
@@ -62,6 +68,23 @@ const html = `
           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
         }).catch(err => {
             console.error('err', err);
+        });
+
+        zwibbler.on('connected', () => {
+          try {
+            this.zwibblerCtx.setViewRectangle(
+              this.zwibblerCtx.getBoundingRectangle(
+                this.zwibblerCtx.getAllNodes()
+              )
+            );
+          } catch (error) {
+            this.zwibblerCtx.setViewRectangle({
+              x: 0,
+              y: 0,
+              width: 1,
+              height: 1
+            });
+          }
         });
         
         const addText = (text) => {
