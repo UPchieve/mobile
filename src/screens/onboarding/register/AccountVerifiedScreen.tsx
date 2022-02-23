@@ -47,8 +47,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
                 title='I’m listening'
                 loading={loading}
                 onPress={() => {
-                    setLoading(true);
-                    refreshUser();
+                    navigation.navigate('Rules');
                 }}
                 SvgIcon={SvgIcons.GoArrow}
             />

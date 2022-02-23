@@ -17,12 +17,13 @@ import { RegisterSignUpCodeStep2Screen } from "../screens/onboarding/register/Re
 import { VerificationMethod } from '../types/services/authServiceTypes';
 import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVerifiedScreen';
 import { WrongEmailScreen } from '../screens/onboarding/register/WrongEmailScreen';
-import {ContactUsScreen} from "../screens/contact/ContactUsScreen";
-import {MessageSentScreen} from "../screens/onboarding/register/MessageSentScreen";
-import {WelcomeSignUpCodeScreen} from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
-import {Image} from "react-native";
-import {ImageIndex} from "../../assets/ImageIndex";
-import {SvgIcons} from "../../assets/IndexIcons";
+import { ContactUsScreen } from "../screens/contact/ContactUsScreen";
+import { MessageSentScreen } from "../screens/onboarding/register/MessageSentScreen";
+import { WelcomeSignUpCodeScreen } from "../screens/onboarding/register/WelcomeSignUpCodeScreen";
+import { Image } from "react-native";
+import { ImageIndex } from "../../assets/ImageIndex";
+import { SvgIcons } from "../../assets/IndexIcons";
+import { RulesScreen } from '../screens/onboarding/register/RulesScreen';
 
 export type OnboardingStackParamList = {
     Welcome: undefined;
@@ -76,7 +77,8 @@ export type OnboardingStackParamList = {
     },
     WelcomeSignUpCode: {
         studentPartnerManifest: StudentPartnerManifest
-    }
+    },
+    Rules: undefined
 };
 
 export const OnboardingStackNavigator = () => {
@@ -125,7 +127,7 @@ export const OnboardingStackNavigator = () => {
             />
             <Stack.Screen
                 name="Register"
-                options={{ headerTitle: ''}}
+                options={{ headerTitle: '' }}
                 component={RegisterScreen}
             />
             <Stack.Screen
@@ -183,6 +185,11 @@ export const OnboardingStackNavigator = () => {
             <Stack.Screen
                 name='WelcomeSignUpCode'
                 component={WelcomeSignUpCodeScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='Rules'
+                component={RulesScreen}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

@@ -25,6 +25,11 @@ export const ImageIndex = {
     notEligible: require('./images/onboarding/dot_not_eligible.png'),
     confetti: require('./images/onboarding/confetti.png'),
     messageSent: require('./images/onboarding/message_sent.png'),
+    rules: {
+      rule1: require('./images/onboarding/rule1.png'),
+      rule2: require('./images/onboarding/rule2.png'),
+      rule3: require('./images/onboarding/rule3.png'),
+    }
   },
   dashboard: {
     background: require('./images/dashboard/core_background.png'),
@@ -41,6 +46,6 @@ export const ImageIndex = {
       readWriting: require('./images/dashboard/subject_readWrite.png'),
       sat: require('./images/dashboard/subject_sat.png'),
       science: require('./images/dashboard/subject_science.png'),
-    }
+    },
   }
 };
