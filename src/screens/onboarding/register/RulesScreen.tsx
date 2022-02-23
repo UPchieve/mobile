@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         fontFamily: FontIndex.WorkSans.Regular,
         fontSize: 14,
+        lineHeight: 21,
         color: Colors.secondaryGray,
         textAlign: 'center'
     }

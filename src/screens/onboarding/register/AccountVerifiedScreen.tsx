@@ -44,7 +44,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
         <View style={{ padding: 25, }}>
             <CommonButton
                 type='information'
-                title='I’m listening'
+                title='Get Started'
                 loading={loading}
                 onPress={() => {
                     navigation.navigate('Rules');

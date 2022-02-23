@@ -22,7 +22,9 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
                 width: 312
             }}/>
         <H3>School just got easier</H3>
-            <HelperText color={Colors.secondaryGray} mt={20}>Connect one-on-one with online tutors. {'\n'}
+            <HelperText 
+            textAlign='center'
+            color={Colors.secondaryGray} mt={20}>Connect one-on-one with online tutors. {'\n'}
             Completely free. Available 24/7.</HelperText>
 
         </View>
