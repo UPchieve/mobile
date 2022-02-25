@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     bottomText: {
         fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
-        textAlign: 'center'
+        // textAlign: 'center'
     },
     linkText: {
         color: Colors.information,
