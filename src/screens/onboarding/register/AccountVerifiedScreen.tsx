@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useContext } from 'react';
 import { Image, View } from 'react-native';
 import { Colors } from '../../../../assets/Colors';
+import { FontIndex } from '../../../../assets/FontIndex';
 import { ImageIndex } from '../../../../assets/ImageIndex';
 import { SvgIcons } from '../../../../assets/IndexIcons';
 import { H3 } from '../../../components/atoms/common/H3';
@@ -32,7 +33,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-                <H3>Welcome to UPchieve!</H3>
+                <H3 fontFamily={FontIndex.WorkSans.Medium}>Welcome to UPchieve!</H3>
                 <HelperText color={Colors.secondaryGray} mt={22}>
                     You’re almost ready to get started!
                 </HelperText>

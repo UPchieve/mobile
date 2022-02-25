@@ -26,6 +26,10 @@ type WhiteboardType = {
   hasNotifications: boolean
 }
 
+//TODO TWO FINGERS SCROLL.
+//TODO HIDE BAR ON LANDSCAPE.
+//TODO PEN HAVE TO BE THE DEFAULT TOOL.
+//TODO IN THE FEEDBACK TEXTAREA DOESN'T WORK.
 export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress, hasNotifications }) => {
   const { lockAsync, unlockAsync, orientation } = useOrientation()
   const insets = useSafeAreaInsets();

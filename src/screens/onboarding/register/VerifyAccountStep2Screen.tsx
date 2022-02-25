@@ -119,7 +119,7 @@ export const VerifyAccountStep2Screen: React.FC<VerifyAccountStep2ScreenType> = 
 
     const renderHeader = () => {
         if (verificationType === 'email') {
-            return <><H3>Verification Code sent!</H3>
+            return <><H3 fontFamily={FontIndex.WorkSans.Medium}>Verification Code sent!</H3>
                 <View style={{ marginTop: 16, marginBottom: 24, }}>
                     <Stepper data={[
                         { stepNumber: 1, stepState: 'completed' },

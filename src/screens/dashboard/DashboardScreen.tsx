@@ -1,6 +1,6 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ImageBackground, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Dimensions, Image, TouchableOpacity, Platform } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../../assets/Colors';
@@ -22,6 +22,8 @@ const messages = [
     { message: 'The last message is just a little test!, its amazing!' }]
 type DashboardScreenType = DrawerScreenProps<MainStackParamList, 'DashboardScreen'>;
 
+
+const SCREEN_HEIGHT = Dimensions.get('screen').height;
 export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) => {
 
     const { user, userState } = useContext(AuthContext);
@@ -35,6 +37,16 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
         (async () => userState.refreshUserState())()
     }, []);
 
+    const calculateSnapPoint = () => {
+        let height = SCREEN_HEIGHT - 300 - 10;
+        if (Platform.OS === 'ios') {
+            height = height + insets.top + insets.bottom;
+        } else {
+            height += 60;
+        }
+        return height;
+    }
+
     const onSessionSelected = (topic: string, subTopic: string) => {
         navigation.navigate('PreSessionQuestionScreen', {
             sessionType: topic,
@@ -45,10 +57,12 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
         return <FullScreenSessionState navigation={navigation} topInsets={insets.top} {...userState} />
     }
     return <View style={styles.container}>
-        <ImageBackground source={ImageIndex.dashboard.background} style={[styles.headerBackground]}>
+        <ImageBackground source={ImageIndex.dashboard.background} style={[styles.headerBackground]}
+            onLayout={({ nativeEvent }) => console.log(nativeEvent.layout.height)}
+        >
             <View style={styles.header}>
                 <Text style={styles.helloText}>Hello, {user?.firstname}</Text>
-                <Text style={[styles.helloText, { fontSize: 18, }]}>Welcome back to UPchieve!</Text>
+                <Text style={[styles.helloText, { fontSize: 18, fontFamily: FontIndex.WorkSans.Regular }]}>What can we help you with?</Text>
             </View>
             <TouchableOpacity style={[styles.buttonImage, { top: insets.top }]} onPress={() => navigation.openDrawer()}>
                 <Image source={ImageIndex.dashboard.openMenuButton} style={{ width: 28, height: 28, }} />
@@ -57,8 +71,8 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
         <Modalize
             ref={modalizeRef}
             panGestureComponentEnabled
-            alwaysOpen={Dimensions.get('screen').height - 250}
-            snapPoint={Dimensions.get('screen').height - 200}
+            alwaysOpen={calculateSnapPoint()}
+            snapPoint={SCREEN_HEIGHT - 200}
             HeaderComponent={<View style={{ marginTop: 30, }}>
                 <DashboardMessageList messages={messages} autoChange={10000} />
                 <Text style={styles.chooseText}>Choose a subject to get help with:</Text>
@@ -68,13 +82,13 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             withOverlay={false}
             flatListProps={{
                 data: topics,
-                renderItem: (({ item, index }) => <SubjectCard topic={item} selectRef={selectRef} onBeforeOpen={() => setSubjectOpened(index)} onSelect={onSessionSelected} isOpen={index === subjectOpened}/>),
+                renderItem: (({ item, index }) => <SubjectCard topic={item} selectRef={selectRef} onBeforeOpen={() => setSubjectOpened(index)} onSelect={onSessionSelected} isOpen={index === subjectOpened} />),
                 keyExtractor: item => `dashboardSubjectList_${item.key}`,
                 ItemSeparatorComponent: () => <View style={{ marginVertical: 8, }} />,
                 showsVerticalScrollIndicator: false,
             }}
         />
-        <ModalSelect ref={selectRef} onClose={() => setSubjectOpened(undefined)}/>
+        <ModalSelect ref={selectRef} onClose={() => setSubjectOpened(undefined)} />
     </View>
 }
 
@@ -85,17 +99,8 @@ const styles = StyleSheet.create({
     },
     helloText: {
         fontFamily: FontIndex.WorkSans.Regular,
-        color: Colors.white,
-        fontSize: 24,
-    },
-    body: {
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
-        paddingHorizontal: 18,
-        paddingBottom: 36,
-        backgroundColor: Colors.white,
-        top: -20,
-        paddingTop: 40,
+        color: Colors.softBlack,
+        fontSize: 22,
     },
     headerBackground: {
         width: '100%',
@@ -103,12 +108,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     header: {
-        alignItems: 'center',
+        paddingLeft: 20,
         width: '100%',
     },
     chooseText: {
         color: Colors.secondaryGray,
-        fontFamily: FontIndex.WorkSans.Regular,
+        fontFamily: FontIndex.WorkSans.Medium,
         fontSize: 14,
         marginBottom: 16,
     },

@@ -10,32 +10,32 @@ import { MainStackParamList } from '../../../routes/MainStackNavigator';
 
 
 type PostSessionSurveySuccess = NativeStackScreenProps<MainStackParamList, 'PostSessionSurveySuccess'>;
-export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> = ({navigation}) => {
+export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
-                <View style={styles.container}>
-                    <View style={styles.background}>
-                        <View style={styles.bodyWrapper}>
-                            <View style={styles.imagePosition}>
-                                <Image style={styles.image}
-                                    source={ImageIndex.feedback.postFeedback} />
-                            </View>
-                            <View style={styles.textWrapperTitle}>
-                                <Text style={styles.title}>Thank you for your {"\n"} feedback!</Text>
-                            </View>
-                            <View style={styles.textWrapperSubtitle}>
-                                <Text style={styles.subtitle}>Your feedback is very important to us.   Without it we wouldn’t know how to improve your experience on our platform. </Text>
-                            </View>
-                            <View style={styles.textWrapper}>
-                                <CommonButton title={'Go to my dashboard'} onPress={() => {
-                                    navigation.reset({
-                                        routes: [{name: 'DashboardScreen'}]
-                                    });
-                                }} type={'information'} style={{ alignItems: 'center' }} rightIcon={ImageIndex.feedback.goArrow} />
-                            </View>
+            <View style={styles.container}>
+                <View style={styles.background}>
+                    <View style={styles.bodyWrapper}>
+                        <View style={styles.imagePosition}>
+                            <Image style={styles.image}
+                                source={ImageIndex.feedback.postFeedback} />
+                        </View>
+                        <View style={styles.textWrapperTitle}>
+                            <Text style={styles.title}>Thank you for your {"\n"} feedback!</Text>
+                        </View>
+                        <View style={styles.textWrapperSubtitle}>
+                            <Text style={styles.subtitle}>Your feedback is very important to us.{'\n'}Without it we wouldn’t know how to improve your experience on our platform. </Text>
+                        </View>
+                        <View style={styles.textWrapper}>
+                            <CommonButton title={'Go to my dashboard'} onPress={() => {
+                                navigation.reset({
+                                    routes: [{ name: 'DashboardScreen' }]
+                                });
+                            }} type={'information'} style={{ alignItems: 'center' }} rightIcon={ImageIndex.feedback.goArrow} />
                         </View>
                     </View>
                 </View>
+            </View>
         </SafeAreaView>
 
     )

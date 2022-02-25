@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
         borderColor: Colors.borderGray,
     },
     textInput: {
-
         textAlignVertical: 'top',
+        flex:1,
     },
     placeholder: {
         flexWrap: 'wrap',

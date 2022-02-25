@@ -45,7 +45,6 @@ export const DashboardMessageList: React.FC<DashboardMessageListType> = ({ messa
             autoChangeInterval && clearInterval(autoChangeInterval);
             interval = setInterval(() => {
                 const index = pageNum.value < messages.length - 1 ? pageNum.value + 1 : 0;
-                console.log({ pageNum: pageNum.value, index });
                 flatListRef.current?.scrollToIndex({
                     index,
                 });

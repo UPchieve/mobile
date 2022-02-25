@@ -21,14 +21,15 @@ const html = `
             showToolbar: false,
             showColourPanel: false,
             multilineText: true,
-            defaultZoom: .5,
             zoomOnResize: false,
             collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
             pageView: true,
             pageBorderColour: 'transparent',
             pageInflation: 0,
             pageShadow: false,
-            outsidePageColour: '#fff',
+            useTouch: true,
+            allowZoom: false,
+            outsidePageColour: '#E5E5E5',
             defaultSmoothness: 'sharpest',
         });
         

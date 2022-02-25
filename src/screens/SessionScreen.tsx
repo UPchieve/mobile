@@ -3,11 +3,12 @@ import React, { useContext, useEffect, useReducer, useState } from 'react'
 
 import { Keyboard, StyleSheet, View } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../assets/Colors';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from "../components/molecules/common/CurrentSessionHeader";
+import { useOrientation } from '../hooks/useOrientation';
 import { AuthContext } from '../providers/AuthProvider';
 import { chatReducer } from '../reducers/chatReducer';
 import { MainStackParamList } from '../routes/MainStackNavigator';
@@ -27,10 +28,6 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     const [showChat, setShowChat] = useState<boolean>(true);
 
     useEffect(() => {
-        console.log('complete user', user);
-
-        console.log(`Joining to ${sessionId}, as Volunteer:${user.isVolunteer}`);
-
         socketHandler.emit(
             'join',
             {
@@ -46,6 +43,8 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         setShowChat((oldValue) => !oldValue);
     }
 
+    const { orientation } = useOrientation();
+
 
     const hasNotifications = () => chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length > 0;
     const renderElement = () => {
@@ -60,21 +59,24 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }
 
     return (
-            <CommonKeyboardAvoidingView style={{ flex: 1, paddingBottom: insets.bottom}}>
-                <MenuProvider>
-                    <CurrentSessionHeader navigation={navigation} />
-                    <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, { backgroundColor: 'white'}]}>
-                        <ChatScreen
-                            onSwitchPress={onSwitchPress}
-                            sessionType={getSessionType(sessionState!)}
-                            chat={chat} dispatch={dispatchChat}
-                        />
-                    </View>
-                    <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper, {paddingBottom: 12, backgroundColor: 'white'}]}>
-                        {renderElement()}
-                    </View>
-                </MenuProvider>
-            </CommonKeyboardAvoidingView>
+        <CommonKeyboardAvoidingView style={{ flex: 1, paddingBottom: insets.bottom }}>
+            <MenuProvider>
+                {orientation === 'PORTRAIT' ?
+                    < CurrentSessionHeader navigation={navigation} />
+                    : null
+                }
+                <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, { backgroundColor: 'white' }]}>
+                    <ChatScreen
+                        onSwitchPress={onSwitchPress}
+                        sessionType={getSessionType(sessionState!)}
+                        chat={chat} dispatch={dispatchChat}
+                    />
+                </View>
+                <View style={[styles.visiblePageWrapper, showChat && styles.hiddenPageWrapper, { paddingBottom: 12, backgroundColor: 'white' }]}>
+                    {renderElement()}
+                </View>
+            </MenuProvider>
+        </CommonKeyboardAvoidingView>
     )
 }
 

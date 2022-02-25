@@ -7,6 +7,9 @@ import { DrawerNavigator } from './DrawerNavigator';
 import { AuthContext } from '../providers/AuthProvider';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { useOrientation } from '../hooks/useOrientation';
+import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session/PostSessionSurveySuccessScreen';
+import { EligibleResultScreen } from '../screens/onboarding/register/EligibleResultScreen';
+import { AccountVerifiedScreen } from '../screens/onboarding/register/AccountVerifiedScreen';
 
 const prefix = Linking.createURL('/');
 

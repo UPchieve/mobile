@@ -40,7 +40,7 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
         </View>
         <View style={styles.bodyContainer}>
             <View style={styles.avatarWrapper}>
-                <Image source={ImageIndex.avatars.profile} style={styles.avatar} />
+                <Image source={ImageIndex.avatars.student} style={styles.avatar} />
                 <Text style={styles.userNameText}>{user.firstname}</Text>
                 <Text style={[styles.userTypeText, { marginTop: 3, }]}>Student</Text>
             </View>

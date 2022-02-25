@@ -44,7 +44,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
                 <CommonButton
                     title="Continue"
                     type="information"
-                    style={{ height: 48, }}
+                    style={{ height: 48,marginTop: 10, }}
                     onPress={() => {
                         if(eligible){
                             navigation.navigate('CreateAccount', {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         height: (Dimensions.get('screen').height / 2) - 50,
         paddingTop: 85,
         alignItems: 'center',
-        marginBottom: 75,
+        marginBottom: 70,
     },
     wrapperNotEligible: {
         height: undefined,
