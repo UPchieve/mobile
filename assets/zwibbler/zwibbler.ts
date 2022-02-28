@@ -36,6 +36,7 @@ const html = `
             defaultSmoothness: 'sharpest',
         });
         
+        zwibbler.setPaperSize(1000, 2800);
         zwibbler.removeSelectionHandles();
         
         const imageUrl = 'https://i.postimg.cc/MTnNZDZ7/Trash.png';

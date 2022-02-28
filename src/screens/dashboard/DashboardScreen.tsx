@@ -1,4 +1,5 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
+import timezone from 'dayjs/plugin/timezone'; // dependent on utc plugin
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Dimensions, Image, TouchableOpacity, Platform } from 'react-native';
 import { Modalize } from 'react-native-modalize';
@@ -7,19 +8,25 @@ import { Colors } from '../../../assets/Colors';
 import { FontIndex } from '../../../assets/FontIndex';
 import { ImageIndex } from '../../../assets/ImageIndex';
 import { ModalSelect } from '../../components/atoms/common/ModalSelect';
-import { DashboardMessageList } from '../../components/molecules/dashboard/DashboardMessageList';
+import { DashboardMessage } from '../../components/atoms/dashboard/DashboardMessage';
 import { FullScreenSessionState } from '../../components/molecules/dashboard/FullScreenSessionState';
 import { SubjectCard } from '../../components/molecules/dashboard/SubjectCard';
-import { useUserState } from '../../hooks/useUserState';
 import { AuthContext } from '../../providers/AuthProvider';
 import { MainStackParamList } from '../../routes/MainStackNavigator';
-import { sessionService } from '../../services/sessionService';
 import { topics } from '../../utils/dashboardUtils';
+import { getCurrentHour } from '../../utils/utils';
 
+const currentHour = getCurrentHour();
 const messages = [
-    { message: 'This is a great time to make a request! We have plenty of coaches available between 12 pm - 2 am ET' },
-    { message: 'This is another great moment to make a request!' },
-    { message: 'The last message is just a little test!, its amazing!' }]
+    {
+        condition: (hour: number) => hour < 2 || hour >= 12,
+        message: 'This is a great time to make a request! We have plenty of coaches available between 12 pm - 2 am ET',
+    },
+    {
+        condition: (hour: number) => true,
+        message: 'We have very few coaches available right now. Try making requests between 12 pm - 2 am ET when possible',
+    }]
+
 type DashboardScreenType = DrawerScreenProps<MainStackParamList, 'DashboardScreen'>;
 
 
@@ -53,6 +60,17 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             sessionSubTopic: subTopic
         });
     }
+
+    const renderMessage = () => {
+        console.log(currentHour);
+        
+        for (const message of messages) {
+            if (message.condition(currentHour)) {
+                return <DashboardMessage message={message.message} />
+            }
+        }
+    }
+
     if (userState.userState !== undefined) {
         return <FullScreenSessionState navigation={navigation} topInsets={insets.top} {...userState} />
     }
@@ -74,7 +92,9 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({ navigation }) =
             alwaysOpen={calculateSnapPoint()}
             snapPoint={SCREEN_HEIGHT - 200}
             HeaderComponent={<View style={{ marginTop: 30, }}>
-                <DashboardMessageList messages={messages} autoChange={10000} />
+                <View style={{ marginBottom: 20, }}>
+                    {renderMessage()}
+                </View>
                 <Text style={styles.chooseText}>Choose a subject to get help with:</Text>
             </View>}
             modalStyle={{ paddingHorizontal: 20, }}

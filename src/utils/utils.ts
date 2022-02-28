@@ -2,9 +2,17 @@
 import rs from 'random-string';
 import { Session, SessionType } from '../interfaces/sessionInterfaces';
 import { SessionStateChangedSocketType } from '../types/socketTypes';
+/*Configuration of dayjs*/
+import dayjs from 'dayjs';
+import dayjsUTC from 'dayjs/plugin/utc';
+import dayjsTIMEZONE from 'dayjs/plugin/timezone';
+/* End configuration of dayjs */
+dayjs.extend(dayjsUTC);
+dayjs.extend(dayjsTIMEZONE);
 export const randomString = (): string => {
     return rs();
 }
+
 
 export const getSessionType = (session: SessionStateChangedSocketType): SessionType => {
     const documentEditorSubTopics = [
@@ -46,4 +54,8 @@ export const hasNumbers = (value: string) => {
 export const getErrorFromBackendResponse = (error: any): string => {
     const { err } = error?.response?.data ?? 'Error';
     return err;
+}
+
+export const getCurrentHour = (): number => {
+    return dayjs().tz('America/New_York').hour();
 }
