@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, } from 'react-native';
+import { Text, View, StyleSheet, Linking, } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
@@ -20,6 +20,7 @@ import { formatValueType } from 'react-native-cn-quill/lib/typescript/constants/
 import { authService } from '../../../services/authService';
 import { Routes } from '../../../routes/Routes';
 import { NavigationRouteContext } from '@react-navigation/native';
+import { config } from '../../../../config';
 
 
 interface formTypeValues {
@@ -82,7 +83,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
 
     const renderInput = (name: string, placeholder: string, showCheck: boolean, password: boolean = false) => {
         return <View style={{ marginBottom: 8, }}>
-            <FormikInput name={name} placeholder={placeholder} password={password} showCheck={showCheck}/>
+            <FormikInput name={name} placeholder={placeholder} password={password} showCheck={showCheck} />
         </View>
     }
 
@@ -91,6 +92,10 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
             formik.setFieldValue(value, '', true);
             formik.setFieldTouched(value, false, true);
         }
+    }
+
+    const openLegalUrl = async () => {
+        await Linking.openURL(`${config.baseUrl}/legal`);
     }
 
     return <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20, }}>
@@ -148,9 +153,13 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
             <View style={{ alignSelf: 'center' }}>
                 <Text style={styles.bottomText}>By signing up, you agree to our</Text>
                 <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                    <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Terms of Use</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={openLegalUrl}>
+                        <Text style={[styles.bottomText, styles.linkText]}>Terms of Use</Text>
+                    </TouchableOpacity>
                     <Text style={styles.bottomText}> and </Text>
-                    <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={openLegalUrl}>
+                        <Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </FormikProvider>

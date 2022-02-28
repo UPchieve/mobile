@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, Text, View } from "react-native";
 import { H3 } from "../../../components/atoms/common/H3";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FormikProvider, useFormik } from "formik";
@@ -20,6 +20,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigator";
 import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from "../../../components/atoms/common/InputWithCustomErrorMessage";
 import { getErrorFromBackendResponse } from "../../../utils/utils";
+import { config } from "../../../../config";
 
 
 interface formTypeValues {
@@ -81,6 +82,10 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
             formik.setFieldValue(value, '', true);
             formik.setFieldTouched(value, false, true);
         }
+    }
+
+    const openLegalUrl = async () => {
+        await Linking.openURL(`${config.baseUrl}/legal`);
     }
 
     return (
@@ -150,9 +155,13 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
                 <View style={{ alignSelf: 'center' }}>
                     <Text style={styles.bottomText}>By signing up, you agree to our</Text>
                     <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                        <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Terms of Use</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={openLegalUrl}>
+                            <Text style={[styles.bottomText, styles.linkText]}>Terms of Use</Text>
+                        </TouchableOpacity>
                         <Text style={styles.bottomText}> and </Text>
-                        <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={openLegalUrl}>
+                            <Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </FormikProvider>

@@ -7,8 +7,6 @@ import { DrawerNavigator } from './DrawerNavigator';
 import { AuthContext } from '../providers/AuthProvider';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { useOrientation } from '../hooks/useOrientation';
-import { PostSessionSurveyScreen } from '../screens/feedback/post-session/PostSessionSurveyScreen';
-import { PostSessionSurveyCollegeScreen } from '../screens/feedback/post-session/PostSessionSurveyCollegeScreen';
 
 const prefix = Linking.createURL('/');
 
@@ -52,7 +50,6 @@ export const Routes = () => {
     }
 
     return <NavigationContainer linking={linking} onReady={() => setNavigationReady(true)}>
-        {/* <PostSessionSurveyScreen /> */}
         {!!user && user.verified ? <DrawerNavigator />
             : <OnboardingStackNavigator />}
     </NavigationContainer>
