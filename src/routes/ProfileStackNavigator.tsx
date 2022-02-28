@@ -56,7 +56,9 @@ export const ProfileStackNavigator = () => {
             name='ProfileDeleteAccount'
             component={DeleteAccountScreen}
             options={{
-                headerShown: false
+                headerShown: true,
+                headerTitle: '',
+                headerTransparent: true,
             }}
         />
         <Stack.Screen
