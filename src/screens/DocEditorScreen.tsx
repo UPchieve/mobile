@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Keyboard, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-
-//@ts-ignore
 import WebView, { WebViewMessageEvent } from "react-native-webview";
 import { quill } from "../../assets/quill-editor/quill";
 import { QuillEditorEvent } from "../types/WebViewTypes";
@@ -97,7 +95,7 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
   };
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root]}>
       {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}> */}
       <View style={[styles.customToolbar]}>
         <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
@@ -106,19 +104,14 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({ sessionId, onSwitchPr
             <View style={hasNotifications && styles.notificationRedBall} />
           </View>
         </TouchableOpacity>
-        {/*<TouchableOpacity style={styles.textActionWrapper} onPress={onKeyboardActionPress}>*/}
-        {/*  <Text style={styles.textAction}>{keyboardShown ? 'Done' : 'Add Text'}</Text>*/}
-        {/*</TouchableOpacity>*/}
       </View>
       <View style={{
         flex: 1,
-        // marginTop: 100,
         width: '100%',
-        // height: 180,
       }}>
-
         <WebView
           javaScriptEnabled={true}
+          androidHardwareAccelerationDisabled={true}
           ref={webViewRef}
           originWhitelist={['*']}
           cacheEnabled={true}

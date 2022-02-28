@@ -28,9 +28,7 @@ export const PostSessionSurveySuccessScreen: React.FC<PostSessionSurveySuccess> 
                         </View>
                         <View style={styles.textWrapper}>
                             <CommonButton title={'Go to my dashboard'} onPress={() => {
-                                navigation.reset({
-                                    routes: [{ name: 'DashboardScreen' }]
-                                });
+                                navigation.navigate('DashboardScreen');
                             }} type={'information'} style={{ alignItems: 'center' }} rightIcon={ImageIndex.feedback.goArrow} />
                         </View>
                     </View>
