@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
   TouchableOpacity,
-  View,
-  StyleSheet, Dimensions, Pressable, ImageBackgroundComponent,
+  View, 
+  StyleSheet, Pressable, StatusBar, Platform
 } from 'react-native';
 import { SvgIcons } from '../../assets/IndexIcons';
 import {
@@ -212,7 +212,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   return (
     <View style={[styles.container, notchPosition === 'LEFT' ? { 
       paddingLeft: insets.left,
-     } : { paddingRight: insets.right }]}>
+     } : { paddingRight: insets.right },
+     Platform.OS === 'android' && { top: StatusBar.currentHeight }
+    ]}>
       {renderWhiteboard()}
     </View>
   );

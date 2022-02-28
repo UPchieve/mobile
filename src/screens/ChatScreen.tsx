@@ -51,11 +51,11 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
         changed: ViewToken[];
     }) => {
         const currentState = chatListRef.current?.props.data;
-      
-        if(viewableItems.length === 0){
+
+        if (viewableItems.length === 0) {
             return;
         }
-        
+
         const max = viewableItems[viewableItems.length - 1];
         //@ts-ignore
         if (!currentState![max.index!].seen) {
@@ -248,27 +248,29 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.container}>
-                <FlatList
-                    style={{ paddingRight: 40, }}
-                    ref={chatListRef}
-                    data={chat}
-                    onViewableItemsChanged={_onViewableItemsChanged}
-                    onScrollEndDrag={onScrollEndDrag}
-                    renderItem={renderChatElement}
-                    keyExtractor={(item, index) => index.toString()}
-                    bounces={false}
-                />
-                <ChatNewerChatButton newerChats={chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length} onPress={() => scrollToEnd()} />
+                <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} width={42} height={40} />
+                </TouchableOpacity>
+                <View style={styles.paddingContainer}>
+                    <FlatList
+                        style={{ paddingRight: 40, }}
+                        ref={chatListRef}
+                        data={chat}
+                        onViewableItemsChanged={_onViewableItemsChanged}
+                        onScrollEndDrag={onScrollEndDrag}
+                        renderItem={renderChatElement}
+                        keyExtractor={(item, index) => index.toString()}
+                        bounces={false}
+                    />
+                    <ChatNewerChatButton newerChats={chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length} onPress={() => scrollToEnd()} />
+                </View>
                 <View style={styles.inputWrapper}>
-                    <View style={[styles.wrapperTyping, isTypping || chatBotIsTyping ? {opacity: 0.6} : {opacity: 0}]}>
+                    <View style={[styles.wrapperTyping, isTypping || chatBotIsTyping ? { opacity: 0.6 } : { opacity: 0 }]}>
                         {chatBotIsTyping ? <ChatTypping userType='chatbot' /> : null}
                         {isTypping ? <ChatTypping userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'} /> : null}
                     </View>
                     <ChatInput value={chatMessage} setValue={setChatMessage} onPress={onChatPress} onStartTyping={onStartTyping} onEndTyping={onEndTyping} />
                 </View>
-                <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
-                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} width={42} height={40} />
-                </TouchableOpacity>
             </View>
         </View>
     )
@@ -279,16 +281,21 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         flex: 1,
         paddingBottom: 20,
+    },
+    paddingContainer: {
         paddingLeft: 30,
+        flex: 1,
     },
     inputWrapper: {
         marginTop: 16,
-        marginRight: 40,
+        padding: 9.5,
     },
     swapIcon: {
         position: 'absolute',
         top: 10,
         left: 10,
+        zIndex: 1,
+        elevation: 1,
     },
     chatTextInfo: {
         fontFamily: FontIndex.WorkSans.Regular,
@@ -297,11 +304,12 @@ const styles = StyleSheet.create({
         color: Colors.secondaryGray,
         textAlign: 'center',
     },
-   wrapperTyping: {
-       height: 40,
-       width: '100%',
-       position: 'absolute',
-       top: -50,
-       zIndex: 2,
-   }
+    wrapperTyping: {
+        height: 40,
+        width: '100%',
+        position: 'absolute',
+        top: -50,
+        left: 30 - 9.5,
+        zIndex: 2,
+    }
 });

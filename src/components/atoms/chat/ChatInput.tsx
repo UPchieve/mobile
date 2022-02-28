@@ -65,10 +65,8 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         fontSize: 16,
         flexGrow: 1,
-        // textAlignVertical: 'bottom',
         minHeight: 36,
         maxHeight: 105,
         width: '92%',
-        // width: 500,
     }
 });

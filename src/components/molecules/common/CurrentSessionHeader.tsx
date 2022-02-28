@@ -65,7 +65,14 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 icon: SvgIcons.StopIcon,
                 type: 'error',
                 confirmText: 'Cancel   ',
-                onConfirm: async () => await sessionService.endSession(sessionState!._id),
+                onConfirm: async () => {
+                    await sessionService.endSession(sessionState!._id)
+                    if (sessionState?.type === 'college') {
+                        navigation.navigate('PostSessionSurveyCollege');
+                    } else {
+                        navigation.navigate('PostSessionSurvey');
+                    }
+                },
                 cancelText: 'Not Now'
             })
         }
