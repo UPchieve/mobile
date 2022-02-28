@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-import { FlatList, Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Linking, Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
@@ -10,6 +10,7 @@ import { SvgIcons } from '../../../../assets/IndexIcons';
 import { eligibilityService } from '../../../services/eligibilityService';
 import { DelayTextInput, DelayTextInputHandle } from '../../atoms/common/DelayTextInput';
 import { Separator } from '../../atoms/common/Separator';
+import {config} from '../../../../config';
 
 type HighSchoolPickerType = {
     visible: boolean;
@@ -49,7 +50,7 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
 
     const renderItem = ({ item }: { item: School }) => {
         return <>
-            <TouchableOpacity onPress={() => itemPicked(item)} style={{minHeight: 34, justifyContent: 'center'}}>
+            <TouchableOpacity onPress={() => itemPicked(item)} style={{ minHeight: 34, justifyContent: 'center' }}>
                 <Text style={styles.itemText}>{item.name} ({item.city}, {item.state})</Text>
             </TouchableOpacity>
             <Separator backgroundColor={Colors.defaultGray} />
@@ -57,9 +58,9 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
     }
 
     const listFooterComponent = () => {
-        return <View style={{ marginTop: 5, }}>
+        return <TouchableOpacity style={{ marginTop: 5, }} onPress={() => Linking.openURL(`${config.baseUrl}/cant-find-school`)}>
             <Text style={[styles.cancelText, { marginLeft: 10 }]}>Can’t find your school?</Text>
-        </View>
+        </TouchableOpacity>
     }
 
     const onClearPress = () => {

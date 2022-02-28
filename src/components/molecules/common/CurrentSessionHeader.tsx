@@ -10,8 +10,8 @@ import { AuthContext } from '../../../providers/AuthProvider';
 import { MainStackParamList } from '../../../routes/MainStackNavigator';
 import { sessionService } from '../../../services/sessionService';
 import { isSessionEnded } from '../../../utils/utils';
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {insert} from "formik";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { insert } from "formik";
 
 type CurrentSessionHeaderType = {
     navigation: NativeStackNavigationProp<MainStackParamList, "Session">
@@ -76,7 +76,14 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 icon: SvgIcons.StopIcon,
                 type: 'error',
                 confirmText: 'End',
-                onConfirm: async () => await sessionService.endSession(sessionState!._id),
+                onConfirm: async () => {
+                    await sessionService.endSession(sessionState!._id)
+                    if (sessionState?.type === 'college') {
+                        navigation.navigate('PostSessionSurveyCollege');
+                    } else {
+                        navigation.navigate('PostSessionSurvey');
+                    }
+                },
                 cancelText: 'Not Now'
             })
         } else if (isSessionEnded(sessionState)) {
@@ -119,7 +126,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
         return !isSessionEnded(sessionState) ? 'End Session' : 'Leave'
     }
 
-    return <View style={[styles.container, {height: 69 + insets.top, paddingTop: insets.top}, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
+    return <View style={[styles.container, { height: 69 + insets.top, paddingTop: insets.top }, (isSessionEnded(sessionState) || !isSessionStarted()) && styles.containerSessionEnded]}>
         {!isSessionEnded(sessionState) ?
             <View style={styles.userContainer}>
                 <Image style={styles.icon} source={renderImage()} />

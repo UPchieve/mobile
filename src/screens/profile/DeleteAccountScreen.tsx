@@ -45,7 +45,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                     <Text style={{ fontSize: 16, fontFamily: FontIndex.WorkSans.Regular, textAlign: 'center', fontWeight: 'bold', lineHeight: 20 }}>
                         Deleting your account is permanent</Text>
                     <Separator marginVertical={8} backgroundColor='transparent' />
-                    <Text style={styles.additionalText}>Once you delete your account, you </Text>
+                    <Text style={[styles.additionalText, {fontFamily: FontIndex.WorkSans.Regular}]}>Once you delete your account, you </Text>
                     <Text style={styles.additionalText}> won't be able to undo this action.</Text>
                     <Separator marginVertical={25} backgroundColor='transparent' />
                     <View style={{ marginHorizontal: 20 }}>

@@ -12,6 +12,8 @@ import { SvgFC } from '../../../assets/icons/SvgInterface';
 import { ZwibblerManager } from '../../../assets/zwibbler/zwibbler';
 import { ZwibblerTool } from '../../types/zwibblerTypes';
 
+import {OrientationType} from '../../hooks/useOrientation';
+
 interface ToolMenuItem {
   id: number;
   name: string;
@@ -23,11 +25,11 @@ interface ToolMenuItem {
 interface Props {
   zwibblerManager: ZwibblerManager;
   selectedToolName: ZwibblerTool;
-  openTextEditor: () => Promise<string | undefined>;
+  orientation: OrientationType
 }
 export const WhiteboardToolsMenu: React.FC<Props> = ({
   zwibblerManager,
-  openTextEditor,
+  orientation,
   selectedToolName,
 }) => {
   const [currentColor, setCurrentColor] = useState('black');
@@ -185,7 +187,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
         onOpen={() => setOpenedMenu(tool.name)}
         onClose={() => setOpenedMenu(undefined)}
         rendererProps={{
-          placement: 'top',
+          placement: orientation === 'PORTRAIT' ? 'top' : 'bottom',
           anchorStyle: { backgroundColor: 'transparent' },
         }}
       >

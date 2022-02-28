@@ -150,7 +150,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
                 <View style={{ alignSelf: 'center' }}>
                     <Text style={styles.bottomText}>By signing up, you agree to our</Text>
                     <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                        <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Terms of use</Text></TouchableOpacity>
+                        <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Terms of Use</Text></TouchableOpacity>
                         <Text style={styles.bottomText}> and </Text>
                         <TouchableOpacity><Text style={[styles.bottomText, styles.linkText]}>Privacy Policy</Text></TouchableOpacity>
                     </View>

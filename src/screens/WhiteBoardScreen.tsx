@@ -27,13 +27,11 @@ type WhiteboardType = {
 }
 
 //TODO TWO FINGERS SCROLL.
-//TODO HIDE BAR ON LANDSCAPE.
-//TODO PEN HAVE TO BE THE DEFAULT TOOL.
 //TODO IN THE FEEDBACK TEXTAREA DOESN'T WORK.
 export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitchPress, hasNotifications }) => {
-  const { lockAsync, unlockAsync, orientation } = useOrientation()
-  const insets = useSafeAreaInsets();
+  const { orientation, notchPosition } = useOrientation()
 
+  const insets = useSafeAreaInsets();
 
   const [selectedTool, setSelectedTool] = useState<string | undefined>();
   const [canUndo, setCanUndo] = useState<boolean>(false);
@@ -52,41 +50,13 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
 
   useEffect(() => {
     (async () => {
-      await unlockAsync()
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     })();
-    return () => {
-      lockAsync();
-    }
   }, []);
-
-
-
-  // useEffect(() => {
-  //   Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-  //     if (width < height) {
-  //       setOrientation("PORTRAIT")
-  //     } else {
-  //       setOrientation("LANDSCAPE")
-
-  //     }
-  //   })
-  // }, [orientation]);
-
-  const debugging = `
-  const consoleLog = (type, log) => window.ReactNativeWebView.postMessage(JSON.stringify({'type': 'Console', 'data': {'type': type, 'log': log}}));
-  console = {
-      log: (log) => consoleLog('log', log),
-      debug: (log) => consoleLog('debug', log),
-      info: (log) => consoleLog('info', log),
-      warn: (log) => consoleLog('warn', log),
-      error: (log) => consoleLog('error', log),
-    };
-`;
 
   const openTextModal = (): Promise<string | undefined> => {
     return new Promise<string | undefined>((resolve) => {
@@ -99,6 +69,11 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       });
     });
   };
+
+  useEffect(() => {
+    console.log(notchPosition);
+
+  }, [notchPosition])
 
   const openDeleteModal = () => {
     showPrompt({
@@ -138,7 +113,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       style={styles.webView}
       javaScriptEnabled={true}
       onLoadEnd={() => webViewRef.current?.injectJavaScript(`init('${sessionId}');`)}
-      injectedJavaScript={debugging}
       onMessage={onMessage}
       ref={webViewRef}
       originWhitelist={['*']}
@@ -193,7 +167,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
         <View style={styles.bottomToolsWrapper}>
           <WhiteboardToolsMenu
             zwibblerManager={zwibblerManager!}
-            openTextEditor={openTextModal}
+            orientation={orientation}
             selectedToolName={selectedTool as ZwibblerTool}
           />
         </View>
@@ -209,7 +183,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
             <View style={styles.topToolsWrapperLandscape}>
               <WhiteboardToolsMenu
                 zwibblerManager={zwibblerManager!}
-                openTextEditor={openTextModal}
+                orientation={orientation}
                 selectedToolName={selectedTool as ZwibblerTool}
               />
             </View>
@@ -236,9 +210,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   }
 
   return (
-    <View style={[styles.container, orientation === 'PORTRAIT' && {
-      paddingBottom: insets.bottom > 0 ? 10 : 0,
-    }]}>
+    <View style={[styles.container, notchPosition === 'LEFT' ? { 
+      paddingLeft: insets.left,
+     } : { paddingRight: insets.right }]}>
       {renderWhiteboard()}
     </View>
   );

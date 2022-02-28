@@ -20,6 +20,9 @@ const html = `
         zwibbler = Zwibbler.create("#zwibbler", {
             showToolbar: false,
             showColourPanel: false,
+            autoPickTool: false,
+            autoPickToolText: false,
+            defaultBrushWidth: 5,
             multilineText: true,
             zoomOnResize: false,
             collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
@@ -72,20 +75,7 @@ const html = `
         });
 
         zwibbler.on('connected', () => {
-          try {
-            this.zwibblerCtx.setViewRectangle(
-              this.zwibblerCtx.getBoundingRectangle(
-                this.zwibblerCtx.getAllNodes()
-              )
-            );
-          } catch (error) {
-            this.zwibblerCtx.setViewRectangle({
-              x: 0,
-              y: 0,
-              width: 1,
-              height: 1
-            });
-          }
+          zwibbler.useBrushTool();
         });
         
         const addText = (text) => {

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useReducer, useState } from 'react'
 
 import { Keyboard, StyleSheet, View } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../assets/Colors';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
@@ -38,13 +38,17 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         );
     }, [sessionId]);
 
-    const onSwitchPress = () => {
+    const { orientation, lockAsync } = useOrientation();
+
+    const onSwitchPress = async () => {
         Keyboard.dismiss();
         setShowChat((oldValue) => !oldValue);
+        if (showChat && getSessionType(sessionState!) === 'WHITEBOARD') {
+            await lockAsync('LANDSCAPE');
+        } else {
+            await lockAsync('PORTRAIT');
+        }
     }
-
-    const { orientation } = useOrientation();
-
 
     const hasNotifications = () => chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length > 0;
     const renderElement = () => {
