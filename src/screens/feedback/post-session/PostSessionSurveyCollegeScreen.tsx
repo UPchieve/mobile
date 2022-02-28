@@ -101,7 +101,7 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
                         <RateNumbers selected={formik.values.didWeHelp} setSelected={(selected) => formik.setFieldValue('didWeHelp', selected)} parentStyle={{ paddingHorizontal: 40, }} />
                     </View>
                     <View style={styles.questionWrapper}>
-                        <QuestionPopover text={`Do you have any other feedback ${"\n"}you´d like to share with UPchieve?`}
+                        <QuestionPopover text={`Do you have any other feedback ${"\n"}you’d like to share with UPchieve?`}
                                          additionalText={'We read every single comment, but if you need to connect with UPchieve staff about a question or concern please email us directly.'}
                                          textPopover={'This can be about the web app, the Academic Coach who helped you, the services UPchieve offers, etc'}/>
                         {/*TODO Text alignment on the input must be at top*/}
