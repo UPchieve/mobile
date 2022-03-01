@@ -25,6 +25,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
                 style={{
                     width: '100%',
                     resizeMode: 'stretch',
+                    height: 520,
                 }}
             />
             <View style={{
