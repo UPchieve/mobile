@@ -22,7 +22,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                 <View onLayout={onLayout} style={{
                     // backgroundColor: Colors.backgroundGray,
                     position: 'absolute',
-                    top: 0,
+                    top: -40,
                     left: 0,
                     right: 0,
                     zIndex: 1,
@@ -38,7 +38,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                 </View>
                 <View style={{
                     backgroundColor: Colors.white,
-                    marginTop: layout.height - 20,
+                    marginTop: layout.height - 60,
                     flex: 1,
                 }}>
                     <Separator marginVertical={24} backgroundColor='transparent' />

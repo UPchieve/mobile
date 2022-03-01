@@ -38,6 +38,12 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         );
     }, [sessionId]);
 
+    useEffect(() => {
+        return () => {
+            lockAsync('PORTRAIT')
+        };
+    }, []);
+
     const { orientation, lockAsync } = useOrientation();
 
     const onSwitchPress = async () => {

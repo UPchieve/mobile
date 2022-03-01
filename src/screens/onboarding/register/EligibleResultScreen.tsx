@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { ReactElement } from 'react'
-import {Image, ImageBackgroundComponent, Linking, StyleSheet} from 'react-native';
+import { Image, ImageBackgroundComponent, Linking, StyleSheet } from 'react-native';
 import { Dimensions } from 'react-native';
 import { ImageBackground, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ import { ImageIndex } from '../../../../assets/ImageIndex';
 import { Separator } from '../../../components/atoms/common/Separator';
 import { CommonButton } from '../../../components/common/CommonButton';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
-import {config} from "../../../../config";
+import { config } from "../../../../config";
 
 type EligibleResultScreenType = NativeStackScreenProps<OnboardingStackParamList, 'EligibleResult'>;
 export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route, navigation }) => {
@@ -18,11 +18,11 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
     const renderEligible = () => {
         return <><ImageBackground source={ImageIndex.onboarding.confetti} style={styles.wrapper}>
             <Text style={styles.title}>You’re Eligible!</Text>
-            <Image style={{width: 193, height: 192}}
+            <Image style={{ width: 193, height: 192 }}
                 source={ImageIndex.onboarding.eligible} />
-            <Image style={{marginTop: 15}}
-                source={ImageIndex.icons.check} />
         </ImageBackground>
+            <Image style={{ marginTop: 15, width: 44, height: 44, alignSelf: 'center'}}
+                source={ImageIndex.icons.check} />
         </>
     }
 
@@ -37,36 +37,38 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
     }
 
     return (
-        <SafeAreaView>
+        <View>
             {/* {eligible ? renderEligible() : null} */}
             {eligible ? renderEligible() : renderNotEligible()}
-            <View style={{ paddingHorizontal: 20}}>
+            <View style={{ paddingHorizontal: 20 }}>
                 <CommonButton
                     title="Continue"
                     type="information"
-                    style={{ height: 48,marginTop: 10, }}
+                    style={{ height: 48, marginTop: 17, }}
                     onPress={() => {
-                        if(eligible){
+                        if (eligible) {
                             navigation.navigate('CreateAccount', {
                                 grade, highSchoolId, zipCode, email
                             });
                         } else {
                             Linking.openURL(`${config.baseUrl}/request-access`);
                         }
-                     }}
+                    }}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     wrapper: {
         width: '100%',
-        height: (Dimensions.get('screen').height / 2) - 50,
+        // height: (Dimensions.get('screen').height / 2) - 50,
+        height: 462,
         paddingTop: 85,
         alignItems: 'center',
-        marginBottom: 70,
+        justifyContent: 'flex-end'
+        // marginBottom: 70,
     },
     wrapperNotEligible: {
         height: undefined,
