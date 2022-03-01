@@ -7,6 +7,7 @@ import { DrawerNavigator } from './DrawerNavigator';
 import { AuthContext } from '../providers/AuthProvider';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { useOrientation } from '../hooks/useOrientation';
+import { RulesScreen } from '../screens/onboarding/register/RulesScreen';
 
 const prefix = Linking.createURL('/');
 
@@ -50,8 +51,9 @@ export const Routes = () => {
     }
 
     return <NavigationContainer linking={linking} onReady={() => setNavigationReady(true)}>
-        {!!user && user.verified ? <DrawerNavigator />
-            : <OnboardingStackNavigator />}
+        <RulesScreen/>
+        {/* {!!user && user.verified ? <DrawerNavigator />
+            : <OnboardingStackNavigator />} */}
     </NavigationContainer>
 }
 
