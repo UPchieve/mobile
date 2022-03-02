@@ -34,7 +34,7 @@ export const preSessionFeedbackQuestions: QuestionType[] = [{
     ]
 }, {
     key: 'topic-understanding',
-    title: 'What is your level of understanding the topic you need support with?',
+    title: 'What is your level of understanding of the topic you need support with?',
     options: [{
         label: "I don't know how to do this at all.",
         value: 1

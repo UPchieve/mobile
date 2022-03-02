@@ -249,7 +249,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
         <View style={{ flex: 1 }}>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
-                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} width={42} height={40} />
+                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} style={{ height: 40, width: 42, }} />
                 </TouchableOpacity>
                 <View style={styles.paddingContainer}>
                     <FlatList
@@ -292,8 +292,8 @@ const styles = StyleSheet.create({
     },
     swapIcon: {
         position: 'absolute',
-        top: 10,
-        left: 10,
+        top: 27,
+        left: 21,
         zIndex: 1,
         elevation: 1,
     },
