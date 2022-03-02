@@ -133,7 +133,10 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   }
 
   const renderSwapToChatIcon = () => {
-    return <Pressable style={styles.chatIconWrapper} onPress={onSwitchPress}>
+    return <Pressable style={styles.chatIconWrapper} onPress={() => {
+      zwibblerManager?.useBrushTool();
+      onSwitchPress();
+    }}>
       <View>
         <SvgIcons.WordBubbleIcon stroke={'white'} width={27} height={24} />
         <View style={hasNotifications && styles.notificationRedBall} />
