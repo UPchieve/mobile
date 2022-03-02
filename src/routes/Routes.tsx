@@ -42,7 +42,8 @@ export const Routes = () => {
             if (!!user && !user?.verified) {
                 navigationRef.current?.navigate('VerifyAccount', {
                     userId: user._id,
-                    firstName: user.firstname
+                    firstName: user.firstname,
+                    email: user.email,
                 });
             }
         }

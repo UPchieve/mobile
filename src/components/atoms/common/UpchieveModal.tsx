@@ -3,6 +3,7 @@ import { SvgFC } from '../../../../assets/icons/SvgInterface';
 import { Modal, StyleSheet, View, Text, Dimensions } from 'react-native';
 import { CommonButton } from '../../common/CommonButton';
 import { Colors, PrimaryColorType } from '../../../../assets/Colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type UpchieveModalType = {
   visible: boolean;
@@ -42,33 +43,34 @@ export const UpchieveModal: React.FC<UpchieveModalType> = ({
     }
   };
   return (
-    <Modal animationType="fade" transparent={true} visible={visible}>
-      <View style={styles.background}>
-        <View style={styles.container}>
-          <View style={styles.iconContainer}>{renderIcon()}</View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.text}>{text}</Text>
-            <View style={styles.buttonContainer}>
-              {cancelButtonText && cancelButtonPress && (
-                <CommonButton
-                  title={cancelButtonText}
-                  onPress={cancelButtonPress}
-                  style={{ marginRight: 10, paddingHorizontal: 20, }}
-                />
-              )}
-              {actionButtonText && actionButtonPress && (
-                <CommonButton
-                  title={actionButtonText}
-                  onPress={actionButtonPress}
-                  type={type}
-                  style={{paddingHorizontal: 20,}}
-                />
-              )}
+    <Modal animationType="fade" transparent={true} visible={visible}
+      supportedOrientations={['portrait', 'landscape']}>
+        <View style={styles.background}>
+          <View style={styles.container}>
+            <View style={styles.iconContainer}>{renderIcon()}</View>
+            <View style={styles.contentContainer}>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.text}>{text}</Text>
+              <View style={styles.buttonContainer}>
+                {cancelButtonText && cancelButtonPress && (
+                  <CommonButton
+                    title={cancelButtonText}
+                    onPress={cancelButtonPress}
+                    style={{ marginRight: 10, paddingHorizontal: 20, }}
+                  />
+                )}
+                {actionButtonText && actionButtonPress && (
+                  <CommonButton
+                    title={actionButtonText}
+                    onPress={actionButtonPress}
+                    type={type}
+                    style={{ paddingHorizontal: 20, }}
+                  />
+                )}
+              </View>
             </View>
           </View>
         </View>
-      </View>
     </Modal>
   );
 };
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width: Dimensions.get('window').width - 40,
+    width: '90%'
   },
   iconContainer: {
     borderTopRightRadius: 20,

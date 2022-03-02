@@ -128,8 +128,8 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
             </View>
             {renderInput('confirmPassword', 'Confirm Password', false, true)}
             <FormikPicker
-                title='how did you hear about us?'
-                placeholder='how did you hear about us?'
+                title='How did you hear about us?'
+                placeholder='How did you hear about us?'
                 name='howDidYouHearAboutUs'
                 options={options}
             />
