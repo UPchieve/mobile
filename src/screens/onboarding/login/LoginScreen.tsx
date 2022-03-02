@@ -36,10 +36,18 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
         validateOnMount: true,
         onSubmit: async (values: loginValues, { setSubmitting, setFieldError }) => {
             try {
+                await authService.logout();
                 const user = await authService.login(values.email, values.password);
+
                 if (user?.isVolunteer) {
                     await authService.logout();
                     setFieldError('email', 'Under construction! Our coach app is temporarily unavailable while we make improvements. Please log-in using your browser.');
+                } else if (!user?.verified) {
+                    navigation.navigate('VerifyAccount', {
+                        userId: user!._id,
+                        email: user!.email,
+                        firstName: user!.firstname,
+                    })
                 } else {
                     refreshUser();
                 }

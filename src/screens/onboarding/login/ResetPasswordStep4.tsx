@@ -1,10 +1,14 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { Image, View } from "react-native"
 import { ImageIndex } from '../../../../assets/ImageIndex'
 import { H3 } from "../../../components/atoms/common/H3"
 import { Separator } from '../../../components/atoms/common/Separator'
 import { CommonButton } from '../../../components/common/CommonButton'
+import { MainStackParamList } from '../../../routes/MainStackNavigator'
+import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator'
 
+type ResetPassword4Type = NativeStackScreenProps<OnboardingStackParamList, 'Welcome'>
 export const ResetPasswordStep4Screen: React.FC = () => {
     return <View style={{
         flex: 1,
@@ -16,6 +20,7 @@ export const ResetPasswordStep4Screen: React.FC = () => {
         marginVertical: 60,
         marginBottom: 20,
     }}/>
+    {/* TODO Where should it redirects.  */}
     <CommonButton
         title='Go to my Dashboard'
         type='information'

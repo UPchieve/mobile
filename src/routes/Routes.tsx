@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { NavigationContainer } from "@react-navigation/native"
+import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
 import { OnboardingStackNavigator } from "./OnboardingStackNavigator"
 import * as Linking from 'expo-linking';
 import { DrawerNavigator } from './DrawerNavigator';
@@ -26,6 +26,10 @@ export const Routes = () => {
     const { user, refreshUser, loadingUser } = useContext(AuthContext);
     const { lockAsync } = useOrientation();
     const [navigationReady, setNavigationReady] = useState<boolean>(false);
+    const navigationRef = useRef<NavigationContainerRef<{
+        ResetPasswordStep3: unknown;
+        VerifyAccount: unknown;
+    }>>(null);
 
     useEffect(() => {
         //set rotation
@@ -34,15 +38,13 @@ export const Routes = () => {
     }, [])
 
     useEffect(() => {
-        if (!!user && !user?.verified && navigationReady) {
-            console.log('entre aca', user.email);
-            let redirectUrl = Linking.createURL(`verifyaccount/${user.email}`, {
-                queryParams: {
+        if (navigationReady) {
+            if (!!user && !user?.verified) {
+                navigationRef.current?.navigate('VerifyAccount', {
                     userId: user._id,
-                    firstName: user.firstname,
-                },
-            });
-            Linking.openURL(redirectUrl);
+                    firstName: user.firstname
+                });
+            }
         }
     }, [user, navigationReady]);
 
@@ -50,10 +52,9 @@ export const Routes = () => {
         return <AppLoading />
     }
 
-    return <NavigationContainer linking={linking} onReady={() => setNavigationReady(true)}>
-        <PostSessionSurveySuccessScreen/>
-        {/* {!!user && user.verified ? <DrawerNavigator />
-            : <OnboardingStackNavigator />} */}
+    return <NavigationContainer ref={navigationRef} linking={linking} onReady={() => setNavigationReady(true)}>
+        {!!user && user.verified ? <DrawerNavigator />
+            : <OnboardingStackNavigator />}
     </NavigationContainer>
 }
 
