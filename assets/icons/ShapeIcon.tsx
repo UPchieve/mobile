@@ -4,11 +4,17 @@ import Shape from './Shapes.svg';
 import React from 'react';
 
 export const ShapeIcon: SvgFC = ({
-    width = 23,
-    height = 22,
+    width = 24,
+    height = 24,
     stroke = 'black',
     ...props
-}) => <Shape width={width} height={height} color={stroke} strokeWidth={1.5} />;
+}) => {
+    return <Svg width={width} height={height} viewBox="0 0 24 24" fill="none" strokeWidth={1.3}>
+        <Circle cx="5.53846" cy="18.4616" r="5.03846" stroke={stroke} />
+        <Rect x="13.4231" y="13.4231" width="10.0769" height="10.0769" rx="2.5" stroke={stroke} />
+        <Path d="M17.4187 10.5142L7.08451 10.3644L12.1046 1.30539L17.4187 10.5142Z" stroke={stroke} />
+    </Svg>
+}//<Shape width={width} height={height} color={stroke} strokeWidth={1.5} />;
     // <Svg
     //     width={width}
     //     height={height}

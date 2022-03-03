@@ -170,12 +170,16 @@ export const OnboardingStackNavigator = () => {
                 component={ContactUsScreen}
                 options={{
                     headerTitle: '',
+                    animation: 'none',
                 }}
             />
             <Stack.Screen
                 name='MessageSent'
                 component={MessageSentScreen}
-                options={{ headerShown: false }}
+                options={{
+                    headerShown: false,
+                    animation: 'none',
+                }}
             />
             <Stack.Screen
                 name='WrongEmail'

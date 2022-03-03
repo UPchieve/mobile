@@ -11,6 +11,8 @@ import { TellUsMoreScreen } from '../screens/profile/TellUsMoreScreen';
 import { ImageIndex } from '../../assets/ImageIndex';
 import { StackRouter } from '@react-navigation/native';
 import { RequestDeleteAccountScreen } from '../screens/profile/RequestDeleteAccountScreen';
+import { ResetPasswordStep1Screen } from '../screens/onboarding/login/ResetPasswordStep1';
+import { ResetPasswordStep2Screen } from '../screens/onboarding/login/ResetPasswordStep2';
 
 export type ProfileParamList = {
     ProfileIndex: undefined,
@@ -18,6 +20,8 @@ export type ProfileParamList = {
     ProfileDeleteAccount: undefined,
     ProfileTellUsMore: undefined,
     ProfileDeleteReceived: undefined;
+    ResetPasswordStep1: undefined;
+    ResetPasswordStep2: undefined;
 }
 
 export const ProfileStackNavigator = () => {
@@ -74,6 +78,16 @@ export const ProfileStackNavigator = () => {
             options={{
                 headerShown: false,
             }}
+        />
+        <Stack.Screen
+            name="ResetPasswordStep1"
+            options={{ headerTitle: '' }}
+            component={ResetPasswordStep1Screen}
+        />
+        <Stack.Screen
+            name="ResetPasswordStep2"
+            options={{ headerTitle: '' }}
+            component={ResetPasswordStep2Screen}
         />
     </Stack.Navigator>
 }

@@ -10,7 +10,7 @@ type SettingScreenType = NativeStackScreenProps<ProfileParamList, 'Settings'>
 export const SettingsScreen: React.FC<SettingScreenType> = ({navigation}) => {
     return (
         <SafeAreaView>
-            <TouchableOpacity style={styles.itemContainer}>
+            <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate('ResetPasswordStep1')}>
                 <Text style={styles.settingsText}>Reset Password</Text>
             </TouchableOpacity>
             <View style={{ height: 1, backgroundColor: Colors.borderGray, }} />

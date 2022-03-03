@@ -11,21 +11,17 @@ export type ContactUsParamList = {
 
 export const ContactUsStackNavigator = () => {
     const Stack = createNativeStackNavigator<ContactUsParamList>();
-    return <Stack.Navigator initialRouteName='DrawerContactUs'>
+    return <Stack.Navigator initialRouteName='DrawerContactUs' screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: 'white' },
+        animation: 'none'
+    }}>
         <Stack.Screen
             name='DrawerContactUs'
-            options={{
-                headerShown: false,
-                contentStyle: {backgroundColor: 'white'}
-            }}
             children={(props) => <SafeAreaView><ContactUsScreen {...props} /></SafeAreaView>} />
         <Stack.Screen
             name='MessageSent'
             component={MessageSentScreen}
-            options={{
-                headerShown: false,
-                contentStyle: {backgroundColor: 'white'}
-            }}
         />
     </Stack.Navigator>
 }
