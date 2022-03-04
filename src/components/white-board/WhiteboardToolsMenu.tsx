@@ -141,12 +141,12 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
         },
       ],
     },
-    {
-      id: 5,
-      name: 'text',
-      icon: SvgIcons.TextIcon,
-      handler: () => zwibblerManager.useTextTool(),
-    },
+    // {
+    //   id: 5,
+    //   name: 'text',
+    //   icon: SvgIcons.TextIcon,
+    //   handler: () => zwibblerManager.useTextTool(),
+    // },
     {
       id: 6,
       name: 'Image',

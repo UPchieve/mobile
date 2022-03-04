@@ -4,7 +4,7 @@ import messaging from '@react-native-firebase/messaging';
 import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
 
-export const useNotificationHandler = () => {
+export const useNotificationHandler = (isNavigationReady: boolean) => {
 
     const handleChatNotification = async (sessionId: string) => {
         const url = Linking.makeUrl(`session/${sessionId}`);
@@ -14,7 +14,6 @@ export const useNotificationHandler = () => {
 
     const handleNotification = async (data: UpchieveNotification) => {
         console.log('handling notification for chat', data);
-
         if (data) {
             switch (data.type) {
                 case 'chat':
@@ -26,27 +25,22 @@ export const useNotificationHandler = () => {
 
     useEffect(() => {
 
-        messaging().getToken().then((token) => console.log(token));
-
         messaging().onNotificationOpenedApp(async (event) => {
-            SplashScreen.preventAutoHideAsync();
-            // await handleNotification(event.data as UpchieveNotification);
+            await handleNotification(event.data as UpchieveNotification);
         });
 
-        // messaging().getInitialNotification().then(e => {
-        //     console.log(e);
-        // })
+        messaging().getInitialNotification().then(event => {
 
-        // messaging().getInitialNotification().then(event => {
-        //     console.log(event);
-            
-        //     // if (event) {
-        //     //     await handleNotification(event.data as UpchieveNotification);
-        //     // }
-        // })
+
+            if (event) {
+                setTimeout(() => {
+                    handleNotification(event.data as UpchieveNotification);
+                }, 1000);
+            }
+        })
 
         messaging().onMessage((e) => {
-            console.log('on message executed');
+            //foreground messages.
         })
     }, []);
 }

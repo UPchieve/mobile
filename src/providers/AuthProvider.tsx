@@ -4,6 +4,7 @@ import { User } from "../models/user";
 import { authService } from "../services/authService";
 import { SessionStateChangedSocketType } from "../types/socketTypes";
 import { socketHandler, } from "../utils/socketHandler";
+import messaging from '@react-native-firebase/messaging';
 
 interface SocketHandlerType {
     emit: (event: string, payload?: object) => void;
@@ -40,11 +41,15 @@ export const AuthProvider: React.FC = ({ children }) => {
             const user = await authService.getCurrentUser();
             if (user) {
                 setUser(user);
+                //find and set push notifications token
+                const pushToken = await messaging().getToken();
+                console.log('push Token', pushToken);
+                await authService.savePushToken(pushToken);
             }
         } catch (error) {
 
         }
-        finally{
+        finally {
             setLoading(false);
         }
     }

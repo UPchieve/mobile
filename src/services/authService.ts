@@ -5,11 +5,11 @@ import { Student, User, Volunteer } from '../models/user';
 import { ConfirmValidationRequest, CreateAccountRequest, CreateAccountResponse, CreateAccountWithWithPartnerRequest, SendValidationRequest } from '../types/services/authServiceTypes';
 
 
-const checkCredentials = async (payload: {email: string, password: string}) => {
+const checkCredentials = async (payload: { email: string, password: string }) => {
   console.log(payload);
-  
-  const { data } = await http.post<{checked: boolean}>('/auth/register/checkcred', payload);
-  
+
+  const { data } = await http.post<{ checked: boolean }>('/auth/register/checkcred', payload);
+
   return data.checked;
 }
 
@@ -95,6 +95,10 @@ const getStudentPartnerManifest = async (partnerId: string): Promise<StudentPart
   }
 }
 
+const savePushToken = async (token: string) => {
+  await http.post("/api/push-token/save", { token });
+}
+
 export const authService = {
   login,
   getCurrentUser,
@@ -107,5 +111,6 @@ export const authService = {
   createAccountSendValidation,
   createAccountVerifyValidation,
   validateSignInCode,
-  getStudentPartnerManifest
+  getStudentPartnerManifest,
+  savePushToken
 }

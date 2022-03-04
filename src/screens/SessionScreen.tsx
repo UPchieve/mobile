@@ -10,7 +10,7 @@ import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from "../components/molecules/common/CurrentSessionHeader";
 import { useOrientation } from '../hooks/useOrientation';
 import { AuthContext } from '../providers/AuthProvider';
-import { chatReducer } from '../reducers/chatReducer';
+import { ChatItem, chatReducer } from '../reducers/chatReducer';
 import { MainStackParamList } from '../routes/MainStackNavigator';
 import { getSessionType, } from '../utils/utils';
 import { ChatScreen } from "./ChatScreen"
@@ -44,11 +44,11 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
 
     useEffect(() => {
         console.log('entre al efecto');
-        
+
         clearTimeout(timer.current);
         if (!sessionState) {
             console.log('creo el timer!');
-            
+
             timer.current = setTimeout(() => {
                 navigation.navigate('DashboardScreen');
             }, 5000)
@@ -92,7 +92,9 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
         <CommonKeyboardAvoidingView style={{ flex: 1, paddingBottom: insets.bottom }}>
             <MenuProvider>
                 {orientation === 'PORTRAIT' ?
-                    < CurrentSessionHeader navigation={navigation} />
+                    < CurrentSessionHeader
+                        navigation={navigation}
+                        messages={chat?.filter(x => x.type === 'message') as ChatItem[]} />
                     : null
                 }
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, { backgroundColor: 'white' }]}>

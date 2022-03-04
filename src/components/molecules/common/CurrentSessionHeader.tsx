@@ -12,12 +12,16 @@ import { sessionService } from '../../../services/sessionService';
 import { isSessionEnded } from '../../../utils/utils';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { insert } from "formik";
+import { Session } from '../../../interfaces/sessionInterfaces';
+import { ChatItem, } from '../../../reducers/chatReducer';
 
 type CurrentSessionHeaderType = {
-    navigation: NativeStackNavigationProp<MainStackParamList, "Session">
+    navigation: NativeStackNavigationProp<MainStackParamList, "Session">;
+    messages: ChatItem[];
 }
 
-export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation, }) => {
+export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navigation, messages }) => {
+
 
     const authContext = useContext(AuthContext);
     const { sessionState } = authContext;
@@ -29,8 +33,34 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
 
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
 
-    useEffect(() => {
+    const getMessagesAfterVolunteerJoined = () => {
+        // return sessionState?.messages.filter(
+        //     message =>
+        //         new Date(message.createdAt).getTime() >=
+        //         new Date(sessionState!.volunteerJoinedAt!).getTime()
+        // ) ?? [];
+        return messages.filter(message =>
+            message.user !== 'chatbot' &&
+            message.time.getTime() >= new Date(sessionState!.volunteerJoinedAt!).getTime());
+    }
 
+
+    const shouldGoToFeedbackScreen = async () => {
+        const msg = getMessagesAfterVolunteerJoined();
+        if (isWaitingForVolunteer() || msg.length === 0) {
+            return false;
+        }
+        for (const message of msg) {
+            if (message.user === sessionState?.student._id || message.user === sessionState?.volunteer?._id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    useEffect(() => {
         return () => waitingTimeout && clearTimeout();
     }, []);
 
@@ -57,6 +87,23 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
         }
     }, [sessionState]);
 
+    const navigate = async (closeSession: boolean = false) => {
+        const shouldShowFeedback = await shouldGoToFeedbackScreen();
+        if (closeSession) {
+            await sessionService.endSession(sessionState!._id);
+        }
+        if (shouldShowFeedback) {
+            if (sessionState?.type === 'college') {
+                navigation.navigate('PostSessionSurveyCollege');
+            } else {
+                navigation.navigate('PostSessionSurvey');
+            }
+
+        } else {
+            navigation.navigate('DashboardScreen');
+        }
+    }
+
     const handleButtonClick = async () => {
         if (isWaitingForVolunteer()) {
             showPrompt({
@@ -66,12 +113,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 type: 'error',
                 confirmText: 'Cancel   ',
                 onConfirm: async () => {
-                    await sessionService.endSession(sessionState!._id)
-                    if (sessionState?.type === 'college') {
-                        navigation.navigate('PostSessionSurveyCollege');
-                    } else {
-                        navigation.navigate('PostSessionSurvey');
-                    }
+                    await navigate(true);
                 },
                 cancelText: 'Not Now'
             })
@@ -84,12 +126,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 type: 'error',
                 confirmText: 'End',
                 onConfirm: async () => {
-                    await sessionService.endSession(sessionState!._id)
-                    if (sessionState?.type === 'college') {
-                        navigation.navigate('PostSessionSurveyCollege');
-                    } else {
-                        navigation.navigate('PostSessionSurvey');
-                    }
+                    await navigate(true);
                 },
                 cancelText: 'Not Now'
             })
@@ -100,12 +137,8 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                 icon: SvgIcons.LogoutIcon,
                 type: 'information',
                 confirmText: 'Leave',
-                onConfirm: () => {
-                    if (sessionState?.type === 'college') {
-                        navigation.navigate('PostSessionSurveyCollege');
-                    } else {
-                        navigation.navigate('PostSessionSurvey');
-                    }
+                onConfirm: async () => {
+                    await navigate();
                 },
                 cancelText: 'Not now',
             });

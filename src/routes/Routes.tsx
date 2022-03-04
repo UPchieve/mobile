@@ -45,11 +45,9 @@ export const Routes = () => {
         //set rotation
         lockAsync('PORTRAIT');
         refreshUser();
-        messaging().getToken().then(e => console.log('lala', e));
-
     }, [])
 
-    useNotificationHandler();
+    useNotificationHandler(navigationReady);
 
     useEffect(() => {
         //com.upchieve.app://contactus
