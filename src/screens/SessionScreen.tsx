@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 
 import { Keyboard, StyleSheet, View } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
@@ -27,7 +27,11 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     const insets = useSafeAreaInsets();
     const [showChat, setShowChat] = useState<boolean>(true);
 
+    const timer = useRef<any>(null);
+
     useEffect(() => {
+        console.log(sessionId);
+
         socketHandler.emit(
             'join',
             {
@@ -39,8 +43,24 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }, [sessionId]);
 
     useEffect(() => {
+        console.log('entre al efecto');
+        
+        clearTimeout(timer.current);
+        if (!sessionState) {
+            console.log('creo el timer!');
+            
+            timer.current = setTimeout(() => {
+                navigation.navigate('DashboardScreen');
+            }, 5000)
+        }
+    }, [sessionState]);
+
+    useEffect(() => {
         return () => {
-            lockAsync('PORTRAIT')
+            lockAsync('PORTRAIT');
+            if (timer) {
+                clearTimeout(timer.current);
+            }
         };
     }, []);
 

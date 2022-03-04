@@ -1,21 +1,31 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
+import { LinkingOptions, NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
 import { OnboardingStackNavigator } from "./OnboardingStackNavigator"
 import * as Linking from 'expo-linking';
 import { DrawerNavigator } from './DrawerNavigator';
 import { AuthContext } from '../providers/AuthProvider';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { useOrientation } from '../hooks/useOrientation';
+import messaging from '@react-native-firebase/messaging';
+import { useNotificationHandler } from '../hooks/useNotificationHandler';
+import { NotificationScreen } from '../screens/dashboard/NotificationScreen';
+
 
 const prefix = Linking.createURL('/');
-
-const linking = {
+const linking: LinkingOptions<any> | undefined = {
     prefixes: [prefix],
     config: {
         screens: {
             ResetPasswordStep3: 'setpassword/:token',
             VerifyAccount: 'verifyaccount/:email', //requires userId, firstName and email.
+            Dashboard: {
+                screens: {
+                    Session: {
+                        path: 'session/:sessionId',
+                    }
+                }
+            },
         }
     }
 };
@@ -30,13 +40,19 @@ export const Routes = () => {
         VerifyAccount: unknown;
     }>>(null);
 
+
     useEffect(() => {
         //set rotation
         lockAsync('PORTRAIT');
         refreshUser();
+        messaging().getToken().then(e => console.log('lala', e));
+
     }, [])
 
+    useNotificationHandler();
+
     useEffect(() => {
+        //com.upchieve.app://contactus
         if (navigationReady) {
             if (!!user && !user?.verified) {
                 navigationRef.current?.navigate('VerifyAccount', {

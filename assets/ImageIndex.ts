@@ -35,6 +35,7 @@ export const ImageIndex = {
     background: require('./images/dashboard/core_background.png'),
     openMenuButton: require('./images/dashboard/open_menu_button.png'),
     deleteAccount: require('./images/dashboard/dashboard_states/delete_account.png'),
+    notificationDog: require('./images/dashboard/notification_dog.png'),
     state: {
       inSession: require('./images/dashboard/dashboard_states/dashboard_state_in_session.png'),
       Waiting: require('./images/dashboard/dashboard_states/dashboard_state_waiting.png'),

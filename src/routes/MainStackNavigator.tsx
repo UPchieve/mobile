@@ -8,8 +8,9 @@ import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session
 import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen';
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSessionQuestionScreen';
-import {ImageIndex} from "../../assets/ImageIndex";
-import {Colors} from "../../assets/Colors";
+import { ImageIndex } from "../../assets/ImageIndex";
+import { Colors } from "../../assets/Colors";
+import { NotificationScreen } from '../screens/dashboard/NotificationScreen';
 
 
 export type MainStackParamList = {
@@ -23,7 +24,8 @@ export type MainStackParamList = {
   PreSessionQuestionScreen: {
     sessionType: string,
     sessionSubTopic: string,
-  }
+  },
+  NotificationScreen: { sessionId: string, };
 };
 
 export const MainStackNavigator = () => {
@@ -35,7 +37,7 @@ export const MainStackNavigator = () => {
         headerBackImageSource: ImageIndex.icons.goBack,
         headerTintColor: Colors.black,
         headerBackTitleVisible: false
-  }}
+      }}
     >
       <Stack.Screen
         name="Home"
@@ -50,12 +52,12 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name='PostSessionSurvey'
         component={PostSessionSurveyScreen}
-        options={{ headerShown: false, contentStyle: {backgroundColor: 'white'} }}
+        options={{ headerShown: false, contentStyle: { backgroundColor: 'white' } }}
       />
       <Stack.Screen
         name='PostSessionSurveyCollege'
         component={PostSessionSurveyCollegeScreen}
-        options={{ headerShown: false, contentStyle: {backgroundColor: 'white'} }}
+        options={{ headerShown: false, contentStyle: { backgroundColor: 'white' } }}
       />
       <Stack.Screen
         name='PostSessionSurveySuccess'
@@ -77,20 +79,10 @@ export const MainStackNavigator = () => {
         component={PreSessionQuestionScreen}
         options={{ headerShown: true, headerTitle: '' }}
       />
-      {/* <Stack.Screen
-        name="Whiteboard"
-        component={WhiteBoardScreen}
+      <Stack.Screen name='NotificationScreen'
+        component={NotificationScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="DocEditor"
-        component={DocEditorScreen}
-        // options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Chat"
-        component={ChatScreen}
-      /> */}
     </Stack.Navigator>
   );
 };

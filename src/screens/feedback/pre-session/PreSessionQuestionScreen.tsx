@@ -1,6 +1,5 @@
 import React, { isValidElement, useRef, useState } from "react";
 import {
-    Button,
     Dimensions,
     FlatList,
     SafeAreaView,
@@ -25,8 +24,7 @@ import { sessionService } from "../../../services/sessionService";
 import { SessionFeedbackHeader } from "../../../components/atoms/session-experience/SessionFeedbackHeader";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../routes/MainStackNavigator";
-import { NavigationRouteContext } from "@react-navigation/native";
-import { authService } from "../../../services/authService";
+import messaging from '@react-native-firebase/messaging';
 
 
 type QuestionFCType = {
@@ -93,9 +91,14 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                 }
                 const sessionId = await sessionService.newSession(route.params.sessionType, route.params.sessionSubTopic);
                 sessionService.sendPreSesionFeedback(sessionId, payload);
-                console.log('feedback submitted.');
-                navigation.navigate('Session', { sessionId, });
 
+                //check if user already determine if he want notifications or not.
+                const hasPermissions = await messaging().hasPermission();
+                if (hasPermissions === messaging.AuthorizationStatus.NOT_DETERMINED) {
+                    navigation.navigate('NotificationScreen', { sessionId });
+                } else {
+                    navigation.navigate('Session', { sessionId, });
+                }
             } catch (error) {
                 console.log(error);
 
@@ -109,7 +112,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const flatListRef = useRef<FlatList<QuestionType>>(null);
-    return <ScrollView contentContainerStyle={{flexGrow: 1}}>
+    return <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
             <View style={{ flex: 1, }}>
                 <View style={{ paddingHorizontal: 20, }}>
@@ -147,12 +150,12 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                         renderItem={({ item, index }) => {
                             if (index === preSessionFeedbackQuestions.length - 1)
                                 return <Question {...item}
-                                                 isValid={formik.isValid && !formik.isSubmitting}
-                                                 isSubmitting={formik.isSubmitting}
-                                                 onSelect={({ value }) => formik.setFieldValue(item.key, value)}
-                                                 backButtonAction={
-                                                     () => flatListRef.current?.scrollToIndex({ index: index - 1 })}
-                                                 startChatButtonAction={formik.handleSubmit}
+                                    isValid={formik.isValid && !formik.isSubmitting}
+                                    isSubmitting={formik.isSubmitting}
+                                    onSelect={({ value }) => formik.setFieldValue(item.key, value)}
+                                    backButtonAction={
+                                        () => flatListRef.current?.scrollToIndex({ index: index - 1 })}
+                                    startChatButtonAction={formik.handleSubmit}
                                 />
                             return <Question {...item} isSubmitting={false} isValid={false} onSelect={({ value }) => {
                                 formik.setFieldValue(item.key, value);
