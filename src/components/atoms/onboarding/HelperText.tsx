@@ -23,5 +23,6 @@ export const HelperText: React.FC<HelperTextType> = ({ children, mt, mb, bold = 
 const styles = StyleSheet.create({
     text: {
         fontSize: 14,
+        lineHeight: 21
     }
 });

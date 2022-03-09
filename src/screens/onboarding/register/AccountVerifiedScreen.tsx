@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { useContext } from 'react';
-import { Image, View } from 'react-native';
+import {Image, ScrollView, View} from 'react-native';
 import { Colors } from '../../../../assets/Colors';
 import { FontIndex } from '../../../../assets/FontIndex';
 import { ImageIndex } from '../../../../assets/ImageIndex';
@@ -18,41 +18,43 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
     const [loading, setLoading] = useState<boolean>(false);
     const { refreshUser } = useContext(AuthContext);
 
-    return <View style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 45, }}>
-        <View>
-            <Image
-                source={ImageIndex.onboarding.accountVerified}
-                style={{
-                    width: '100%',
-                    resizeMode: 'stretch',
-                    height: 520,
-                }}
-            />
-            <View style={{
-                paddingHorizontal: 25,
-                marginTop: 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}>
-                <H3 fontFamily={FontIndex.WorkSans.Medium}>Welcome to UPchieve!</H3>
-                <HelperText color={Colors.secondaryGray} mt={22}>
-                    You’re almost ready to get started!
-                </HelperText>
-                <HelperText color={Colors.secondaryGray}>
-                    We just need to lay down some ground rules.
-                </HelperText>
+    return <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 45, }}>
+            <View>
+                <Image
+                    source={ImageIndex.onboarding.accountVerified}
+                    style={{
+                        width: '100%',
+                        height: 600,
+                    }}
+                />
+                <View style={{
+                    paddingHorizontal: 25,
+                    marginTop: 8,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <H3 fontFamily={FontIndex.WorkSans.Medium}>Welcome to UPchieve!</H3>
+                    <HelperText color={Colors.secondaryGray} mt={8}>
+                        You’re almost ready to get started!
+                    </HelperText>
+                    <HelperText color={Colors.secondaryGray}>
+                        We just need to lay down some ground rules.
+                    </HelperText>
+                </View>
+            </View>
+            <View style={{ paddingHorizontal: 25, paddingTop: 80}}>
+                <CommonButton
+                    type='information'
+                    title="I'm listening"
+                    loading={loading}
+                    onPress={() => {
+                        navigation.navigate('Rules');
+                    }}
+                    SvgIcon={SvgIcons.GoArrow}
+                />
             </View>
         </View>
-        <View style={{ padding: 25, }}>
-            <CommonButton
-                type='information'
-                title='Get Started'
-                loading={loading}
-                onPress={() => {
-                    navigation.navigate('Rules');
-                }}
-                SvgIcon={SvgIcons.GoArrow}
-            />
-        </View>
-    </View>
+    </ScrollView>
+
 };
