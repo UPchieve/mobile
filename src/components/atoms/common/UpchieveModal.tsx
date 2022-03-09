@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SvgFC } from '../../../../assets/icons/SvgInterface';
-import { Modal, StyleSheet, View, Text, Dimensions } from 'react-native';
+import {Modal, StyleSheet, View, Text, Dimensions, Platform} from 'react-native';
 import { CommonButton } from '../../common/CommonButton';
 import { Colors, PrimaryColorType } from '../../../../assets/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -46,7 +46,7 @@ export const UpchieveModal: React.FC<UpchieveModalType> = ({
     <Modal animationType="fade" transparent={true} visible={visible}
       supportedOrientations={['portrait', 'landscape']}>
         <View style={styles.background}>
-          <View style={styles.container}>
+          <View style={[styles.container, {width: (Platform.OS === 'ios' && Platform.isPad) ? 500 : '90%'}]}>
             <View style={styles.iconContainer}>{renderIcon()}</View>
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{title}</Text>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width: '90%'
   },
   iconContainer: {
     borderTopRightRadius: 20,
