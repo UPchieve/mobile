@@ -23,7 +23,7 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({ navig
                     <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.notWithText}>Not with {studentPartnerManifest?.name || '_____'} ?</Text>
                     </TouchableOpacity>
-                    <Image style={{width: 200, height: 205}}
+                    <Image style={{width: 213, height: 210}}
                         source={ImageIndex.onboarding.eligible} />
                 </View>
             </ImageBackground>
