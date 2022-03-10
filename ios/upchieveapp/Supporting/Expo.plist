@@ -7,10 +7,12 @@
     <key>EXUpdatesEnabled</key>
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
-    <integer>0</integer>
+    <integer>60000</integer>
     <key>EXUpdatesSDKVersion</key>
     <string>43.0.0</string>
     <key>EXUpdatesURL</key>
     <string>https://exp.host/@nonerds-upchieve/upchieve-app</string>
+    <key>EXUpdatesReleaseChannel</key>
+    <string>prod-v2</string>
   </dict>
 </plist>

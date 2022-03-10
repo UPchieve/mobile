@@ -1,27 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AuthProvider } from './src/providers/AuthProvider';
 import { useFonts } from 'expo-font';
 import { Text, View } from 'react-native';
 import { AlertProvider } from './src/providers/AlertProvider';
 import { Routes } from './src/routes/Routes';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-// import { LogBox } from 'react-native';
-// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-// LogBox.ignoreAllLogs();//Ignore all log notifications
-
+import { config } from './config';
+import { useAutoUpdateAppHandler } from './src/hooks/useAutoUpdateAppHandler';
 
 export default function App() {
+  useAutoUpdateAppHandler({
+    versionUrl: config.versionUrl,
+    versionRelease: config.versionRelease,
+    appName: 'UPchieve',
+  });
 
   const [fontsLoaded] = useFonts({
     WorkSans: require('./assets/fonts/work-sans/WorkSans-Regular.ttf'),
     WorkSansBold: require('./assets/fonts/work-sans/WorkSans-Bold.ttf'),
-    WorkSansMedium: require('./assets/fonts/work-sans/WorkSans-Medium.ttf')
+    WorkSansMedium: require('./assets/fonts/work-sans/WorkSans-Medium.ttf'),
   });
 
   if (!fontsLoaded) {
-    return <View>
-      <Text>Loading..</Text>
-    </View>
+    return (
+      <View>
+        <Text>Loading..</Text>
+      </View>
+    );
   }
 
   return (
@@ -33,4 +38,7 @@ export default function App() {
       </AlertProvider>
     </SafeAreaProvider>
   );
+}
+function getVersionApp() {
+  throw new Error('Function not implemented.');
 }
