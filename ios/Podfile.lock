@@ -50,6 +50,9 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.64.3)
   - Firebase/CoreOnly (8.12.1):
     - FirebaseCore (= 8.12.1)
+  - Firebase/Crashlytics (8.12.1):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 8.12.0)
   - Firebase/Messaging (8.12.1):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.12.0)
@@ -62,6 +65,13 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - FirebaseCrashlytics (8.12.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - FirebaseInstallations (8.12.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -76,6 +86,7 @@ PODS:
     - GoogleUtilities/Reachability (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
     - nanopb (~> 2.30908.0)
+  - Gleap (6.4.1)
   - glog (0.3.5)
   - GoogleDataTransport (9.1.2):
     - GoogleUtilities/Environment (~> 7.2)
@@ -103,6 +114,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - PostHog (1.2.3)
   - PromisesObjC (2.0.0)
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
@@ -297,6 +309,9 @@ PODS:
     - React-jsi (= 0.64.3)
     - React-perflogger (= 0.64.3)
   - React-jsinspector (0.64.3)
+  - react-native-gleapsdk (6.4.1):
+    - Gleap (= 6.4.1)
+    - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
   - react-native-webview (11.13.0):
@@ -367,15 +382,22 @@ PODS:
     - React-perflogger (= 0.64.3)
   - RNCAsyncStorage (1.15.17):
     - React-Core
-  - RNFBApp (14.5.0):
+  - RNFBApp (14.5.1):
     - Firebase/CoreOnly (= 8.12.1)
     - React-Core
-  - RNFBMessaging (14.5.0):
+  - RNFBCrashlytics (14.5.1):
+    - Firebase/Crashlytics (= 8.12.1)
+    - React-Core
+    - RNFBApp
+  - RNFBMessaging (14.5.1):
     - Firebase/Messaging (= 8.12.1)
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
+  - RNPostHog (1.1.3):
+    - PostHog (~> 1.2.3)
+    - React
   - RNReanimated (2.2.4):
     - DoubleConversion
     - FBLazyVector
@@ -448,6 +470,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-gleapsdk (from `../node_modules/react-native-gleapsdk`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -464,8 +487,10 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPostHog (from `../node_modules/posthog-react-native`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -477,11 +502,14 @@ SPEC REPOS:
     - Firebase
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
     - FirebaseInstallations
     - FirebaseMessaging
+    - Gleap
     - GoogleDataTransport
     - GoogleUtilities
     - nanopb
+    - PostHog
     - PromisesObjC
 
 EXTERNAL SOURCES:
@@ -551,6 +579,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-gleapsdk:
+    :path: "../node_modules/react-native-gleapsdk"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
@@ -583,10 +613,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNFBCrashlytics:
+    :path: "../node_modules/@react-native-firebase/crashlytics"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPostHog:
+    :path: "../node_modules/posthog-react-native"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -622,12 +656,15 @@ SPEC CHECKSUMS:
   Firebase: 580d09e8edafc3073ebf09c03fd42e4d80d35fe9
   FirebaseCore: 8138de860a90ca7eec5e324da5788fb0ebf1d93c
   FirebaseCoreDiagnostics: 3b40dfadef5b90433a60ae01f01e90fe87aa76aa
+  FirebaseCrashlytics: 7952ffd988006128325510664b99dc8ca5851dff
   FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
   FirebaseMessaging: 23db8bf05585e929ada8af0f0968933c25252808
+  Gleap: db9ecb429ba26f4f22d5ba63d1746d9c5ae75859
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  PostHog: aef610cc639c5d26a5a88e00867245ebf47f7bbd
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: d34bf57e17cb6e3b2681f4809b13843c021feb6c
@@ -640,6 +677,7 @@ SPEC CHECKSUMS:
   React-jsi: a8b09c29521c798f1783348b37b511ba7b3dbeb3
   React-jsiexecutor: df6abc9fafbecb8e5b7a5fbc5e6d4bd017d594d5
   React-jsinspector: 34e23860273a23695342f58eed3ffd3ba10c31e0
+  react-native-gleapsdk: b29a7cbd6019e687bea4314a06f2828b57f0ac38
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
@@ -655,9 +693,11 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 493d9abb8b23c3f84e19ae221eeba92cadcb70dc
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
   RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
-  RNFBApp: 06c8447270d295edc431bccd55970d8711a07a42
-  RNFBMessaging: 8e3575bb0303b43a852bf5decbe99c3272035048
+  RNFBApp: 5bae3002117e55f3c9aa0fb38175dd16c8046c90
+  RNFBCrashlytics: 33615211c6c6c4039ae71849091f6ac38ab65aba
+  RNFBMessaging: ae6c40883868cd01fa802395174ec7d61cfa0920
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNPostHog: 074d1c384a53b5de4c2313a5d9e19e880ea571f9
   RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

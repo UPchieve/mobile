@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { userStateType, useUserState, useUserStateType } from "../hooks/useUserState";
-import { User } from "../models/user";
+import { Student, User, Volunteer } from "../models/user";
 import { authService } from "../services/authService";
 import { SessionStateChangedSocketType } from "../types/socketTypes";
 import { socketHandler, } from "../utils/socketHandler";
 import messaging from '@react-native-firebase/messaging';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 interface SocketHandlerType {
     emit: (event: string, payload?: object) => void;
@@ -46,11 +47,25 @@ export const AuthProvider: React.FC = ({ children }) => {
                 console.log('push Token', pushToken);
                 await authService.savePushToken(pushToken);
             }
-        } catch (error) {
-
+            setupCrashlytics(user);
+        } catch (error: any) {
+            crashlytics().recordError(error);
         }
         finally {
             setLoading(false);
+        }
+    }
+
+    const setupCrashlytics = (user: (Student | Volunteer) | null) => {
+        if (user) {
+            crashlytics().log('User login');
+            crashlytics().setUserId(user._id);
+            crashlytics().setAttributes({
+                name: `${user.firstname} ${user.lastname}`,
+                email: user.email,
+            });
+        } else {
+            crashlytics().log('User logout');
         }
     }
 
