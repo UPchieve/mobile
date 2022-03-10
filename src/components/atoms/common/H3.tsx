@@ -6,7 +6,7 @@ type H3Type = {
     color?: string,
     fontFamily?: string,
 }
-export const H3: React.FC<H3Type> = ({ children, color = Colors.black, fontFamily = FontIndex.WorkSans.Regular }) => {
+export const H3: React.FC<H3Type> = ({ children, color = Colors.black, fontFamily = FontIndex.WorkSans.Medium }) => {
     return <View style={styles.container}>
         <Text style={[styles.text, { color, fontFamily}]}>{children}</Text>
     </View>
