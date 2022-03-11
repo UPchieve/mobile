@@ -1,5 +1,16 @@
 import React, { useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react'
-import { View, StyleSheet, FlatList, ViewToken, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Image, Text } from 'react-native'
+import {
+    View,
+    StyleSheet,
+    FlatList,
+    ViewToken,
+    TouchableOpacity,
+    NativeSyntheticEvent,
+    NativeScrollEvent,
+    Image,
+    Text,
+    SafeAreaView
+} from 'react-native'
 import { Colors } from '../../assets/Colors';
 import { ChatMessage } from '../components/atoms/chat/ChatMessage';
 import { messageUserType } from '../components/atoms/chat/ChatTypes';
@@ -246,7 +257,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
                     <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} style={{ height: 40, width: 42, }} />
@@ -272,7 +283,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
                     <ChatInput value={chatMessage} setValue={setChatMessage} onPress={onChatPress} onStartTyping={onStartTyping} onEndTyping={onEndTyping} />
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -288,7 +299,7 @@ const styles = StyleSheet.create({
     },
     inputWrapper: {
         marginTop: 16,
-        padding: 9.5,
+        paddingHorizontal: 9.5
     },
     swapIcon: {
         position: 'absolute',
@@ -296,6 +307,13 @@ const styles = StyleSheet.create({
         left: 21,
         zIndex: 1,
         elevation: 1,
+        shadowColor: "rgba(0, 0, 0, 0.2)",
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 4,
     },
     chatTextInfo: {
         fontFamily: FontIndex.WorkSans.Regular,

@@ -23,6 +23,15 @@ export type SessionUser = {
     type: string;
 };
 
+export type PreSessionResponse = {
+    'primary-goal': {
+        answer: string;
+    },
+    'topic-understanding': {
+        answer: string;
+    }
+}
+
 export type SessionType = 'DOCUMENT' | 'WHITEBOARD';
 
 export type SessionSubjectType = 'math' | 'science' | 'college' | 'sat' | 'training' | 'readingWriting';

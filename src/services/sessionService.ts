@@ -1,4 +1,4 @@
-import { Session } from "../interfaces/sessionInterfaces";
+import {PreSessionResponse, Session} from "../interfaces/sessionInterfaces";
 import { GetLatestSessionResponse, SendContactFormRequest } from "../types/services/sessionServiceTypes";
 import http from "./http"
 
@@ -24,8 +24,9 @@ const sendPreSesionFeedback = async (sessionId: string, payload: any): Promise<v
     await http.post<{sessionId: string}>(`/api/survey/presession/${sessionId}`, payload);
 }
 
-const getPreSessionFeedback = async (sessionId: string): Promise<void> => {
-    await http.get<{sessionId:string}>(`/api/survey/presession/${sessionId}`);
+const getPreSessionFeedback = async (sessionId: string): Promise<PreSessionResponse> => {
+    const response = await http.get(`/api/survey/presession/${sessionId}`);
+    return response.data
 }
 
 const endSession = async (sessionId: string): Promise<void> => {
@@ -46,5 +47,6 @@ export const sessionService = {
     endSession,
     newSession,
     sendPreSesionFeedback,
-    sendContactForm
+    sendContactForm,
+    getPreSessionFeedback
 }

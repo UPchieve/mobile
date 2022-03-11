@@ -3,7 +3,7 @@ import { SvgFC } from '../../../../assets/icons/SvgInterface';
 import {Modal, StyleSheet, View, Text, Dimensions, Platform} from 'react-native';
 import { CommonButton } from '../../common/CommonButton';
 import { Colors, PrimaryColorType } from '../../../../assets/Colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {useOrientation} from "../../../hooks/useOrientation";
 
 export type UpchieveModalType = {
   visible: boolean;
@@ -31,6 +31,8 @@ export const UpchieveModal: React.FC<UpchieveModalType> = ({
   cancelButtonText,
 }) => {
 
+  const {orientation} = useOrientation();
+
   const renderIcon = () => {
     if (Icon) {
       return coloredIcon && type ? (
@@ -42,11 +44,22 @@ export const UpchieveModal: React.FC<UpchieveModalType> = ({
       );
     }
   };
+
+  const renderWidthModal = () => {
+    if (Platform.OS === 'ios' && Platform.isPad) {
+      return 500
+    } else if (orientation === 'LANDSCAPE') {
+      return '40%'
+    } else {
+      return '90%'
+    }
+  }
+
   return (
     <Modal animationType="fade" transparent={true} visible={visible}
       supportedOrientations={['portrait', 'landscape']}>
         <View style={styles.background}>
-          <View style={[styles.container, {width: (Platform.OS === 'ios' && Platform.isPad) ? 500 : '90%'}]}>
+          <View style={[styles.container, {width: renderWidthModal()}]}>
             <View style={styles.iconContainer}>{renderIcon()}</View>
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{title}</Text>
@@ -116,6 +129,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
+    textAlign: 'center'
   },
   text: {
     fontSize: 14,

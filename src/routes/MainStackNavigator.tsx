@@ -72,7 +72,7 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name='DashboardScreen'
         component={DashboardScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, contentStyle: {backgroundColor: Colors.selectedGreen} }}
       />
       <Stack.Screen
         name='PreSessionQuestionScreen'

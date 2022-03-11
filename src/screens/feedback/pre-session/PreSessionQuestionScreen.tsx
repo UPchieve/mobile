@@ -1,4 +1,4 @@
-import React, { isValidElement, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {
     Dimensions,
     FlatList,
@@ -25,6 +25,7 @@ import { SessionFeedbackHeader } from "../../../components/atoms/session-experie
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../../routes/MainStackNavigator";
 import messaging from '@react-native-firebase/messaging';
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 
 type QuestionFCType = {
@@ -99,6 +100,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                 } else {
                     navigation.navigate('Session', { sessionId, });
                 }
+
             } catch (error) {
                 console.log(error);
 
@@ -113,7 +115,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const flatListRef = useRef<FlatList<QuestionType>>(null);
     return <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+        <View style={{ flex: 1, backgroundColor: Colors.white }}>
             <View style={{ flex: 1, }}>
                 <View style={{ paddingHorizontal: 20, }}>
                     <Separator backgroundColor={'transparent'} marginVertical={12} />
@@ -131,6 +133,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    height: '100%',
                     backgroundColor: Colors.selectedGreen
                 }}>
                     <FlatList
@@ -168,7 +171,7 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
 
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     </ScrollView>
 }
 

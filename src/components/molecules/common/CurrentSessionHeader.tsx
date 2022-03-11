@@ -75,7 +75,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                     type: 'success',
                     confirmText: 'Back to Dashboard',
                     onConfirm: () => {
-                        console.log('ok.');
+                       navigation.navigate('DashboardScreen');
                     }
                 })
             }, 1000 * 60 * 10); // 10 mins.
