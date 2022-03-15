@@ -22,7 +22,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
                 width: 312
             }}/>
         <H3>School just got easier</H3>
-            <HelperText 
+            <HelperText
             textAlign='center'
             color={Colors.secondaryGray} mt={20}>Connect one-on-one with online tutors. {'\n'}
             Completely free. Available 24/7.</HelperText>
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     },
     actionWrapper: {
         backgroundColor: Colors.white,
-        height: 200,
         justifyContent: 'center',
         paddingHorizontal: 20,
+        paddingBottom: 15
     },
 });

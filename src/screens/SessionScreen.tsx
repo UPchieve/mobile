@@ -43,12 +43,8 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     }, [sessionId]);
 
     useEffect(() => {
-        console.log('entre al efecto');
-
         clearTimeout(timer.current);
         if (!sessionState) {
-            console.log('creo el timer!');
-
             timer.current = setTimeout(() => {
                 navigation.navigate('DashboardScreen');
             }, 5000)

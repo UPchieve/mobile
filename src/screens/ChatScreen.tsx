@@ -27,6 +27,7 @@ import { AuthContext } from '../providers/AuthProvider';
 import { delay } from '../utils/utils';
 import { FontIndex } from '../../assets/FontIndex';
 import { usePrevious } from '../hooks/usePrevious';
+import {useKeyboard} from "@react-native-community/hooks";
 
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
@@ -54,6 +55,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
     const context = useContext(AuthContext);
     const { socketHandler, sessionState } = context;
     const user = context.user!;
+    const { keyboardShown } = useKeyboard();
 
     const previousSessionState = usePrevious(sessionState);
 
@@ -145,6 +147,12 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
             }, 300);
         }
     }, [chat]);
+
+    useEffect(() => {
+        if (keyboardShown) {
+            chatListRef.current?.scrollToEnd({animated: true});
+        }
+    },[keyboardShown]);
 
     const onChatPress = (message: string) => {
         socketHandler.emit('message', {
