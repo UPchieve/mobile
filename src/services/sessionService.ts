@@ -21,7 +21,9 @@ const newSession = async (sessionType: string, sessionSubTopic: string): Promise
 }
 
 const sendPreSesionFeedback = async (sessionId: string, payload: any): Promise<void> => {
-    await http.post<{sessionId: string}>(`/api/survey/presession/${sessionId}`, payload);
+    await http.post<{sessionId: string}>(`/api/survey/presession/${sessionId}`, {
+        responseData: payload
+    });
 }
 
 const getPreSessionFeedback = async (sessionId: string): Promise<PreSessionResponse> => {

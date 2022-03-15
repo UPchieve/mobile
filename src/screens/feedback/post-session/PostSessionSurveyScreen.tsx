@@ -1,5 +1,5 @@
 import { FormikProvider, useFormik } from 'formik';
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +18,7 @@ import {Popover, usePopover} from "react-native-modal-popover";
 import {QuestionPopover} from "../../../components/atoms/session-experience/QuestionPopover";
 import {AuthContext} from "../../../providers/AuthProvider";
 import {sessionService} from "../../../services/sessionService";
+import {PreSessionResponse} from "../../../interfaces/sessionInterfaces";
 
 const pickerOptions = [
     'I am very comfortable with this topic.',
@@ -45,14 +46,13 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
 
     const authContext = useContext(AuthContext);
     const { sessionState } = authContext;
+    const [answer, setAnswer] = useState<PreSessionResponse>();
 
-    let answer;
-
-    //TODO Check this endpoint with VPN
     useEffect(() => {
         (async() => {
             const response = await sessionService.getPreSessionFeedback(sessionState?._id!);
-            answer = response["primary-goal"];
+            setAnswer(response);
+            console.log(answer)
         })()
     }, [])
 
@@ -90,7 +90,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({ navig
             }}>
             <FormikProvider value={formik}>
                 <View style={styles.questionWrapper}>
-                    <Question text={`Your goal for this session was to ${answer}. Did we help you achieve your goal?`} highlight={`${answer}`} />
+                    <Question text={`Your goal for this session was to ${answer?.survey?.responseData["primary-goal"]?.answer}. Did we help you achieve your goal?`} highlight={`${answer?.survey?.responseData["primary-goal"]?.answer}`} />
                     <RateNumbers selected={formik.values.didWeHelp} setSelected={(selected) => formik.setFieldValue('didWeHelp', selected)} parentStyle={{ paddingHorizontal: 40, }} />
                 </View>
                 <View style={styles.questionWrapper}>

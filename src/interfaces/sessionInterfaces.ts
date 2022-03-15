@@ -24,11 +24,21 @@ export type SessionUser = {
 };
 
 export type PreSessionResponse = {
-    'primary-goal': {
-        answer: string;
-    },
-    'topic-understanding': {
-        answer: string;
+    survey: {
+        _id: string,
+        session: string,
+        surveyType: string,
+        user: string,
+        __v: number,
+        createdAt: string,
+        responseData: {
+            "primary-goal": {
+                answer: string
+            },
+            "topic-understanding": {
+                answer: number
+            }
+        }
     }
 }
 
