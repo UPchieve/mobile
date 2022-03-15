@@ -3,6 +3,7 @@
   "trailingComma": "es5",
   "semi": true,
   "useTabs": false,
-  "semicolons": true
+  "semicolons": true,
+  "tabWidth": 4
 }
 
