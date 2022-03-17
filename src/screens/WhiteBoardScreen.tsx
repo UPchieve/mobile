@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
   TouchableOpacity,
-  View, 
+  View,
   StyleSheet, Pressable, StatusBar, Platform
 } from 'react-native';
 import { SvgIcons } from '../../assets/IndexIcons';
@@ -47,16 +47,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
     const zwibblerManager = new ZwibblerManager(webViewRef);
     setZwibblerManager(zwibblerManager);
   }, [webViewRef]);
-
-  useEffect(() => {
-    (async () => {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    })();
-  }, []);
 
   const openTextModal = (): Promise<string | undefined> => {
     return new Promise<string | undefined>((resolve) => {
@@ -213,7 +203,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
   }
 
   return (
-    <View style={[styles.container, notchPosition === 'LEFT' ? { 
+    <View style={[styles.container, notchPosition === 'LEFT' ? {
       paddingLeft: insets.left,
      } : { paddingRight: insets.right },
      Platform.OS === 'android' && { top: StatusBar.currentHeight }

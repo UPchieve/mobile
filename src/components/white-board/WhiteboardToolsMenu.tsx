@@ -13,6 +13,7 @@ import { ZwibblerManager } from '../../../assets/zwibbler/zwibbler';
 import { ZwibblerTool } from '../../types/zwibblerTypes';
 
 import {OrientationType} from '../../hooks/useOrientation';
+import * as ImagePicker from "expo-image-picker";
 
 interface ToolMenuItem {
   id: number;
@@ -152,7 +153,13 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       name: 'Image',
       icon: SvgIcons.PhotoUploadIcon,
       handler: async () => {
-        await zwibblerManager.pickImage();
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        } else {
+          await zwibblerManager.pickImage();
+        }
+
       },
     },
   ];
