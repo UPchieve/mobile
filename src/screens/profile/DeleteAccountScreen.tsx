@@ -31,7 +31,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                         <H3>Are you sure you want to </H3>
                         <H3> delete your account?</H3>
                         <Separator marginVertical={24} backgroundColor='transparent' />
-                        <Image
+                        <Image style={{width: 227, height: 292}}
                             source={ImageIndex.dashboard.deleteAccount}
                         />
                     </View>
