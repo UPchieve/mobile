@@ -32,6 +32,8 @@ export const MessageSentScreen: React.FC<MessageSentScreenType> = ({ route, navi
             <Image source={ImageIndex.onboarding.messageSent} style={{
                 marginVertical: 60,
                 marginBottom: 20,
+                width: 195,
+                height: 183
             }} />
             <CommonButton
                 title={route?.params?.nextRoute === 'Dashboard' ? 'Back to Dashboard' : 'Continue'}

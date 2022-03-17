@@ -85,7 +85,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
                         </Text>
                     }}
                 />
-                <Image source={ImageIndex.dashboard.state.Waiting} style={{ marginVertical: 24, }} />
+                <Image source={ImageIndex.dashboard.state.Waiting} style={{ marginVertical: 24, width: 242, height: 253}} />
                 <Text style={styles.additionalText}>You must wait at least 5 minutes before requesting a new session.</Text>
             </View>
         </React.Fragment>
