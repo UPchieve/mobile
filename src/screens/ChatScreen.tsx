@@ -9,7 +9,7 @@ import {
     NativeScrollEvent,
     Image,
     Text,
-    SafeAreaView
+    SafeAreaView, Platform
 } from 'react-native'
 import { Colors } from '../../assets/Colors';
 import { ChatMessage } from '../components/atoms/chat/ChatMessage';
@@ -268,7 +268,7 @@ export const ChatScreen: React.FC<Props> = ({ onSwitchPress, sessionType, chat, 
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
-                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} style={{ height: 40, width: 42, }} />
+                    <Image source={sessionType === 'WHITEBOARD' ? ImageIndex.icons.whiteBoard : ImageIndex.icons.chatEditor} style={Platform.OS === 'ios' && Platform.isPad ? { height: 50, width: 50, }: { height: 40, width: 42, }} />
                 </TouchableOpacity>
                 <View style={styles.paddingContainer}>
                     <FlatList

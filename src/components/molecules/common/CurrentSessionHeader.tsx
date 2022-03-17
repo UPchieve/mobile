@@ -30,7 +30,6 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
     const insets = useSafeAreaInsets();
-
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
 
     const getMessagesAfterVolunteerJoined = () => {
@@ -75,7 +74,9 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                     type: 'success',
                     confirmText: 'Back to Dashboard',
                     onConfirm: () => {
-                       navigation.navigate('DashboardScreen');
+                        navigate(true).then(() => {
+                            navigation.navigate('DashboardScreen');
+                        });
                     }
                 })
             }, 1000 * 60 * 10); // 10 mins.
