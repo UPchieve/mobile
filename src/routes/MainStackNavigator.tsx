@@ -1,0 +1,88 @@
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { DefaultScreen } from '../screens/DefaultScreen';
+import { SessionScreen } from '../screens/SessionScreen';
+import { PostSessionSurveyScreen } from '../screens/feedback/post-session/PostSessionSurveyScreen';
+import { PostSessionSurveyCollegeScreen } from '../screens/feedback/post-session/PostSessionSurveyCollegeScreen';
+import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session/PostSessionSurveySuccessScreen';
+import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen';
+import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
+import { PreSessionQuestionScreen } from '../screens/feedback/pre-session/PreSessionQuestionScreen';
+import { ImageIndex } from "../../assets/ImageIndex";
+import { Colors } from "../../assets/Colors";
+import { NotificationScreen } from '../screens/dashboard/NotificationScreen';
+
+
+export type MainStackParamList = {
+  Home: undefined;
+  Session: { sessionId: string, }
+  PostSessionSurvey: undefined,
+  PostSessionSurveyCollege: undefined,
+  PostSessionSurveySuccess: undefined,
+  ReportSessionScreen: undefined,
+  DashboardScreen: undefined,
+  PreSessionQuestionScreen: {
+    sessionType: string,
+    sessionSubTopic: string,
+  },
+  NotificationScreen: { sessionId: string, };
+};
+
+export const MainStackNavigator = () => {
+  const Stack = createNativeStackNavigator<MainStackParamList>();
+  return (
+    <Stack.Navigator
+      initialRouteName="DashboardScreen"
+      screenOptions={{
+        headerBackImageSource: ImageIndex.icons.goBack,
+        headerTintColor: Colors.black,
+        headerBackTitleVisible: false
+      }}
+    >
+      <Stack.Screen
+        name="Home"
+        component={DefaultScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Session'
+        component={SessionScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='PostSessionSurvey'
+        component={PostSessionSurveyScreen}
+        options={{ headerShown: false, contentStyle: { backgroundColor: 'white' } }}
+      />
+      <Stack.Screen
+        name='PostSessionSurveyCollege'
+        component={PostSessionSurveyCollegeScreen}
+        options={{ headerShown: false, contentStyle: { backgroundColor: 'white' } }}
+      />
+      <Stack.Screen
+        name='PostSessionSurveySuccess'
+        component={PostSessionSurveySuccessScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='ReportSessionScreen'
+        component={ReportSessionScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='DashboardScreen'
+        component={DashboardScreen}
+        options={{ headerShown: false, contentStyle: {backgroundColor: Colors.selectedGreen} }}
+      />
+      <Stack.Screen
+        name='PreSessionQuestionScreen'
+        component={PreSessionQuestionScreen}
+        options={{ headerShown: true, headerTitle: '' }}
+      />
+      <Stack.Screen name='NotificationScreen'
+        component={NotificationScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
