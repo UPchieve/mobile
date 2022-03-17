@@ -34,6 +34,7 @@ const html = `
             allowZoom: false,
             outsidePageColour: '#E5E5E5',
             defaultSmoothness: 'sharpest',
+            defaultZoom: 'width'
         });
         
         zwibbler.setPaperSize(1000, 2800);
