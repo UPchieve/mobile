@@ -72,7 +72,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                     title: 'We’re having trouble matching you with a coach',
                     text: 'Please try again later.',
                     icon: SvgIcons.RobotIcon,
-                    type: 'success',
+                    type: 'information',
                     confirmText: 'Back to Dashboard',
                     onConfirm: () => {
                        navigation.navigate('DashboardScreen');
