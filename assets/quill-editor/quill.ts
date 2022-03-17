@@ -1,4 +1,3 @@
-
 const html = `
 <html>
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
@@ -205,6 +204,8 @@ const html = `
 
     cursors.createCursor('partnerCursor', 'Partner', 'red');
 
+    quill.disable();
+
     quill.on('text-change', function (delta, oldDelta, source) {
         window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "text-change", eventValue: {delta, oldDelta, source}}));
     });
@@ -235,6 +236,8 @@ const html = `
             document.activeElement && document.activeElement.blur();
         } else if (data.eventType === 'focus') {
             quill.focus();
+        } else if (data.eventType === 'enable') {
+            quill.enable();
         }
     });
 
