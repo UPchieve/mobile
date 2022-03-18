@@ -1,77 +1,135 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, Text, TextInputBase, TextInputProps, NativeSyntheticEvent, TextInputFocusEventData } from "react-native"
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Colors } from "../../../../assets/Colors"
-import { FontIndex } from '../../../../assets/FontIndex'
-import { SvgIcons } from '../../../../assets/IndexIcons'
+import React, { useState } from 'react';
+import {
+    View,
+    StyleSheet,
+    TextInput,
+    Text,
+    TextInputBase,
+    TextInputProps,
+    NativeSyntheticEvent,
+    TextInputFocusEventData,
+} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Colors } from '../../../../assets/Colors';
+import { FontIndex } from '../../../../assets/FontIndex';
+import { SvgIcons } from '../../../../assets/IndexIcons';
 
 export type InputType = {
-    value?: string,
-    onChangeText?: (value: string) => void,
-    isValid?: boolean,
-    touched?: boolean,
-    errorMessage?: string,
-    placeholder?: string,
-    password?: boolean,
-    showCheck?: boolean,
-    setClearValue?: (arg: boolean) => void
+    value?: string;
+    onChangeText?: (value: string) => void;
+    isValid?: boolean;
+    touched?: boolean;
+    errorMessage?: string;
+    placeholder?: string;
+    password?: boolean;
+    showCheck?: boolean;
+    setClearValue?: (arg: boolean) => void;
 } & TextInputProps;
-export const Input: React.FC<InputType> = ({ value, onChangeText, isValid, errorMessage, placeholder, password = false, touched = false, showCheck = false, setClearValue, ...props }) => {
-    TextInputBase
+export const Input: React.FC<InputType> = ({
+    value,
+    onChangeText,
+    isValid,
+    errorMessage,
+    placeholder,
+    password = false,
+    touched = false,
+    showCheck = false,
+    setClearValue,
+    ...props
+}) => {
+    TextInputBase;
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [isInFocus, setIsInFocus] = useState(false);
 
-    const handleBlur = (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    const handleBlur = (
+        event: NativeSyntheticEvent<TextInputFocusEventData>
+    ) => {
         setIsInFocus(false);
         if (props.onBlur) {
             props.onBlur(event);
         }
-    }
+    };
 
     const renderIcon = () => {
-        if (!touched)
-            return null;
+        if (!touched) return null;
         if (isValid === false) {
-            return <TouchableOpacity onPress={() => setClearValue && setClearValue(true)}>
-                <SvgIcons.CloseIcon fill={Colors.error} height={15} width={15} />
-            </TouchableOpacity>
+            return (
+                <TouchableOpacity
+                    onPress={() => setClearValue && setClearValue(true)}
+                >
+                    <SvgIcons.CloseIcon
+                        fill={Colors.error}
+                        height={15}
+                        width={15}
+                    />
+                </TouchableOpacity>
+            );
         } else if (isValid === true && showCheck) {
-            return <SvgIcons.CheckIcon fill={Colors.success} />
+            return (
+                <SvgIcons.CheckIcon
+                    fill={Colors.success}
+                    height={18.5}
+                    width={18.5}
+                />
+            );
         }
         return null;
-    }
-    return <>
-        <View style={[styles.container
-            , isInFocus && styles.containerInFocus
-            , touched && isValid === false && styles.containerError
-            , touched && isValid === true && styles.containerSuccess]}>
-            <View style={styles.inputWrapper}>
-                <TextInput
-                    style={[styles.input
-                        , touched && isValid === false && styles.inputError]}
-                    placeholder={placeholder}
-                    placeholderTextColor={Colors.defaultGray}
-                    value={value}
-                    secureTextEntry={password && secureTextEntry === true}
-                    onChangeText={(value) => onChangeText && onChangeText(value)}
-                    onFocus={() => setIsInFocus(true)}
-                    {...props}
-                    onBlur={handleBlur}
-                />
-                {renderIcon()}
-                {password ?
-                    <TouchableOpacity onPress={() => setSecureTextEntry(currentValue => !currentValue)}>
-                        {secureTextEntry
-                            ? <SvgIcons.VisibilityHiddenIcon fill={Colors.secondaryGray} />
-                            : <SvgIcons.VisibilityShowIcon fill={Colors.secondaryGray} />
+    };
+    return (
+        <>
+            <View
+                style={[
+                    styles.container,
+                    isInFocus && styles.containerInFocus,
+                    touched && isValid === false && styles.containerError,
+                    touched && isValid === true && styles.containerSuccess,
+                ]}
+            >
+                <View style={styles.inputWrapper}>
+                    <TextInput
+                        style={[
+                            styles.input,
+                            touched && isValid === false && styles.inputError,
+                        ]}
+                        placeholder={placeholder}
+                        placeholderTextColor={Colors.defaultGray}
+                        value={value}
+                        secureTextEntry={password && secureTextEntry === true}
+                        onChangeText={(value) =>
+                            onChangeText && onChangeText(value)
                         }
-                    </TouchableOpacity>
-                    : null}
+                        onFocus={() => setIsInFocus(true)}
+                        {...props}
+                        onBlur={handleBlur}
+                    />
+                    {renderIcon()}
+                    {password ? (
+                        <TouchableOpacity
+                            onPress={() =>
+                                setSecureTextEntry(
+                                    (currentValue) => !currentValue
+                                )
+                            }
+                        >
+                            {secureTextEntry ? (
+                                <SvgIcons.VisibilityHiddenIcon
+                                    fill={Colors.secondaryGray}
+                                />
+                            ) : (
+                                <SvgIcons.VisibilityShowIcon
+                                    fill={Colors.secondaryGray}
+                                />
+                            )}
+                        </TouchableOpacity>
+                    ) : null}
+                </View>
             </View>
-        </View>
-        {touched && isValid === false && errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
-    </>
-}
+            {touched && isValid === false && errorMessage ? (
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
+            ) : null}
+        </>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -87,7 +145,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.error,
     },
     containerInFocus: {
-        borderColor: Colors.information
+        borderColor: Colors.information,
     },
     containerSuccess: {
         borderColor: Colors.success,
@@ -96,7 +154,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         paddingRight: 0,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     input: {
         fontFamily: FontIndex.WorkSans.Regular,
@@ -122,5 +180,5 @@ const styles = StyleSheet.create({
         height: 30,
         right: 0,
         position: 'absolute',
-    }
-})
+    },
+});
