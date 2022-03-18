@@ -28,7 +28,7 @@ const html = `
 
     #editor {
         width: 100%;
-        height: 84vh;
+        height: 80vh;
     }
 
     #subToolbar {
