@@ -108,6 +108,13 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
                 eventType: !keyboardShown ? 'hideToolbar' : 'showToolbar',
             })
         );
+        if (keyboardShown) {
+            webViewRef.current?.postMessage(
+                JSON.stringify({
+                    eventType: 'scroll',
+                })
+            );
+        }
     }, [keyboardShown]);
 
     useEffect(() => {
@@ -168,7 +175,6 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
 
     return (
         <View style={[styles.root]}>
-            {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}> */}
             <View style={[styles.customToolbar]}>
                 <TouchableOpacity
                     style={styles.swapIcon}
@@ -195,6 +201,7 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
                 }}
             >
                 <WebView
+                    scrollEnabled={false}
                     javaScriptEnabled={true}
                     androidHardwareAccelerationDisabled={true}
                     ref={webViewRef}
@@ -205,7 +212,6 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
                     source={{ html: quill.html }}
                 />
             </View>
-            {/* </KeyboardAwareScrollView> */}
         </View>
     );
 };
