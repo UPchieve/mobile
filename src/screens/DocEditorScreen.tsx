@@ -21,7 +21,7 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
     hasNotifications,
 }) => {
     const webViewRef = useRef<WebView>(null);
-    // const { sessionId } = route.params;
+
     const { socketHandler } = useContext(AuthContext);
 
     const { keyboardShown } = useKeyboard();
@@ -33,6 +33,10 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
 
     useEffect(() => {
         if (!!quillState && webViewReady) {
+            console.log('quill state ddd', {
+                quillState,
+                webViewReady,
+            });
             webViewRef.current?.postMessage(
                 JSON.stringify({
                     eventType: 'setContents',

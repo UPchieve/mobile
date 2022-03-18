@@ -214,7 +214,17 @@ const html = `
         window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "selection-change", eventValue: {range, source}}));
     });
 
-    window.addEventListener('message', (e) => {
+    if (navigator.appVersion.includes('Android')) {
+        document.addEventListener('message', (e) => {
+            handleIncomingEvent(e);
+        });
+    } else {
+        window.addEventListener('message', (e) => {
+            handleIncomingEvent(e);
+        });
+    }
+
+    function handleIncomingEvent(e){
         const data = JSON.parse(e.data);
         if (data.eventType === 'setContents') {
             quill.setContents(data.eventValue);
@@ -249,7 +259,7 @@ const html = `
 
             }
         }
-    });
+    }
 
 </script>
 

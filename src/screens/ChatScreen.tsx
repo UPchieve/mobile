@@ -43,6 +43,7 @@ import { delay } from '../utils/utils';
 import { FontIndex } from '../../assets/FontIndex';
 import { usePrevious } from '../hooks/usePrevious';
 import { useKeyboard } from '@react-native-community/hooks';
+import { inlineStyles } from 'react-native-svg';
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
@@ -339,7 +340,7 @@ export const ChatScreen: React.FC<Props> = ({
                 <View
                     style={[
                         styles.paddingContainer,
-                        !!inputSize && { marginBottom: inputSize - 16 },
+                        !!inputSize && { marginBottom: inputSize - 32 },
                     ]}
                 >
                     <FlatList
@@ -357,9 +358,8 @@ export const ChatScreen: React.FC<Props> = ({
                     style={[
                         {
                             position: 'absolute',
-                            // bottom: (inputSize || 0) + 50,
+                            bottom: (inputSize || 0) + 10,
                             zIndex: 3,
-                            bottom: 0,
                             alignSelf: 'center',
                         },
                     ]}
@@ -379,10 +379,10 @@ export const ChatScreen: React.FC<Props> = ({
                 <View
                     style={[
                         styles.wrapperTyping,
-                        isTypping || chatBotIsTyping
-                            ? { opacity: 0.6 }
-                            : { opacity: 0 },
-                        !!inputSize && { bottom: inputSize + 14 },
+                        // isTypping || chatBotIsTyping
+                        //     ? { opacity: 0.6 }
+                        //     : { opacity: 0 },
+                        !!inputSize && { bottom: inputSize - 10, zIndex: 3 },
                     ]}
                 >
                     {chatBotIsTyping ? (
@@ -398,34 +398,35 @@ export const ChatScreen: React.FC<Props> = ({
                         />
                     ) : null}
                 </View>
-                <View style={[styles.inputWrapper]}>
-                    <View
-                        style={{
+                <View
+                    style={[
+                        styles.inputWrapper,
+                        {
                             position: 'absolute',
-                            bottom: 0,
+                            bottom: 10,
                             alignSelf: 'center',
                             zIndex: 2,
-                            elevation: 2,
+                        },
+                    ]}
+                    onLayout={({ nativeEvent }) =>
+                        setInputSize(nativeEvent.layout.height)
+                    }
+                >
+                    <View
+                        style={{
+                            opacity: 0.85,
+                            backgroundColor: 'white',
+                            height: 32,
                         }}
-                        onLayout={({ nativeEvent }) =>
-                            setInputSize(nativeEvent.layout.height)
-                        }
-                    >
-                        <View
-                            style={{
-                                opacity: 0.85,
-                                backgroundColor: 'white',
-                                height: 16,
-                            }}
-                        />
-                        <ChatInput
-                            value={chatMessage}
-                            setValue={setChatMessage}
-                            onPress={onChatPress}
-                            onStartTyping={onStartTyping}
-                            onEndTyping={onEndTyping}
-                        />
-                    </View>
+                    />
+                    <ChatInput
+                        value={chatMessage}
+                        setValue={setChatMessage}
+                        onPress={onChatPress}
+                        onStartTyping={onStartTyping}
+                        onEndTyping={onEndTyping}
+                    />
+                    {/* </View> */}
                 </View>
             </View>
         </SafeAreaView>
@@ -444,7 +445,6 @@ const styles = StyleSheet.create({
     },
     inputWrapper: {
         // marginp: 16,
-        backgroundColor: 'red',
         paddingHorizontal: 9.5,
     },
     swapIcon: {
