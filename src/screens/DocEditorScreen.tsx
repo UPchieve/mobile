@@ -108,6 +108,13 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
                 eventType: !keyboardShown ? 'hideToolbar' : 'showToolbar',
             })
         );
+        if (keyboardShown) {
+            webViewRef.current?.postMessage(
+                JSON.stringify({
+                    eventType: 'scroll',
+                })
+            );
+        }
     }, [keyboardShown]);
 
     useEffect(() => {

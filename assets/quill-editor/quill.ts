@@ -28,7 +28,7 @@ const html = `
 
     #editor {
         width: 100%;
-        height: 85vh;
+        height: 84vh;
     }
 
     #subToolbar {
@@ -238,6 +238,16 @@ const html = `
             quill.focus();
         } else if (data.eventType === 'enable') {
             quill.enable();
+        } else if(data.eventType === 'scroll') {
+            try {
+                console.log('is login?');
+                const selection = quill.getSelection();
+                const bounds = quill.getBounds(selection.index);
+                const editor = document.querySelector('.ql-editor');
+                editor.scrollTo({ top: bounds.bottom-40, behavior: 'smooth' });
+            } catch(err){
+
+            }
         }
     });
 
