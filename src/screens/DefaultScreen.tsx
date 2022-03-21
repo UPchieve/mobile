@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, View, StyleSheet, TextInput, ActivityIndicator } from 'react-native';
-import { MainStackParamList } from '../routes/MainStackNavigator';
-import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import { Colors } from '../../assets/Colors';
 import { AuthContext, } from '../providers/AuthProvider';
 import { authService } from '../services/authService';
 import { delay } from '../utils/utils';
 
-type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
-export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
+export const DefaultScreen: React.FC = ({  }) => {
   const [sessionId, setSessionId] = useState('61eb00e25b4a66e264e49129');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -27,7 +24,6 @@ export const DefaultScreen: React.FC<Props> = ({ navigation }) => {
       }
       refreshUser();
       await delay(1000);
-      navigation.navigate('Session', { sessionId });
     } catch (error) {
       alert(error);
     } finally {

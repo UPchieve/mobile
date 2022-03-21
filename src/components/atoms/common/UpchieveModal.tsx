@@ -51,7 +51,7 @@ export const UpchieveModal: React.FC<UpchieveModalType> = ({
     } else if (orientation === 'LANDSCAPE') {
       return '40%'
     } else {
-      return '90%'
+      return '70%'
     }
   }
 

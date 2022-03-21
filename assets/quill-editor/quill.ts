@@ -1,4 +1,3 @@
-
 const html = `
 <html>
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
@@ -29,7 +28,7 @@ const html = `
 
     #editor {
         width: 100%;
-        height: 85vh;
+        height: 80vh;
     }
 
     #subToolbar {
@@ -205,6 +204,8 @@ const html = `
 
     cursors.createCursor('partnerCursor', 'Partner', 'red');
 
+    quill.disable();
+
     quill.on('text-change', function (delta, oldDelta, source) {
         window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "text-change", eventValue: {delta, oldDelta, source}}));
     });
@@ -213,7 +214,17 @@ const html = `
         window.ReactNativeWebView.postMessage(JSON.stringify({eventType: "selection-change", eventValue: {range, source}}));
     });
 
-    window.addEventListener('message', (e) => {
+    if (navigator.appVersion.includes('Android')) {
+        document.addEventListener('message', (e) => {
+            handleIncomingEvent(e);
+        });
+    } else {
+        window.addEventListener('message', (e) => {
+            handleIncomingEvent(e);
+        });
+    }
+
+    function handleIncomingEvent(e){
         const data = JSON.parse(e.data);
         if (data.eventType === 'setContents') {
             quill.setContents(data.eventValue);
@@ -235,8 +246,20 @@ const html = `
             document.activeElement && document.activeElement.blur();
         } else if (data.eventType === 'focus') {
             quill.focus();
+        } else if (data.eventType === 'enable') {
+            quill.enable();
+        } else if(data.eventType === 'scroll') {
+            try {
+                console.log('is login?');
+                const selection = quill.getSelection();
+                const bounds = quill.getBounds(selection.index);
+                const editor = document.querySelector('.ql-editor');
+                editor.scrollTo({ top: bounds.bottom-40, behavior: 'smooth' });
+            } catch(err){
+
+            }
         }
-    });
+    }
 
 </script>
 

@@ -69,7 +69,7 @@ export const ReportSessionScreen: React.FC<ReportSessionScreenType> = ({navigati
 
 
     const onCancelPress = () => navigation.goBack();
-    const onReportPress = () => navigation.reset({routes: [{name: 'Home'}]});
+    //const onReportPress = () => navigation.reset({routes: [{name: 'Home'}]});
 
     return (
         <SafeAreaView>
@@ -113,7 +113,7 @@ export const ReportSessionScreen: React.FC<ReportSessionScreenType> = ({navigati
                                     <CommonButton title={'Cancel'} onPress={onCancelPress} style={styles.button} />
                                 </View>
                                 {/* TODO icon */}
-                                <CommonButton title={'Report'} disabled={!formik.isValid} onPress={onReportPress}
+                                <CommonButton title={'Report'} disabled={!formik.isValid} onPress={() => ''}
                                     type={'success'} style={styles.button} />
                             </View>
                         </View>

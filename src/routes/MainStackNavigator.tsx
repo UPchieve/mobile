@@ -1,6 +1,5 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { DefaultScreen } from '../screens/DefaultScreen';
 import { SessionScreen } from '../screens/SessionScreen';
 import { PostSessionSurveyScreen } from '../screens/feedback/post-session/PostSessionSurveyScreen';
 import { PostSessionSurveyCollegeScreen } from '../screens/feedback/post-session/PostSessionSurveyCollegeScreen';
@@ -14,7 +13,6 @@ import { NotificationScreen } from '../screens/dashboard/NotificationScreen';
 
 
 export type MainStackParamList = {
-  Home: undefined;
   Session: { sessionId: string, }
   PostSessionSurvey: undefined,
   PostSessionSurveyCollege: undefined,
@@ -39,11 +37,6 @@ export const MainStackNavigator = () => {
         headerBackTitleVisible: false
       }}
     >
-      <Stack.Screen
-        name="Home"
-        component={DefaultScreen}
-        options={{ headerShown: false }}
-      />
       <Stack.Screen
         name='Session'
         component={SessionScreen}

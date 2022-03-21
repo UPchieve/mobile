@@ -1,14 +1,8 @@
 import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { OnboardingStackNavigator } from "./OnboardingStackNavigator";
-import { Dimensions, View } from 'react-native';
 import { UserInfo } from '../components/molecules/dashboard/UserInfo';
-import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 import { MainStackNavigator } from './MainStackNavigator';
-import { ProfileScreen } from '../screens/profile/ProfileScreen';
-import { ContactUsScreen } from "../screens/contact/ContactUsScreen";
-import { ImageIndex } from "../../assets/ImageIndex";
-import { Colors } from "../../assets/Colors";
 import { ContactUsStackNavigator } from './ContactUsStackNavigator';
 import { ProfileStackNavigator } from './ProfileStackNavigator';
 

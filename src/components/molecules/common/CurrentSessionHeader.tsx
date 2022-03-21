@@ -30,7 +30,6 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
     const insets = useSafeAreaInsets();
-
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
 
     const getMessagesAfterVolunteerJoined = () => {
@@ -72,10 +71,12 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                     title: 'We’re having trouble matching you with a coach',
                     text: 'Please try again later.',
                     icon: SvgIcons.RobotIcon,
-                    type: 'success',
+                    type: 'information',
                     confirmText: 'Back to Dashboard',
                     onConfirm: () => {
-                       navigation.navigate('DashboardScreen');
+                        navigate(true).then(() => {
+                            navigation.navigate('DashboardScreen');
+                        });
                     }
                 })
             }, 1000 * 60 * 10); // 10 mins.

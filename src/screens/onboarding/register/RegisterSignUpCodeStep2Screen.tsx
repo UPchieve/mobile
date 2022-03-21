@@ -20,7 +20,7 @@ import { authService } from "../../../services/authService";
 const options = ['xxx', 'xxx', 'xxxx', 'xxxx', 'xxx', 'xxx'];
 
 interface formTypeValues {
-    site: string,
+    // site: string,
     firstName: string,
     lastName: string,
     grade: SelectItem,
@@ -32,7 +32,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
     const [highSchoolModalVisible, setHighSchoolModalVisible] = useState<boolean>(false);
 
     const validationSchema = Yup.object().shape({
-        site: Yup.string().required(),
+        // site: Yup.string().required(),
         firstName: Yup.string().required(),
         lastName: Yup.string().required(),
         grade: Yup.object().required(),
@@ -101,12 +101,12 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
                     stepState: 'completed'
                 }, { stepNumber: 2, stepState: 'active' }, { stepNumber: 3, stepState: 'not-started' }]} />
                 <Separator marginVertical={12} backgroundColor='transparent' />
-                <FormikPicker
-                    title='Which site do you belong to?'
-                    placeholder='Which site do you belong to?'
-                    name='site'
-                    options={options}
-                />
+                {/*<FormikPicker*/}
+                {/*    title='Which site do you belong to?'*/}
+                {/*    placeholder='Which site do you belong to?'*/}
+                {/*    name='site'*/}
+                {/*    options={options}*/}
+                {/*/>*/}
                 <Separator marginVertical={4} backgroundColor='transparent' />
                 {renderInput('firstName', 'First Name')}
                 {renderInput('lastName', 'Last Name')}

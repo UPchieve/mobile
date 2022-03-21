@@ -33,7 +33,7 @@ export const ProfileStackNavigator = () => {
             },
             // headerStyle: { backgroundColor: 'transparent' },
             headerBackTitleVisible: false,
-            headerBackImageSource: ImageIndex.icons.goBack,
+            headerBackImageSource: {uri: ImageIndex.icons.goBack, width: 15, height: 15},
             headerTintColor: Colors.black,
         }}
         screenOptions={{
