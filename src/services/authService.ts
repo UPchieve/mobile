@@ -1,8 +1,8 @@
-import axios from 'axios';
 import http from './http';
-import { config } from '../../config';
 import { Student, User, Volunteer } from '../models/user';
 import { ConfirmValidationRequest, CreateAccountRequest, CreateAccountResponse, CreateAccountWithWithPartnerRequest, SendValidationRequest } from '../types/services/authServiceTypes';
+import { EVENTS } from '../types/services/analyticsServiceTypes'
+import { identify, captureEvent } from './analyticsService'
 
 
 const checkCredentials = async (payload: { email: string, password: string }) => {
@@ -16,6 +16,7 @@ const checkCredentials = async (payload: { email: string, password: string }) =>
 const login = async (email: string, password: string): Promise<Student | Volunteer | null> => {
   const { data } = await http.post<{ user: User }>('/auth/login', { email, password });
   if (data.user) {
+    identify(data.user._id, data.user.firstname, data.user.email, 'student')
     return data.user.isVolunteer ? data.user as Volunteer : data.user as Student;
   }
   return null;
@@ -24,6 +25,7 @@ const login = async (email: string, password: string): Promise<Student | Volunte
 const getCurrentUser = async (): Promise<Student | Volunteer | null> => {
   const { data } = await http.get<{ user: User }>(`/api/user`);
   if (data.user) {
+    identify(data.user._id, data.user.firstname, data.user.email, 'student')
     return data.user.isVolunteer ? data.user as Volunteer : data.user as Student;
   }
   return null;
@@ -80,6 +82,8 @@ const validateSignInCode = async (partnerSignupCode: string): Promise<string> =>
       partnerSignupCode,
     }
   });
+
+  captureEvent(EVENTS.ACCOUNT_VERIFIED)
   return data.studentPartnerKey;
 }
 

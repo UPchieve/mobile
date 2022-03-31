@@ -1,6 +1,8 @@
 import {PreSessionResponse, Session} from "../interfaces/sessionInterfaces";
 import { GetLatestSessionResponse, SendContactFormRequest } from "../types/services/sessionServiceTypes";
 import http from "./http"
+import { captureEvent } from './analyticsService'
+import { EVENTS } from '../types/services/analyticsServiceTypes'
 
 const getCurrentSession = async (): Promise<Session> => {
     const response = await http.post<Session>('/api/session/current');
@@ -17,6 +19,10 @@ const newSession = async (sessionType: string, sessionSubTopic: string): Promise
     const { data } = await http.post<{sessionId: string}>('/api/session/new', {
         sessionType, sessionSubTopic
     });
+
+    captureEvent(EVENTS.SESSION_REQUESTED, {
+        subject: sessionSubTopic
+    })
     return data.sessionId;
 }
 
@@ -31,11 +37,12 @@ const getPreSessionFeedback = async (sessionId: string): Promise<PreSessionRespo
     return response.data
 }
 
-const endSession = async (sessionId: string): Promise<void> => {
-    console.log('execurted');
+const endSession = async (sessionId: string, sessionSubTopic: string): Promise<void> => {
     const { data } = await http.post('/api/session/end', {
         sessionId,
     });
+
+    captureEvent(EVENTS.SESSION_ENDED)
     return data;
 }
 

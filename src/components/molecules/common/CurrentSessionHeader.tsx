@@ -11,8 +11,6 @@ import { MainStackParamList } from '../../../routes/MainStackNavigator';
 import { sessionService } from '../../../services/sessionService';
 import { isSessionEnded } from '../../../utils/utils';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { insert } from "formik";
-import { Session } from '../../../interfaces/sessionInterfaces';
 import { ChatItem, } from '../../../reducers/chatReducer';
 
 type CurrentSessionHeaderType = {
@@ -91,7 +89,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     const navigate = async (closeSession: boolean = false) => {
         const shouldShowFeedback = await shouldGoToFeedbackScreen();
         if (closeSession) {
-            await sessionService.endSession(sessionState!._id);
+            await sessionService.endSession(sessionState!._id, sessionState!.subTopic);
         }
         if (shouldShowFeedback) {
             if (sessionState?.type === 'college') {
