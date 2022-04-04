@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../../../assets/Colors';
 import { Separator } from '../../components/atoms/common/Separator';
@@ -18,7 +18,8 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
                 marginTop: 25,
                 marginBottom: 20,
                 marginHorizontal: 17,
-                height: 423,
+                resizeMode: 'contain',
+                height: '70%',
                 width: 312
             }}/>
         <H3>School just got easier</H3>

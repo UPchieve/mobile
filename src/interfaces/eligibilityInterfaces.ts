@@ -22,4 +22,5 @@ interface StudentPartnerManifest {
     highSchoolSignup: boolean,
     schoolSignupRequired: boolean,
     collegeSignup: boolean,
+    sites: string[]
 }
