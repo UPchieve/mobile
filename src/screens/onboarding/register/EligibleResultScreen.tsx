@@ -9,7 +9,7 @@ import { ImageIndex } from '../../../../assets/ImageIndex';
 import { Separator } from '../../../components/atoms/common/Separator';
 import { CommonButton } from '../../../components/common/CommonButton';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
-import { config } from "../../../../config";
+import {config, configProd} from "../../../../config";
 
 type EligibleResultScreenType = NativeStackScreenProps<OnboardingStackParamList, 'EligibleResult'>;
 export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route, navigation }) => {
@@ -51,7 +51,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
                                 grade, highSchoolId, zipCode, email
                             });
                         } else {
-                            Linking.openURL(`${config.baseUrl}/request-access`);
+                            Linking.openURL(`${configProd.baseUrl}/request-access`);
                         }
                     }}
                 />
