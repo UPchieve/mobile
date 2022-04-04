@@ -357,7 +357,7 @@ export const ChatScreen: React.FC<Props> = ({
                 <View
                     style={[
                         {
-                            position: 'absolute',
+                            position: 'relative',
                             bottom: (inputSize || 0) + 10,
                             zIndex: 3,
                             alignSelf: 'center',
@@ -368,8 +368,7 @@ export const ChatScreen: React.FC<Props> = ({
                         newerChats={
                             chat.filter(
                                 (x) =>
-                                    x.type === 'message' &&
-                                    x.sentByMe === false &&
+                                    x.type === 'message' && !x.sentByMe &&
                                     x.seen === false
                             ).length
                         }
