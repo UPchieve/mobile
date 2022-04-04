@@ -18,6 +18,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { authService } from '../../../../services/authService'
 import { AxiosError } from 'axios';
 import { getErrorFromBackendResponse } from '../../../../utils/utils'
+import { EVENTS } from '../../../../types/services/analyticsServiceTypes'
+import { captureEvent } from '../../../../services/analyticsService'
 
 type CheckEligibilityType = {
     navigation: NativeStackNavigationProp<OnboardingStackParamList, "Register">
@@ -65,6 +67,8 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
                 zipCode: zipCode!,
                 currentGrade: grade!.value,
             });
+
+            response ? captureEvent(EVENTS.ELIGIBILITY_ELIGIBLE) : captureEvent(EVENTS.ELIGIBILITY_INELIGIBLE)
 
             navigation.navigate('EligibleResult', {
                 eligible: response,

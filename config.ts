@@ -8,6 +8,20 @@ const Config = {
     },
     prod: {
         baseUrl: 'https://upchieve.org',
+    },
+    posthog: {
+        token: '',
+        settings: {
+            host: 'https://p.upchieve.org',
+            captureApplicationLifecycleEvents: true,
+            captureDeepLinks: true,
+            iOS: {
+                capturePushNotifications: true,
+            }
+        }
+    },
+    gleap: {
+        token: ''
     }
 }
 
@@ -16,3 +30,6 @@ const getConfigProd = () => Config.prod;
 
 export const config = getConfig();
 export const configProd = getConfigProd()
+export const posthogConfig = Config.posthog
+export const gleapConfig = Config.gleap
+
