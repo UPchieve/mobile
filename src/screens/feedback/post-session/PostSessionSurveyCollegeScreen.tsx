@@ -81,11 +81,11 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
                     <View style={styles.questionWrapper}>
                         <RateStars selected={formik.values.rateAcademicCoach} setSelected={(selected) => formik.setFieldValue('rateAcademicCoach', selected)} parentStyle={{ paddingHorizontal: 40 }} />
                     </View>
-                    <View style={styles.questionWrapper}>
-                        <Question text={'What was your primary goal today?'} />
-                        <MedalPicker data={pickerOptions} getText={e => e} />
-                    </View>
-                    <View style={styles.questionWrapper}>
+                    {/*<View style={styles.questionWrapper}>*/}
+                    {/*    <Question text={'What was your primary goal today?'} />*/}
+                    {/*    <MedalPicker data={pickerOptions} getText={e => e} />*/}
+                    {/*</View>*/}
+                    <View style={{marginBottom: 20}}>
                         <Text style={styles.subtitle}>Please tell us about your coach.</Text>
                     </View>
                     <View style={styles.questionWrapper}>
