@@ -32,7 +32,7 @@ interface formType {
     howWasCoach?: number,
     rateAcademicCoach?: number,
     textInput?: string,
-    primaryGoal?: string
+    //primaryGoal?: string
 }
 const initialValues: formType = {
     didWeHelp: undefined,
@@ -40,7 +40,7 @@ const initialValues: formType = {
     howWasCoach: undefined,
     rateAcademicCoach: undefined,
     textInput: undefined,
-    primaryGoal: undefined
+    //primaryGoal: undefined
 }
 
 type PostSessionSurveyType = NativeStackScreenProps<MainStackParamList, 'PostSessionSurveyCollege'>;
