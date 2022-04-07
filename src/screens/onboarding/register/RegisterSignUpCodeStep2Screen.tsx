@@ -31,7 +31,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
     const options = route.params.studentPartnerManifest.sites!;
 
     const validationSchema = Yup.object().shape({
-        site: Yup.string().required(),
+        site: Yup.string(),
         firstName: Yup.string().required(),
         lastName: Yup.string().required(),
         grade: Yup.object().required(),
