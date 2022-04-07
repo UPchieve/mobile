@@ -16,7 +16,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
     const { eligible, grade, highSchoolId, zipCode, email } = route.params;
 
     const renderEligible = () => {
-        return <><ImageBackground source={ImageIndex.onboarding.confetti} style={styles.wrapper}>
+        return <><ImageBackground source={ImageIndex.onboarding.confetti} style={[styles.wrapper, {paddingTop: 85}]}>
             <Text style={styles.title}>You’re Eligible!</Text>
             <Image style={{ width: 193, height: 192 }}
                 source={ImageIndex.onboarding.eligible} />
@@ -29,7 +29,9 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
     const renderNotEligible = () => {
         return <View style={[styles.wrapper, styles.wrapperNotEligible]}>
             <Text style={styles.title}>Sorry, we can’t verify {'\n'} your eligibility yet.</Text>
-            <Image source={ImageIndex.onboarding.notEligible} style={{ marginBottom: 30 }} />
+            <Image source={ImageIndex.onboarding.notEligible} style={{ marginBottom: 30, resizeMode: 'contain',
+                height: '40%',
+                width: 312 }} />
             <Text style={{ fontSize: 16, fontFamily: FontIndex.WorkSans.Regular, textAlign: 'center' }}>
                 <Text style={{ fontFamily: FontIndex.WorkSans.Bold }}>Don’t worry: you may still be eligible!{"\n"}</Text>
                 We just need your parent/guardian to answer some more questions first!</Text>
@@ -65,7 +67,6 @@ const styles = StyleSheet.create({
         width: '100%',
         // height: (Dimensions.get('screen').height / 2) - 50,
         height: 462,
-        paddingTop: 85,
         alignItems: 'center',
         justifyContent: 'flex-end'
         // marginBottom: 70,
