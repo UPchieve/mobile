@@ -89,6 +89,7 @@ export const ChatScreen: React.FC<Props> = ({
             changed: ViewToken[];
         }) => {
             const currentState = chatListRef.current?.props.data;
+            console.log('currentState', currentState)
 
             if (viewableItems.length === 0) {
                 return;
@@ -215,6 +216,7 @@ export const ChatScreen: React.FC<Props> = ({
     };
 
     const handleSessionMessages = async () => {
+        console.log('handle', sessionState, botMessages)
         if (!sessionState?.volunteer && user.isVolunteer === false) {
             for (const msg of botMessages) {
                 try {
@@ -241,6 +243,7 @@ export const ChatScreen: React.FC<Props> = ({
 
         const messages: (ChatIncomingData | ChatoutcomingData)[] = [];
         sessionState!.messages.forEach((message) => {
+            console.log('for message', message, messages)
             if (message.user === user._id) {
                 messages.push({
                     contents: message.contents,
