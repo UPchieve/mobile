@@ -29,6 +29,8 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     const isSessionStarted = () => !!sessionState?.volunteer;
     const insets = useSafeAreaInsets();
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
+    const [endSession, setEndSession] = useState(false);
+    const [showFirstAlert, setShowFirstAlert] = useState(false);
 
     const getMessagesAfterVolunteerJoined = () => {
         // return sessionState?.messages.filter(
@@ -63,8 +65,37 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
 
     useEffect(() => {
         console.log('new date', sessionState);
+        setShowFirstAlert(true)
         if (isWaitingForVolunteer() && !waitingTimeout) {
             const timeout = setTimeout(() => {
+                showPrompt({
+                    title: 'We’re having trouble matching you with a coach',
+                    text: 'We recommend you ending your session and trying again later.',
+                    icon: SvgIcons.RobotIcon,
+                    type: 'error',
+                    confirmText: 'End',
+                    onConfirm: () => {
+                        navigate(true).then(() => {
+                            navigation.navigate('DashboardScreen');
+                        });
+                    },
+                    onCancel: () => {
+                        showSecondAlertTroubleMatching();
+                    },
+                    cancelText: 'Keep Waiting'
+                })
+            }, 1000 * 60 * 15); // 15 mins.
+            setWaitingTimeout(timeout);
+        }
+
+        if (!!waitingTimeout && !isWaitingForVolunteer()) {
+            clearTimeout(waitingTimeout)
+            setWaitingTimeout(undefined);
+        }
+    }, [sessionState]);
+
+    const showSecondAlertTroubleMatching = () => {
+            setTimeout(()=> {
                 showAlert({
                     title: 'We’re having trouble matching you with a coach',
                     text: 'Please try again later.',
@@ -77,14 +108,10 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                         });
                     }
                 })
-            }, 1000 * 60 * 10); // 10 mins.
-            setWaitingTimeout(timeout);
-        }
-        if (!!waitingTimeout && !isWaitingForVolunteer()) {
-            clearTimeout(waitingTimeout)
-            setWaitingTimeout(undefined);
-        }
-    }, [sessionState]);
+            }, 1000 * 60 * 15);
+    }
+
+
 
     const navigate = async (closeSession: boolean = false) => {
         const shouldShowFeedback = await shouldGoToFeedbackScreen();
