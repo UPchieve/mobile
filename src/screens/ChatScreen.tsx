@@ -70,6 +70,7 @@ export const ChatScreen: React.FC<Props> = ({
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
+    const [isReady, setIsReady] = useState(false);
 
     const context = useContext(AuthContext);
     const { socketHandler, sessionState } = context;
@@ -89,7 +90,6 @@ export const ChatScreen: React.FC<Props> = ({
             changed: ViewToken[];
         }) => {
             const currentState = chatListRef.current?.props.data;
-            console.log('currentState', currentState)
 
             if (viewableItems.length === 0) {
                 return;
@@ -143,10 +143,16 @@ export const ChatScreen: React.FC<Props> = ({
 
     useEffect(() => {
         addSocketEventListeners();
-        if (sessionState) {
-            handleSessionMessages();
-        }
     }, []);
+
+    useEffect(() => {
+        if (!isReady) {
+            if (sessionState && !sessionState.endedAt) {
+                handleSessionMessages();
+                setIsReady(true);
+            }
+        }
+    }, [sessionState]);
 
     useEffect(() => {
         if (sessionState && previousSessionState) {
@@ -216,7 +222,6 @@ export const ChatScreen: React.FC<Props> = ({
     };
 
     const handleSessionMessages = async () => {
-        console.log('handle', sessionState, botMessages)
         if (!sessionState?.volunteer && user.isVolunteer === false) {
             for (const msg of botMessages) {
                 try {
@@ -243,7 +248,6 @@ export const ChatScreen: React.FC<Props> = ({
 
         const messages: (ChatIncomingData | ChatoutcomingData)[] = [];
         sessionState!.messages.forEach((message) => {
-            console.log('for message', message, messages)
             if (message.user === user._id) {
                 messages.push({
                     contents: message.contents,

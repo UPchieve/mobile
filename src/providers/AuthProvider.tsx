@@ -81,7 +81,6 @@ export const AuthProvider: React.FC = ({ children }) => {
                 setConnected(true);
             });
             socketHandler.on('session-change', (value: SessionStateChangedSocketType) => {
-                console.log('sessionState', value)
                 setSessionState(value);
             });
         }
