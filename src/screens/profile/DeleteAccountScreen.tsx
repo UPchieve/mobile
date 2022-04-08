@@ -28,8 +28,8 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                     zIndex: 1,
                 }}>
                     <View style={{ marginTop: 156, alignItems: 'center' }}>
-                        <H3>Are you sure you want to </H3>
-                        <H3> delete your account?</H3>
+                        <H3 fontFamily={FontIndex.WorkSans.Medium}>Are you sure you want to </H3>
+                        <H3 fontFamily={FontIndex.WorkSans.Medium}> delete your account?</H3>
                         <Separator marginVertical={24} backgroundColor='transparent' />
                         <Image style={{width: 227, height: 292}}
                             source={ImageIndex.dashboard.deleteAccount}
@@ -42,7 +42,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({ navigat
                     flex: 1,
                 }}>
                     <Separator marginVertical={24} backgroundColor='transparent' />
-                    <Text style={{ fontSize: 16, fontFamily: FontIndex.WorkSans.Regular, textAlign: 'center', fontWeight: 'bold', lineHeight: 20 }}>
+                    <Text style={{ fontSize: 16, fontFamily: FontIndex.WorkSans.Medium, textAlign: 'center', fontWeight: 'bold', lineHeight: 20 }}>
                         Deleting your account is permanent</Text>
                     <Separator marginVertical={8} backgroundColor='transparent' />
                     <Text style={styles.additionalText}>Once you delete your account, you </Text>
