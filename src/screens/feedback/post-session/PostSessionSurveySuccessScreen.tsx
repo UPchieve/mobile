@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     },
     background: {
         position: 'absolute',
-        borderTopLeftRadius: 173,
-        borderTopRightRadius: 173,
+        borderTopLeftRadius: 193,
+        borderTopRightRadius: 193,
         height: '100%',
         width: '100%',
         backgroundColor: '#F3F7FD',
