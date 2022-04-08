@@ -84,16 +84,15 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
         validationSchema,
         validateOnMount: true,
         onSubmit: async (values, { setSubmitting }) => {
-            let sessionId;
             try {
                 const payload: any = {};
                 for (const key of Object.keys(values)) {
                     //@ts-ignore
                     payload[key] = { answer: values[key] }
                 }
-                sessionId = await sessionService.newSession(route.params.sessionType, route.params.sessionSubTopic);
+                const sessionId = await sessionService.newSession(route.params.sessionType, route.params.sessionSubTopic);
+                console.log('session', sessionId)
                 await sessionService.sendPreSesionFeedback(sessionId, payload);
-
 
 
                 //check if user already determine if he want notifications or not.
@@ -106,13 +105,11 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
 
             } catch (error) {
                 const currentSession =  await sessionService.getCurrentSession();
-                if (sessionId) {
-                    if (currentSession && currentSession.sessionId === sessionId) {
-                        navigation.navigate('Session', { sessionId, });
+                    if (currentSession) {
+                        navigation.navigate('Session', {sessionId: currentSession.sessionId});
                     } else {
-                        navigation.navigate('NotificationScreen', { sessionId });
+                        navigation.navigate('DashboardScreen');
                     }
-                }
                 console.log('error', error);
             }
             finally {
