@@ -18,21 +18,22 @@ export const ResetPasswordStep2Screen: React.FC<ResetPasswordStep2ScreenType> = 
             flex: 1
         }}>
             <H3>Check your email!</H3>
-            <View style={{ marginTop: 8, marginBottom: 30, }}>
-                <HelperText>We’ve sent reset password recover {"\n"} instructions to
-                    <HelperText bold={true}> {email}!</HelperText>
+            <View style={{ marginTop: 8, marginBottom: 30}}>
+                <HelperText textAlign={'center'}>We’ve sent reset password instructions {"\n"}
+                    <HelperText textAlign={'center'}>to</HelperText>
+                    <HelperText bold={true} textAlign={'center'}> {email}!</HelperText>
                 </HelperText>
             </View>
             <CommonButton
                 title='Open email app'
                 type='information'
-                style={{ paddingHorizontal: 40, height: 48, }}
+                style={{ paddingHorizontal: 70, height: 48, }}
                 onPress={() => {
                     Linking.openURL("mailto:");
                 }}
             />
             <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 59}}>
-                <HelperText>Didn´t receive an email? Check your spam {"\n"} filter or
+                <HelperText textAlign={'center'}> Didn't receive an email? Check your spam {"\n"} filter or
                     <Text style={[styles.anotherEmail, { color: Colors.information }]} onPress={() => navigation.navigate('ResetPasswordStep1', {resetForm: true})}> try another email address</Text>
                 </HelperText>
             </View>
