@@ -26,6 +26,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
     const user = authContext.user!;
     const { showPrompt, showAlert } = useContext(AlertContext);
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
+    const [waitingTimeoutSecondAlert, setWaitingTimeoutSecondAlert] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
     const insets = useSafeAreaInsets();
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
@@ -86,13 +87,15 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
         }
 
         if (!!waitingTimeout && !isWaitingForVolunteer()) {
-            clearTimeout(waitingTimeout)
+            clearTimeout(waitingTimeout);
+            clearTimeout(waitingTimeoutSecondAlert);
             setWaitingTimeout(undefined);
+            setWaitingTimeoutSecondAlert(undefined);
         }
     }, [sessionState]);
 
     const showSecondAlertTroubleMatching = () => {
-            setTimeout(()=> {
+           const timeout = setTimeout(()=> {
                 showAlert({
                     title: 'We’re having trouble matching you with a coach',
                     text: 'Please try again later.',
@@ -106,6 +109,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                     }
                 })
             }, 1000 * 60 * 15);
+        setWaitingTimeoutSecondAlert(timeout)
     }
 
 
