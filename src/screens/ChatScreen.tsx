@@ -70,6 +70,7 @@ export const ChatScreen: React.FC<Props> = ({
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
+    const [isReady, setIsReady] = useState(false);
 
     const context = useContext(AuthContext);
     const { socketHandler, sessionState } = context;
@@ -142,10 +143,16 @@ export const ChatScreen: React.FC<Props> = ({
 
     useEffect(() => {
         addSocketEventListeners();
-        if (sessionState) {
-            handleSessionMessages();
-        }
     }, []);
+
+    useEffect(() => {
+        if (!isReady) {
+            if (sessionState && !sessionState.endedAt) {
+                handleSessionMessages();
+                setIsReady(true);
+            }
+        }
+    }, [sessionState]);
 
     useEffect(() => {
         if (sessionState && previousSessionState) {

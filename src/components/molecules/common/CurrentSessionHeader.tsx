@@ -22,15 +22,13 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
 
 
     const authContext = useContext(AuthContext);
-    const { sessionState } = authContext;
+    const { sessionState, setSessionState } = authContext;
     const user = authContext.user!;
     const { showPrompt, showAlert } = useContext(AlertContext);
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
     const insets = useSafeAreaInsets();
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
-    const [endSession, setEndSession] = useState(false);
-    const [showFirstAlert, setShowFirstAlert] = useState(false);
 
     const getMessagesAfterVolunteerJoined = () => {
         // return sessionState?.messages.filter(
@@ -65,7 +63,6 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
 
     useEffect(() => {
         console.log('new date', sessionState);
-        setShowFirstAlert(true)
         if (isWaitingForVolunteer() && !waitingTimeout) {
             const timeout = setTimeout(() => {
                 showPrompt({
