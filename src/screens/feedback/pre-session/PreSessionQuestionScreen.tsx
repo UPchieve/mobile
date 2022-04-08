@@ -91,7 +91,9 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                     payload[key] = { answer: values[key] }
                 }
                 const sessionId = await sessionService.newSession(route.params.sessionType, route.params.sessionSubTopic);
-                sessionService.sendPreSesionFeedback(sessionId, payload);
+                console.log('session', sessionId)
+                await sessionService.sendPreSesionFeedback(sessionId, payload);
+
 
                 //check if user already determine if he want notifications or not.
                 const hasPermissions = await messaging().hasPermission();
@@ -102,9 +104,13 @@ export const PreSessionQuestionScreen: React.FC<PreSessionQuestionScreenType> = 
                 }
 
             } catch (error) {
-                console.log(error);
-
-                alert(error);
+                const currentSession =  await sessionService.getCurrentSession();
+                    if (currentSession) {
+                        navigation.navigate('Session', {sessionId: currentSession.sessionId});
+                    } else {
+                        navigation.navigate('DashboardScreen');
+                    }
+                console.log('error', error);
             }
             finally {
                 setSubmitting(false);
