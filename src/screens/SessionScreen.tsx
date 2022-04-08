@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 
-import { Keyboard, StyleSheet, View } from "react-native";
+import {Keyboard, Platform, StyleSheet, View} from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../assets/Colors';
@@ -65,11 +65,16 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     const onSwitchPress = async () => {
         Keyboard.dismiss();
         setShowChat((oldValue) => !oldValue);
-        if (showChat && getSessionType(sessionState!) === 'WHITEBOARD') {
-            await lockAsync('LANDSCAPE');
+        if (Platform.OS === 'ios' && !Platform.isPad) {
+            if (showChat && getSessionType(sessionState!) === 'WHITEBOARD') {
+                await lockAsync('LANDSCAPE');
+            } else {
+                await lockAsync('PORTRAIT');
+            }
         } else {
-            await lockAsync('PORTRAIT');
+            await lockAsync('LANDSCAPE');
         }
+
     }
 
     const hasNotifications = () => chat.filter(x => x.type === 'message' && (x.sentByMe === false && x.seen === false)).length > 0;
@@ -87,12 +92,9 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     return (
         <CommonKeyboardAvoidingView style={{ flex: 1, paddingBottom: insets.bottom }}>
             <MenuProvider>
-                {orientation === 'PORTRAIT' ?
-                    < CurrentSessionHeader
+                    <CurrentSessionHeader
                         navigation={navigation}
                         messages={chat?.filter(x => x.type === 'message') as ChatItem[]} />
-                    : null
-                }
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, { backgroundColor: 'white' }]}>
                     <ChatScreen
                         onSwitchPress={onSwitchPress}

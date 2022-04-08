@@ -44,6 +44,8 @@ import { FontIndex } from '../../assets/FontIndex';
 import { usePrevious } from '../hooks/usePrevious';
 import { useKeyboard } from '@react-native-community/hooks';
 import { inlineStyles } from 'react-native-svg';
+import {lockAsync} from "expo-screen-orientation";
+import {useOrientation} from "../hooks/useOrientation";
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
@@ -76,6 +78,8 @@ export const ChatScreen: React.FC<Props> = ({
     const { socketHandler, sessionState } = context;
     const user = context.user!;
     const { keyboardShown } = useKeyboard();
+
+    const {lockAsync} = useOrientation();
 
     const [inputSize, setInputSize] = useState<number>();
 
@@ -142,8 +146,12 @@ export const ChatScreen: React.FC<Props> = ({
     };
 
     useEffect(() => {
+        if (Platform.OS === 'ios' && Platform.isPad) {
+            lockAsync('LANDSCAPE');
+        }
         addSocketEventListeners();
     }, []);
+
 
     useEffect(() => {
         if (!isReady) {
