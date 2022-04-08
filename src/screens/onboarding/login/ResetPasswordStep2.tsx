@@ -33,7 +33,7 @@ export const ResetPasswordStep2Screen: React.FC<ResetPasswordStep2ScreenType> = 
                 }}
             />
             <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 59}}>
-                <HelperText textAlign={'center'}> Didn´t receive an email? Check your spam {"\n"} filter or
+                <HelperText textAlign={'center'}> Didn't receive an email? Check your spam {"\n"} filter or
                     <Text style={[styles.anotherEmail, { color: Colors.information }]} onPress={() => navigation.navigate('ResetPasswordStep1', {resetForm: true})}> try another email address</Text>
                 </HelperText>
             </View>
