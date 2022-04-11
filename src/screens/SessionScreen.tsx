@@ -65,14 +65,14 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     const onSwitchPress = async () => {
         Keyboard.dismiss();
         setShowChat((oldValue) => !oldValue);
-        if (Platform.OS === 'ios' && !Platform.isPad) {
+        if (Platform.OS === 'ios' && Platform.isPad) {
+            await lockAsync('LANDSCAPE');
+        } else {
             if (showChat && getSessionType(sessionState!) === 'WHITEBOARD') {
                 await lockAsync('LANDSCAPE');
             } else {
                 await lockAsync('PORTRAIT');
             }
-        } else {
-            await lockAsync('LANDSCAPE');
         }
 
     }
@@ -92,9 +92,11 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
     return (
         <CommonKeyboardAvoidingView style={{ flex: 1, paddingBottom: insets.bottom }}>
             <MenuProvider>
+                {orientation === 'PORTRAIT' ||  Platform.OS === 'ios' && Platform.isPad ?
                     <CurrentSessionHeader
-                        navigation={navigation}
-                        messages={chat?.filter(x => x.type === 'message') as ChatItem[]} />
+                    navigation={navigation}
+                    messages={chat?.filter(x => x.type === 'message') as ChatItem[]} />
+                    : null}
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, { backgroundColor: 'white' }]}>
                     <ChatScreen
                         onSwitchPress={onSwitchPress}

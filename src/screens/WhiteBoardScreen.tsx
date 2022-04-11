@@ -168,7 +168,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
       </>
     } else {
       return <>
-        <SafeAreaView>
         <View style={[styles.topToolsWrapper, {
           paddingRight: insets.right,
         }]}>
@@ -199,7 +198,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({ sessionId, onSwitch
         <View style={styles.body}>
           {renderWebView()}
         </View>
-        </SafeAreaView>
       </>
     }
   }
