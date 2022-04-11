@@ -95,6 +95,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({ route, navigation }
                 }
                 <View style={[styles.visiblePageWrapper, !showChat && styles.hiddenPageWrapper, { backgroundColor: 'white' }]}>
                     <ChatScreen
+                        showChat={showChat}
                         onSwitchPress={onSwitchPress}
                         sessionType={getSessionType(sessionState!)}
                         chat={chat} dispatch={dispatchChat}
