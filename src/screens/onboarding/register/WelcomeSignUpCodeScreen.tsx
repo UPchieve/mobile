@@ -23,11 +23,13 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({ navig
                     <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.notWithText}>Not with {studentPartnerManifest?.name || '_____'} ?</Text>
                     </TouchableOpacity>
-                    <Image style={{width: 213, height: 210}}
+                    <Image style={{width: 213, resizeMode: 'contain',
+                        height: '60%',}}
                         source={ImageIndex.onboarding.eligible} />
                 </View>
             </ImageBackground>
-            <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
+            <Separator marginVertical={20} backgroundColor={'transparent'} />
+            <View style={{ paddingHorizontal: 20}}>
                 <CommonButton
                     title="Continue"
                     type="information"

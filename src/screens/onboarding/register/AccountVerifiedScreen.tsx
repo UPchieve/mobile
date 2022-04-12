@@ -18,8 +18,8 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
     const [loading, setLoading] = useState<boolean>(false);
     const { refreshUser } = useContext(AuthContext);
 
-    return <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 45, }}>
+    return <View>
+        <View style={{justifyContent: 'space-between', paddingBottom: 45, }}>
             <View>
                 <Image
                     source={ImageIndex.onboarding.accountVerified}
@@ -43,7 +43,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
                     </HelperText>
                 </View>
             </View>
-            <View style={{ paddingHorizontal: 25, paddingTop: 80}}>
+            <View style={{ paddingHorizontal: 25, paddingTop: 50}}>
                 <CommonButton
                     type='information'
                     title="I'm listening"
@@ -55,6 +55,6 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({ nav
                 />
             </View>
         </View>
-    </ScrollView>
+    </View>
 
 };
