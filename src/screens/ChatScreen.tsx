@@ -339,14 +339,6 @@ export const ChatScreen: React.FC<Props> = ({
         }
     };
 
-    const test = () => {
-        return chat.filter(
-            (x) =>
-                x.type === 'message' && !x.sentByMe &&
-                x.seen === false
-        ).length
-    }
-
     const onScrollEndDrag = ({
         nativeEvent,
     }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -406,7 +398,13 @@ export const ChatScreen: React.FC<Props> = ({
                     ]}
                 >
                     <ChatNewerChatButton
-                        newerChats={test()}
+                        newerChats={
+                            chat.filter(
+                                (x) =>
+                                    x.type === 'message' && !x.sentByMe &&
+                                    x.seen === false
+                            ).length
+                        }
                         onPress={() => scrollToEnd()}
                     />
                 </View>
