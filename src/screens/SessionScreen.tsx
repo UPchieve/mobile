@@ -76,6 +76,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({
     }, []);
 
     useEffect(() => {
+        Keyboard.dismiss()
         if (getSessionType(sessionState!) === 'WHITEBOARD') {
             setShowChat(orientation === 'PORTRAIT');
         }
