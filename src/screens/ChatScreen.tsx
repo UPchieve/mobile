@@ -90,30 +90,37 @@ export const ChatScreen: React.FC<Props> = ({
 
     const _onViewableItemsChanged = useCallback(
         ({
-            viewableItems,
-            changed,
-        }: {
+             viewableItems,
+             changed,
+         }: {
             viewableItems: ViewToken[];
             changed: ViewToken[];
         }) => {
-            const currentState = chatListRef.current?.props.data;
 
-            if (viewableItems.length === 0) {
+            const data = chatListRef.current?.props.data;
+            if (viewableItems.length === 0 || !data) {
                 return;
             }
 
-            const max = viewableItems[viewableItems.length - 1];
-            //@ts-ignore
-            if (!currentState![max.index!].seen) {
-                if (currentState![max.index!].type === 'message') {
+            const toUpdate = viewableItems
+                .filter((x) => !x.item.seen)
+                .map((x) => x.item.time);
+            toUpdate.forEach((time) => {
+                const index = data.findIndex((x) => x.time === time);
+                console.log({
+                    time,
+                    index,
+                });
+
+                if (index !== -1) {
                     dispatch({
                         type: 'chat_mark_seen',
                         payload: {
-                            chatItem: currentState![max.index!],
+                            chatItem: data[index],
                         },
                     });
                 }
-            }
+            });
         },
         []
     );
@@ -144,7 +151,7 @@ export const ChatScreen: React.FC<Props> = ({
     };
 
     const scrollToEnd = () => {
-        chatListRef.current?.scrollToEnd();
+        chatListRef.current?.scrollToIndex({index: chat.length - 1, animated: true});
         setShouldAutoScroll(true);
     };
 
@@ -332,6 +339,14 @@ export const ChatScreen: React.FC<Props> = ({
         }
     };
 
+    const test = () => {
+        return chat.filter(
+            (x) =>
+                x.type === 'message' && !x.sentByMe &&
+                x.seen === false
+        ).length
+    }
+
     const onScrollEndDrag = ({
         nativeEvent,
     }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -391,13 +406,7 @@ export const ChatScreen: React.FC<Props> = ({
                     ]}
                 >
                     <ChatNewerChatButton
-                        newerChats={
-                            chat.filter(
-                                (x) =>
-                                    x.type === 'message' && !x.sentByMe &&
-                                    x.seen === false
-                            ).length
-                        }
+                        newerChats={test()}
                         onPress={() => scrollToEnd()}
                     />
                 </View>
