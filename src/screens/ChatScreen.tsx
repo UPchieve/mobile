@@ -17,7 +17,7 @@ import {
     Image,
     Text,
     SafeAreaView,
-    Platform,
+    Platform, TextInput,
 } from 'react-native';
 import { Colors } from '../../assets/Colors';
 import { ChatMessage } from '../components/atoms/chat/ChatMessage';
@@ -51,6 +51,7 @@ type Props = {
     sessionType: SessionType;
     chat: ChatType[];
     dispatch: React.Dispatch<ChatReducerAction>;
+    showChat: boolean
 };
 
 const botMessages = [
@@ -64,6 +65,7 @@ export const ChatScreen: React.FC<Props> = ({
     sessionType,
     chat,
     dispatch,
+    showChat
 }) => {
     const chatListRef = useRef<FlatList<ChatType>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
@@ -71,6 +73,7 @@ export const ChatScreen: React.FC<Props> = ({
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
     const [isReady, setIsReady] = useState(false);
+    const inputRef = useRef<TextInput>(null);
 
     const context = useContext(AuthContext);
     const { socketHandler, sessionState } = context;
@@ -190,6 +193,14 @@ export const ChatScreen: React.FC<Props> = ({
             chatListRef.current?.scrollToEnd({ animated: true });
         }
     }, [keyboardShown]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (showChat) {
+                inputRef?.current?.focus()
+            }
+        }, 300)
+    },[showChat])
 
     const onChatPress = (message: string) => {
         socketHandler.emit('message', {
@@ -426,6 +437,7 @@ export const ChatScreen: React.FC<Props> = ({
                         }}
                     />
                     <ChatInput
+                        ref={inputRef}
                         value={chatMessage}
                         setValue={setChatMessage}
                         onPress={onChatPress}
