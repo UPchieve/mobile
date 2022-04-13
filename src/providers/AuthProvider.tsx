@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import { userStateType, useUserState, useUserStateType } from "../hooks/useUserState";
 import { Student, User, Volunteer } from "../models/user";
 import { authService } from "../services/authService";
@@ -20,6 +20,7 @@ export interface AuthContext {
     userState: useUserStateType;
     loadingUser: boolean;
     sessionState?: SessionStateChangedSocketType,
+    setSessionState: Dispatch<SetStateAction<SessionStateChangedSocketType | undefined>>
 }
 export const AuthContext = React.createContext<AuthContext>({} as AuthContext);
 export const AuthProvider: React.FC = ({ children }) => {
@@ -91,6 +92,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         user,
         sessionState,
         userState,
+        setSessionState,
         refreshUser: () => loadUser()
     }}>
         {children}

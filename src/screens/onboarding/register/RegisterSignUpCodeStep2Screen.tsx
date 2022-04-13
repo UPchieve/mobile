@@ -30,13 +30,30 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
 
     const options = route.params.studentPartnerManifest.sites!;
 
-    const validationSchema = Yup.object().shape({
-        site: Yup.string().required(),
-        firstName: Yup.string().required(),
-        lastName: Yup.string().required(),
-        grade: Yup.object().required(),
-        highSchool: Yup.object()
-    });
+    const highSchoolSignupRequired = route.params.studentPartnerManifest.schoolSignupRequired;
+
+    let validationShape;
+
+    if (highSchoolSignupRequired) {
+        validationShape = {
+            site: Yup.string(),
+            firstName: Yup.string().required(),
+            lastName: Yup.string().required(),
+            grade: Yup.object().required(),
+            highSchool: Yup.object().required()
+        }
+    } else {
+        validationShape = {
+            site: Yup.string(),
+            firstName: Yup.string().required(),
+            lastName: Yup.string().required(),
+            grade: Yup.object().required(),
+            highSchool: Yup.object()
+        }
+    }
+
+    // @ts-ignore
+    const validationSchema = Yup.object().shape(validationShape)
 
     const formik = useFormik<formTypeValues>({
         initialValues: {} as formTypeValues,
@@ -82,7 +99,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
             return <Input
                 editable={false}
                 value={formik.values.highSchool == undefined ? '' : schoolUtils.getAsString(formik.values.highSchool)}
-                placeholder="High School"
+                placeholder={highSchoolSignupRequired ? "High School" : "High School (Optional)"}
                 errorMessage={formik.errors.highSchool as string}
                 isValid={!formik.errors.highSchool}
                 touched={formik.touched.highSchool as boolean}

@@ -41,7 +41,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
             />
             <View style={styles.container}>
                 <Text style={styles.title}>You are currently in a session.</Text>
-                <Image source={ImageIndex.dashboard.state.inSession} style={{ marginTop: 24, }} />
+                <Image source={ImageIndex.dashboard.state.inSession} style={{ marginTop: 24,width: 242, height: 253}} />
                 <View style={{ paddingTop: 24, width: '100%' }}>
                     <CommonButton
                         title='Rejoin Session'

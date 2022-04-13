@@ -22,10 +22,11 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
 
 
     const authContext = useContext(AuthContext);
-    const { sessionState } = authContext;
+    const { sessionState, setSessionState } = authContext;
     const user = authContext.user!;
     const { showPrompt, showAlert } = useContext(AlertContext);
     const [waitingTimeout, setWaitingTimeout] = useState<any>();
+    const [waitingTimeoutSecondAlert, setWaitingTimeoutSecondAlert] = useState<any>();
     const isSessionStarted = () => !!sessionState?.volunteer;
     const insets = useSafeAreaInsets();
     const isWaitingForVolunteer = () => (!isSessionStarted() && !isSessionEnded(sessionState) && !user.isVolunteer);
@@ -65,6 +66,36 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
         console.log('new date', sessionState);
         if (isWaitingForVolunteer() && !waitingTimeout) {
             const timeout = setTimeout(() => {
+                showPrompt({
+                    title: 'We’re having trouble matching you with a coach',
+                    text: 'We recommend you ending your session and trying again later.',
+                    icon: SvgIcons.RobotIcon,
+                    type: 'error',
+                    confirmText: 'End',
+                    onConfirm: () => {
+                        navigate(true).then(() => {
+                            navigation.navigate('DashboardScreen');
+                        });
+                    },
+                    onCancel: () => {
+                        showSecondAlertTroubleMatching();
+                    },
+                    cancelText: 'Keep Waiting'
+                })
+            }, 1000 * 60 * 15); // 15 mins.
+            setWaitingTimeout(timeout);
+        }
+
+        if (!!waitingTimeout && !isWaitingForVolunteer()) {
+            clearTimeout(waitingTimeout);
+            clearTimeout(waitingTimeoutSecondAlert);
+            setWaitingTimeout(undefined);
+            setWaitingTimeoutSecondAlert(undefined);
+        }
+    }, [sessionState]);
+
+    const showSecondAlertTroubleMatching = () => {
+           const timeout = setTimeout(()=> {
                 showAlert({
                     title: 'We’re having trouble matching you with a coach',
                     text: 'Please try again later.',
@@ -77,14 +108,11 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
                         });
                     }
                 })
-            }, 1000 * 60 * 10); // 10 mins.
-            setWaitingTimeout(timeout);
-        }
-        if (!!waitingTimeout && !isWaitingForVolunteer()) {
-            clearTimeout(waitingTimeout)
-            setWaitingTimeout(undefined);
-        }
-    }, [sessionState]);
+            }, 1000 * 60 * 15);
+        setWaitingTimeoutSecondAlert(timeout)
+    }
+
+
 
     const navigate = async (closeSession: boolean = false) => {
         const shouldShowFeedback = await shouldGoToFeedbackScreen();

@@ -17,7 +17,7 @@ import {
     Image,
     Text,
     SafeAreaView,
-    Platform,
+    Platform, TextInput,
 } from 'react-native';
 import { Colors } from '../../assets/Colors';
 import { ChatMessage } from '../components/atoms/chat/ChatMessage';
@@ -44,6 +44,8 @@ import { FontIndex } from '../../assets/FontIndex';
 import { usePrevious } from '../hooks/usePrevious';
 import { useKeyboard } from '@react-native-community/hooks';
 import { inlineStyles } from 'react-native-svg';
+import {lockAsync} from "expo-screen-orientation";
+import {useOrientation} from "../hooks/useOrientation";
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
@@ -51,6 +53,7 @@ type Props = {
     sessionType: SessionType;
     chat: ChatType[];
     dispatch: React.Dispatch<ChatReducerAction>;
+    showChat: boolean
 };
 
 const botMessages = [
@@ -64,17 +67,22 @@ export const ChatScreen: React.FC<Props> = ({
     sessionType,
     chat,
     dispatch,
+    showChat
 }) => {
     const chatListRef = useRef<FlatList<ChatType>>(null);
     const [chatMessage, setChatMessage] = useState<string>('');
     const [isTypping, setIsTypping] = useState<boolean>(false);
     const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true);
     const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false);
+    const [isReady, setIsReady] = useState(false);
+    const inputRef = useRef<TextInput>(null);
 
     const context = useContext(AuthContext);
     const { socketHandler, sessionState } = context;
     const user = context.user!;
     const { keyboardShown } = useKeyboard();
+
+    const {lockAsync} = useOrientation();
 
     const [inputSize, setInputSize] = useState<number>();
 
@@ -82,30 +90,37 @@ export const ChatScreen: React.FC<Props> = ({
 
     const _onViewableItemsChanged = useCallback(
         ({
-            viewableItems,
-            changed,
-        }: {
+             viewableItems,
+             changed,
+         }: {
             viewableItems: ViewToken[];
             changed: ViewToken[];
         }) => {
-            const currentState = chatListRef.current?.props.data;
 
-            if (viewableItems.length === 0) {
+            const data = chatListRef.current?.props.data;
+            if (viewableItems.length === 0 || !data) {
                 return;
             }
 
-            const max = viewableItems[viewableItems.length - 1];
-            //@ts-ignore
-            if (!currentState![max.index!].seen) {
-                if (currentState![max.index!].type === 'message') {
+            const toUpdate = viewableItems
+                .filter((x) => !x.item.seen)
+                .map((x) => x.item.time);
+            toUpdate.forEach((time) => {
+                const index = data.findIndex((x) => x.time === time);
+                console.log({
+                    time,
+                    index,
+                });
+
+                if (index !== -1) {
                     dispatch({
                         type: 'chat_mark_seen',
                         payload: {
-                            chatItem: currentState![max.index!],
+                            chatItem: data[index],
                         },
                     });
                 }
-            }
+            });
         },
         []
     );
@@ -136,16 +151,26 @@ export const ChatScreen: React.FC<Props> = ({
     };
 
     const scrollToEnd = () => {
-        chatListRef.current?.scrollToEnd();
+        chatListRef.current?.scrollToIndex({index: chat.length - 1, animated: true});
         setShouldAutoScroll(true);
     };
 
     useEffect(() => {
-        addSocketEventListeners();
-        if (sessionState) {
-            handleSessionMessages();
+        if (Platform.OS === 'ios' && Platform.isPad) {
+            lockAsync('LANDSCAPE');
         }
+        addSocketEventListeners();
     }, []);
+
+
+    useEffect(() => {
+        if (!isReady) {
+            if (sessionState && !sessionState.endedAt) {
+                handleSessionMessages();
+                setIsReady(true);
+            }
+        }
+    }, [sessionState]);
 
     useEffect(() => {
         if (sessionState && previousSessionState) {
@@ -183,6 +208,14 @@ export const ChatScreen: React.FC<Props> = ({
             chatListRef.current?.scrollToEnd({ animated: true });
         }
     }, [keyboardShown]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (showChat) {
+                inputRef?.current?.focus()
+            }
+        }, 300)
+    },[showChat])
 
     const onChatPress = (message: string) => {
         socketHandler.emit('message', {
@@ -419,6 +452,7 @@ export const ChatScreen: React.FC<Props> = ({
                         }}
                     />
                     <ChatInput
+                        ref={inputRef}
                         value={chatMessage}
                         setValue={setChatMessage}
                         onPress={onChatPress}

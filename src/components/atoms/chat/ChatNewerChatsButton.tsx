@@ -14,7 +14,7 @@ export const ChatNewerChatButton: React.FC<ChatNewerChatButtonType> = ({
     }
     return (
         <TouchableOpacity style={styles.buttonWrapper} onPress={onPress}>
-            <Text style={styles.text}>{newerChats} messages down</Text>
+            <Text style={styles.text}>{newerChats > 1 ? newerChats + ' new messages' : newerChats === 1 ? newerChats + ' new message' : null}</Text>
         </TouchableOpacity>
     );
 };

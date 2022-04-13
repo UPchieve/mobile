@@ -1,4 +1,11 @@
-import React, { MutableRefObject, useRef, useState } from 'react'
+import React, {
+    ForwardRefRenderFunction,
+    MutableRefObject,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { SvgIcons } from '../../../../assets/IndexIcons'
@@ -11,10 +18,10 @@ type InputType = {
     onEndTyping: () => void
 }
 
-export const ChatInput: React.FC<InputType> = ({ value, setValue, onPress, onStartTyping, onEndTyping }) => {
+const Component: React.ForwardRefRenderFunction<TextInput, InputType> = ({ value, setValue, onPress, onStartTyping, onEndTyping }, inputRef) => {
     const [id, setId] = useState<any>();
-    const inputRef = useRef<TextInput>(null);
     const [startTypingInformed, setStartTypingInformed] = useState(false);
+
     const onKeyPress = () => {
         if (!startTypingInformed) {
             onStartTyping();
@@ -45,6 +52,8 @@ export const ChatInput: React.FC<InputType> = ({ value, setValue, onPress, onSta
         </View>
     )
 }
+
+export const ChatInput = React.forwardRef(Component)
 
 const styles = StyleSheet.create({
     container: {

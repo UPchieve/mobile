@@ -43,6 +43,7 @@ const endSession = async (sessionId: string, sessionSubTopic: string): Promise<v
     });
 
     captureEvent(EVENTS.SESSION_ENDED)
+    console.log('response', data)
     return data;
 }
 
