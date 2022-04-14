@@ -38,7 +38,8 @@ const logout = async (): Promise<void> => {
 
 const sendResetPasswordEmail = async (email: string): Promise<boolean> => {
   await http.post('/auth/reset/send', {
-    email
+    email,
+    mobile: true
   });
   return true;
 }
