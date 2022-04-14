@@ -7,7 +7,8 @@ const Config = {
         versionRelease: '2.0.0',
     },
     prod: {
-        baseUrl: 'https://upchieve.org',
+        baseUrl: 'https://app.upchieve.org',
+        marketingUrl: 'https://upchieve.org',
     },
     posthog: {
         token: '',
