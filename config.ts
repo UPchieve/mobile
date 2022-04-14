@@ -7,8 +7,12 @@ const Config = {
         versionRelease: '2.0.0',
     },
     prod: {
-        baseUrl: 'https://app.upchieve.org',
         marketingUrl: 'https://upchieve.org',
+        webSocketUrl: 'https://app.upchieve.org',
+        socketUrl: 'wss://app.upchieve.org',
+        baseUrl: 'https://app.upchieve.org',
+        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
+        versionRelease: '2.0.0',
     },
     posthog: {
         token: '',
