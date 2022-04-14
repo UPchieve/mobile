@@ -39,7 +39,7 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({ navig
                     })}
                 />
                 <Separator marginVertical={8} backgroundColor={'transparent'} />
-                <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(`${configProd.baseUrl}/students`)}>
+                <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(`${configProd.marketingUrl}/students`)}>
                     <Text style={styles.buttonText}>What is UPchieve?</Text>
                 </TouchableOpacity>
             </View>
