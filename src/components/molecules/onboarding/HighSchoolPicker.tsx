@@ -10,7 +10,7 @@ import { SvgIcons } from '../../../../assets/IndexIcons';
 import { eligibilityService } from '../../../services/eligibilityService';
 import { DelayTextInput, DelayTextInputHandle } from '../../atoms/common/DelayTextInput';
 import { Separator } from '../../atoms/common/Separator';
-import {config} from '../../../../config';
+import {config, configLocal} from '../../../../config';
 
 type HighSchoolPickerType = {
     visible: boolean;
@@ -58,7 +58,7 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
     }
 
     const listFooterComponent = () => {
-        return <TouchableOpacity style={{ marginTop: 5, }} onPress={() => Linking.openURL(`${config.baseUrl}/cant-find-school`)}>
+        return <TouchableOpacity style={{ marginTop: 5, }} onPress={() => Linking.openURL(`${configLocal.baseUrl}/cant-find-school`)}>
             <Text style={[styles.cancelText, { marginLeft: 10 }]}>Can’t find your school?</Text>
         </TouchableOpacity>
     }
@@ -93,7 +93,7 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
                         data={data}
                         renderItem={renderItem}
                         ListFooterComponent={listFooterComponent}
-                        keyExtractor={(e) => e._id}
+                        keyExtractor={(e) => e.id}
                     />
                 </View>
             </SafeAreaView>

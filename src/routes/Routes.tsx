@@ -7,9 +7,7 @@ import { DrawerNavigator } from './DrawerNavigator';
 import { AuthContext } from '../providers/AuthProvider';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { useOrientation } from '../hooks/useOrientation';
-import messaging from '@react-native-firebase/messaging';
 import { useNotificationHandler } from '../hooks/useNotificationHandler';
-import { NotificationScreen } from '../screens/dashboard/NotificationScreen';
 
 
 const prefix = Linking.createURL('/');

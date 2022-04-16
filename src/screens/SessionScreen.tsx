@@ -10,7 +10,6 @@ import React, {
 import { Keyboard, Platform, StyleSheet, View } from 'react-native';
 import { MenuProvider } from 'react-native-popup-menu';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Colors } from '../../assets/Colors';
 import { CommonKeyboardAvoidingView } from '../components/common/CommonKeyboardAvoidingView';
 import { AppLoading } from '../components/molecules/common/AppLoading';
 import { CurrentSessionHeader } from '../components/molecules/common/CurrentSessionHeader';

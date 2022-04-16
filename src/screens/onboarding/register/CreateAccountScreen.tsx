@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormikProvider, useFormik } from 'formik';
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, View, StyleSheet, Linking, } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors } from '../../../../assets/Colors';
@@ -16,11 +16,8 @@ import { FormikPicker } from '../../../components/atoms/common/Formik/FormikPick
 import * as Yup from 'yup';
 import { PasswordInput } from '../../../components/atoms/onboarding/PasswordInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { formatValueType } from 'react-native-cn-quill/lib/typescript/constants/formats';
 import { authService } from '../../../services/authService';
-import { Routes } from '../../../routes/Routes';
-import { NavigationRouteContext } from '@react-navigation/native';
-import { config } from '../../../../config';
+import { config, configLocal } from '../../../../config';
 
 
 interface formTypeValues {
@@ -95,7 +92,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
     }
 
     const openLegalUrl = async () => {
-        await Linking.openURL(`${config.baseUrl}/legal`);
+        await Linking.openURL(`${configLocal.baseUrl}/legal`);
     }
 
     return <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20, }}>

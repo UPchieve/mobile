@@ -16,7 +16,6 @@ import { ModalSelect } from '../../../../components/atoms/common/ModalSelect'
 import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from '../../../../components/atoms/common/InputWithCustomErrorMessage'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { authService } from '../../../../services/authService'
-import { AxiosError } from 'axios';
 import { getErrorFromBackendResponse } from '../../../../utils/utils'
 import { EVENTS } from '../../../../types/services/analyticsServiceTypes'
 import { captureEvent } from '../../../../services/analyticsService'
@@ -63,7 +62,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
             }
             const response = await eligibilityService.check({
                 email: email!,
-                schoolUpchieveId: highSchool!._id,
+                schoolUpchieveId: highSchool!.id,
                 zipCode: zipCode!,
                 currentGrade: grade!.value,
             });
@@ -74,7 +73,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({ navigation, s
                 eligible: response,
                 grade: grade!.value,
                 zipCode: zipCode!,
-                highSchoolId: highSchool!._id,
+                highSchoolId: highSchool!.id,
                 email: email!,
             });
         }

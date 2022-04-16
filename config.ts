@@ -1,15 +1,27 @@
 const Config = {
+    local: {
+        marketingUrl: 'https://upchieve.org',
+      webSocketUrl: 'ws://localhost:3001',
+      baseUrl: 'http://localhost:3000',
+        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
+        versionRelease: '2.0.0',
+    },
     demo: {
-        webSocketUrl: 'https://demo.upchieve.org',
-        socketUrl: 'wss://demo.upchieve.org',
+        webSocketUrl: 'wss://demo.upchieve.org',
         baseUrl: 'https://demo.upchieve.org',
+        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
+        versionRelease: '2.0.0',
+    },
+    staging: {
+        marketingUrl: 'https://upchieve.org',
+        webSocketUrl: 'wss://staging.upchieve.org',
+        baseUrl: 'https://staging.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
         versionRelease: '2.0.0',
     },
     prod: {
         marketingUrl: 'https://upchieve.org',
-        webSocketUrl: 'https://app.upchieve.org',
-        socketUrl: 'wss://app.upchieve.org',
+        webSocketUrl: 'wss://app.upchieve.org',
         baseUrl: 'https://app.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
         versionRelease: '2.0.0',
@@ -32,9 +44,13 @@ const Config = {
 
 const getConfig = () => Config.demo;
 const getConfigProd = () => Config.prod;
+const getConfigStaging = () => Config.staging;
+const getConfigLocal = () => Config.local;
 
 export const config = getConfig();
-export const configProd = getConfigProd()
+export const configProd = getConfigProd();
+export const configStaging = getConfigStaging();
+export const configLocal = getConfigLocal();
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
 

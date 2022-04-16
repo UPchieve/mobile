@@ -20,7 +20,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigator";
 import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from "../../../components/atoms/common/InputWithCustomErrorMessage";
 import { getErrorFromBackendResponse } from "../../../utils/utils";
-import { config } from "../../../../config";
+import { config, configLocal } from "../../../../config";
 
 
 interface formTypeValues {
@@ -85,7 +85,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
     }
 
     const openLegalUrl = async () => {
-        await Linking.openURL(`${config.baseUrl}/legal`);
+        await Linking.openURL(`${configLocal.baseUrl}/legal`);
     }
 
     return (

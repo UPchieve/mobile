@@ -1,15 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { ReactElement } from 'react'
-import { Image, ImageBackgroundComponent, Linking, StyleSheet } from 'react-native';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Image, Linking, StyleSheet } from 'react-native';
 import { ImageBackground, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontIndex } from '../../../../assets/FontIndex';
 import { ImageIndex } from '../../../../assets/ImageIndex';
-import { Separator } from '../../../components/atoms/common/Separator';
 import { CommonButton } from '../../../components/common/CommonButton';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
-import {config, configProd} from "../../../../config";
+import {config, configLocal} from "../../../../config";
 
 type EligibleResultScreenType = NativeStackScreenProps<OnboardingStackParamList, 'EligibleResult'>;
 export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route, navigation }) => {
@@ -53,7 +50,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
                                 grade, highSchoolId, zipCode, email
                             });
                         } else {
-                            Linking.openURL(`${configProd.baseUrl}/request-access`);
+                            Linking.openURL(`${configLocal.baseUrl}/request-access`);
                         }
                     }}
                 />

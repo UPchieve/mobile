@@ -1,5 +1,5 @@
 interface School {
-    _id: string,
+    id: string,
     upchieveId: string,
     name: string,
     districtName: string,

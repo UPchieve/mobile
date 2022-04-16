@@ -1,6 +1,6 @@
 //@ts-ignore
 import io from "socket.io-client";
-import { config } from "../../config";
+import { config, configLocal } from "../../config";
 
 export interface SocketHandlerType {
     connected: boolean;
@@ -12,4 +12,4 @@ export interface SocketHandlerType {
     emit: (event: string, payload?: object) => void;
 }
 
-export const socketHandler: SocketHandlerType = io(config.webSocketUrl);
+export const socketHandler: SocketHandlerType = io(configLocal.webSocketUrl);
