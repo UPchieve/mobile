@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useContext } from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FormikProvider, useFormik } from "formik";
 import { SessionFeedbackHeader } from "../../../components/atoms/session-experience/SessionFeedbackHeader";
 import { FontIndex } from "../../../../assets/FontIndex";
 import { RateStars } from "../../../components/molecules/session-experience/RateStars";
 import { Question } from "../../../components/atoms/session-experience/Question";
-import { Medal } from "../../../components/atoms/session-experience/Medal";
 import { RateNumbers } from "../../../components/molecules/session-experience/RateNumbers";
 import { Colors } from "../../../../assets/Colors";
 import { CommonButton } from "../../../components/common/CommonButton";
-import { MedalPicker } from "../../../components/molecules/session-experience/MedalPicker";
 import { CommonTextArea } from "../../../components/common/CommonTextArea";
 import { MainStackParamList } from "../../../routes/MainStackNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {QuestionPopover} from "../../../components/atoms/session-experience/QuestionPopover";
+import { AuthContext } from '../../../providers/AuthProvider'
+import { studentCounselingFeedback } from '../../../types/services/feedbackServiceTypes'
+import { sendFeedback } from '../../../services/feedbackService'
 
 
 const pickerOptions = [
@@ -44,7 +45,11 @@ const initialValues: formType = {
 }
 
 type PostSessionSurveyType = NativeStackScreenProps<MainStackParamList, 'PostSessionSurveyCollege'>;
-export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = ({ navigation }) => {
+export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = ({
+    navigation,
+}) => {
+    const authContext = useContext(AuthContext);
+    const { sessionState } = authContext;
     const formik = useFormik({
         initialValues,
         validateOnMount: true,
@@ -56,9 +61,24 @@ export const PostSessionSurveyCollegeScreen: React.FC<PostSessionSurveyType> = (
             }
             return { error: 'At least one question must be answer to submit the form.' }
         },
-        onSubmit: (values) => {
-            //TODO handle form submit
-            navigation.navigate('PostSessionSurveySuccess');
+        onSubmit: async (values) => {
+            const response: studentCounselingFeedback = {
+                'rate-session': {
+                    rating: values.didWeHelp
+                },
+                'coach-ratings': {
+                    'coach-knowledgable': values.knowledgeCoach,
+                    'coach-friendly': values.howWasCoach,
+                },
+                'other-feedback': values.textInput,
+            }
+            console.log(response);
+            try {
+                await sendFeedback(sessionState!._id, undefined, response)
+                navigation.navigate('PostSessionSurveySuccess');
+            } catch {
+                alert('We had a problem submitting your feedback.')
+            }
         }
     });
 
