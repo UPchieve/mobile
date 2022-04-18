@@ -51,8 +51,10 @@ In order to be able to push a new update the only thing we have to do is.
     ```
     npm install -g expo-cli
     ```
-4. Now, we have to execute [expo-login](https://docs.expo.dev/workflow/expo-cli/#expo-login) in order to login and then, the terminal will ask for the username and password.
-5. For the last, we have to do the publish itself, to do it we have to execute a `expo publish` specifying the release channel.
+4. Update the `config.ts` file and set the new `env.versionRelease`.
+5. Update `version.json` (the url to this file should be found on `config.ts` -> `env.versionUrl`) to match the `env.versionRelease`.
+6. Now, we have to execute [expo-login](https://docs.expo.dev/workflow/expo-cli/#expo-login) in order to login and then, the terminal will ask for the username and password.
+7. For the last, we have to do the publish itself, to do it we have to execute a `expo publish` specifying the release channel.
     ```
     expo publish --release-channel prod-v2
     ```
