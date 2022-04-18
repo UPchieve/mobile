@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import { PasswordInput } from '../../../components/atoms/onboarding/PasswordInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { authService } from '../../../services/authService';
-import { config, configLocal } from '../../../../config';
+import { config } from '../../../../config';
 
 
 interface formTypeValues {
@@ -92,7 +92,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
     }
 
     const openLegalUrl = async () => {
-        await Linking.openURL(`${configLocal.baseUrl}/legal`);
+        await Linking.openURL(`${config.baseUrl}/legal`);
     }
 
     return <KeyboardAwareScrollView style={{ paddingVertical: 60, paddingHorizontal: 20, }}>

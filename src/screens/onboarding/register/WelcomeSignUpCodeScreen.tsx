@@ -3,7 +3,7 @@ import { Dimensions, Image, ImageBackground, Linking, StyleSheet, Text, Touchabl
 import { ImageIndex } from "../../../../assets/ImageIndex";
 import { CommonButton } from "../../../components/common/CommonButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {config, configLocal} from "../../../../config";
+import { config } from "../../../../config";
 import { FontIndex } from "../../../../assets/FontIndex";
 import { Colors } from "../../../../assets/Colors";
 import { Separator } from "../../../components/atoms/common/Separator";
@@ -39,7 +39,7 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({ navig
                     })}
                 />
                 <Separator marginVertical={8} backgroundColor={'transparent'} />
-                <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(`${configLocal.marketingUrl}/students`)}>
+                <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(`${config.marketingUrl}/students`)}>
                     <Text style={styles.buttonText}>What is UPchieve?</Text>
                 </TouchableOpacity>
             </View>

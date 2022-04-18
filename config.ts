@@ -46,15 +46,12 @@ const Config = {
     }
 }
 
-const getConfig = () => Config.demo;
+const getConfigDemo = () => Config.demo;
 const getConfigProd = () => Config.prod;
 const getConfigStaging = () => Config.staging;
 const getConfigLocal = () => Config.local;
 
-export const config = getConfig();
-export const configProd = getConfigProd();
-export const configStaging = getConfigStaging();
-export const configLocal = getConfigLocal();
+export const config = getConfigProd();
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
 

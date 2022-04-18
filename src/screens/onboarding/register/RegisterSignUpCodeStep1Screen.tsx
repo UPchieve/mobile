@@ -9,8 +9,6 @@ import { FontIndex } from "../../../../assets/FontIndex";
 import { Colors } from "../../../../assets/Colors";
 import { Separator } from "../../../components/atoms/common/Separator";
 import { Stepper } from "../../../components/molecules/onboarding/Stepper";
-import { schoolUtils } from "../../../utils/eligibilityUtils";
-import { Input } from "../../../components/atoms/common/Input";
 import { FormikInput } from "../../../components/atoms/common/Formik/FormikInput";
 import { PasswordInput } from "../../../components/atoms/onboarding/PasswordInput";
 import { InputCheckBox } from "../../../components/atoms/common/InputCheckBox";
@@ -20,7 +18,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigator";
 import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from "../../../components/atoms/common/InputWithCustomErrorMessage";
 import { getErrorFromBackendResponse } from "../../../utils/utils";
-import { config, configLocal } from "../../../../config";
+import { config } from "../../../../config";
 
 
 interface formTypeValues {
@@ -85,7 +83,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
     }
 
     const openLegalUrl = async () => {
-        await Linking.openURL(`${configLocal.baseUrl}/legal`);
+        await Linking.openURL(`${config.baseUrl}/legal`);
     }
 
     return (

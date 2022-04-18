@@ -6,7 +6,7 @@ import { FontIndex } from '../../../../assets/FontIndex';
 import { ImageIndex } from '../../../../assets/ImageIndex';
 import { CommonButton } from '../../../components/common/CommonButton';
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator';
-import {config, configLocal} from "../../../../config";
+import { config } from "../../../../config";
 
 type EligibleResultScreenType = NativeStackScreenProps<OnboardingStackParamList, 'EligibleResult'>;
 export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route, navigation }) => {
@@ -50,7 +50,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({ route
                                 grade, highSchoolId, zipCode, email
                             });
                         } else {
-                            Linking.openURL(`${configLocal.baseUrl}/request-access`);
+                            Linking.openURL(`${config.baseUrl}/request-access`);
                         }
                     }}
                 />

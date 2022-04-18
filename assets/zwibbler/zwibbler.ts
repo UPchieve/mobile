@@ -1,6 +1,6 @@
 import WebView from 'react-native-webview';
 import React from 'react';
-import { config, configLocal } from '../../config';
+import { config } from '../../config';
 
 const html = `
 <html>
@@ -25,7 +25,7 @@ const html = `
             defaultBrushWidth: 5,
             multilineText: true,
             zoomOnResize: false,
-            collaborationServer: '${configLocal.whiteboardSocketUrl}/whiteboard/room/'+sessionId,
+            collaborationServer: '${config.whiteboardSocketUrl}/whiteboard/room/'+sessionId,
             pageView: true,
             pageBorderColour: 'transparent',
             pageInflation: 0,

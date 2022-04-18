@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { config, configLocal } from '../../config';
+import { config } from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const csrfStorage = 'x-csrf-token';
 const http = axios.create({
-    baseURL: configLocal.baseUrl,
+    baseURL: config.baseUrl,
 });
 
 const getCsrfToken = async (): Promise<string> => {
-    const { data } = await axios.get<{ csrfToken: string }>(`${configLocal.baseUrl}/api/csrftoken`,)
+    const { data } = await axios.get<{ csrfToken: string }>(`${config.baseUrl}/api/csrftoken`,)
     return data.csrfToken;
 }
 
