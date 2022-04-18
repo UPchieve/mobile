@@ -9,8 +9,6 @@ import { FontIndex } from "../../../../assets/FontIndex";
 import { Colors } from "../../../../assets/Colors";
 import { Separator } from "../../../components/atoms/common/Separator";
 import { Stepper } from "../../../components/molecules/onboarding/Stepper";
-import { schoolUtils } from "../../../utils/eligibilityUtils";
-import { Input } from "../../../components/atoms/common/Input";
 import { FormikInput } from "../../../components/atoms/common/Formik/FormikInput";
 import { PasswordInput } from "../../../components/atoms/onboarding/PasswordInput";
 import { InputCheckBox } from "../../../components/atoms/common/InputCheckBox";

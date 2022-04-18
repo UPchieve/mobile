@@ -68,8 +68,9 @@ export const RegisterSignUpCodeStep2Screen: React.FC<RegisterSignUpCodeStep2Type
                     firstName: values.firstName,
                     lastName: values.lastName,
                     college: values.grade.value,
-                    highSchoolId: values.highSchool?._id,
+                    highSchoolId: values.highSchool?.id,
                     terms: true,
+                    currentGrade: values.grade.value
                 });
 
                 navigation.navigate('VerifyAccount', {

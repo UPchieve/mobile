@@ -25,7 +25,7 @@ const html = `
             defaultBrushWidth: 5,
             multilineText: true,
             zoomOnResize: false,
-            collaborationServer: '${config.socketUrl}/whiteboard/room/'+sessionId,
+            collaborationServer: '${config.whiteboardSocketUrl}/whiteboard/room/'+sessionId,
             pageView: true,
             pageBorderColour: 'transparent',
             pageInflation: 0,

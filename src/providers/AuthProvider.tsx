@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import { userStateType, useUserState, useUserStateType } from "../hooks/useUserState";
+import { useUserState, useUserStateType } from "../hooks/useUserState";
 import { Student, User, Volunteer } from "../models/user";
 import { authService } from "../services/authService";
 import { SessionStateChangedSocketType } from "../types/socketTypes";

@@ -10,7 +10,7 @@ import { SvgIcons } from '../../../../assets/IndexIcons';
 import { eligibilityService } from '../../../services/eligibilityService';
 import { DelayTextInput, DelayTextInputHandle } from '../../atoms/common/DelayTextInput';
 import { Separator } from '../../atoms/common/Separator';
-import {config} from '../../../../config';
+import { config } from '../../../../config';
 
 type HighSchoolPickerType = {
     visible: boolean;
@@ -93,7 +93,7 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({ visible, onSe
                         data={data}
                         renderItem={renderItem}
                         ListFooterComponent={listFooterComponent}
-                        keyExtractor={(e) => e._id}
+                        keyExtractor={(e) => e.id}
                     />
                 </View>
             </SafeAreaView>

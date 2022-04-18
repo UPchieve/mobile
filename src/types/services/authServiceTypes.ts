@@ -57,6 +57,7 @@ export interface CreateAccountWithWithPartnerRequest {
     college: string,
     highSchoolId?: string,
     studentPartnerOrg: string,
+    currentGrade: string
     // "partnerUserId": "string",
     // "partnerSite": "string",
 }
