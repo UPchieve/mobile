@@ -3,6 +3,7 @@
 -   [Get started](#get-started)
 -   [Folder and structure](#folder-and-structure)
 -   [Updates over the fly](#updates-over-the-fly)
+-   [Android deploy](#android-deploy)
 -   [Atomic development](#atomic-development)
 
 ## Get started
@@ -58,6 +59,32 @@ In order to be able to push a new update the only thing we have to do is.
     ```
     expo publish --release-channel prod-v2
     ```
+
+## Android deploy
+
+In order to be able to generate the aab file we have to do the following:
+
+1. Install the project dependencies with npm or yarn.
+    ```
+    npm install
+    ```
+2. Install [expo-cli](https://docs.expo.dev/workflow/expo-cli/) package globally with yarn or npm
+    ```
+    npm install -g expo-cli
+    ```
+3. Log into your Expo account.
+    ```
+    expo login
+    ```
+4. Install [eas-cli](https://docs.expo.dev/build/setup/) package globally with yarn or npm
+    ```
+    npm install -g eas-cli
+    ```
+5. Create the release using eas. (you can replace the production profile with another env, the settings can be found on `eas.json` file.) executing
+    ```
+    eas build --profile production --platform android
+    ```
+    and follow the steps given by eas-cli.
 
 ## Atomic development
 
