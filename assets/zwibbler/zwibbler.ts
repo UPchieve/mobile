@@ -1,6 +1,11 @@
 import WebView from 'react-native-webview';
 import React from 'react';
 import { config } from '../../config';
+import * as ImagePicker from 'expo-image-picker';
+import { Platform } from 'react-native';
+import { sessionService } from '../../src/services/sessionService';
+import { isLessThanTheMB, getFileInfo } from '../../src/utils/file-system-utils';
+import { ImagePickerInfo } from '../../src/interfaces/sessionInterfaces';
 
 const html = `
 <html>
@@ -104,9 +109,6 @@ const html = `
 </html>
 `;
 
-// if(data.eventType === 'setProperty'){
-
-// }
 export const zwibbler = {
   html,
 };
@@ -171,20 +173,72 @@ export class ZwibblerManager {
     this.webView.current?.injectJavaScript('zwibbler.redo();');
   };
 
-  pickImage = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
-    //
-    // console.log(result);
-    //
-    // if (!result.cancelled) {
-    //   console.log(result.uri);
-    // }
-    this.webView.current?.injectJavaScript('zwibbler.insertImage()');
+  pickImage = async (): Promise<ImagePicker.ImagePickerResult> => {
+    return await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        exif: false,
+        base64: true,
+    });
+  };
+
+  uploadImage = async (
+      image: ImagePickerInfo,
+      sessionId: string
+  ): Promise<void> => {
+      const fileInfo = await getFileInfo(image.uri);
+      if (!fileInfo.size) {
+          alert("Can't select this file as the size is unknown.");
+          return;
+      }
+
+      if (image.type === 'image')
+          if (!isLessThanTheMB(fileInfo.size, 10)) {
+              alert(
+                  'The photo is too large. Please upload a photo less than 10mb.'
+              );
+              return;
+          }
+
+      const response = await sessionService.getSessionPhotoUploadUrl(
+          sessionId
+      );
+      const { uploadUrl, imageUrl } = response;
+      if (uploadUrl) {
+          try {
+              // iOS prepends their file paths with 'file://'. We're removing it
+              // because this has been found to sometimes break file uploads
+              const fileUri =
+                  Platform.OS === 'ios'
+                      ? image.uri.replace('file://', '')
+                      : image.uri;
+              // get the MIME type for the file
+              const fileType = `image/${image.uri.split('.').pop()}`;
+              await sessionService.uploadSessionPhotoToStorage(
+                  uploadUrl,
+                  fileUri,
+                  fileType
+              );
+              // const jsCode = `zwibbler.createNode('ImageNode', {
+              //   url: '${imageUrl}'
+              // })`
+              // this.webView.current?.injectJavaScript(jsCode)
+
+              // logs a warning locally, but it does upload the image
+              this.webView.current?.injectJavaScript(
+                  `zwibbler.insertImage({ 'url': '${imageUrl}' });`
+              );
+          } catch (error) {
+            this.errorLoadingImage()
+          }
+      } else this.errorLoadingImage()
+  };
+
+  errorLoadingImage = () => {
+    const uploadErrorMessage = 'We had trouble loading your image to the whiteboard. Please try again.'
+    alert(uploadErrorMessage)
   };
 
   reset = () => {

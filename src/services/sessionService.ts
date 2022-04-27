@@ -1,8 +1,9 @@
-import {PreSessionResponse, Session} from "../interfaces/sessionInterfaces";
-import { GetLatestSessionResponse, SendContactFormRequest } from "../types/services/sessionServiceTypes";
-import http from "./http"
-import { captureEvent } from './analyticsService'
-import { EVENTS } from '../types/services/analyticsServiceTypes'
+import { PreSessionResponse, Session } from "../interfaces/sessionInterfaces";
+import { GetLatestSessionResponse, SendContactFormRequest, SessionPhotoUploadUrl } from "../types/services/sessionServiceTypes";
+import http from "./http";
+import { captureEvent } from './analyticsService';
+import { EVENTS } from '../types/services/analyticsServiceTypes';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const getCurrentSession = async (): Promise<Session> => {
     const response = await http.post<Session>('/api/session/current');
@@ -51,6 +52,29 @@ const sendContactForm = async (payload: SendContactFormRequest): Promise<void> =
     await http.post<{sessionId: string}>(`/api-public/contact/send`, payload);
 }
 
+const getSessionPhotoUploadUrl = async (
+    sessionId: string
+): Promise<SessionPhotoUploadUrl> => {
+    const response = await http.get(`api/session/${sessionId}/photo-url`);
+    return response.data;
+};
+
+const uploadSessionPhotoToStorage = async (
+    url: string,
+    fileUri: string,
+    fileType: string,
+): Promise<void> => {
+    // using RnFetchBlob instead for ease of use as the HTTP client
+    // because there are issues with Axios and React Native with
+    // uploading a file with form data
+  await RNFetchBlob.fetch('PUT', url, 
+    {
+        'Content-Type' : fileType,
+    },
+    RNFetchBlob.wrap(fileUri)
+  )    
+};
+
 export const sessionService = {
     getCurrentSession,
     getLatestSession,
@@ -58,5 +82,7 @@ export const sessionService = {
     newSession,
     sendPreSesionFeedback,
     sendContactForm,
-    getPreSessionFeedback
+    getPreSessionFeedback,
+    getSessionPhotoUploadUrl,
+    uploadSessionPhotoToStorage
 }

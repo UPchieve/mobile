@@ -25,6 +25,7 @@ import {
     SafeAreaView,
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { AppLoading } from '../components/molecules/common/AppLoading';
 
 type WhiteboardType = {
     sessionId: string;
@@ -49,6 +50,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
     const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
         visible: false,
     });
+    const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false)
 
     const { showPrompt } = useContext(AlertContext);
     const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
@@ -209,6 +211,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                             zwibblerManager={zwibblerManager!}
                             orientation={orientation}
                             selectedToolName={selectedTool as ZwibblerTool}
+                            sessionId={sessionId}
+                            // setIsLoadingImage={setIsLoadingImage}
                         />
                     </View>
                     <WhiteboardTextPicker {...textModalProps} />
@@ -234,6 +238,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                                     selectedToolName={
                                         selectedTool as ZwibblerTool
                                     }
+                                    sessionId={sessionId}
+                                    // setIsLoadingImage={setIsLoadingImage}
                                 />
                             </View>
                             <WhiteboardTextPicker {...textModalProps} />
@@ -276,6 +282,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
             );
         }
     };
+
+    if (isLoadingImage) return <AppLoading />
 
     return (
         <View

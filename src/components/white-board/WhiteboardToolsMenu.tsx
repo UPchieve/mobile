@@ -14,6 +14,7 @@ import { ZwibblerTool } from '../../types/zwibblerTypes';
 
 import {OrientationType} from '../../hooks/useOrientation';
 import * as ImagePicker from "expo-image-picker";
+import { AppLoading } from '../molecules/common/AppLoading';
 
 interface ToolMenuItem {
   id: number;
@@ -27,14 +28,19 @@ interface Props {
   zwibblerManager: ZwibblerManager;
   selectedToolName: ZwibblerTool;
   orientation: OrientationType
+  sessionId: string
+  // setIsLoadingImage: Function
 }
 export const WhiteboardToolsMenu: React.FC<Props> = ({
   zwibblerManager,
   orientation,
   selectedToolName,
+  sessionId,
+  // setIsLoadingImage
 }) => {
   const [currentColor, setCurrentColor] = useState('black');
   const [openedMenu, setOpenedMenu] = useState<string | undefined>(undefined);
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false)
 
   const tools: ToolMenuItem[] = [
     {
@@ -157,7 +163,12 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
         if (status !== 'granted') {
           alert('Sorry, we need camera roll permissions to make this work!');
         } else {
-          await zwibblerManager.pickImage();
+          const result = await zwibblerManager.pickImage();
+          if (result.cancelled) return
+
+          setIsLoadingImage(true)
+          await zwibblerManager.uploadImage(result, sessionId)
+          setIsLoadingImage(false)
         }
 
       },
@@ -231,6 +242,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
     );
   };
 
+  if (isLoadingImage) return <AppLoading />
   return <>{tools.map((tool) => renderMenu(tool))}</>;
 };
 
