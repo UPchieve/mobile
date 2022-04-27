@@ -7,6 +7,10 @@ export async function isValidWhiteboardImageUpload(image: ImagePickerInfo): Prom
         throw new Error("Can't select this file as the size is unknown.");
     }
 
+    if (fileInfo.uri.includes('heic')) {
+        throw new Error('UPchieve does not support heic images.')
+    }
+
     if (image.type === 'image')
         if (!isLessThanTheMB(fileInfo.size, 10)) {
             throw new Error(

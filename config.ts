@@ -51,7 +51,7 @@ const getConfigProd = () => Config.prod;
 const getConfigStaging = () => Config.staging;
 const getConfigLocal = () => Config.local;
 
-export const config = getConfigProd();
+export const config = getConfigStaging();
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
 
