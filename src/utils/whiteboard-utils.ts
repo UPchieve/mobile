@@ -8,7 +8,7 @@ export async function isValidWhiteboardImageUpload(image: ImagePickerInfo): Prom
     }
 
     if (image.type === 'image')
-        if (!isLessThanTheMB(fileInfo.size, 3)) {
+        if (!isLessThanTheMB(fileInfo.size, 10)) {
             throw new Error(
                 'The photo is too large. Please upload a photo less than 10mb.'
             );
