@@ -167,16 +167,13 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           if (result.cancelled) return
 
           try {
+            // isLoadingImage is set to `false` when Zwibbler's resource-loaded event triggers
             setIsLoadingImage(true)
             await isValidWhiteboardImageUpload(result)
             await zwibblerManager.uploadImage(result, sessionId)
             // TODO: fix error type
           } catch (error: any) {
             alert(error.message)
-          } finally {
-            // NOTE: the loader disappears sometime before zwibbler.insertImage() has loaded the image. We may want to
-            // set a 'resource-loaded' event so that it only stops loading when the image is loaded to the whiteboard
-            setIsLoadingImage(false)
           }
         }
 

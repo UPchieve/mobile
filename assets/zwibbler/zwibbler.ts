@@ -75,6 +75,10 @@ const html = `
           } }));
         });
 
+        zwibbler.on("resource-loaded", function() {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'resource-loaded' }));
+        });
+
         zwibbler.joinSharedSession(sessionId, true).then(response => {
           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'connected', eventValue: true }));
         }).catch(err => {

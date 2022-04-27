@@ -105,6 +105,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
             case 'document-changed':
                 handleOnDocumentChanged(event as CustomWebViewEvent<any>);
                 break;
+            case 'resource-loaded':
+                setIsLoadingImage(false);
+                break;
         }
     };
 
