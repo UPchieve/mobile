@@ -15,6 +15,7 @@ import { ZwibblerTool } from '../../types/zwibblerTypes';
 import {OrientationType} from '../../hooks/useOrientation';
 import * as ImagePicker from "expo-image-picker";
 import { AppLoading } from '../molecules/common/AppLoading';
+import { isValidWhiteboardImageUpload } from '../../utils/whiteboard-utils';
 
 interface ToolMenuItem {
   id: number;
@@ -166,9 +167,16 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           const result = await zwibblerManager.pickImage();
           if (result.cancelled) return
 
-          setIsLoadingImage(true)
-          await zwibblerManager.uploadImage(result, sessionId)
-          setIsLoadingImage(false)
+          try {
+            setIsLoadingImage(true)
+            await isValidWhiteboardImageUpload(result)
+            await zwibblerManager.uploadImage(result, sessionId)
+            // TODO: fix error type
+          } catch (error: any) {
+            alert(error.message)
+          } finally {
+            setIsLoadingImage(false)
+          }
         }
 
       },

@@ -185,60 +185,39 @@ export class ZwibblerManager {
   };
 
   uploadImage = async (
-      image: ImagePickerInfo,
-      sessionId: string
+    image: ImagePickerInfo,
+    sessionId: string
   ): Promise<void> => {
-      const fileInfo = await getFileInfo(image.uri);
-      if (!fileInfo.size) {
-          alert("Can't select this file as the size is unknown.");
-          return;
-      }
+    try {
+        const response = await sessionService.getSessionPhotoUploadUrl(
+            sessionId
+        );
+        const { uploadUrl, imageUrl } = response;
+        if (uploadUrl) {
+            // iOS prepends their file paths with 'file://'. We're removing it
+            // because this has been found to sometimes break file uploads
+            const fileUri =
+                Platform.OS === 'ios'
+                    ? image.uri.replace('file://', '')
+                    : image.uri;
+            // get the MIME type for the file
+            const fileType = `image/${image.uri.split('.').pop()}`;
+            await sessionService.uploadSessionPhotoToStorage(
+                uploadUrl,
+                fileUri,
+                fileType
+            );
 
-      if (image.type === 'image')
-          if (!isLessThanTheMB(fileInfo.size, 10)) {
-              alert(
-                  'The photo is too large. Please upload a photo less than 10mb.'
-              );
-              return;
-          }
-
-      const response = await sessionService.getSessionPhotoUploadUrl(
-          sessionId
-      );
-      const { uploadUrl, imageUrl } = response;
-      if (uploadUrl) {
-          try {
-              // iOS prepends their file paths with 'file://'. We're removing it
-              // because this has been found to sometimes break file uploads
-              const fileUri =
-                  Platform.OS === 'ios'
-                      ? image.uri.replace('file://', '')
-                      : image.uri;
-              // get the MIME type for the file
-              const fileType = `image/${image.uri.split('.').pop()}`;
-              await sessionService.uploadSessionPhotoToStorage(
-                  uploadUrl,
-                  fileUri,
-                  fileType
-              );
-              // const jsCode = `zwibbler.createNode('ImageNode', {
-              //   url: '${imageUrl}'
-              // })`
-              // this.webView.current?.injectJavaScript(jsCode)
-
-              // logs a warning locally, but it does upload the image
-              this.webView.current?.injectJavaScript(
-                  `zwibbler.insertImage({ 'url': '${imageUrl}' });`
-              );
-          } catch (error) {
-            this.errorLoadingImage()
-          }
-      } else this.errorLoadingImage()
-  };
-
-  errorLoadingImage = () => {
-    const uploadErrorMessage = 'We had trouble loading your image to the whiteboard. Please try again.'
-    alert(uploadErrorMessage)
+            // logs a warning locally, but it does upload the image
+            this.webView.current?.injectJavaScript(
+                `zwibbler.insertImage({ 'url': '${imageUrl}' });`
+            );
+        } else throw new Error('No photo upload URL');
+    } catch (error) {
+        throw new Error(
+            'We had trouble loading your image to the whiteboard. Please try again.'
+        );
+    }
   };
 
   reset = () => {
