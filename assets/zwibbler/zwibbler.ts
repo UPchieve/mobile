@@ -189,8 +189,8 @@ export class ZwibblerManager {
   };
 
   uploadImage = async (
+    sessionId: string,
     image: ImagePickerInfo,
-    sessionId: string
   ): Promise<void> => {
     try {
         const response = await sessionService.getSessionPhotoUploadUrl(

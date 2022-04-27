@@ -170,7 +170,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
             // isLoadingImage is set to `false` when Zwibbler's resource-loaded event triggers
             setIsLoadingImage(true)
             await isValidWhiteboardImageUpload(result)
-            await zwibblerManager.uploadImage(result, sessionId)
+            await zwibblerManager.uploadImage(sessionId, result)
             // TODO: fix error type
           } catch (error: any) {
             alert(error.message)
