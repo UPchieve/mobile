@@ -1,4 +1,4 @@
-package org.upchieve.app;
+package org.upchieve.mobile;
 
 import android.os.Bundle;
 
