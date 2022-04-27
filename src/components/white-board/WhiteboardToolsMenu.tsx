@@ -30,18 +30,17 @@ interface Props {
   selectedToolName: ZwibblerTool;
   orientation: OrientationType
   sessionId: string
-  // setIsLoadingImage: Function
+  setIsLoadingImage: Function
 }
 export const WhiteboardToolsMenu: React.FC<Props> = ({
   zwibblerManager,
   orientation,
   selectedToolName,
   sessionId,
-  // setIsLoadingImage
+  setIsLoadingImage
 }) => {
   const [currentColor, setCurrentColor] = useState('black');
   const [openedMenu, setOpenedMenu] = useState<string | undefined>(undefined);
-  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false)
 
   const tools: ToolMenuItem[] = [
     {
@@ -175,6 +174,8 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           } catch (error: any) {
             alert(error.message)
           } finally {
+            // NOTE: the loader disappears sometime before zwibbler.insertImage() has loaded the image. We may want to
+            // set a 'resource-loaded' event so that it only stops loading when the image is loaded to the whiteboard
             setIsLoadingImage(false)
           }
         }
@@ -250,7 +251,6 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
     );
   };
 
-  if (isLoadingImage) return <AppLoading />
   return <>{tools.map((tool) => renderMenu(tool))}</>;
 };
 

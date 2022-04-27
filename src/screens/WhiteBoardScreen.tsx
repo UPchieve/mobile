@@ -17,7 +17,6 @@ import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler';
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
 import { CustomWebViewEvent, WebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
-import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
 import { AlertContext, AlertProvider } from '../providers/AlertProvider';
 import { useOrientation } from '../hooks/useOrientation';
@@ -26,6 +25,7 @@ import {
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { AppLoading } from '../components/molecules/common/AppLoading';
+import { LoadingOverlay } from '../components/molecules/common/LoadingOverlay';
 
 type WhiteboardType = {
     sessionId: string;
@@ -212,7 +212,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                             orientation={orientation}
                             selectedToolName={selectedTool as ZwibblerTool}
                             sessionId={sessionId}
-                            // setIsLoadingImage={setIsLoadingImage}
+                            setIsLoadingImage={setIsLoadingImage}
                         />
                     </View>
                     <WhiteboardTextPicker {...textModalProps} />
@@ -239,7 +239,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                                         selectedTool as ZwibblerTool
                                     }
                                     sessionId={sessionId}
-                                    // setIsLoadingImage={setIsLoadingImage}
+                                    setIsLoadingImage={setIsLoadingImage}
                                 />
                             </View>
                             <WhiteboardTextPicker {...textModalProps} />
@@ -283,7 +283,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
         }
     };
 
-    if (isLoadingImage) return <AppLoading />
 
     return (
         <View
@@ -292,6 +291,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                 {
                     paddingLeft: insets.left,
                     paddingRight: insets.right,
+                    position: 'relative'
                 },
                 // notchPosition === 'LEFT'
                 //     ? {
@@ -301,6 +301,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                 Platform.OS === 'android' && { top: StatusBar.currentHeight },
             ]}
         >
+            {isLoadingImage && <LoadingOverlay />}
             {renderWhiteboard()}
         </View>
     );
