@@ -28,7 +28,7 @@
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "expo": "~43.0.2",
-    "expo-file-system": "^13.1.4",
+    "expo-file-system": "~13.0.3",
     "expo-font": "~10.0.3",
     "expo-image-picker": "~11.0.3",
     "expo-linear-gradient": "~10.0.3",

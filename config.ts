@@ -5,14 +5,14 @@ const Config = {
         whiteboardSocketUrl: 'ws://localhost:3000',
         baseUrl: 'http://localhost:3000',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.0',
+        versionRelease: '2.0.1',
     },
     demo: {
         webSocketUrl: 'wss://demo.upchieve.org',
         whiteboardSocketUrl: 'wss://demo.upchieve.org',
         baseUrl: 'https://demo.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.0',
+        versionRelease: '2.0.1',
     },
     staging: {
         marketingUrl: 'https://upchieve.org',
@@ -20,7 +20,7 @@ const Config = {
         whiteboardSocketUrl: 'wss://staging.upchieve.org',
         baseUrl: 'https://staging.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.0',
+        versionRelease: '2.0.1',
     },
     prod: {
         marketingUrl: 'https://upchieve.org',
@@ -28,7 +28,7 @@ const Config = {
         whiteboardSocketUrl: 'wss://app.upchieve.org',
         baseUrl: 'https://app.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.0',
+        versionRelease: '2.0.1',
     },
     posthog: {
         token: '',
@@ -51,7 +51,7 @@ const getConfigProd = () => Config.prod;
 const getConfigStaging = () => Config.staging;
 const getConfigLocal = () => Config.local;
 
-export const config = getConfigStaging();
+export const config = getConfigProd();
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
 
