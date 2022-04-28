@@ -8,7 +8,7 @@ export async function isValidWhiteboardImageUpload(image: ImagePickerInfo): Prom
     }
 
     if (fileInfo.uri.includes('heic')) {
-        throw new Error('UPchieve does not support heic images.')
+        throw new Error('We don\'t support .HEIC images yet. Try a screenshot of your photo, those are jpeg!')
     }
 
     if (image.type === 'image')
