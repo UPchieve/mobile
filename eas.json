@@ -4,9 +4,18 @@
   },
   "build": {
     "development": {
-      "developmentClient": true,
       "distribution": "internal",
-      "releaseChannel": "dev-v1"
+      "releaseChannel": "dev-v1",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "beta": {
+      "distribution": "internal",
+      "releaseChannel": "beta-v2",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {
       "releaseChannel": "prod-v2",

@@ -1,5 +1,9 @@
 export interface WebViewEvent {
-  eventType: 'tool-changed' | 'connected' | 'document-changed';
+  eventType:
+  | 'tool-changed'
+  | 'connected'
+  | 'document-changed'
+  | 'resource-loaded';
 }
 export interface CustomWebViewEvent<T> {
   eventType: 'tool-changed';

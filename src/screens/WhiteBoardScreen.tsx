@@ -17,7 +17,6 @@ import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler';
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu';
 import { CustomWebViewEvent, WebViewEvent } from '../types/WebViewTypes';
 import { ZwibblerTool } from '../types/zwibblerTypes';
-import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '../../assets/Colors';
 import { AlertContext, AlertProvider } from '../providers/AlertProvider';
 import { useOrientation } from '../hooks/useOrientation';
@@ -25,6 +24,8 @@ import {
     SafeAreaView,
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { AppLoading } from '../components/molecules/common/AppLoading';
+import { LoadingOverlay } from '../components/molecules/common/LoadingOverlay';
 
 type WhiteboardType = {
     sessionId: string;
@@ -49,6 +50,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
     const [textModalProps, setTextModalProps] = useState<IZwibblerTextModal>({
         visible: false,
     });
+    const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false)
 
     const { showPrompt } = useContext(AlertContext);
     const [zwibblerManager, setZwibblerManager] = useState<ZwibblerManager>();
@@ -102,6 +104,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                 break;
             case 'document-changed':
                 handleOnDocumentChanged(event as CustomWebViewEvent<any>);
+                break;
+            case 'resource-loaded':
+                setIsLoadingImage(false);
                 break;
         }
     };
@@ -209,6 +214,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                             zwibblerManager={zwibblerManager!}
                             orientation={orientation}
                             selectedToolName={selectedTool as ZwibblerTool}
+                            sessionId={sessionId}
+                            setIsLoadingImage={setIsLoadingImage}
                         />
                     </View>
                     <WhiteboardTextPicker {...textModalProps} />
@@ -234,6 +241,8 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                                     selectedToolName={
                                         selectedTool as ZwibblerTool
                                     }
+                                    sessionId={sessionId}
+                                    setIsLoadingImage={setIsLoadingImage}
                                 />
                             </View>
                             <WhiteboardTextPicker {...textModalProps} />
@@ -277,6 +286,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
         }
     };
 
+
     return (
         <View
             style={[
@@ -284,6 +294,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                 {
                     paddingLeft: insets.left,
                     paddingRight: insets.right,
+                    position: 'relative'
                 },
                 // notchPosition === 'LEFT'
                 //     ? {
@@ -293,6 +304,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
                 Platform.OS === 'android' && { top: StatusBar.currentHeight },
             ]}
         >
+            {isLoadingImage && <LoadingOverlay />}
             {renderWhiteboard()}
         </View>
     );
