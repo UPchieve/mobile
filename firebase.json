@@ -2,6 +2,5 @@
     "react-native": {
         "crashlytics_debug_enabled": true,
         "crashlytics_auto_collection_enabled": true
-        
     }
 }
