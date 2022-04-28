@@ -12,3 +12,8 @@ export interface SendContactFormRequest {
     topic:SendContactFormTopic,
     message: string,
 }
+
+export type SessionPhotoUploadUrl = {
+    uploadUrl: string
+    imageUrl: string
+}

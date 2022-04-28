@@ -37,8 +37,7 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECORD_AUDIO"
-      ],
-      "package": "org.upchieve.mobile"
+      ]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

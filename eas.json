@@ -5,15 +5,21 @@
   "build": {
     "development": {
       "distribution": "internal",
+      "releaseChannel": "dev-v1",
       "android": {
+        "buildType": "apk",
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
         "buildConfiguration": "Debug"
       }
     },
-    "preview": {
-      "distribution": "internal"
+    "beta": {
+      "distribution": "internal",
+      "releaseChannel": "beta-v2",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {
       "releaseChannel": "prod-v2",

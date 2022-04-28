@@ -1,3 +1,5 @@
+import * as ImagePicker from 'expo-image-picker';
+
 export interface Session {
     sessionId: string,
     data: {
@@ -45,3 +47,7 @@ export type PreSessionResponse = {
 export type SessionType = 'DOCUMENT' | 'WHITEBOARD';
 
 export type SessionSubjectType = 'math' | 'science' | 'college' | 'sat' | 'training' | 'readingWriting';
+
+// TODO: better typing. this is a hacky way to access ImagePicker.ImageInfo
+// since there is no export of the ImageInfo type
+export type ImagePickerInfo = ImagePicker.ImagePickerResult & { cancelled?: false };
