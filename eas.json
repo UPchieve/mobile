@@ -1,13 +1,17 @@
 {
   "cli": {
-    "version": ">= 0.48.2"
+    "version": ">= 0.51.0"
   },
   "build": {
     "development": {
       "distribution": "internal",
       "releaseChannel": "dev-v1",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
       }
     },
     "beta": {
