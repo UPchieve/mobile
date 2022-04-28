@@ -173,6 +173,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
             await zwibblerManager.uploadImage(sessionId, result)
             // TODO: fix error type
           } catch (error: any) {
+            setIsLoadingImage(false)
             alert(error.message)
           }
         }
