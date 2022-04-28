@@ -206,10 +206,28 @@ export class ZwibblerManager {
                     : image.uri;
             // get the MIME type for the file
             const fileType = `image/${image.uri.split('.').pop()}`;
+
+            // We needed to push out an emergency update and everything that wasn't hacky
+            // required a Pod install. We will remove the use of `FormData` and utilize
+            // rn-fetch-blob instead
+            // TODO: remove
+            const data = new FormData();
+            data.append('file', {
+              // @ts-expect-error
+              name: fileUri,
+              type: fileType,
+              uri: fileUri
+            });
+            
+            // We're keeping the original shape of this function because we intend to use
+            // rn-fetch-blob instead of FormData
             await sessionService.uploadSessionPhotoToStorage(
                 uploadUrl,
                 fileUri,
-                fileType
+                fileType,
+                // TODO: remove
+                // @ts-expect-error
+                data._parts[0][1]
             );
 
             // logs a warning locally, but it does upload the image
