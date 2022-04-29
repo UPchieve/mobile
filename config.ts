@@ -5,14 +5,14 @@ const Config = {
         whiteboardSocketUrl: 'ws://localhost:3000',
         baseUrl: 'http://localhost:3000',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.1',
+        versionRelease: '2.0.2',
     },
     demo: {
         webSocketUrl: 'wss://demo.upchieve.org',
         whiteboardSocketUrl: 'wss://demo.upchieve.org',
         baseUrl: 'https://demo.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.1',
+        versionRelease: '2.0.2',
     },
     staging: {
         marketingUrl: 'https://upchieve.org',
@@ -20,7 +20,7 @@ const Config = {
         whiteboardSocketUrl: 'wss://staging.upchieve.org',
         baseUrl: 'https://staging.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.1',
+        versionRelease: '2.0.2',
     },
     prod: {
         marketingUrl: 'https://upchieve.org',
@@ -28,10 +28,10 @@ const Config = {
         whiteboardSocketUrl: 'wss://app.upchieve.org',
         baseUrl: 'https://app.upchieve.org',
         versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.0.1',
+        versionRelease: '2.0.2',
     },
     posthog: {
-        token: '',
+        token: 'JRMZGA_RF-346IQfReUvbuoVD3Q94BM7Jij8Nk4dQbA',
         settings: {
             host: 'https://p.upchieve.org',
             captureApplicationLifecycleEvents: true,
@@ -42,7 +42,7 @@ const Config = {
         }
     },
     gleap: {
-        token: ''
+        token: 'FNaCZwR9rmIeOeRYPntkCtsrwzH1lZMT'
     }
 }
 
