@@ -99,9 +99,15 @@ apply from: new File(["node", "--print", "require.resolve('react-native/package.
 def enableSeparateBuildPerCPUArchitecture = false
 
 /**
- * Run Proguard to shrink the Java bytecode in release builds.
+ * Do NOT Run Proguard to shrink the Java bytecode in release builds.
+ * https://github.com/facebook/react-native/issues/31277
+ * The main advantage of proguard is making it harder to reverse engineer
+ * your app, but all our code is open source...
+ * and it's obfuscating something essential that otherwise causes the app
+ * to instantly crash in prod builds. Tried excluding a couple of classes
+ * but could not find the right ones.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 /**
  * The preferred build flavor of JavaScriptCore.
