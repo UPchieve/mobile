@@ -143,7 +143,7 @@ android {
         applicationId 'org.upchieve.mobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 202004
         versionName "2.0.2"
     }
     splits {
