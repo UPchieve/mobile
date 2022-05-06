@@ -6,6 +6,7 @@ export interface CreateAccountRequest {
     firstName: string,
     lastName: string,
     currentGrade: string,
+    signupSourceId: number | undefined,
 }
 
 export interface CreateAccountResponse {
@@ -58,6 +59,7 @@ export interface CreateAccountWithWithPartnerRequest {
     highSchoolId?: string,
     studentPartnerOrg: string,
     currentGrade: string
+    signupSourceId: number | undefined
     // "partnerUserId": "string",
     // "partnerSite": "string",
 }

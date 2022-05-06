@@ -22,5 +22,11 @@ interface StudentPartnerManifest {
     highSchoolSignup: boolean,
     schoolSignupRequired: boolean,
     collegeSignup: boolean,
-    sites: string[]
+    sites: string[],
+    isManuallyApproved: boolean
+}
+
+type StudentSignupSource = {
+    id: number
+    name: string
 }
