@@ -15,4 +15,10 @@ const check = async (request: CheckEligibilityRequest): Promise<boolean> => {
     return isEligible !== undefined ? isEligible : true;
 }
 
-export const eligibilityService = { getSchools, check };
+const getStudentSignupSources = async (): Promise<StudentSignupSource[]> => {
+    const { data } = await http.get('/api-public/eligibility/signup-sources/students');
+    const { signupSources } = data;
+    return signupSources
+}
+
+export const eligibilityService = { getSchools, check, getStudentSignupSources };

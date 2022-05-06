@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from 'react'
 import { Linking, StyleSheet, Text, View } from "react-native";
 import { H3 } from "../../../components/atoms/common/H3";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -19,22 +19,39 @@ import { OnboardingStackParamList } from "../../../routes/OnboardingStackNavigat
 import { InputWithCustomErrorMessage, InputWithCustomErrorMessageStyles } from "../../../components/atoms/common/InputWithCustomErrorMessage";
 import { getErrorFromBackendResponse } from "../../../utils/utils";
 import { config } from "../../../../config";
+import { FormikPicker } from "../../../components/atoms/common/Formik/FormikPicker";
+import { eligibilityService } from '../../../services/eligibilityService';
 
 
 interface formTypeValues {
     email: string,
     password: string,
     confirmPassword: string,
+    signupSource: StudentSignupSource | undefined,
     olderThan13: boolean,
 }
 const initialValues: formTypeValues = {
     email: '',
     password: '',
     confirmPassword: '',
+    signupSource: undefined,
     olderThan13: false,
 }
 type RegisterSignUpCodeStep1Type = NativeStackScreenProps<OnboardingStackParamList, 'RegisterSignUpCodeStep1'>;
 export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type> = ({ navigation, route }) => {
+    const studentPartner = route.params.studentPartnerManifest
+    const [signupSourceOptions, setSignupSourceOptions] = useState<StudentSignupSource[]>([])
+
+    useEffect(() => {
+        const getStudentSignupSources = async () => {
+           const signupSources = await eligibilityService.getStudentSignupSources()
+           setSignupSourceOptions(signupSources);
+        }
+      
+        if (studentPartner.isManuallyApproved)
+            getStudentSignupSources();
+      }, []);
+
     const validationSchema = Yup.object().shape({
         email: Yup.string().required(),
         //TODO missing password length definition.
@@ -64,7 +81,8 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
             navigation.navigate('RegisterSignUpCodeStep2', {
                 email: values.email,
                 password: values.password,
-                studentPartnerManifest: route.params.studentPartnerManifest
+                studentPartnerManifest: route.params.studentPartnerManifest,
+                signupSourceId: values.signupSource ? values.signupSource.id : undefined
             });
         }
     });
@@ -135,6 +153,13 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
                     message='Password must contain at least one uppercase, one lower case, and number' />
                 <Separator marginVertical={6} backgroundColor='transparent' />
                 {renderInput('confirmPassword', 'Confirm Password', true)}
+                {studentPartner.isManuallyApproved && (<FormikPicker
+                    title='How did you hear about us?'
+                    placeholder='How did you hear about us?'
+                    name='signupSource'
+                    options={signupSourceOptions}
+                    getLabel={(option) => option.name}
+                />)}
                 <InputCheckBox mt={15} mb={24} label="I am at least 13 years old" value={formik.values.olderThan13}
                     onChange={(value) => formik.setFieldValue('olderThan13', value)}
                     touched={formik.touched.olderThan13}
