@@ -176,9 +176,9 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({ navig
         if (isWaitingForVolunteer()) {
             return 'UPchieve Bot'
         }
-        return !user.isVolunteer ? 'Volunteer' : 'Student';
+        return !user.isVolunteer ? sessionState!.volunteer!.firstname : sessionState!.student!.firstname;
     }
-
+    
     const renderImage = () => {
         if (!isSessionStarted()) {
             return ImageIndex.avatars.chatbot;
