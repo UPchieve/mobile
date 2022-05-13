@@ -57,7 +57,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
     useEffect(() => {
         const getStudentSignupSources = async () => {
            const signupSources = await eligibilityService.getStudentSignupSources()
-           setSignupSourceOptions(signupSources);
+           if (signupSources) setSignupSourceOptions(signupSources);
         }
       
         getStudentSignupSources();

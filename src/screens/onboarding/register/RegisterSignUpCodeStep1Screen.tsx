@@ -45,7 +45,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
     useEffect(() => {
         const getStudentSignupSources = async () => {
            const signupSources = await eligibilityService.getStudentSignupSources()
-           setSignupSourceOptions(signupSources);
+           if (signupSources) setSignupSourceOptions(signupSources);
         }
       
         if (studentPartner.isManuallyApproved)
