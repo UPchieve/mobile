@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormikProvider, useFormik } from 'formik';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet, Linking, } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors } from '../../../../assets/Colors';
@@ -18,6 +18,7 @@ import { PasswordInput } from '../../../components/atoms/onboarding/PasswordInpu
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { authService } from '../../../services/authService';
 import { config } from '../../../../config';
+import { eligibilityService } from '../../../services/eligibilityService';
 
 
 interface formTypeValues {
@@ -25,7 +26,7 @@ interface formTypeValues {
     lastName: string,
     password: string,
     confirmPassword: string,
-    howDidYouHearAboutUs?: string,
+    signupSource: StudentSignupSource | undefined,
     olderThan13: boolean,
 }
 const initialValues: formTypeValues = {
@@ -33,10 +34,9 @@ const initialValues: formTypeValues = {
     lastName: '',
     password: '',
     confirmPassword: '',
-    howDidYouHearAboutUs: undefined,
+    signupSource: undefined,
     olderThan13: false,
 }
-const options = ['Web search', 'Social media', 'Friend / Classmate', 'School / Teacher', 'Parent / Relative', 'Other'];
 type CreateAccountScreenType = NativeStackScreenProps<OnboardingStackParamList, 'CreateAccount'>;
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required(),
@@ -45,9 +45,24 @@ const validationSchema = Yup.object().shape({
         , "Password must contain at least one uppercase, one lower case, and 1 number."),
     confirmPassword: Yup.string().required()
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
-    olderThan13: Yup.boolean().isTrue()
+    olderThan13: Yup.boolean().isTrue(),
+    signupSource: Yup.object().shape({
+        id: Yup.number().required(),
+        name: Yup.string().required(),
+    })
 });
 export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, navigation }) => {
+    const [signupSourceOptions, setSignupSourceOptions] = useState<StudentSignupSource[]>([])
+
+    useEffect(() => {
+        const getStudentSignupSources = async () => {
+           const signupSources = await eligibilityService.getStudentSignupSources()
+           if (signupSources) setSignupSourceOptions(signupSources);
+        }
+      
+        getStudentSignupSources();
+      }, []);
+
     const formik = useFormik<formTypeValues>({
         initialValues,
         validationSchema,
@@ -60,7 +75,8 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
                     highSchoolId: route.params.highSchoolId,
                     zipCode: route.params.zipCode,
                     currentGrade: route.params.grade,
-                    email: route.params.email
+                    email: route.params.email,
+                    signupSourceId: values.signupSource ? values.signupSource.id : undefined
                 });
                 console.log("new account", newAccount);
 
@@ -127,8 +143,9 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({ route, 
             <FormikPicker
                 title='How did you hear about us?'
                 placeholder='How did you hear about us?'
-                name='howDidYouHearAboutUs'
-                options={options}
+                name='signupSource'
+                options={signupSourceOptions}
+                getLabel={(option) => option.name}
             />
             <InputCheckBox mt={15} mb={24} label="I am at least 13 years old" value={formik.values.olderThan13}
                 onChange={(value) => formik.setFieldValue('olderThan13', value)}

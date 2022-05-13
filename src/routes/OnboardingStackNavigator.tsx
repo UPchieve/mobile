@@ -66,6 +66,7 @@ export type OnboardingStackParamList = {
         email: string,
         password: string,
         studentPartnerManifest: StudentPartnerManifest
+        signupSourceId: number | undefined
     },
     ContactUs: {
         screen: string

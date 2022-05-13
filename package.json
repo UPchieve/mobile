@@ -38,6 +38,7 @@
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "~0.10.13",
+    "exponential-backoff": "^3.1.0",
     "formik": "^2.2.9",
     "jest": "^27.5.1",
     "jest-expo": "~43.0.1",
