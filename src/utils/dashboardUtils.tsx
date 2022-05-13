@@ -27,11 +27,11 @@ export const topics: Topic[] = [
     displayName: 'Science',
     image: ImageIndex.dashboard.subjects.science,
     subTopics: [
-      { key: 'biology:', displayName: 'Biology' },
-      { key: 'chemistry:', displayName: 'Chemistry' },
-      { key: 'physicsOne:', displayName: 'Physics 1' },
-      { key: 'physicsTwo:', displayName: 'Physics 2' },
-      { key: 'environmentalScience:', displayName: 'Environmental Science' }
+      { key: 'biology', displayName: 'Biology' },
+      { key: 'chemistry', displayName: 'Chemistry' },
+      { key: 'physicsOne', displayName: 'Physics 1' },
+      { key: 'physicsTwo', displayName: 'Physics 2' },
+      { key: 'environmentalScience', displayName: 'Environmental Science' }
     ],
   },
   {
@@ -39,7 +39,8 @@ export const topics: Topic[] = [
     displayName: 'Reading and Writing',
     image: ImageIndex.dashboard.subjects.readWriting,
     subTopics: [
-      { key: 'humanitiesEssays', displayName: 'Humanities Essays' }
+      { key: 'humanitiesEssays', displayName: 'Humanities Essays' },
+      { key: 'reading', displayName: 'Reading' }
     ],
   },
   {
