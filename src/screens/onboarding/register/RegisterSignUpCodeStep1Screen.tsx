@@ -48,6 +48,7 @@ export const RegisterSignUpCodeStep1Screen: React.FC<RegisterSignUpCodeStep1Type
            if (signupSources) setSignupSourceOptions(signupSources);
         }
       
+        // we only need to get the signup sources for partners who are manually approved
         if (studentPartner.isManuallyApproved)
             getStudentSignupSources();
       }, []);
