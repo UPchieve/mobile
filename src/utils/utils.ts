@@ -20,7 +20,8 @@ export const getSessionType = (session: SessionStateChangedSocketType): SessionT
         'essays',
         'applications',
         'satReading',
-        'humanitiesEssays'
+        'humanitiesEssays',
+        'reading'
     ]
     if (session && documentEditorSubTopics.includes(session.subTopic))
         return 'DOCUMENT'
