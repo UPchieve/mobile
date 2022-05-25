@@ -1,12 +1,6 @@
 import React from 'react'
 import { SvgFC } from '../../../../assets/icons/SvgInterface'
-import {
-  Modal,
-  StyleSheet,
-  View,
-  Text,
-  Platform,
-} from 'react-native'
+import { Modal, StyleSheet, View, Text, Platform } from 'react-native'
 import { CommonButton } from '../../common/CommonButton'
 import { Colors, PrimaryColorType } from '../../../../assets/Colors'
 import { useOrientation } from '../../../hooks/useOrientation'

@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import { SubTopic, Topic } from '../../../interfaces/dashboardInterfaces'
 import { Pressable, Image, View, Text, StyleSheet } from 'react-native'
 import { Colors } from '../../../../assets/Colors'

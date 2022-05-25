@@ -1,6 +1,4 @@
-import React, {
-  useState,
-} from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { SvgIcons } from '../../../../assets/IndexIcons'

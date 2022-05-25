@@ -1,13 +1,7 @@
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { CompositeScreenProps } from '@react-navigation/native'
 import React, { useContext } from 'react'
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Pressable,
-} from 'react-native'
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack'
