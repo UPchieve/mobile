@@ -31,7 +31,7 @@ const Config = {
         versionRelease: '2.1.0',
     },
     posthog: {
-        token: 'JRMZGA_RF-346IQfReUvbuoVD3Q94BM7Jij8Nk4dQbA',
+        token: '',
         settings: {
             host: 'https://p.upchieve.org',
             captureApplicationLifecycleEvents: true,
@@ -42,7 +42,7 @@ const Config = {
         }
     },
     gleap: {
-        token: 'FNaCZwR9rmIeOeRYPntkCtsrwzH1lZMT'
+        token: ''
     }
 }
 
@@ -51,7 +51,7 @@ const getConfigProd = () => Config.prod;
 const getConfigStaging = () => Config.staging;
 const getConfigLocal = () => Config.local;
 
-export const config = getConfigProd();
+export const config = getConfigStaging();
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
 

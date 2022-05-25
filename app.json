@@ -25,7 +25,7 @@
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "bundleIdentifier": "org.upchieve.mobile"
+      "bundleIdentifier": "org.upchieve.beta"
     },
     "android": {
       "adaptiveIcon": {
