@@ -1,31 +1,32 @@
 export interface WebViewEvent {
   eventType:
-  | 'tool-changed'
-  | 'connected'
-  | 'document-changed'
-  | 'resource-loaded';
+    | 'tool-changed'
+    | 'connected'
+    | 'document-changed'
+    | 'resource-loaded'
 }
 export interface CustomWebViewEvent<T> {
-  eventType: 'tool-changed';
-  eventValue: T;
+  eventType: 'tool-changed'
+  eventValue: T
 }
-
 
 interface QuillEditorTextChangeEvent {
   eventValue: {
-    delta: any;
-    source: string;
-    oldDelta: any;
-  };
+    delta: any
+    source: string
+    oldDelta: any
+  }
   eventType: 'text-change'
 }
 
 interface QuillEditorSelectionChangeEvent {
   eventValue: {
-    range: any;
-    source: string;
-  };
+    range: any
+    source: string
+  }
   eventType: 'selection-change'
 }
 
-export type QuillEditorEvent = QuillEditorTextChangeEvent | QuillEditorSelectionChangeEvent;
+export type QuillEditorEvent =
+  | QuillEditorTextChangeEvent
+  | QuillEditorSelectionChangeEvent

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const TrashIcon: SvgFC = ({
   width = 24,
@@ -9,10 +9,17 @@ export const TrashIcon: SvgFC = ({
   ...props
 }) => {
   return (
-    <Svg width={width} height={height} fill={stroke} {...props} preserveAspectRatio={'none'} viewBox="0 0 24 24">
+    <Svg
+      width={width}
+      height={height}
+      fill={stroke}
+      {...props}
+      preserveAspectRatio={'none'}
+      viewBox="0 0 24 24"
+    >
       <Path d="M19.413 24H4.638a.92.92 0 0 1-.96-.92V4.613a.908.908 0 0 1 .96-.96h14.775a.908.908 0 0 1 .918.918v18.47a.919.919 0 0 1-.918.96ZM5.567 22.151h12.918V5.541H5.567v16.611Z" />
       <Path d="M23.107 5.54H.944a.944.944 0 0 1 0-1.888h22.163a.929.929 0 0 1 0 1.847v.042Z" />
       <Path d="M15.156 5.54a.918.918 0 0 1-.918-.928V1.847H9.835v2.765a.929.929 0 1 1-1.847 0V.918A.929.929 0 0 1 8.895 0h6.261a.929.929 0 0 1 .929.918v3.694a.928.928 0 0 1-.929.929ZM8.332 19.387a.918.918 0 0 1-.918-.929V9.234a.929.929 0 1 1 1.847 0v9.224a.929.929 0 0 1-.93.93ZM12.026 19.387a.918.918 0 0 1-.918-.929V9.234a.918.918 0 1 1 1.836 0v9.224a.918.918 0 0 1-.918.93ZM15.72 19.387a.929.929 0 0 1-.93-.929V9.234a.929.929 0 1 1 1.848 0v9.224a.918.918 0 0 1-.919.93Z" />
     </Svg>
-  );
-};
+  )
+}

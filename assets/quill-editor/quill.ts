@@ -264,8 +264,8 @@ const html = `
 </script>
 
 </html>
-`;
+`
 
 export const quill = {
-    html,
-};
+  html,
+}

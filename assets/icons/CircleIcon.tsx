@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Circle } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Circle } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const CircleIcon: SvgFC = ({
   width = 20,
@@ -20,5 +20,5 @@ export const CircleIcon: SvgFC = ({
     >
       <Circle cx="10" cy="10" r="9.5" />
     </Svg>
-  );
-};
+  )
+}

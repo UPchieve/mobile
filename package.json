@@ -10,6 +10,8 @@
     "ios:beta": "NODE_ENV=beta expo run:ios",
     "publish:beta": "NODE_ENV=beta expo publish --release-chanel beta-v2",
     "publish:production": "NODE_ENV=production expo publish --release-chanel prod-v2",
+    "lint": "prettier --write .> /dev/null",
+    "lint:dry": "prettier . --check",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest"
@@ -85,7 +87,7 @@
     "@types/react-native-read-more-text": "^1.0.1",
     "@types/react-test-renderer": "^18.0.0",
     "@types/socket.io-client": "^3.0.0",
-    "prettier": "2.5.1",
+    "prettier": "^2.5.1",
     "react-native-svg-transformer": "^1.0.0",
     "react-test-renderer": "17",
     "typescript": "~4.3.5"

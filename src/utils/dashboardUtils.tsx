@@ -1,5 +1,5 @@
-import { ImageIndex } from "../../assets/ImageIndex";
-import { Topic } from "../interfaces/dashboardInterfaces";
+import { ImageIndex } from '../../assets/ImageIndex'
+import { Topic } from '../interfaces/dashboardInterfaces'
 
 export const topics: Topic[] = [
   {
@@ -19,7 +19,7 @@ export const topics: Topic[] = [
       { key: 'integratedMathOne', displayName: 'Integrated Math 1' },
       { key: 'integratedMathTwo', displayName: 'Integrated Math 2' },
       { key: 'integratedMathThree', displayName: 'Integrated Math 3' },
-      { key: 'integratedMathFour', displayName: 'Integrated Math 4' }
+      { key: 'integratedMathFour', displayName: 'Integrated Math 4' },
     ],
   },
   {
@@ -31,7 +31,7 @@ export const topics: Topic[] = [
       { key: 'chemistry', displayName: 'Chemistry' },
       { key: 'physicsOne', displayName: 'Physics 1' },
       { key: 'physicsTwo', displayName: 'Physics 2' },
-      { key: 'environmentalScience', displayName: 'Environmental Science' }
+      { key: 'environmentalScience', displayName: 'Environmental Science' },
     ],
   },
   {
@@ -40,7 +40,7 @@ export const topics: Topic[] = [
     image: ImageIndex.dashboard.subjects.readWriting,
     subTopics: [
       { key: 'humanitiesEssays', displayName: 'Humanities Essays' },
-      { key: 'reading', displayName: 'Reading' }
+      { key: 'reading', displayName: 'Reading' },
     ],
   },
   {
@@ -50,7 +50,7 @@ export const topics: Topic[] = [
     subTopics: [
       { key: 'planning', displayName: 'Planning' },
       { key: 'essays', displayName: 'College Essays' },
-      { key: 'applications', displayName: 'Applications' }
+      { key: 'applications', displayName: 'Applications' },
     ],
   },
   {
@@ -59,7 +59,7 @@ export const topics: Topic[] = [
     image: ImageIndex.dashboard.subjects.sat,
     subTopics: [
       { key: 'satMath', displayName: 'SAT Math' },
-      { key: 'satReading', displayName: 'SAT Reading' }
+      { key: 'satReading', displayName: 'SAT Reading' },
     ],
   },
   // training: {

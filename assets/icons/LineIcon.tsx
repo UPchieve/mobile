@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const LineIcon: SvgFC = ({
   width = 20,
@@ -19,5 +19,5 @@ export const LineIcon: SvgFC = ({
     >
       <Path d="M19.3408 1.29004L0.370117 21.001" stroke={stroke} />
     </Svg>
-  );
-};
+  )
+}

@@ -1,32 +1,32 @@
 interface School {
-    id: string,
-    upchieveId: string,
-    name: string,
-    districtName: string,
-    city: string,
-    state: string,
+  id: string
+  upchieveId: string
+  name: string
+  districtName: string
+  city: string
+  state: string
 }
 
 interface CheckEligibilityRequest {
-    schoolUpchieveId: string,
-    email: string,
-    zipCode: string,
-    referredByCode?: string,
-    currentGrade?: string
+  schoolUpchieveId: string
+  email: string
+  zipCode: string
+  referredByCode?: string
+  currentGrade?: string
 }
 
 interface StudentPartnerManifest {
-    name: string,
-    signupCode: string,
-    studentPartnerOrg: string,
-    highSchoolSignup: boolean,
-    schoolSignupRequired: boolean,
-    collegeSignup: boolean,
-    sites: string[],
-    isManuallyApproved: boolean
+  name: string
+  signupCode: string
+  studentPartnerOrg: string
+  highSchoolSignup: boolean
+  schoolSignupRequired: boolean
+  collegeSignup: boolean
+  sites: string[]
+  isManuallyApproved: boolean
 }
 
 type StudentSignupSource = {
-    id: number
-    name: string
+  id: number
+  name: string
 }

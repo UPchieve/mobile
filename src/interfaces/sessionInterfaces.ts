@@ -1,53 +1,61 @@
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker'
 
 export interface Session {
-    sessionId: string,
-    data: {
-        _id: string,
-        type: string,
-        subTopic: string,
-        volunteerJoinedAt: Date;
-        createdAt: Date;
-        student: SessionUser,
-        volunteer: SessionUser,
-        messages: {
-            _id: string;
-            user: string;
-            contents: string;
-            createdAt: string;
-        }[]
-    }
+  sessionId: string
+  data: {
+    _id: string
+    type: string
+    subTopic: string
+    volunteerJoinedAt: Date
+    createdAt: Date
+    student: SessionUser
+    volunteer: SessionUser
+    messages: {
+      _id: string
+      user: string
+      contents: string
+      createdAt: string
+    }[]
+  }
 }
 export type SessionUser = {
-    _id: string;
-    firstname: string;
-    isVolunteer: boolean;
-    type: string;
-};
-
-export type PreSessionResponse = {
-    survey: {
-        _id: string,
-        session: string,
-        surveyType: string,
-        user: string,
-        __v: number,
-        createdAt: string,
-        responseData: {
-            "primary-goal": {
-                answer: string
-            },
-            "topic-understanding": {
-                answer: number
-            }
-        }
-    }
+  _id: string
+  firstname: string
+  isVolunteer: boolean
+  type: string
 }
 
-export type SessionType = 'DOCUMENT' | 'WHITEBOARD';
+export type PreSessionResponse = {
+  survey: {
+    _id: string
+    session: string
+    surveyType: string
+    user: string
+    __v: number
+    createdAt: string
+    responseData: {
+      'primary-goal': {
+        answer: string
+      }
+      'topic-understanding': {
+        answer: number
+      }
+    }
+  }
+}
 
-export type SessionSubjectType = 'math' | 'science' | 'college' | 'sat' | 'training' | 'readingWriting';
+export type SessionType = 'DOCUMENT' | 'WHITEBOARD'
+
+export type SessionSubjectType =
+  | 'math'
+  | 'science'
+  | 'college'
+  | 'sat'
+  | 'training'
+  | 'readingWriting'
 
 // TODO: better typing. this is a hacky way to access ImagePicker.ImageInfo
 // since there is no export of the ImageInfo type
-export type ImagePickerInfo = ImagePicker.ImagePickerResult & { cancelled?: false };
+export type ImagePickerInfo = ImagePicker.ImagePickerResult & {
+  cancelled?: false
+}

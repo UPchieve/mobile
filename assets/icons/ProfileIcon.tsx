@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const ProfileIcon: SvgFC = ({
   width = 24,
@@ -13,7 +13,7 @@ export const ProfileIcon: SvgFC = ({
       width={width}
       height={height}
       viewBox="0 0 24 24"
-      fill='none'
+      fill="none"
       {...props}
     >
       <Path
@@ -29,5 +29,5 @@ export const ProfileIcon: SvgFC = ({
         fill={fill}
       />
     </Svg>
-  );
-};
+  )
+}

@@ -1,39 +1,39 @@
-import { useEffect } from 'react';
-import * as Updates from 'expo-updates';
-import axios from 'axios';
-import { Alert } from 'react-native';
+import { useEffect } from 'react'
+import * as Updates from 'expo-updates'
+import axios from 'axios'
+import { Alert } from 'react-native'
 
 type useAutoUpdateAppHandlerType = {
-  appName: string;
-  versionUrl: string;
-  versionRelease: string;
-};
+  appName: string
+  versionUrl: string
+  versionRelease: string
+}
 
 export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
   useEffect(() => {
-    (async () => {
-      await checkForUpdates();
-    })();
-  }, []);
+    ;(async () => {
+      await checkForUpdates()
+    })()
+  }, [])
 
   const getVersion = async (): Promise<{
-    app_version: string;
-    force_update: boolean;
+    app_version: string
+    force_update: boolean
   }> => {
     const { data } = await axios.get<{
-      app_version: string;
-      force_update: boolean;
-    }>(props.versionUrl);
-    return data;
-  };
+      app_version: string
+      force_update: boolean
+    }>(props.versionUrl)
+    return data
+  }
 
   async function checkForUpdates() {
-    const version = await getVersion();
+    const version = await getVersion()
     if (version && version.app_version !== props.versionRelease) {
       if (version.force_update) {
-        forceAlertUpdate();
+        forceAlertUpdate()
       } else {
-        alertUpdate();
+        alertUpdate()
       }
     }
   }
@@ -51,8 +51,8 @@ export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
         {
           text: 'YES',
           onPress: async () => {
-            await Updates.fetchUpdateAsync();
-            await Updates.reloadAsync();
+            await Updates.fetchUpdateAsync()
+            await Updates.reloadAsync()
           },
           style: 'cancel',
         },
@@ -60,8 +60,8 @@ export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
       {
         cancelable: false,
       }
-    );
-  };
+    )
+  }
 
   const forceAlertUpdate = () => {
     return Alert.alert(
@@ -71,8 +71,8 @@ export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
         {
           text: 'OK',
           onPress: async () => {
-            await Updates.fetchUpdateAsync();
-            await Updates.reloadAsync();
+            await Updates.fetchUpdateAsync()
+            await Updates.reloadAsync()
           },
           style: 'cancel',
         },
@@ -80,6 +80,6 @@ export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
       {
         cancelable: false,
       }
-    );
-  };
-};
+    )
+  }
+}

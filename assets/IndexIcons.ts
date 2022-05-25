@@ -1,37 +1,37 @@
-import { WordBubbleIcon } from './icons/WordBubbleIcon';
-import { UndoIcon } from './icons/UndoIcon';
-import { RedoIcon } from './icons/RedoIcon';
-import { TrashIcon } from './icons/TrashIcon';
-import { DragIcon } from './icons/DragIcon';
-import { PencilIcon } from './icons/PencilIcon';
-import { ShapeIcon } from './icons/ShapeIcon';
-import { TextIcon } from './icons/TextIcon';
-import { PhotoUploadIcon } from './icons/PhotoUploadIcon';
-import { DotIcon } from './icons/DotIcon';
-import { CloseIcon } from './icons/CloseIcon';
-import {LineIcon} from "./icons/LineIcon";
-import {CircleIcon} from "./icons/CircleIcon";
-import {TriangleIcon} from "./icons/TriangleIcon";
-import {SquareIcon} from "./icons/SquareIcon";
-import {LogoutIcon} from "./icons/LogoutIcon";
-import { MessageIcon } from './icons/MessageIcon';
-import { HouseIcon } from './icons/HouseIcon';
-import { StarIcon } from './icons/StartIcon';
-import { StopIcon } from './icons/StopIcon';
-import { RobotIcon } from './icons/RobotIcon';
-import { CheckIcon } from './icons/CheckIcon';
-import { GlassIcon } from './icons/GlassIcon';
-import { ClearInputIcon } from './icons/ClearInputIcon';
-import { DropdownIcon } from './icons/DropdownIcon';
-import { VisibilityHiddenIcon } from './icons/VisibilityHiddenIcon';
-import { VisibilityShowIcon } from './icons/VisibilityShowIcon';
-import { DocEditorIcon } from './icons/DocEditorIcon';
-import { WhiteboardIcon } from './icons/WhiteboardIcon';
-import { GoArrow } from './icons/GoArrow';
-import { ProfileIcon } from './icons/ProfileIcon';
-import { EmailIcon } from './icons/EmailIcon';
-import { LogoutDrawIcon } from './icons/LogoutDrawIcon';
-import {SelectDragIcon} from "./icons/SelectDragIcon";
+import { WordBubbleIcon } from './icons/WordBubbleIcon'
+import { UndoIcon } from './icons/UndoIcon'
+import { RedoIcon } from './icons/RedoIcon'
+import { TrashIcon } from './icons/TrashIcon'
+import { DragIcon } from './icons/DragIcon'
+import { PencilIcon } from './icons/PencilIcon'
+import { ShapeIcon } from './icons/ShapeIcon'
+import { TextIcon } from './icons/TextIcon'
+import { PhotoUploadIcon } from './icons/PhotoUploadIcon'
+import { DotIcon } from './icons/DotIcon'
+import { CloseIcon } from './icons/CloseIcon'
+import { LineIcon } from './icons/LineIcon'
+import { CircleIcon } from './icons/CircleIcon'
+import { TriangleIcon } from './icons/TriangleIcon'
+import { SquareIcon } from './icons/SquareIcon'
+import { LogoutIcon } from './icons/LogoutIcon'
+import { MessageIcon } from './icons/MessageIcon'
+import { HouseIcon } from './icons/HouseIcon'
+import { StarIcon } from './icons/StartIcon'
+import { StopIcon } from './icons/StopIcon'
+import { RobotIcon } from './icons/RobotIcon'
+import { CheckIcon } from './icons/CheckIcon'
+import { GlassIcon } from './icons/GlassIcon'
+import { ClearInputIcon } from './icons/ClearInputIcon'
+import { DropdownIcon } from './icons/DropdownIcon'
+import { VisibilityHiddenIcon } from './icons/VisibilityHiddenIcon'
+import { VisibilityShowIcon } from './icons/VisibilityShowIcon'
+import { DocEditorIcon } from './icons/DocEditorIcon'
+import { WhiteboardIcon } from './icons/WhiteboardIcon'
+import { GoArrow } from './icons/GoArrow'
+import { ProfileIcon } from './icons/ProfileIcon'
+import { EmailIcon } from './icons/EmailIcon'
+import { LogoutDrawIcon } from './icons/LogoutDrawIcon'
+import { SelectDragIcon } from './icons/SelectDragIcon'
 
 export const SvgIcons = {
   WordBubbleIcon,
@@ -67,6 +67,5 @@ export const SvgIcons = {
   ProfileIcon,
   EmailIcon,
   LogoutDrawIcon,
-  SelectDragIcon
-};
-
+  SelectDragIcon,
+}

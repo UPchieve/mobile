@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const DragIcon: SvgFC = ({
   width = 26,
@@ -22,5 +22,5 @@ export const DragIcon: SvgFC = ({
         stroke-width="2"
       />
     </Svg>
-  );
-};
+  )
+}
