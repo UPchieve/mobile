@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Text,
-  TextInputProps,
-} from 'react-native'
+import { View, StyleSheet, TextInput, Text, TextInputProps } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'

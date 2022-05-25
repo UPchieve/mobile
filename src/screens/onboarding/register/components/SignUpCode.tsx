@@ -9,9 +9,7 @@ import { Popover, usePopover } from 'react-native-modal-popover'
 import * as Yup from 'yup'
 import { authService } from '../../../../services/authService'
 import { getErrorFromBackendResponse } from '../../../../utils/utils'
-import {
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { OnboardingStackParamList } from '../../../../routes/OnboardingStackNavigator'
 
 type SignUpCodeType = {

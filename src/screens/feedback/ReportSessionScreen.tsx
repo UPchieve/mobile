@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { FontIndex } from '../../../assets/FontIndex'
 import { Colors } from '../../../assets/Colors'
 import ReadMore from 'react-native-read-more-text'

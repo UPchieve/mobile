@@ -28,10 +28,7 @@ import {
   ChatIncomingData,
   ChatoutcomingData,
 } from '../interfaces/chatInterfaces'
-import {
-  ChatReducerAction,
-  ChatType,
-} from '../reducers/chatReducer'
+import { ChatReducerAction, ChatType } from '../reducers/chatReducer'
 import { SessionType } from '../interfaces/sessionInterfaces'
 import { ChatTypping } from '../components/atoms/chat/ChatTypping'
 import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButton'
