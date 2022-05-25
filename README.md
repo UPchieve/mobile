@@ -105,7 +105,7 @@ There are two key branches for this repo: `beta` and `production`.
 * Once a set of changes is accepted for a release, that commit on `beta` is tagged `X.X.X-beta` for example `2.1.0-beta`
 * Depending on if iOS/Android packages have changed or just React-Native level packages, we would either do
   * expo publish --release-channel beta-v2 OR
-  * create a new archive in XCode and push to the app store and do the expo android release process, to the beta build `org.upchieve.beta` for each store
+  * create a new archive in XCode and push to the app store and do the expo android release process, to the beta build `org.upchieve.mobile` for each store
 * Once a release has been tested, the beta branch at that tag is merged into the `production` branch
 * On that branch, the commit should be tagged `X.X.X` for example `2.1.0`
 * Then we follow the same publish process above but for the main app `org.upchieve.mobile`
