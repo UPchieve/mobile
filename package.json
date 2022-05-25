@@ -11,7 +11,7 @@
     "publish:beta": "NODE_ENV=beta expo publish --release-chanel beta-v2",
     "publish:production": "NODE_ENV=production expo publish --release-chanel prod-v2",
     "lint": "prettier --write .> /dev/null",
-    "lint:dry": "prettier . --check",
+    "lint:check": "prettier . --check",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest"
