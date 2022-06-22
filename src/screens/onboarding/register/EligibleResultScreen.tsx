@@ -1,12 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
-import { Image, Linking, StyleSheet } from 'react-native'
-import { ImageBackground, Text, View } from 'react-native'
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  View,
+} from 'react-native'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { ImageIndex } from '../../../../assets/ImageIndex'
 import { CommonButton } from '../../../components/common/CommonButton'
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator'
 import { config } from '../../../../config'
+import { GRADES } from '../../../constants'
+import { Colors } from '../../../../assets/Colors'
 
 type EligibleResultScreenType = NativeStackScreenProps<
   OnboardingStackParamList,
@@ -70,9 +78,49 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({
     )
   }
 
+  if (grade === GRADES.COLLEGE)
+    return (
+      <View style={[styles.wrapper, styles.wrapperNotEligible, styles.spacing]}>
+        <Text style={[styles.title, { marginBottom: 30 }]}>
+          Oops, looks like you're not a high school student!
+        </Text>
+        <Image
+          source={ImageIndex.onboarding.notEligible}
+          style={{
+            resizeMode: 'contain',
+            height: '50%',
+          }}
+        />
+        <Text style={styles.description}>
+          We don't have the capacity to help college students right now, but did
+          you know that many UPchieve students dream of going to college just
+          like you? Give back by becoming an Academic Coach.
+        </Text>
+        <CommonButton
+          title="Become an Academic Coach"
+          onPress={() => Linking.openURL('https://upchieve.org/volunteer')}
+          type="information"
+          style={{ height: 48, width: '100%' }}
+        />
+        <Text style={{ fontSize: 12, paddingTop: 20, paddingBottom: 5 }}>
+          Still need help?
+        </Text>
+        <Text
+          style={{ color: Colors.linkBlue, fontWeight: '500' }}
+          onPress={() =>
+            Linking.openURL(
+              'https://upchieve.org/resources-for-college-students'
+            )
+          }
+        >
+          {' '}
+          Find college resources here
+        </Text>
+      </View>
+    )
+
   return (
     <View>
-      {/* {eligible ? renderEligible() : null} */}
       {eligible ? renderEligible() : renderNotEligible()}
       <View style={{ paddingHorizontal: 20 }}>
         <CommonButton
@@ -100,11 +148,9 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({
 const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
-    // height: (Dimensions.get('screen').height / 2) - 50,
     height: 462,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    // marginBottom: 70,
   },
   wrapperNotEligible: {
     height: undefined,
@@ -116,5 +162,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 68,
+  },
+  spacing: {
+    marginTop: 200,
+  },
+  description: {
+    fontSize: 16,
+    marginTop: 16,
+    lineHeight: 24,
+    marginBottom: 25,
+    textAlign: 'center',
   },
 })
