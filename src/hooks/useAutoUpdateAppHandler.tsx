@@ -9,17 +9,17 @@ type useAutoUpdateAppHandlerType = {
   versionRelease: string
 }
 
-export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
+export function useAutoUpdateAppHandler(props: useAutoUpdateAppHandlerType) {
   useEffect(() => {
     ;(async () => {
       await checkForUpdates()
     })()
   }, [])
 
-  const getVersion = async (): Promise<{
+  async function getVersion(): Promise<{
     app_version: string
     force_update: boolean
-  }> => {
+  }> {
     const { data } = await axios.get<{
       app_version: string
       force_update: boolean
@@ -31,14 +31,14 @@ export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
     const version = await getVersion()
     if (version && version.app_version !== props.versionRelease) {
       if (version.force_update) {
-        forceAlertUpdate()
+        await forceAlertUpdate()
       } else {
-        alertUpdate()
+        await alertUpdate()
       }
     }
   }
 
-  const alertUpdate = () => {
+  async function alertUpdate() {
     return Alert.alert(
       'Update available',
       `There is a new version of ${props.appName} available. Do you want to download it now?`,
@@ -63,10 +63,10 @@ export const useAutoUpdateAppHandler = (props: useAutoUpdateAppHandlerType) => {
     )
   }
 
-  const forceAlertUpdate = () => {
+  async function forceAlertUpdate() {
     return Alert.alert(
       'Update available',
-      `To continue using ${props.appName} you must update it. `,
+      `To continue using ${props.appName} you must update it.`,
       [
         {
           text: 'OK',
