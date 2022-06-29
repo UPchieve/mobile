@@ -1,4 +1,4 @@
 interface SelectItem {
-    label: string,
-    value: any,
+  label: string
+  value: any
 }

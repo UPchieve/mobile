@@ -1,57 +1,41 @@
+import {
+  MARKETING_URL,
+  WEBSOCKET_URL,
+  WHITEBOARD_WEBSOCKET_URL,
+  BASE_URL,
+  VERSION_URL,
+  VERSION_RELEASE,
+  POSTHOG_TOKEN,
+  POSTHOG_HOST,
+  GLEAP_TOKEN,
+} from 'react-native-dotenv'
+
 const Config = {
-    local: {
-        marketingUrl: 'https://upchieve.org',
-        webSocketUrl: 'ws://localhost:3001',
-        whiteboardSocketUrl: 'ws://localhost:3000',
-        baseUrl: 'http://localhost:3000',
-        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.1.0',
+  app: {
+    marketingUrl: MARKETING_URL,
+    webSocketUrl: WEBSOCKET_URL,
+    whiteboardSocketUrl: WHITEBOARD_WEBSOCKET_URL,
+    baseUrl: BASE_URL,
+    versionUrl: VERSION_URL,
+    versionRelease: VERSION_RELEASE,
+  },
+  posthog: {
+    token: POSTHOG_TOKEN,
+    settings: {
+      host: POSTHOG_HOST,
+      captureApplicationLifecycleEvents: true,
+      captureDeepLinks: true,
+      iOS: {
+        capturePushNotifications: true,
+      },
     },
-    demo: {
-        webSocketUrl: 'wss://demo.upchieve.org',
-        whiteboardSocketUrl: 'wss://demo.upchieve.org',
-        baseUrl: 'https://demo.upchieve.org',
-        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.1.0',
-    },
-    staging: {
-        marketingUrl: 'https://upchieve.org',
-        webSocketUrl: 'wss://staging.upchieve.org',
-        whiteboardSocketUrl: 'wss://staging.upchieve.org',
-        baseUrl: 'https://staging.upchieve.org',
-        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.1.0',
-    },
-    prod: {
-        marketingUrl: 'https://upchieve.org',
-        webSocketUrl: 'wss://app.upchieve.org',
-        whiteboardSocketUrl: 'wss://app.upchieve.org',
-        baseUrl: 'https://app.upchieve.org',
-        versionUrl: 'https://cdn.upchieve.org/mobile-version/version.json',
-        versionRelease: '2.1.0',
-    },
-    posthog: {
-        token: 'JRMZGA_RF-346IQfReUvbuoVD3Q94BM7Jij8Nk4dQbA',
-        settings: {
-            host: 'https://p.upchieve.org',
-            captureApplicationLifecycleEvents: true,
-            captureDeepLinks: true,
-            iOS: {
-                capturePushNotifications: true,
-            }
-        }
-    },
-    gleap: {
-        token: 'FNaCZwR9rmIeOeRYPntkCtsrwzH1lZMT'
-    }
+  },
+  gleap: {
+    token: GLEAP_TOKEN,
+  },
 }
 
-const getConfigDemo = () => Config.demo;
-const getConfigProd = () => Config.prod;
-const getConfigStaging = () => Config.staging;
-const getConfigLocal = () => Config.local;
-
-export const config = getConfigProd();
+const getConfig = () => Config.app
+export const config = getConfig()
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
-

@@ -10,4 +10,4 @@ export type ZwibblerTool =
   | 'polygon'
   | 'rectangle'
   | 'shape'
-  | 'text';
+  | 'text'

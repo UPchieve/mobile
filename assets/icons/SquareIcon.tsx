@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Rect } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Rect } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const SquareIcon: SvgFC = ({
   width = 20,
@@ -19,5 +19,5 @@ export const SquareIcon: SvgFC = ({
     >
       <Rect x="0.5" y="0.5" width="19" height="19" rx="3.5" />
     </Svg>
-  );
-};
+  )
+}

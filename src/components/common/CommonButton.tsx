@@ -1,26 +1,29 @@
-import React from 'react';
+import React from 'react'
 import {
   Text,
   TouchableOpacity,
   StyleSheet,
   StyleProp,
-  ViewStyle, Image, View, ImageSourcePropType, ImageBackgroundBase, ActivityIndicator,
-} from 'react-native';
-import { Colors, PrimaryColorType } from '../../../assets/Colors';
-import { FontIndex } from "../../../assets/FontIndex";
-import { SvgFC } from '../../../assets/icons/SvgInterface';
+  ViewStyle,
+  Image,
+  View,
+  ActivityIndicator,
+} from 'react-native'
+import { Colors, PrimaryColorType } from '../../../assets/Colors'
+import { FontIndex } from '../../../assets/FontIndex'
+import { SvgFC } from '../../../assets/icons/SvgInterface'
 
 interface ICommonButton {
-  title: string;
-  onPress: () => void;
-  type?: PrimaryColorType;
-  disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
-  rightIcon?: any;
-  loading?: boolean;
-  SvgIcon?: SvgFC;
-  colorText?: string;
-  borderColor?: string;
+  title: string
+  onPress: () => void
+  type?: PrimaryColorType
+  disabled?: boolean
+  style?: StyleProp<ViewStyle>
+  rightIcon?: any
+  loading?: boolean
+  SvgIcon?: SvgFC
+  colorText?: string
+  borderColor?: string
 }
 
 export const CommonButton: React.FC<ICommonButton> = ({
@@ -32,15 +35,16 @@ export const CommonButton: React.FC<ICommonButton> = ({
   disabled = false,
   rightIcon = null,
   SvgIcon = null,
-  colorText= '#343440',
-  borderColor= Colors.defaultGray,
+  colorText = '#343440',
+  borderColor = Colors.defaultGray,
 }) => {
-
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        type ? { backgroundColor: Colors[type], borderWidth: 0 } : {borderColor: borderColor},
+        type
+          ? { backgroundColor: Colors[type], borderWidth: 0 }
+          : { borderColor: borderColor },
         disabled && styles.buttonDisabled,
         style,
       ]}
@@ -48,22 +52,27 @@ export const CommonButton: React.FC<ICommonButton> = ({
       onPress={onPress}
     >
       <View style={styles.buttonWrap}>
-        <Text style={[styles.buttonText, type ? { color: 'white' } : {color: colorText}, disabled && styles.buttonTextDisabled,
-        loading && { color: 'transparent' }]}>
+        <Text
+          style={[
+            styles.buttonText,
+            type ? { color: 'white' } : { color: colorText },
+            disabled && styles.buttonTextDisabled,
+            loading && { color: 'transparent' },
+          ]}
+        >
           {title}
         </Text>
-        {rightIcon ?
-          <Image style={styles.icon}
-            source={rightIcon} />
-          : null
-        }
-        {SvgIcon ? <View style={{ marginLeft: 15, }}><SvgIcon fill="white" /></View> : null}
+        {rightIcon ? <Image style={styles.icon} source={rightIcon} /> : null}
+        {SvgIcon ? (
+          <View style={{ marginLeft: 15 }}>
+            <SvgIcon fill="white" />
+          </View>
+        ) : null}
         {loading ? <ActivityIndicator style={styles.loadingIndicator} /> : null}
       </View>
-
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   button: {
@@ -77,7 +86,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: FontIndex.WorkSans.Medium,
     fontSize: 16,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   buttonDisabled: {
     backgroundColor: Colors.backgroundGray,
@@ -88,7 +97,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 16,
-    marginLeft: 10
+    marginLeft: 10,
   },
   buttonWrap: {
     justifyContent: 'center',
@@ -97,5 +106,5 @@ const styles = StyleSheet.create({
   },
   loadingIndicator: {
     position: 'absolute',
-  }
-});
+  },
+})

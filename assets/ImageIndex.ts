@@ -12,11 +12,11 @@ export const ImageIndex = {
     whiteBoard: require('./images/icons/whiteboard.png'),
     goBack: require('./images/icons/back.png'),
     check: require('./images/icons/check.png'),
-    arrowhead: require('./images/icons/arrowhead.png')
+    arrowhead: require('./images/icons/arrowhead.png'),
   },
   feedback: {
     postFeedback: require('./images/feedback/feedbackSuccessfully.png'),
-    goArrow: require('./images/feedback/GoArrow.png')
+    goArrow: require('./images/feedback/GoArrow.png'),
   },
   onboarding: {
     allSet: require('./images/onboarding/dog-all-set.png'),
@@ -29,7 +29,7 @@ export const ImageIndex = {
       rule1: require('./images/onboarding/rule1.png'),
       rule2: require('./images/onboarding/rule2.png'),
       rule3: require('./images/onboarding/rule3.png'),
-    }
+    },
   },
   dashboard: {
     background: require('./images/dashboard/core_background.png'),
@@ -47,6 +47,7 @@ export const ImageIndex = {
       readWriting: require('./images/dashboard/subject_readWrite.png'),
       sat: require('./images/dashboard/subject_sat.png'),
       science: require('./images/dashboard/subject_science.png'),
+      socialStudies: require('./images/dashboard/subject_socialStudies.png'),
     },
-  }
-};
+  },
+}

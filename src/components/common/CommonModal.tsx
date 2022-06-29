@@ -1,21 +1,21 @@
-import React from 'react';
-import { SvgFC } from '../../../assets/icons/SvgInterface';
-import { Modal, StyleSheet, View, Text, Dimensions } from 'react-native';
-import { CommonButton } from './CommonButton';
-import { Colors, PrimaryColorType } from '../../../assets/Colors';
+import React from 'react'
+import { SvgFC } from '../../../assets/icons/SvgInterface'
+import { Modal, StyleSheet, View, Text, Dimensions } from 'react-native'
+import { CommonButton } from './CommonButton'
+import { Colors, PrimaryColorType } from '../../../assets/Colors'
 
 export type ICommonModal = {
-  visible: boolean;
-  icon?: SvgFC;
-  title?: string;
-  text?: string;
-  type?: PrimaryColorType;
-  coloredIcon?: boolean;
-  cancelButtonText?: string;
-  cancelButtonPress?: () => void;
-  actionButtonPress?: () => void;
-  actionButtonText?: string;
-};
+  visible: boolean
+  icon?: SvgFC
+  title?: string
+  text?: string
+  type?: PrimaryColorType
+  coloredIcon?: boolean
+  cancelButtonText?: string
+  cancelButtonPress?: () => void
+  actionButtonPress?: () => void
+  actionButtonText?: string
+}
 
 export const CommonModal: React.FC<ICommonModal> = ({
   visible,
@@ -37,9 +37,9 @@ export const CommonModal: React.FC<ICommonModal> = ({
         </View>
       ) : (
         <Icon width={55} height={55} />
-      );
+      )
     }
-  };
+  }
   return (
     <Modal animationType="fade" transparent={true} visible={visible}>
       <View style={styles.background}>
@@ -68,8 +68,8 @@ export const CommonModal: React.FC<ICommonModal> = ({
         </View>
       </View>
     </Modal>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   background: {
@@ -124,4 +124,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-});
+})

@@ -3,7 +3,7 @@
     "name": "UPchieve",
     "slug": "upchieve-app",
     "scheme": "com.upchieve.app",
-    "version": "2.1.0",
+    "version": "2.3.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true,
@@ -25,7 +23,7 @@
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "bundleIdentifier": "org.upchieve.mobile"
+      "bundleIdentifier": "org.upchieve.beta"
     },
     "android": {
       "adaptiveIcon": {

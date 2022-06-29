@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path, Rect, Circle } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path, Rect, Circle } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const PhotoUploadIcon: SvgFC = ({
   width = 27,
@@ -35,5 +35,5 @@ export const PhotoUploadIcon: SvgFC = ({
         fill={stroke}
       />
     </Svg>
-  );
-};
+  )
+}

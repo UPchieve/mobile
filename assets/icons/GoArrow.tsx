@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Circle, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Circle, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const GoArrow: SvgFC = ({
   width = 17,
@@ -21,5 +21,5 @@ export const GoArrow: SvgFC = ({
         fill={fill}
       />
     </Svg>
-  );
-};
+  )
+}

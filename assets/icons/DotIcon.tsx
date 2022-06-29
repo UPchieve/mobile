@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Circle } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Circle } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const DotIcon: SvgFC = ({
   width = 21,
@@ -18,12 +18,7 @@ export const DotIcon: SvgFC = ({
       stroke={stroke}
       {...props}
     >
-      <Circle
-        cx="10.5"
-        cy="10.5"
-        r="9.5"
-        strokeWidth="2"
-      />
+      <Circle cx="10.5" cy="10.5" r="9.5" strokeWidth="2" />
     </Svg>
-  );
-};
+  )
+}

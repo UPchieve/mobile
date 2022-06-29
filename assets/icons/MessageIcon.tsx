@@ -1,20 +1,14 @@
-import * as React from "react"
-import Svg, { SvgProps, Circle, Path } from "react-native-svg"
-import { SvgFC } from "./SvgInterface"
+import * as React from 'react'
+import Svg, { SvgProps, Circle, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const MessageIcon: SvgFC = ({
-    width = 28,
-    height = 28,
-    fill = '#D8DEE5',
-    ...props
+  width = 28,
+  height = 28,
+  fill = '#D8DEE5',
+  ...props
 }) => (
-  <Svg
-    width={width}
-    height={height}
-    fill={fill}
-    viewBox="0 0 28 28"
-    {...props}
-  >
+  <Svg width={width} height={height} fill={fill} viewBox="0 0 28 28" {...props}>
     <Circle cx={14} cy={14} r={13.5} fill={fill} stroke={fill} />
     <Path
       fillRule="evenodd"

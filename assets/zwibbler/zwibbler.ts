@@ -1,11 +1,11 @@
-import WebView from 'react-native-webview';
-import React from 'react';
-import { config } from '../../config';
-import * as ImagePicker from 'expo-image-picker';
-import { Platform } from 'react-native';
-import { sessionService } from '../../src/services/sessionService';
-import { isLessThanTheMB, getFileInfo } from '../../src/utils/file-system-utils';
-import { ImagePickerInfo } from '../../src/interfaces/sessionInterfaces';
+import WebView from 'react-native-webview'
+import React from 'react'
+import { config } from '../../config'
+import * as ImagePicker from 'expo-image-picker'
+import { Platform } from 'react-native'
+import { sessionService } from '../../src/services/sessionService'
+import { isLessThanTheMB, getFileInfo } from '../../src/utils/file-system-utils'
+import { ImagePickerInfo } from '../../src/interfaces/sessionInterfaces'
 
 const html = `
 <html>
@@ -111,140 +111,136 @@ const html = `
 </body>
 
 </html>
-`;
+`
 
 export const zwibbler = {
   html,
-};
+}
 
 export class ZwibblerManager {
-  private webView: React.RefObject<WebView<{}>>;
+  private webView: React.RefObject<WebView<{}>>
 
   constructor(webView?: React.RefObject<WebView<{}>>) {
     if (webView) {
-      this.webView = webView;
+      this.webView = webView
     }
   }
 
   init = (sessionId: string): void => {
-    this.webView.current?.injectJavaScript(`init('${sessionId}');`);
-  };
+    this.webView.current?.injectJavaScript(`init('${sessionId}');`)
+  }
   addText = (text: string): void => {
-    this.webView.current?.injectJavaScript(`addText('${text}');`);
-  };
+    this.webView.current?.injectJavaScript(`addText('${text}');`)
+  }
 
   useBrushTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useBrushTool();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.useBrushTool();')
+  }
 
   usePickTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.usePickTool();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.usePickTool();')
+  }
 
   useLineTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useLineTool();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.useLineTool();')
+  }
 
   useCircleTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useCircleTool();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.useCircleTool();')
+  }
 
   usePolygonTool = (sides: number = 3, rotation: number = Math.PI): void => {
     this.webView.current?.injectJavaScript(
       `zwibbler.usePolygonTool(${sides}, ${rotation});`
-    );
-  };
+    )
+  }
 
   useRectangleTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useRectangleTool();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.useRectangleTool();')
+  }
 
   useTextTool = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.useTextTool();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.useTextTool();')
+  }
 
   changeColor = (color: string) => {
     this.webView.current?.injectJavaScript(
       `zwibbler.setColour('${color}', true);`
-    );
-  };
+    )
+  }
 
   undo = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.undo();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.undo();')
+  }
 
   redo = (): void => {
-    this.webView.current?.injectJavaScript('zwibbler.redo();');
-  };
+    this.webView.current?.injectJavaScript('zwibbler.redo();')
+  }
 
   pickImage = async (): Promise<ImagePicker.ImagePickerResult> => {
     return await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-        exif: false,
-        base64: true,
-    });
-  };
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      exif: false,
+      base64: true,
+    })
+  }
 
   uploadImage = async (
     sessionId: string,
-    image: ImagePickerInfo,
+    image: ImagePickerInfo
   ): Promise<void> => {
     try {
-        const response = await sessionService.getSessionPhotoUploadUrl(
-            sessionId
-        );
-        const { uploadUrl, imageUrl } = response;
-        if (uploadUrl) {
-            // iOS prepends their file paths with 'file://'. We're removing it
-            // because this has been found to sometimes break file uploads
-            const fileUri =
-                Platform.OS === 'ios'
-                    ? image.uri.replace('file://', '')
-                    : image.uri;
-            // get the MIME type for the file
-            const fileType = `image/${image.uri.split('.').pop()}`;
+      const response = await sessionService.getSessionPhotoUploadUrl(sessionId)
+      const { uploadUrl, imageUrl } = response
+      if (uploadUrl) {
+        // iOS prepends their file paths with 'file://'. We're removing it
+        // because this has been found to sometimes break file uploads
+        const fileUri =
+          Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri
+        // get the MIME type for the file
+        const fileType = `image/${image.uri.split('.').pop()}`
 
-            // We needed to push out an emergency update and everything that wasn't hacky
-            // required a Pod install. We will remove the use of `FormData` and utilize
-            // rn-fetch-blob instead
-            // TODO: remove
-            const data = new FormData();
-            data.append('file', {
-              // @ts-expect-error
-              name: fileUri,
-              type: fileType,
-              uri: fileUri
-            });
-            
-            // We're keeping the original shape of this function because we intend to use
-            // rn-fetch-blob instead of FormData
-            await sessionService.uploadSessionPhotoToStorage(
-                uploadUrl,
-                fileUri,
-                fileType,
-                // TODO: remove. hacky away to access the actual file in FormData
-                // @ts-expect-error
-                data._parts[0][1]
-            );
+        // We needed to push out an emergency update and everything that wasn't hacky
+        // required a Pod install. We will remove the use of `FormData` and utilize
+        // rn-fetch-blob instead
+        // TODO: remove
+        const data = new FormData()
+        data.append('file', {
+          // @ts-expect-error
+          name: fileUri,
+          type: fileType,
+          uri: fileUri,
+        })
 
-            // logs a warning locally, but it does upload the image
-            this.webView.current?.injectJavaScript(
-                `zwibbler.insertImage({ 'url': '${imageUrl}' });`
-            );
-        } else throw new Error('No photo upload URL');
+        // We're keeping the original shape of this function because we intend to use
+        // rn-fetch-blob instead of FormData
+        await sessionService.uploadSessionPhotoToStorage(
+          uploadUrl,
+          fileUri,
+          fileType,
+          // TODO: remove. hacky away to access the actual file in FormData
+          // @ts-expect-error
+          data._parts[0][1]
+        )
+
+        // logs a warning locally, but it does upload the image
+        this.webView.current?.injectJavaScript(
+          `zwibbler.insertImage({ 'url': '${imageUrl}' });`
+        )
+      } else throw new Error('No photo upload URL')
     } catch (error) {
-        throw new Error(
-            'We had trouble loading your image to the whiteboard. Please try again.'
-        );
+      throw new Error(
+        'We had trouble loading your image to the whiteboard. Please try again.'
+      )
     }
-  };
+  }
 
   reset = () => {
     this.webView.current?.injectJavaScript(
       'zwibbler.deleteNodes(zwibbler.getAllNodes())'
-    );
-  };
+    )
+  }
 }

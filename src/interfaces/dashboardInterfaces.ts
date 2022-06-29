@@ -1,12 +1,12 @@
-import { ImageSourcePropType } from "react-native";
+import { ImageSourcePropType } from 'react-native'
 
 export interface SubTopic {
-    key: string,
-    displayName: string,
-};
+  key: string
+  displayName: string
+}
 export interface Topic {
-    key: string,
-    displayName: string,
-    subTopics: SubTopic[],
-    image: ImageSourcePropType,
+  key: string
+  displayName: string
+  subTopics: SubTopic[]
+  image: ImageSourcePropType
 }
