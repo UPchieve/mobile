@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const LogoutDrawIcon: SvgFC = ({
   width = 18,
@@ -25,5 +25,5 @@ export const LogoutDrawIcon: SvgFC = ({
         fill={fill}
       />
     </Svg>
-  );
-};
+  )
+}

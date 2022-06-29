@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const PencilIcon: SvgFC = ({
   stroke = '#000',
@@ -27,5 +27,5 @@ export const PencilIcon: SvgFC = ({
       <Path d="M15.1421 19.1421L19.3847 14.8994" />
       <Path d="M3.82837 7.82837L8.07101 3.58573" />
     </Svg>
-  );
-};
+  )
+}

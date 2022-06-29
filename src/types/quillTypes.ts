@@ -1,7 +1,7 @@
 export type QuillTypes =
-    | 'bold'
-    | 'italic'
-    | 'stroke'
-    | 'underline'
-    | 'color'
-    | 'background'
+  | 'bold'
+  | 'italic'
+  | 'stroke'
+  | 'underline'
+  | 'color'
+  | 'background'

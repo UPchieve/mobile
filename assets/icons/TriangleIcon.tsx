@@ -1,6 +1,6 @@
-import React from 'react';
-import { Svg, Path } from 'react-native-svg';
-import { SvgFC } from './SvgInterface';
+import React from 'react'
+import { Svg, Path } from 'react-native-svg'
+import { SvgFC } from './SvgInterface'
 
 export const TriangleIcon: SvgFC = ({
   width = 25,
@@ -20,5 +20,5 @@ export const TriangleIcon: SvgFC = ({
     >
       <Path d="M1.67468 19.75L12.5 1L23.3253 19.75H1.67468Z" />
     </Svg>
-  );
-};
+  )
+}

@@ -352,13 +352,13 @@
 				INFOPLIST_FILE = upchieveapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.mobile;
+				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.beta;
 				PRODUCT_NAME = upchieveapp;
 				SWIFT_OBJC_BRIDGING_HEADER = "upchieveapp/upchieveapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -380,13 +380,13 @@
 				INFOPLIST_FILE = upchieveapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.mobile;
+				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.beta;
 				PRODUCT_NAME = upchieveapp;
 				SWIFT_OBJC_BRIDGING_HEADER = "upchieveapp/upchieveapp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

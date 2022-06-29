@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { SvgIcons } from '../../../assets/IndexIcons';
+import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SvgIcons } from '../../../assets/IndexIcons'
 import {
   Menu,
   MenuTrigger,
   MenuOptions,
   MenuOption,
   renderers,
-} from 'react-native-popup-menu';
-import { SvgFC } from '../../../assets/icons/SvgInterface';
-import { ZwibblerManager } from '../../../assets/zwibbler/zwibbler';
-import { ZwibblerTool } from '../../types/zwibblerTypes';
+} from 'react-native-popup-menu'
+import { SvgFC } from '../../../assets/icons/SvgInterface'
+import { ZwibblerManager } from '../../../assets/zwibbler/zwibbler'
+import { ZwibblerTool } from '../../types/zwibblerTypes'
 
-import {OrientationType} from '../../hooks/useOrientation';
-import * as ImagePicker from "expo-image-picker";
-import { AppLoading } from '../molecules/common/AppLoading';
-import { isValidWhiteboardImageUpload } from '../../utils/whiteboard-utils';
+import { OrientationType } from '../../hooks/useOrientation'
+import * as ImagePicker from 'expo-image-picker'
+import { isValidWhiteboardImageUpload } from '../../utils/whiteboard-utils'
 
 interface ToolMenuItem {
-  id: number;
-  name: string;
-  icon: SvgFC;
-  iconAdditionalProps?: any;
-  handler: () => void;
-  subMenu?: ToolMenuItem[];
+  id: number
+  name: string
+  icon: SvgFC
+  iconAdditionalProps?: any
+  handler: () => void
+  subMenu?: ToolMenuItem[]
 }
 interface Props {
-  zwibblerManager: ZwibblerManager;
-  selectedToolName: ZwibblerTool;
+  zwibblerManager: ZwibblerManager
+  selectedToolName: ZwibblerTool
   orientation: OrientationType
   sessionId: string
   setIsLoadingImage: Function
@@ -37,10 +36,10 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
   orientation,
   selectedToolName,
   sessionId,
-  setIsLoadingImage
+  setIsLoadingImage,
 }) => {
-  const [currentColor, setCurrentColor] = useState('black');
-  const [openedMenu, setOpenedMenu] = useState<string | undefined>(undefined);
+  const [currentColor, setCurrentColor] = useState('black')
+  const [openedMenu, setOpenedMenu] = useState<string | undefined>(undefined)
 
   const tools: ToolMenuItem[] = [
     {
@@ -48,7 +47,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       name: 'pick',
       icon: SvgIcons.SelectDragIcon,
       handler: () => {
-        zwibblerManager.usePickTool();
+        zwibblerManager.usePickTool()
       },
     },
     {
@@ -56,7 +55,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       name: 'brush',
       icon: SvgIcons.PencilIcon,
       handler: () => {
-        zwibblerManager.useBrushTool();
+        zwibblerManager.useBrushTool()
       },
     },
     {
@@ -72,8 +71,8 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.DotIcon,
           iconAdditionalProps: { stroke: 'black' },
           handler: () => {
-            zwibblerManager.changeColor('black');
-            setCurrentColor('black');
+            zwibblerManager.changeColor('black')
+            setCurrentColor('black')
           },
         },
         {
@@ -82,8 +81,8 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.DotIcon,
           iconAdditionalProps: { fill: '#1855D1', stroke: '#1855D1' },
           handler: () => {
-            zwibblerManager.changeColor('#1855D1');
-            setCurrentColor('#1855D1');
+            zwibblerManager.changeColor('#1855D1')
+            setCurrentColor('#1855D1')
           },
         },
         {
@@ -92,8 +91,8 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.DotIcon,
           iconAdditionalProps: { fill: '#F44747', stroke: '#F44747' },
           handler: () => {
-            zwibblerManager.changeColor('#F44747');
-            setCurrentColor('#F44747');
+            zwibblerManager.changeColor('#F44747')
+            setCurrentColor('#F44747')
           },
         },
         {
@@ -102,8 +101,8 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           icon: SvgIcons.DotIcon,
           iconAdditionalProps: { fill: '#16D2AA', stroke: '#16D2AA' },
           handler: () => {
-            zwibblerManager.changeColor('#16D2AA');
-            setCurrentColor('#16D2AA');
+            zwibblerManager.changeColor('#16D2AA')
+            setCurrentColor('#16D2AA')
           },
         },
       ],
@@ -119,7 +118,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           name: 'line',
           icon: SvgIcons.LineIcon,
           handler: () => {
-            zwibblerManager.useLineTool();
+            zwibblerManager.useLineTool()
           },
         },
         {
@@ -127,7 +126,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           name: 'circle',
           icon: SvgIcons.CircleIcon,
           handler: () => {
-            zwibblerManager.useCircleTool();
+            zwibblerManager.useCircleTool()
           },
         },
         {
@@ -135,7 +134,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           name: 'polygon',
           icon: SvgIcons.TriangleIcon,
           handler: () => {
-            zwibblerManager.usePolygonTool();
+            zwibblerManager.usePolygonTool()
           },
         },
         {
@@ -143,7 +142,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           name: 'rectangle',
           icon: SvgIcons.SquareIcon,
           handler: () => {
-            zwibblerManager.useRectangleTool();
+            zwibblerManager.useRectangleTool()
           },
         },
       ],
@@ -159,11 +158,12 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
       name: 'Image',
       icon: SvgIcons.PhotoUploadIcon,
       handler: async () => {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
+          alert('Sorry, we need camera roll permissions to make this work!')
         } else {
-          const result = await zwibblerManager.pickImage();
+          const result = await zwibblerManager.pickImage()
           if (result.cancelled) return
 
           try {
@@ -177,17 +177,16 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
             alert(error.message)
           }
         }
-
       },
     },
-  ];
+  ]
 
   const menuIsSelected = (menuItem: ToolMenuItem) => {
     return (
       openedMenu === menuItem.name ||
       menuItem?.subMenu?.some((e) => e.name === selectedToolName)
-    );
-  };
+    )
+  }
 
   const renderMenu = (tool: ToolMenuItem) => {
     if (!tool.subMenu) {
@@ -203,7 +202,7 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
             {<tool.icon height={26} width={26} />}
           </TouchableOpacity>
         </View>
-      );
+      )
     }
     return (
       <Menu
@@ -246,11 +245,11 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           ))}
         </MenuOptions>
       </Menu>
-    );
-  };
+    )
+  }
 
-  return <>{tools.map((tool) => renderMenu(tool))}</>;
-};
+  return <>{tools.map((tool) => renderMenu(tool))}</>
+}
 
 const styles = StyleSheet.create({
   iconWrapper: {
@@ -271,4 +270,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
-});
+})

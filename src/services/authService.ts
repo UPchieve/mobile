@@ -1,99 +1,151 @@
-import http from './http';
-import { Student, User, Volunteer } from '../models/user';
-import { ConfirmValidationRequest, CreateAccountRequest, CreateAccountResponse, CreateAccountWithWithPartnerRequest, SendValidationRequest } from '../types/services/authServiceTypes';
+import http from './http'
+import { Student, User, Volunteer } from '../models/user'
+import {
+  ConfirmValidationRequest,
+  CreateAccountRequest,
+  CreateAccountResponse,
+  CreateAccountWithWithPartnerRequest,
+  SendValidationRequest,
+} from '../types/services/authServiceTypes'
 import { EVENTS } from '../types/services/analyticsServiceTypes'
 import { identify, captureEvent } from './analyticsService'
 
+const checkCredentials = async (payload: {
+  email: string
+  password: string
+}) => {
+  console.log(payload)
 
-const checkCredentials = async (payload: { email: string, password: string }) => {
-  console.log(payload);
+  const { data } = await http.post<{ checked: boolean }>(
+    '/auth/register/checkcred',
+    payload
+  )
 
-  const { data } = await http.post<{ checked: boolean }>('/auth/register/checkcred', payload);
-
-  return data.checked;
+  return data.checked
 }
 
-const login = async (email: string, password: string): Promise<Student | Volunteer | null> => {
-  const { data } = await http.post<{ user: User }>('/auth/login', { email, password });
+const login = async (
+  email: string,
+  password: string
+): Promise<Student | Volunteer | null> => {
+  const { data } = await http.post<{ user: User }>('/auth/login', {
+    email,
+    password,
+  })
   if (data.user) {
     identify(data.user._id, data.user.firstname, data.user.email, 'student')
-    return data.user.isVolunteer ? data.user as Volunteer : data.user as Student;
+    return data.user.isVolunteer
+      ? (data.user as Volunteer)
+      : (data.user as Student)
   }
-  return null;
+  return null
 }
 
 const getCurrentUser = async (): Promise<Student | Volunteer | null> => {
-  const { data } = await http.get<{ user: User }>(`/api/user`);
+  const { data } = await http.get<{ user: User }>(`/api/user`)
   if (data.user) {
     identify(data.user._id, data.user.firstname, data.user.email, 'student')
-    return data.user.isVolunteer ? data.user as Volunteer : data.user as Student;
+    return data.user.isVolunteer
+      ? (data.user as Volunteer)
+      : (data.user as Student)
   }
-  return null;
+  return null
 }
 
 const logout = async (): Promise<void> => {
-  const { data } = await http.get('/auth/logout');
-  return data;
+  const { data } = await http.get('/auth/logout')
+  return data
 }
 
 const sendResetPasswordEmail = async (email: string): Promise<boolean> => {
   await http.post('/auth/reset/send', {
     email,
-    mobile: true
-  });
-  return true;
+    mobile: true,
+  })
+  return true
 }
 
-const changePassword = async (email: string, password: string, token: string) => {
+const changePassword = async (
+  email: string,
+  password: string,
+  token: string
+) => {
   const { data } = await http.post('/auth/reset/confirm', {
     email,
     password,
     newpassword: password,
-    token
-  });
-  return data;
+    token,
+  })
+  return data
 }
 
-const createAccount = async (request: CreateAccountRequest): Promise<CreateAccountResponse> => {
-  const { data } = await http.post<CreateAccountResponse>('/auth/register/student/open', {
-    ...request,
-    terms: true,
-  });
-  return data;
-}
-
-const createAccountSendValidation = async (request: SendValidationRequest): Promise<boolean> => {
-  await http.post('/api/verify/send', request);
-  return true;
-}
-
-const createAccountWithPartner = async (request: CreateAccountWithWithPartnerRequest): Promise<CreateAccountResponse> => {
-  const { data } = await http.post<CreateAccountResponse>('/auth/register/student/partner', request)
-  return data;
-}
-
-const createAccountVerifyValidation = async (request: ConfirmValidationRequest): Promise<boolean> => {
-  const { data } = await http.post<{ success: boolean }>('/api/verify/confirm', request);
-  return data.success;
-}
-
-const validateSignInCode = async (partnerSignupCode: string): Promise<string> => {
-  const { data } = await http.get<{ studentPartnerKey: string }>('/auth/partner/student/code', {
-    params: {
-      partnerSignupCode,
+const createAccount = async (
+  request: CreateAccountRequest
+): Promise<CreateAccountResponse> => {
+  const { data } = await http.post<CreateAccountResponse>(
+    '/auth/register/student/open',
+    {
+      ...request,
+      terms: true,
     }
-  });
+  )
+  return data
+}
+
+const createAccountSendValidation = async (
+  request: SendValidationRequest
+): Promise<boolean> => {
+  await http.post('/api/verify/send', request)
+  return true
+}
+
+const createAccountWithPartner = async (
+  request: CreateAccountWithWithPartnerRequest
+): Promise<CreateAccountResponse> => {
+  const { data } = await http.post<CreateAccountResponse>(
+    '/auth/register/student/partner',
+    request
+  )
+  return data
+}
+
+const createAccountVerifyValidation = async (
+  request: ConfirmValidationRequest
+): Promise<boolean> => {
+  const { data } = await http.post<{ success: boolean }>(
+    '/api/verify/confirm',
+    request
+  )
+  return data.success
+}
+
+const validateSignInCode = async (
+  partnerSignupCode: string
+): Promise<string> => {
+  const { data } = await http.get<{ studentPartnerKey: string }>(
+    '/auth/partner/student/code',
+    {
+      params: {
+        partnerSignupCode,
+      },
+    }
+  )
 
   captureEvent(EVENTS.ACCOUNT_VERIFIED)
-  return data.studentPartnerKey;
+  return data.studentPartnerKey
 }
 
-const getStudentPartnerManifest = async (partnerId: string): Promise<StudentPartnerManifest> => {
-  const { data } = await http.get<{ studentPartner: StudentPartnerManifest }>('/auth/partner/student', {
-    params: {
-      partnerId
+const getStudentPartnerManifest = async (
+  partnerId: string
+): Promise<StudentPartnerManifest> => {
+  const { data } = await http.get<{ studentPartner: StudentPartnerManifest }>(
+    '/auth/partner/student',
+    {
+      params: {
+        partnerId,
+      },
     }
-  });
+  )
   return {
     ...data.studentPartner,
     studentPartnerOrg: partnerId,
@@ -101,7 +153,7 @@ const getStudentPartnerManifest = async (partnerId: string): Promise<StudentPart
 }
 
 const savePushToken = async (token: string) => {
-  await http.post("/api/push-token/save", { token });
+  await http.post('/api/push-token/save', { token })
 }
 
 export const authService = {
@@ -117,5 +169,5 @@ export const authService = {
   createAccountVerifyValidation,
   validateSignInCode,
   getStudentPartnerManifest,
-  savePushToken
+  savePushToken,
 }

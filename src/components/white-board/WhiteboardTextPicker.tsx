@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Modal,
   SafeAreaView,
@@ -7,19 +7,19 @@ import {
   Text,
   TextInput,
   StyleSheet,
-} from 'react-native';
-import { SvgIcons } from '../../../assets/IndexIcons';
+} from 'react-native'
+import { SvgIcons } from '../../../assets/IndexIcons'
 
 export interface IZwibblerTextModal {
-  visible: boolean;
-  onModalClose?: (text?: string) => void;
+  visible: boolean
+  onModalClose?: (text?: string) => void
 }
 
 export const WhiteboardTextPicker: React.FC<IZwibblerTextModal> = ({
   visible = false,
   onModalClose = () => {},
 }) => {
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string>('')
 
   return (
     <Modal animationType="slide" transparent={false} visible={visible}>
@@ -37,8 +37,8 @@ export const WhiteboardTextPicker: React.FC<IZwibblerTextModal> = ({
           <TouchableOpacity
             style={{ flexDirection: 'row', justifyContent: 'center' }}
             onPress={() => {
-              onModalClose(text.split('\n').join(' '));
-              setText('');
+              onModalClose(text.split('\n').join(' '))
+              setText('')
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: '500', color: '#1855D1' }}>
@@ -57,8 +57,8 @@ export const WhiteboardTextPicker: React.FC<IZwibblerTextModal> = ({
         />
       </SafeAreaView>
     </Modal>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     fontSize: 16,
   },
-});
+})
