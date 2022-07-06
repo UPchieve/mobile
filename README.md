@@ -8,18 +8,25 @@
 
 ## Get started
 
+You will need XCode installed for this project.
+
 1. Clone the project
    ```
    git clone https://gitlab.com/upchieve/midtown.git
    ```
-2. Install iOS pods ([CocoaPods](https://cocoapods.org/) installation is required), to do it we have to go to ios folder, and after that, execute pod install.
+2. Go to repo's base folder and run
+   ```
+   npm install
+   npm install -g expo-cli
+   ```
+3. Install iOS pods ([CocoaPods](https://cocoapods.org/) installation is required, run `brew install cocoapods`), to do it we have to go to ios folder, and after that, execute pod install.
    ```
    cd ios && pod install
    ```
-3. Run de project for either ios or android.
+4. Run project for either ios or android.
    ```
-   yarn android
-   yarn ios
+   npm run ios:development
+   npm run android:development
    ```
 
 ## Folder and structure
