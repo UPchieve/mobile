@@ -43,12 +43,12 @@ export const topics: Topic[] = [
       { key: 'environmentalScience', displayName: 'Environmental Science' },
     ],
   },
-  // {
-  //   key: 'socialStudies',
-  //   displayName: 'Social Studies',
-  //   image: ImageIndex.dashboard.subjects.socialStudies,
-  //   subTopics: [{ key: 'usHistory', displayName: 'U.S. History' }],
-  // },
+  {
+    key: 'socialStudies',
+    displayName: 'Social Studies',
+    image: ImageIndex.dashboard.subjects.socialStudies,
+    subTopics: [{ key: 'usHistory', displayName: 'U.S. History' }],
+  },
   {
     key: 'college',
     displayName: 'College Counseling',
