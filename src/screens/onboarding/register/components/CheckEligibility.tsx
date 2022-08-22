@@ -105,12 +105,11 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({
 
   return (
     <FormikProvider value={formik}>
-      <Text style={styles.title}>Don’t have a sign up code?</Text>
-      <HelperText>Let’s check if your eligible!</HelperText>
+      <Text style={styles.title}>Don't have a sign up code?</Text>
+      <HelperText>Let's check if you're eligible!</HelperText>
       <View style={styles.form}>
         <View style={{ marginBottom: 20 }}>
           <Input
-            editable={false}
             value={
               formik.values.highSchool == undefined
                 ? ''
@@ -125,7 +124,7 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({
         </View>
         <View style={{ marginBottom: 20 }}>
           <Input
-            editable={false}
+            showSoftInputOnFocus={false}
             value={formik.values.grade?.label || ''}
             placeholder="Select your grade"
             errorMessage={formik.errors.grade as string}
