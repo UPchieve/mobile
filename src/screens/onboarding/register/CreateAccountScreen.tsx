@@ -200,11 +200,11 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({
           style={{ height: 42 }}
         />
 
-        <Separator marginVertical={10} backgroundColor="transparent" />
-
-        <View style={{ alignSelf: 'center' }}>
+        <View style={{ alignSelf: 'center', marginVertical: 40 }}>
           <Text style={styles.bottomText}>By signing up, you agree to our</Text>
-          <View style={{ flexDirection: 'row', marginVertical: 3 }}>
+          <View
+            style={{ flexDirection: 'row', marginTop: 3, marginBottom: 40 }}
+          >
             <TouchableOpacity onPress={openLegalUrl}>
               <Text style={[styles.bottomText, styles.linkText]}>
                 Terms of Use

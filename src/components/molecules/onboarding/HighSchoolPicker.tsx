@@ -10,8 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { SvgIcons } from '../../../../assets/IndexIcons'
@@ -85,7 +85,7 @@ export const HighSchoolPicker: React.FC<HighSchoolPickerType> = ({
         onPress={() => Linking.openURL(`${config.baseUrl}/cant-find-school`)}
       >
         <Text style={[styles.cancelText, { marginLeft: 10 }]}>
-          Can’t find your school?
+          Can't find your school?
         </Text>
       </TouchableOpacity>
     )
