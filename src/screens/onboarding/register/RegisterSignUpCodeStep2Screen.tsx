@@ -123,7 +123,6 @@ export const RegisterSignUpCodeStep2Screen: React.FC<
     ) {
       return (
         <Input
-          editable={false}
           value={
             formik.values.highSchool == undefined
               ? ''
@@ -179,14 +178,13 @@ export const RegisterSignUpCodeStep2Screen: React.FC<
         />
         <Separator marginVertical={4} backgroundColor="transparent" />
         {renderHighSchoolInput(formik.values.grade)}
-        <Separator marginVertical={73} backgroundColor="transparent" />
         <CommonButton
           title="Sign Up"
           disabled={!formik.isValid || formik.isSubmitting}
           loading={formik.isSubmitting}
           type="information"
           onPress={() => formik.handleSubmit()}
-          style={{ height: 42 }}
+          style={{ height: 42, marginVertical: 73 }}
         />
       </FormikProvider>
       <HighSchoolPicker

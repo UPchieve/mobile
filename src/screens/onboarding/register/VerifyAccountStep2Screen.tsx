@@ -35,6 +35,7 @@ export const VerifyAccountStep2Screen: React.FC<
   const { verificationType, sendTo, userId, firstName, email } = route.params
   const countdownRef = useRef<Countdown>(null)
   const [countdownKey, setCountdownKey] = useState(0)
+  const phoneNumberWithoutCountryCode = sendTo.slice(2)
 
   const formik = useFormik<formValueType>({
     initialValues: {
@@ -207,8 +208,10 @@ export const VerifyAccountStep2Screen: React.FC<
             />
           </View>
           <HelperText mb={29}>
-            Please enter the 6- digit verification code we sent to (+1){' '}
-            <MaskedText mask="999-999-999">{sendTo}</MaskedText>
+            Please enter the 6-digit verification code we sent to (+1){' '}
+            <MaskedText mask="999-999-9999">
+              {phoneNumberWithoutCountryCode}
+            </MaskedText>
           </HelperText>
         </>
       )

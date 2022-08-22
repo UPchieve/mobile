@@ -17,6 +17,7 @@ export const Colors = {
 
   selectedGreen: '#F2FBF9',
   hoverGreen: '#0D8269',
+  selectedBorderGreen: '#16D2AA',
 
   linkBlue: '#0F44FF',
 }

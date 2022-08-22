@@ -23,6 +23,7 @@ export const getSessionType = (
     'satReading',
     'humanitiesEssays',
     'reading',
+    'usHistory',
   ]
   if (session && documentEditorSubTopics.includes(session.subTopic))
     return 'DOCUMENT'

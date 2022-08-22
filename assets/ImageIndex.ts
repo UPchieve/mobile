@@ -47,6 +47,7 @@ export const ImageIndex = {
       readWriting: require('./images/dashboard/subject_readWrite.png'),
       sat: require('./images/dashboard/subject_sat.png'),
       science: require('./images/dashboard/subject_science.png'),
+      socialStudies: require('./images/dashboard/subject_socialStudies.png'),
     },
   },
 }
