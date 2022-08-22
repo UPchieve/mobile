@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
   Dimensions,
   FlatList,
@@ -14,87 +14,122 @@ import { Colors } from '../../../../assets/Colors'
 import { Separator } from '../../../components/atoms/common/Separator'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { ProgressBar } from '../../../components/atoms/common/ProgressBar'
-import { RadioGroup } from '../../../components/molecules/common/RadioGroup'
+import { SurveyRadioGroup } from '../../../components/molecules/survey/SurveyRadioGroup'
 import { CommonButton } from '../../../components/common/CommonButton'
-import {
-  preSessionFeedbackQuestions,
-  QuestionType,
-} from '../../../utils/sessionFeedback'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { sessionService } from '../../../services/sessionService'
+import * as surveyService from '../../../services/surveyService'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { MainStackParamList } from '../../../routes/MainStackNavigator'
 import messaging from '@react-native-firebase/messaging'
+import {
+  SurveyQuestionDefinition,
+  SurveyResponseDefinition,
+  UserSurveySubmission,
+} from '../../../types/services/surveyServiceTypes'
+import { SurveyEmojiGroup } from '../../../components/molecules/survey/SurveyEmojiGroup'
+import { config } from '../../../../config'
+
+export type SelectPresessionItem = Pick<
+  SurveyResponseDefinition,
+  'responseId' | 'responseText'
+>
 
 type QuestionFCType = {
-  backButtonAction?: () => void
-  startChatButtonAction?: () => void
+  onBackButtonPress: () => void
+  onSubmit: () => void
   isValid: boolean
   isSubmitting: boolean
-  onSelect: (value: SelectItem) => void
-} & QuestionType
+  currentStep: number
+  totalSteps: number
+  onSelect: (value: SelectPresessionItem) => void
+} & SurveyQuestionDefinition
 
 const maxWidth = Dimensions.get('screen').width
 const Question: React.FC<QuestionFCType> = ({
-  title,
-  options,
+  questionText,
+  questionType,
+  responses,
   onSelect,
-  backButtonAction,
-  startChatButtonAction,
+  onBackButtonPress,
+  onSubmit,
   isValid,
   isSubmitting,
+  totalSteps,
+  currentStep,
 }) => {
   return (
     <View style={{ marginTop: 16, width: maxWidth }}>
       <View
         style={{
-          // flex: 1,
           paddingTop: 16,
           paddingHorizontal: 20,
         }}
       >
         <View style={styles.optionsCard}>
-          <Text style={styles.questionTitle}>{title}</Text>
-          <RadioGroup
-            itemMinHeight={38}
-            data={options}
-            getText={(e) => e.label}
-            onSelectedChanged={onSelect}
-          />
+          <Text style={styles.questionTitle}>{questionText}</Text>
+          {responses.every((a) => a.responseDisplayImage) ? (
+            <SurveyEmojiGroup
+              data={responses}
+              getText={(e) => e.responseText}
+              isSelected={(selected, compareTo) =>
+                selected?.responseId === compareTo.responseId
+              }
+              getImageSrc={(e) => {
+                let imageSrc = ''
+                if (config.baseUrl.includes('localhost'))
+                  imageSrc = e.responseDisplayImage?.replace(
+                    'https',
+                    'http'
+                  ) as string
+                else imageSrc = e.responseDisplayImage as string
+                return imageSrc
+              }}
+              onSelectedChanged={onSelect}
+            />
+          ) : questionType === 'multiple choice' ? (
+            <SurveyRadioGroup
+              itemMinHeight={38}
+              data={responses}
+              getText={(e) => e.responseText}
+              onSelectedChanged={onSelect}
+            />
+          ) : null}
         </View>
-        {backButtonAction && startChatButtonAction ? (
-          <View style={styles.buttonWrapper}>
+        <View style={styles.buttonWrapper}>
+          {currentStep > 0 && (
             <TouchableOpacity
               disabled={isSubmitting}
               style={styles.backButton}
-              onPress={backButtonAction}
+              onPress={onBackButtonPress}
             >
               <Text style={styles.backButtonText}>Back</Text>
             </TouchableOpacity>
+          )}
+          {currentStep === totalSteps && (
             <CommonButton
               disabled={!isValid || isSubmitting}
               loading={isSubmitting}
               style={{ width: 125, height: 40 }}
               type="information"
               title="Start a Chat"
-              onPress={startChatButtonAction}
+              onPress={onSubmit}
             />
-          </View>
-        ) : null}
+          )}
+        </View>
       </View>
     </View>
   )
 }
 
-type formikTypeValues = {
-  'primary-goal': string
-  'topic-understanding': number
+type surveyResponse = {
+  responseId: number
+  openResponse: string
 }
-const validationSchema = Yup.object().shape({
-  'primary-goal': Yup.string().required(),
-  'topic-understanding': Yup.number().required(),
-})
+
+type formikTypeValues = {
+  [questionId: number]: surveyResponse
+}
 type PreSessionQuestionScreenType = NativeStackScreenProps<
   MainStackParamList,
   'PreSessionQuestionScreen'
@@ -102,23 +137,48 @@ type PreSessionQuestionScreenType = NativeStackScreenProps<
 export const PreSessionQuestionScreen: React.FC<
   PreSessionQuestionScreenType
 > = ({ navigation, route }) => {
+  const subjectName = route.params.sessionSubTopic
+  const [survey, setSurvey] = useState<SurveyQuestionDefinition[]>([])
+  const [surveyId, setSurveyId] = useState<number>()
+  const [surveyTypeId, setSurveyTypeId] = useState<number>()
+
+  const isSurveyComplete = (values: formikTypeValues) => {
+    for (const question of survey) {
+      const questionId = Number(question.questionId)
+      const userResponse = values[questionId]
+      if (!userResponse || !userResponse.responseId) return false
+    }
+    return true
+  }
+
   const formik = useFormik<formikTypeValues>({
     initialValues: {} as formikTypeValues,
-    validationSchema,
     validateOnMount: true,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const payload: any = {}
-        for (const key of Object.keys(values)) {
-          //@ts-ignore
-          payload[key] = { answer: values[key] }
+        if (!isSurveyComplete(values)) return
+
+        const submissions: UserSurveySubmission[] = []
+        for (const question of survey) {
+          const questionId = Number(question.questionId)
+          const response = values[questionId]
+          submissions.push({
+            questionId: Number(questionId),
+            responseChoiceId: response.responseId,
+            openResponse: response.openResponse,
+          })
         }
         const sessionId = await sessionService.newSession(
           route.params.sessionType,
-          route.params.sessionSubTopic
+          subjectName
         )
-        console.log('session', sessionId)
-        await sessionService.sendPreSesionFeedback(sessionId, payload)
+        const surveySubmission = {
+          sessionId,
+          surveyId: surveyId as number,
+          surveyTypeId: surveyTypeId as number,
+          submissions,
+        }
+        await surveyService.submitSurvey(surveySubmission)
 
         //check if user already determine if he want notifications or not.
         const hasPermissions = await messaging().hasPermission()
@@ -144,9 +204,31 @@ export const PreSessionQuestionScreen: React.FC<
   })
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const flatListRef = useRef<FlatList<QuestionType>>(null)
+  const flatListRef = useRef<FlatList<SurveyQuestionDefinition>>(null)
+
+  useEffect(() => {
+    const getPresessionSurvey = async () => {
+      const response = await surveyService.getPresessionSurvey(subjectName)
+      setSurvey(response.survey)
+      setSurveyId(response.surveyId)
+      setSurveyTypeId(response.surveyTypeId)
+    }
+
+    getPresessionSurvey()
+  }, [])
+
+  const isSubmitting = formik.isSubmitting
+
+  const scrollRef = useRef<ScrollView>(null)
+  const scrollToTopOfView = () => {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    })
+  }
+
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} ref={scrollRef}>
       <View style={{ flex: 1, backgroundColor: Colors.white }}>
         <View style={{ flex: 1 }}>
           <View style={{ paddingHorizontal: 20 }}>
@@ -161,13 +243,21 @@ export const PreSessionQuestionScreen: React.FC<
           >
             <Text style={styles.questionText}>
               {' '}
-              Question {currentQuestionIndex + 1}/
-              {preSessionFeedbackQuestions.length}
+              Question {currentQuestionIndex + 1}/{survey.length}
             </Text>
             <View style={{ flex: 1 }}>
               <ProgressBar
                 color={Colors.success}
-                value={currentQuestionIndex === 0 ? 0.5 : 1}
+                // For some reason there is a bug that will not compute the initial value
+                // e.g. using `value={(currentQuestionIndex + 1) / survey.length}` does not
+                // render an initial width for the progress bar. Setting it directly helps
+                // but this is not very scalable.
+                // TODO: figure out how to fix this
+                value={
+                  currentQuestionIndex === 0
+                    ? 0.33
+                    : (currentQuestionIndex + 1) / survey.length
+                }
               />
             </View>
           </View>
@@ -186,39 +276,35 @@ export const PreSessionQuestionScreen: React.FC<
               horizontal
               showsHorizontalScrollIndicator={false}
               scrollEnabled={false}
-              onMomentumScrollEnd={({ nativeEvent }) => {
-                let contentOffset = nativeEvent.contentOffset
-                let viewSize = nativeEvent.layoutMeasurement
-                let pageNum = Math.floor(contentOffset.x / viewSize.width)
-                setCurrentQuestionIndex(pageNum)
-              }}
-              keyExtractor={(item) => `pre_feedback_${item.key}`}
+              keyExtractor={(item) => `pre_feedback_${item.questionId}`}
               pagingEnabled
-              data={preSessionFeedbackQuestions}
+              data={survey}
               renderItem={({ item, index }) => {
-                if (index === preSessionFeedbackQuestions.length - 1)
-                  return (
-                    <Question
-                      {...item}
-                      isValid={formik.isValid && !formik.isSubmitting}
-                      isSubmitting={formik.isSubmitting}
-                      onSelect={({ value }) =>
-                        formik.setFieldValue(item.key, value)
-                      }
-                      backButtonAction={() =>
-                        flatListRef.current?.scrollToIndex({ index: index - 1 })
-                      }
-                      startChatButtonAction={formik.handleSubmit}
-                    />
-                  )
                 return (
                   <Question
                     {...item}
-                    isSubmitting={false}
-                    isValid={false}
-                    onSelect={({ value }) => {
-                      formik.setFieldValue(item.key, value)
-                      flatListRef.current?.scrollToIndex({ index: index + 1 })
+                    isSubmitting={isSubmitting}
+                    isValid={isSurveyComplete(formik.values) && !isSubmitting}
+                    onBackButtonPress={() => {
+                      scrollToTopOfView()
+                      flatListRef.current?.scrollToIndex({ index: index - 1 })
+                      setCurrentQuestionIndex(index - 1)
+                    }}
+                    onSubmit={formik.handleSubmit}
+                    currentStep={index}
+                    totalSteps={survey.length - 1}
+                    onSelect={({ responseId }) => {
+                      formik.setFieldValue(item.questionId, {
+                        responseId,
+                        openResponse: '',
+                      })
+                      scrollToTopOfView()
+                      if (index < survey.length - 1) {
+                        setCurrentQuestionIndex(index + 1)
+                        flatListRef.current?.scrollToIndex({
+                          index: index + 1,
+                        })
+                      }
                     }}
                   />
                 )
@@ -251,8 +337,7 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingRight: 20,
+    justifyContent: 'space-between',
     marginTop: 24,
   },
   backButton: {
