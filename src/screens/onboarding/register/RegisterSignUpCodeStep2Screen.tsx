@@ -79,6 +79,7 @@ export const RegisterSignUpCodeStep2Screen: React.FC<
           terms: true,
           currentGrade: values.grade.value,
           signupSourceId: route.params.signupSourceId,
+          partnerSite: values.site,
         })
 
         navigation.navigate('VerifyAccount', {

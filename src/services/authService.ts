@@ -4,7 +4,7 @@ import {
   ConfirmValidationRequest,
   CreateAccountRequest,
   CreateAccountResponse,
-  CreateAccountWithWithPartnerRequest,
+  CreateAccountWithPartnerRequest,
   SendValidationRequest,
 } from '../types/services/authServiceTypes'
 import { EVENTS } from '../types/services/analyticsServiceTypes'
@@ -100,7 +100,7 @@ const createAccountSendValidation = async (
 }
 
 const createAccountWithPartner = async (
-  request: CreateAccountWithWithPartnerRequest
+  request: CreateAccountWithPartnerRequest
 ): Promise<CreateAccountResponse> => {
   const { data } = await http.post<CreateAccountResponse>(
     '/auth/register/student/partner',
