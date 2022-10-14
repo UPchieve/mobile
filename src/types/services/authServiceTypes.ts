@@ -49,17 +49,17 @@ export interface ConfirmValidationRequest {
   verificationCode: string
 }
 
-export interface CreateAccountWithWithPartnerRequest {
+export interface CreateAccountWithPartnerRequest {
   email: string
   password: string
   firstName: string
   lastName: string
   terms: boolean
-  college: string
+  college?: string
   highSchoolId?: string
   studentPartnerOrg: string
   currentGrade: string
   signupSourceId: number | undefined
+  partnerSite?: string
   // "partnerUserId": "string",
-  // "partnerSite": "string",
 }

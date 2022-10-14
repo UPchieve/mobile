@@ -49,7 +49,7 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
           <Text style={[styles.userTypeText, { marginTop: 3 }]}>Student</Text>
         </View>
         <View>
-          {renderInfoItem('High School', 'Fairfax Senior High School')}
+          {renderInfoItem('High School', user.schoolName)}
           <View
             style={{
               height: 1,
@@ -58,7 +58,7 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
               alignSelf: 'flex-end',
             }}
           />
-          {renderInfoItem('Grade', '11th Grade')}
+          {renderInfoItem('Grade', user.gradeLevel)}
           <View
             style={{
               height: 1,

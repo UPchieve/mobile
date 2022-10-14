@@ -22,6 +22,7 @@ interface formTypeValues {
   lastName: string
   grade: SelectItem
   highSchool: School
+  college?: string
 }
 type RegisterSignUpCodeStep2Type = NativeStackScreenProps<
   OnboardingStackParamList,
@@ -74,11 +75,13 @@ export const RegisterSignUpCodeStep2Screen: React.FC<
             route.params.studentPartnerManifest.studentPartnerOrg,
           firstName: values.firstName,
           lastName: values.lastName,
-          college: values.grade.value,
+          // TODO: need an actual college input to store entered values
+          college: values.college,
           highSchoolId: values.highSchool?.id,
           terms: true,
           currentGrade: values.grade.value,
           signupSourceId: route.params.signupSourceId,
+          partnerSite: values.site,
         })
 
         navigation.navigate('VerifyAccount', {
