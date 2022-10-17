@@ -11,6 +11,9 @@ import { authService } from '../../../../services/authService'
 import { getErrorFromBackendResponse } from '../../../../utils/utils'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { OnboardingStackParamList } from '../../../../routes/OnboardingStackNavigator'
+import { captureEvent } from '../../../../services/analyticsService'
+import { ANALYTIC_EVENTS } from '../../../../constants'
+import { useState } from 'react'
 
 type SignUpCodeType = {
   navigation: NativeStackNavigationProp<OnboardingStackParamList, 'Register'>
@@ -22,6 +25,8 @@ const validationSchema = Yup.object().shape({
   code: Yup.string().required('Required'),
 })
 export const SignUpCode: React.FC<SignUpCodeType> = ({ navigation }) => {
+  const [showInvalidCodeMessage, setShowInvalidCodeMessage] = useState(false)
+
   const formik = useFormik<formValueType>({
     initialValues: { code: '' },
     validationSchema,
@@ -30,9 +35,15 @@ export const SignUpCode: React.FC<SignUpCodeType> = ({ navigation }) => {
       try {
         const response = await authService.validateSignInCode(code)
         const data = await authService.getStudentPartnerManifest(response)
-        navigation.navigate('WelcomeSignUpCode', {
-          studentPartnerManifest: data,
-        })
+        if (data.deactivated) {
+          setShowInvalidCodeMessage(true)
+          captureEvent(ANALYTIC_EVENTS.STUDENT_VISITED_DEACTIVATED_PARTNER, {
+            partner: response,
+          })
+        } else
+          navigation.navigate('WelcomeSignUpCode', {
+            studentPartnerManifest: data,
+          })
       } catch (error) {
         const err = getErrorFromBackendResponse(error)
         if (err.startsWith('No partner key found for')) {
@@ -75,6 +86,13 @@ export const SignUpCode: React.FC<SignUpCodeType> = ({ navigation }) => {
           autoCapitalize="none"
         />
       </View>
+      {showInvalidCodeMessage && (
+        <View>
+          <Text style={styles.errorText}>
+            The code you entered is no longer valid.
+          </Text>
+        </View>
+      )}
       <CommonButton
         title="Sign Up"
         style={{ height: 48 }}
@@ -136,5 +154,11 @@ const styles = StyleSheet.create({
     color: Colors.secondaryGray,
     fontSize: 12,
     fontFamily: FontIndex.WorkSans.Regular,
+  },
+  errorText: {
+    color: Colors.error,
+    fontSize: 12,
+    fontFamily: FontIndex.WorkSans.Regular,
+    paddingBottom: 14,
   },
 })

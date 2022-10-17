@@ -24,6 +24,7 @@ interface StudentPartnerManifest {
   collegeSignup: boolean
   sites: string[]
   isManuallyApproved: boolean
+  deactivated?: boolean
 }
 
 type StudentSignupSource = {
