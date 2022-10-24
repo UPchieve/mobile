@@ -1,4 +1,4 @@
-import { PreSessionResponse, Session } from '../interfaces/sessionInterfaces'
+import { Session } from '../interfaces/sessionInterfaces'
 import {
   GetLatestSessionResponse,
   SendContactFormRequest,
@@ -7,6 +7,7 @@ import {
 import http from './http'
 import { captureEvent } from './analyticsService'
 import { EVENTS } from '../types/services/analyticsServiceTypes'
+import { SurveyQueryResponse } from '../types/services/surveyServiceTypes'
 
 const getCurrentSession = async (): Promise<Session> => {
   const response = await http.post<Session>('/api/session/current')
@@ -50,11 +51,18 @@ const sendPreSesionFeedback = async (
   )
 }
 
-const getPreSessionFeedback = async (
+const getPreSessionGoal = async (sessionId: string): Promise<string> => {
+  const response = await http.get(`/api/survey/presession/${sessionId}/goal`)
+  return response.data.goal
+}
+
+const getPostsessionSurveyDefinition = async (
   sessionId: string
-): Promise<PreSessionResponse> => {
-  const response = await http.get(`/api/survey/presession/${sessionId}`)
-  return response.data
+): Promise<SurveyQueryResponse> => {
+  const response = await http.get(
+    `api/survey/postsession?sessionId=${sessionId}&role=student`
+  )
+  return response.data.survey
 }
 
 const endSession = async (
@@ -104,11 +112,12 @@ const uploadSessionPhotoToStorage = async (
 export const sessionService = {
   getCurrentSession,
   getLatestSession,
+  getPostsessionSurveyDefinition,
   endSession,
   newSession,
   sendPreSesionFeedback,
   sendContactForm,
-  getPreSessionFeedback,
+  getPreSessionGoal,
   getSessionPhotoUploadUrl,
   uploadSessionPhotoToStorage,
 }
