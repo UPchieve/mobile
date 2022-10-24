@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
   chip: {
     paddingVertical: 5,
     paddingHorizontal: 10,
+    marginVertical: 5,
+    marginHorizontal: 5,
     alignItems: 'center',
     alignSelf: 'flex-start',
     justifyContent: 'center',

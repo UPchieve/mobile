@@ -5,16 +5,10 @@ import { Colors } from '../../../../assets/Colors'
 import { Popover, usePopover } from 'react-native-modal-popover'
 
 interface QuestionType {
-  text: string
-  additionalText?: string
   textPopover: string
 }
 
-export const QuestionPopover: React.FC<QuestionType> = ({
-  text,
-  additionalText = null,
-  textPopover,
-}) => {
+export const QuestionPopover: React.FC<QuestionType> = ({ textPopover }) => {
   const {
     openPopover,
     closePopover,
@@ -26,8 +20,14 @@ export const QuestionPopover: React.FC<QuestionType> = ({
   return (
     <View>
       <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
-        <Text style={styles.questionText}>{text}</Text>
-        <View style={{ flex: 1, justifyContent: 'flex-end', marginLeft: 10 }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-end',
+            marginLeft: 10,
+            marginBottom: -10,
+          }}
+        >
           <TouchableOpacity
             style={styles.informationIcon}
             onPress={() => openPopover()}
@@ -37,11 +37,6 @@ export const QuestionPopover: React.FC<QuestionType> = ({
           </TouchableOpacity>
         </View>
       </View>
-      {additionalText ? (
-        <View style={{ paddingBottom: 17 }}>
-          <Text style={styles.mutedText}>{additionalText}</Text>
-        </View>
-      ) : null}
       <Popover
         contentStyle={styles.content}
         backgroundStyle={styles.background}
@@ -57,12 +52,6 @@ export const QuestionPopover: React.FC<QuestionType> = ({
   )
 }
 const styles = StyleSheet.create({
-  questionText: {
-    fontSize: 16,
-    fontFamily: FontIndex.WorkSans.Regular,
-    color: Colors.softBlack,
-    flexShrink: 1,
-  },
   informationIcon: {
     borderColor: Colors.defaultGray,
     borderWidth: 1,

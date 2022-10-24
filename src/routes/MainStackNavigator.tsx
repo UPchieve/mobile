@@ -2,7 +2,6 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { SessionScreen } from '../screens/SessionScreen'
 import { PostSessionSurveyScreen } from '../screens/feedback/post-session/PostSessionSurveyScreen'
-import { PostSessionSurveyCollegeScreen } from '../screens/feedback/post-session/PostSessionSurveyCollegeScreen'
 import { PostSessionSurveySuccessScreen } from '../screens/feedback/post-session/PostSessionSurveySuccessScreen'
 import { ReportSessionScreen } from '../screens/feedback/ReportSessionScreen'
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen'
@@ -14,7 +13,6 @@ import { NotificationScreen } from '../screens/dashboard/NotificationScreen'
 export type MainStackParamList = {
   Session: { sessionId: string }
   PostSessionSurvey: undefined
-  PostSessionSurveyCollege: undefined
   PostSessionSurveySuccess: undefined
   ReportSessionScreen: undefined
   DashboardScreen: undefined
@@ -44,14 +42,6 @@ export const MainStackNavigator = () => {
       <Stack.Screen
         name="PostSessionSurvey"
         component={PostSessionSurveyScreen}
-        options={{
-          headerShown: false,
-          contentStyle: { backgroundColor: 'white' },
-        }}
-      />
-      <Stack.Screen
-        name="PostSessionSurveyCollege"
-        component={PostSessionSurveyCollegeScreen}
         options={{
           headerShown: false,
           contentStyle: { backgroundColor: 'white' },

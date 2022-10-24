@@ -124,11 +124,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
       await sessionService.endSession(sessionState!._id, sessionState!.subTopic)
     }
     if (shouldShowFeedback) {
-      if (sessionState?.type === 'college') {
-        navigation.navigate('PostSessionSurveyCollege')
-      } else {
-        navigation.navigate('PostSessionSurvey')
-      }
+      navigation.navigate('PostSessionSurvey')
     } else {
       navigation.navigate('DashboardScreen')
     }
