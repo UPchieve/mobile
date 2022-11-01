@@ -1,6 +1,6 @@
 {
   "name": "upchieve-app",
-  "version": "2.5.3",
+  "version": "2.7.0",
   "scripts": {
     "start:development": "NODE_ENV=development expo start --dev-client",
     "start:beta": "NODE_ENV=beta expo start --dev-client",
