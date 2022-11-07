@@ -25,25 +25,6 @@ export type SessionUser = {
   type: string
 }
 
-export type PreSessionResponse = {
-  survey: {
-    _id: string
-    session: string
-    surveyType: string
-    user: string
-    __v: number
-    createdAt: string
-    responseData: {
-      'primary-goal': {
-        answer: string
-      }
-      'topic-understanding': {
-        answer: number
-      }
-    }
-  }
-}
-
 export type SessionType = 'DOCUMENT' | 'WHITEBOARD'
 
 export type SessionSubjectType =

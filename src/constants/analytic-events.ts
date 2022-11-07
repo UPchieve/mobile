@@ -1,0 +1,4 @@
+// user events in a [noun][verb] format
+export const ANALYTIC_EVENTS = {
+  STUDENT_VISITED_DEACTIVATED_PARTNER: 'STUDENT_VISITED_DEACTIVATED_PARTNER',
+}

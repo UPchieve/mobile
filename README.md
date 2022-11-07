@@ -1,10 +1,11 @@
 # UPchieve App
 
 - [Get started](#get-started)
+- [Development process](#development-process)
 - [Folder and structure](#folder-and-structure)
+- [Atomic development](#atomic-development)
 - [Updates over the fly](#updates-over-the-fly)
 - [Android deploy](#android-deploy)
-- [Atomic development](#atomic-development)
 
 ## Get started
 
@@ -29,6 +30,26 @@ You will need XCode installed for this project.
    npm run android:development
    ```
 
+## Development process
+
+There are two key branches for this repo: `beta` and `production`.
+
+- All development branches should be branched off of `beta`
+- Once a feature/fix/etc has been accepted by the team, it is merged into `beta`
+- Once a set of changes is accepted for a release, that commit on `beta` is tagged `X.X.X-beta`, for example:
+  - `$ git pull origin beta`
+  - `$ git tag 2.1.0-beta`
+  - `$ git push origin 2.1.0-beta`
+- Depending on if iOS/Android packages have changed or just React-Native level packages, we would either do
+  - `$ npm run publish:beta` OR
+  - create a new archive in XCode and push to the app store and do the expo android release process, to the beta build `org.upchieve.beta` for each store
+- Once a release has been tested, the beta branch at that tag is merged into the `production` branch
+- On that branch, the commit should be tagged `X.X.X`, for example:
+  - `$ git pull origin production`
+  - `$ git tag 2.1.0`
+  - `$ git push origin 2.1.0`
+- Then we follow the same publish process above but for the main app `org.upchieve.mobile`
+
 ## Folder and structure
 
 - **components**: Here we can find the elements which make it possible to isolate their behavior to potentially reuse them in another place of the application.
@@ -43,6 +64,16 @@ You will need XCode installed for this project.
 - **types** Inside this folder we can find all the typescript types that are used on the application.
 - **utils** it has a couple of utilities that dont't fit in another folder.
 
+## Atomic development
+
+The five distinct levels of atomic design — atoms > molecules > organisms > templates > pages — map incredibly well to React component-based architecture.
+
+- **Atoms:** Basic building blocks of matter, such as a button, input or a form label. They’re not useful on their own.
+- **Molecules:** Grouping atoms together, such as combining a button, input and form label to build functionality.
+- **Organisms:** Combining molecules together to form organisms that make up a distinct section of an interface (i.e. navigation bar)
+- **Templates:** Consisting mostly of groups of organisms to form a page — where clients can see a final design in place.
+- **Pages:** An ecosystem that views different template renders. We can create multiple ecosystems into a single environment — the application.
+
 ## Updates over the fly
 
 In order to be able to push a new update the only thing we have to do is.
@@ -55,17 +86,10 @@ In order to be able to push a new update the only thing we have to do is.
    ```
    cd ios && pod install
    ```
-3. Install [expo-cli](https://docs.expo.dev/workflow/expo-cli/) package globally with yarn or npm
-   ```
-   npm install -g expo-cli
-   ```
-4. Update the `config.ts` file and set the new `env.versionRelease`.
-5. Update `version.json` (the url to this file should be found on `config.ts` -> `env.versionUrl`) to match the `env.versionRelease`.
-6. Now, we have to execute [expo-login](https://docs.expo.dev/workflow/expo-cli/#expo-login) in order to login and then, the terminal will ask for the username and password.
-7. For the last, we have to do the publish itself, to do it we have to execute a `expo publish` specifying the release channel.
-   ```
-   expo publish --release-channel prod-v2
-   ```
+3. If not already logged into expo, enter your username and password:
+   - `expo login`
+4. `npm run publish:production` to publish the updates
+5. Update `version.json` found in our CDN to the tagged version release being published
 
 ## Android deploy
 
@@ -92,27 +116,3 @@ In order to be able to generate the aab file we have to do the following:
    eas build --profile production --platform android
    ```
    and follow the steps given by eas-cli.
-
-## Atomic development
-
-The five distinct levels of atomic design — atoms > molecules > organisms > templates > pages — map incredibly well to React component-based architecture.
-
-- **Atoms:** Basic building blocks of matter, such as a button, input or a form label. They’re not useful on their own.
-- **Molecules:** Grouping atoms together, such as combining a button, input and form label to build functionality.
-- **Organisms:** Combining molecules together to form organisms that make up a distinct section of an interface (i.e. navigation bar)
-- **Templates:** Consisting mostly of groups of organisms to form a page — where clients can see a final design in place.
-- **Pages:** An ecosystem that views different template renders. We can create multiple ecosystems into a single environment — the application.
-
-## Development process
-
-There are two key branches for this repo: `beta` and `production`.
-
-- All development branches should be branched off of `beta`
-- Once a feature/fix/etc has been accepted by the team, it is merged into `beta`
-- Once a set of changes is accepted for a release, that commit on `beta` is tagged `X.X.X-beta` for example `2.1.0-beta`
-- Depending on if iOS/Android packages have changed or just React-Native level packages, we would either do
-  - `$ npm run publish:beta` OR
-  - create a new archive in XCode and push to the app store and do the expo android release process, to the beta build `org.upchieve.beta` for each store
-- Once a release has been tested, the beta branch at that tag is merged into the `production` branch
-- On that branch, the commit should be tagged `X.X.X` for example `2.1.0`
-- Then we follow the same publish process above but for the main app `org.upchieve.mobile`

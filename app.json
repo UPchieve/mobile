@@ -3,7 +3,7 @@
     "name": "UPchieve",
     "slug": "upchieve-app",
     "scheme": "com.upchieve.app",
-    "version": "2.5.3",
+    "version": "2.7.1",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "splash": {
