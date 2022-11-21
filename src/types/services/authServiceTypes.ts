@@ -7,6 +7,7 @@ export interface CreateAccountRequest {
   lastName: string
   currentGrade: string
   signupSourceId: number | undefined
+  otherSignupSource: string | undefined
 }
 
 export interface CreateAccountResponse {

@@ -26,6 +26,7 @@ interface formTypeValues {
   password: string
   confirmPassword: string
   signupSource: StudentSignupSource | undefined
+  otherSignupSource: string | undefined
   olderThan13: boolean
 }
 const initialValues: formTypeValues = {
@@ -34,6 +35,7 @@ const initialValues: formTypeValues = {
   password: '',
   confirmPassword: '',
   signupSource: undefined,
+  otherSignupSource: undefined,
   olderThan13: false,
 }
 type CreateAccountScreenType = NativeStackScreenProps<
@@ -56,6 +58,12 @@ const validationSchema = Yup.object().shape({
   signupSource: Yup.object().shape({
     id: Yup.number().required(),
     name: Yup.string().required(),
+  }),
+  otherSignupSource: Yup.string().when('signupSource', (signupSource) => {
+    if (signupSource.name === 'Other') {
+      return Yup.string().required()
+    }
+    return Yup.string()
   }),
 })
 export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({
@@ -91,6 +99,7 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({
           signupSourceId: values.signupSource
             ? values.signupSource.id
             : undefined,
+          otherSignupSource: values.otherSignupSource,
         })
         console.log('new account', newAccount)
 
@@ -137,6 +146,13 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({
     await Linking.openURL(`${config.baseUrl}/legal`)
   }
 
+  const shouldShowOtherSignupInput = () => {
+    if (formik.values.signupSource) {
+      return formik.values.signupSource.name === 'Other'
+    }
+    return false
+  }
+
   return (
     <KeyboardAwareScrollView
       style={{ paddingVertical: 60, paddingHorizontal: 20 }}
@@ -174,13 +190,21 @@ export const CreateAccountScreen: React.FC<CreateAccountScreenType> = ({
           />
         </View>
         {renderInput('confirmPassword', 'Confirm Password', false, true)}
-        <FormikPicker
-          title="How did you hear about us?"
-          placeholder="How did you hear about us?"
-          name="signupSource"
-          options={signupSourceOptions}
-          getLabel={(option) => option.name}
-        />
+        <View style={{ marginBottom: 8 }}>
+          <FormikPicker
+            title="How did you hear about us?"
+            placeholder="How did you hear about us?"
+            name="signupSource"
+            options={signupSourceOptions}
+            getLabel={(option) => option.name}
+          />
+        </View>
+        {shouldShowOtherSignupInput() &&
+          renderInput(
+            'otherSignupSource',
+            'Tell us where you heard about us!',
+            true
+          )}
         <InputCheckBox
           mt={15}
           mb={24}
