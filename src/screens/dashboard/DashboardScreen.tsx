@@ -1,6 +1,6 @@
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -20,10 +20,15 @@ import { ModalSelect } from '../../components/atoms/common/ModalSelect'
 import { DashboardMessage } from '../../components/atoms/dashboard/DashboardMessage'
 import { FullScreenSessionState } from '../../components/molecules/dashboard/FullScreenSessionState'
 import { SubjectCard } from '../../components/molecules/dashboard/SubjectCard'
+import { Topic } from '../../interfaces/dashboardInterfaces'
 import { AuthContext } from '../../providers/AuthProvider'
 import { MainStackParamList } from '../../routes/MainStackNavigator'
-import { topics } from '../../utils/dashboardUtils'
+import { getSubjects } from '../../services/subjectsService'
+import { AllSubjectsWithTopics } from '../../types/services/subjectsServiceTypes'
 import { getCurrentHour } from '../../utils/utils'
+import { backOff } from 'exponential-backoff'
+import { LoadingOverlay } from '../../components/molecules/common/LoadingOverlay'
+import crashlytics from '@react-native-firebase/crashlytics'
 
 const currentHour = getCurrentHour()
 const messages = [
@@ -50,6 +55,8 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
 }) => {
   const { user, userState } = useContext(AuthContext)
   const [subjectOpened, setSubjectOpened] = useState<number>()
+  const [topics, setTopics] = useState<Topic[]>([])
+  const [isLoadingSubjects, setIsLoadingSubjects] = useState<boolean>(false)
 
   const insets = useSafeAreaInsets()
   const modalizeRef = useRef<Modalize>(null)
@@ -62,6 +69,52 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
       })()
     }, [])
   )
+
+  const processSubjects = (subjects: AllSubjectsWithTopics) => {
+    const topicMapping = {} as { [topicName: string]: Topic }
+    for (const subject of Object.values(subjects)) {
+      const { topicName } = subject
+      if (!subject.active) continue
+      if (!topicMapping[topicName])
+        topicMapping[topicName] = {
+          key: subject.topicName,
+          displayName: subject.topicDisplayName,
+          image: subject.topicIconLink ? subject.topicIconLink : '',
+          order: subject.topicDashboardOrder,
+          subTopics: [],
+        }
+      topicMapping[topicName].subTopics.push({
+        key: subject.name,
+        displayName: subject.displayName,
+        order: subject.displayOrder,
+      })
+    }
+
+    const dashboardTopics = Object.values(topicMapping)
+    dashboardTopics.sort((a, b) => a.order - b.order)
+    for (const topic of dashboardTopics) {
+      topic.subTopics.sort((a, b) => a.order - b.order)
+    }
+
+    setTopics(dashboardTopics)
+  }
+
+  useEffect(() => {
+    const getDashboardSubjects = async () => {
+      try {
+        setIsLoadingSubjects(true)
+        const subjects = await backOff(() => getSubjects())
+        processSubjects(subjects)
+      } catch (error: any) {
+        crashlytics().log('Unable to load subjects to the dashboard.')
+        crashlytics().recordError(error)
+        alert('Unable to load subjects to the dashboard.')
+      } finally {
+        setIsLoadingSubjects(false)
+      }
+    }
+    getDashboardSubjects()
+  }, [])
 
   const calculateSnapPoint = () => {
     let height = SCREEN_HEIGHT - 300 - 10
@@ -131,38 +184,44 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
           />
         </TouchableOpacity>
       </ImageBackground>
-      <Modalize
-        ref={modalizeRef}
-        panGestureComponentEnabled
-        alwaysOpen={calculateSnapPoint()}
-        snapPoint={SCREEN_HEIGHT - 200}
-        HeaderComponent={
-          <View style={{ marginTop: 30 }}>
-            <View style={{ marginBottom: 20 }}>{renderMessage()}</View>
-            <Text style={styles.chooseText}>
-              Choose a subject to get help with:
-            </Text>
-          </View>
-        }
-        modalStyle={{ paddingHorizontal: 20 }}
-        handleStyle={{ top: 27, backgroundColor: Colors.borderGray }}
-        withOverlay={false}
-        flatListProps={{
-          data: topics,
-          renderItem: ({ item, index }) => (
-            <SubjectCard
-              topic={item}
-              selectRef={selectRef}
-              onBeforeOpen={() => setSubjectOpened(index)}
-              onSelect={onSessionSelected}
-              isOpen={index === subjectOpened}
-            />
-          ),
-          keyExtractor: (item) => `dashboardSubjectList_${item.key}`,
-          ItemSeparatorComponent: () => <View style={{ marginVertical: 8 }} />,
-          showsVerticalScrollIndicator: false,
-        }}
-      />
+      {isLoadingSubjects ? (
+        <LoadingOverlay />
+      ) : (
+        <Modalize
+          ref={modalizeRef}
+          panGestureComponentEnabled
+          alwaysOpen={calculateSnapPoint()}
+          snapPoint={SCREEN_HEIGHT - 200}
+          HeaderComponent={
+            <View style={{ marginTop: 30 }}>
+              <View style={{ marginBottom: 20 }}>{renderMessage()}</View>
+              <Text style={styles.chooseText}>
+                Choose a subject to get help with:
+              </Text>
+            </View>
+          }
+          modalStyle={{ paddingHorizontal: 20 }}
+          handleStyle={{ top: 27, backgroundColor: Colors.borderGray }}
+          withOverlay={false}
+          flatListProps={{
+            data: topics,
+            renderItem: ({ item, index }) => (
+              <SubjectCard
+                topic={item}
+                selectRef={selectRef}
+                onBeforeOpen={() => setSubjectOpened(index)}
+                onSelect={onSessionSelected}
+                isOpen={index === subjectOpened}
+              />
+            ),
+            keyExtractor: (item) => `dashboardSubjectList_${item.key}`,
+            ItemSeparatorComponent: () => (
+              <View style={{ marginVertical: 8 }} />
+            ),
+            showsVerticalScrollIndicator: false,
+          }}
+        />
+      )}
       <ModalSelect
         ref={selectRef}
         onClose={() => setSubjectOpened(undefined)}
