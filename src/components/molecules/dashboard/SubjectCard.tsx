@@ -4,6 +4,7 @@ import { Pressable, Image, View, Text, StyleSheet } from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { ModalSelect } from '../../atoms/common/ModalSelect'
+import { SvgUri } from 'react-native-svg'
 
 type SubjectType = {
   topic: Topic
@@ -33,7 +34,7 @@ export const SubjectCard: React.FC<SubjectType> = ({
           })
         }}
       >
-        <Image source={topic.image} style={styles.image} />
+        <SvgUri uri={topic.image} height={60} width={60} />
         <View style={styles.textContainer}>
           <Text style={styles.topicText}>{topic.displayName}</Text>
           <Text style={styles.amountOfSubjectsText}>
