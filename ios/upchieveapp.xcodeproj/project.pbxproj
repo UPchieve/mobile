@@ -358,7 +358,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.mobile;
 				PRODUCT_NAME = upchieveapp;
 				SWIFT_OBJC_BRIDGING_HEADER = "upchieveapp/upchieveapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -386,7 +386,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = org.upchieve.mobile;
 				PRODUCT_NAME = upchieveapp;
 				SWIFT_OBJC_BRIDGING_HEADER = "upchieveapp/upchieveapp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

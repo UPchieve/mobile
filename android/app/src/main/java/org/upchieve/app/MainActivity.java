@@ -1,4 +1,4 @@
-package org.upchieve.beta;
+package org.upchieve.mobile;
 
 import android.os.Bundle;
 

@@ -140,7 +140,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'org.upchieve.beta'
+        applicationId 'org.upchieve.mobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 202004

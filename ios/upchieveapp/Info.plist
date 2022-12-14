@@ -26,7 +26,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.upchieve.app</string>
-				<string>org.upchieve.beta</string>
+				<string>org.upchieve.mobile</string>
 			</array>
 		</dict>
 	</array>
