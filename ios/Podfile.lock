@@ -428,8 +428,8 @@ PODS:
   - RNScreens (3.8.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (12.5.0):
-    - React-Core
+  - RNSVG (12.1.1):
+    - React
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -694,7 +694,7 @@ SPEC CHECKSUMS:
   RNPostHog: 5ad77e4a4d52ca151da444f11095125681d0cf68
   RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
-  RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: d1fc3575b8b68891ff5ef3c276daa855e841eb32
 
 PODFILE CHECKSUM: f91d9916a46dd8da4af67f22c342a1581d4a501a
