@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import {
-  Dimensions,
+  useWindowDimensions,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -45,7 +45,6 @@ type QuestionFCType = {
   onSelect: (value: SelectPresessionItem) => void
 } & SurveyQuestionDefinition
 
-const maxWidth = Dimensions.get('screen').width
 const Question: React.FC<QuestionFCType> = ({
   questionText,
   questionType,
@@ -58,8 +57,9 @@ const Question: React.FC<QuestionFCType> = ({
   totalSteps,
   currentStep,
 }) => {
+  const { width, height } = useWindowDimensions()
   return (
-    <View style={{ marginTop: 16, width: maxWidth }}>
+    <View style={{ marginTop: 16, width: width < height ? width : height }}>
       <View
         style={{
           paddingTop: 16,
