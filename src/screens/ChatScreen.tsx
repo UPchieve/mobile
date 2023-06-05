@@ -40,6 +40,8 @@ import { FontIndex } from '../../assets/FontIndex'
 import { usePrevious } from '../hooks/usePrevious'
 import { useKeyboard } from '@react-native-community/hooks'
 import { useOrientation } from '../hooks/useOrientation'
+import * as messageService from '../services/messageService'
+import { Alert } from 'react-native'
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
@@ -212,7 +214,26 @@ export const ChatScreen: React.FC<Props> = ({
     }, 300)
   }, [showChat])
 
-  const onChatPress = (message: string) => {
+  const onChatPress = async (message: string) => {
+    const isClean = await messageService.isMessageClean(message)
+
+    if (!isClean) {
+      setChatMessage('')
+      Alert.alert(
+        'Inappropriate message',
+        'Messages cannot contain personal information, profanity, or links to third party video services',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ]
+      )
+
+      return
+    }
+
     socketHandler.emit('message', {
       sessionId: sessionState?._id,
       user: user,
