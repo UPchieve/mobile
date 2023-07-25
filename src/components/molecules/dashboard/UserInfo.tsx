@@ -107,6 +107,9 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
               <Text style={styles.userTypeText}>{userType}</Text>
             </View>
             <TouchableOpacity
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel="Close menu"
               onPress={dismiss}
               style={styles.closeIconContainer}
             >
