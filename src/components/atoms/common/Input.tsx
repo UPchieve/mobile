@@ -91,6 +91,11 @@ export const Input: React.FC<InputType> = ({
           {renderIcon()}
           {password ? (
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel={
+                secureTextEntry ? 'Show password' : 'Hide password'
+              }
+              accessibilityRole="button"
               onPress={() =>
                 setSecureTextEntry((currentValue) => !currentValue)
               }

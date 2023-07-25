@@ -175,6 +175,9 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
           </Text>
         </View>
         <TouchableOpacity
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Open Menu"
           style={[styles.buttonImage, { top: insets.top }]}
           onPress={() => navigation.openDrawer()}
         >
