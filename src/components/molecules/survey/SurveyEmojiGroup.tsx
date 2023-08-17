@@ -7,6 +7,7 @@ type SurveyEmoji<T> = {
   emojiData: T
   isSelected: boolean
   imageSrc: string
+  accessibleText: string
   onPress: (data: T) => void
   isInitialDisplay: boolean
 }
@@ -14,7 +15,7 @@ type SurveyEmoji<T> = {
 export const SurveyEmoji = <T extends unknown>(
   props: PropsWithChildren<SurveyEmoji<T>>
 ): ReactElement | null => {
-  const { onPress, imageSrc, isSelected, emojiData, isInitialDisplay } = props
+  const { onPress, imageSrc, isSelected, emojiData, isInitialDisplay, accessibleText } = props
   const animation = new Animated.Value(0)
   const inputRange = [0, 1]
   const outputRange = [1, 0.8]
@@ -39,6 +40,9 @@ export const SurveyEmoji = <T extends unknown>(
   return (
     <Animated.View style={[{ transform: [{ scale }] }]}>
       <Pressable
+        accessible={true}
+        accessibilityRole='button'
+        accessibilityLabel={accessibleText}
         onPress={() => onPress(emojiData)}
         onPressIn={() => onPressIn()}
         onPressOut={onPressOut}
@@ -91,6 +95,7 @@ export const SurveyEmojiGroup = <T extends unknown>(
         >
           <SurveyEmoji
             imageSrc={getImageSrc(x)}
+            accessibleText={getText(x)}
             isSelected={isSelected(selected, x)}
             onPress={onPress}
             emojiData={x}
