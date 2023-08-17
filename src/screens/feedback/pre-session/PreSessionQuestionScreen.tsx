@@ -241,7 +241,13 @@ export const PreSessionQuestionScreen: React.FC<
           <View
             style={{ flexDirection: 'row', padding: 20, alignItems: 'center' }}
           >
-            <Text style={styles.questionText} accessible={true} accessibilityLabel={`Question ${currentQuestionIndex + 1} of ${survey.length}`}>
+            <Text
+              style={styles.questionText}
+              accessible={true}
+              accessibilityLabel={`Question ${currentQuestionIndex + 1} of ${
+                survey.length
+              }`}
+            >
               {' '}
               Question {currentQuestionIndex + 1}/{survey.length}
             </Text>
