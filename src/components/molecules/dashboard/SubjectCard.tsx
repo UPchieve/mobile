@@ -30,6 +30,7 @@ export const SubjectCard: React.FC<SubjectType> = ({
             data: topic.subTopics,
             onSelect: (e) => onSelect(topic.key, e.key),
             title: topic.displayName,
+            accessibilityTitle: topic.displayName + ' Subtopics',
             getLabel: (e: SubTopic) => e.displayName,
           })
         }}
