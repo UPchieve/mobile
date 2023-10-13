@@ -115,7 +115,7 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({
           {/* <TouchableOpacity onPress={() => navigation.canGoBack() && navigation.goBack()}>
                     <Image
                         style={{width: 20, height: 20}}
-                        source={ImageIndex.icons.goBack}/>
+                        source={{uri: ImageIndex.icons.goBack}} />
                 </TouchableOpacity> */}
           <View
             style={{
@@ -130,7 +130,7 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({
                 onPress={() => (navigation.getParent() as any)?.openDrawer()}
               >
                 <Image
-                  source={ImageIndex.dashboard.openMenuButton}
+                  source={{ uri: ImageIndex.dashboard.openMenuButton }}
                   style={{ width: 28, height: 28 }}
                 />
               </TouchableOpacity>

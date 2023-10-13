@@ -55,7 +55,7 @@ export const DeleteAccountScreen: React.FC<DeleteAccountScreenType> = ({
             <Separator marginVertical={24} backgroundColor="transparent" />
             <Image
               style={{ width: 227, height: 292 }}
-              source={ImageIndex.dashboard.deleteAccount}
+              source={{ uri: ImageIndex.dashboard.deleteAccount }}
             />
           </View>
         </View>

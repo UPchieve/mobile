@@ -20,13 +20,26 @@ export const ChatTypping: React.FC<ChatTyppingType> = ({ userType }) => {
   const renderAvatar = () => {
     switch (userType) {
       case 'student':
-        return <Image source={ImageIndex.avatars.student} style={styles.icon} />
+        return (
+          <Image
+            source={{ uri: ImageIndex.avatars.student }}
+            style={styles.icon}
+          />
+        )
       case 'volunteer':
         return (
-          <Image source={ImageIndex.avatars.volunteer} style={styles.icon} />
+          <Image
+            source={{ uri: ImageIndex.avatars.volunteer }}
+            style={styles.icon}
+          />
         )
       case 'chatbot':
-        return <Image source={ImageIndex.avatars.chatbot} style={styles.icon} />
+        return (
+          <Image
+            source={{ uri: ImageIndex.avatars.chatbot }}
+            style={styles.icon}
+          />
+        )
       default:
         throw Error()
     }

@@ -32,7 +32,7 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({
   return (
     <SafeAreaView>
       <ImageBackground
-        source={ImageIndex.onboarding.confetti}
+        source={{ uri: ImageIndex.onboarding.confetti }}
         style={styles.wrapper}
       >
         <View style={{ paddingHorizontal: 22, alignItems: 'center' }}>
@@ -47,7 +47,7 @@ export const WelcomeSignUpCodeScreen: React.FC<WelcomeSignUpCodeType> = ({
           </TouchableOpacity>
           <Image
             style={{ width: 213, resizeMode: 'contain', height: '60%' }}
-            source={ImageIndex.onboarding.eligible}
+            source={{ uri: ImageIndex.onboarding.eligible }}
           />
         </View>
       </ImageBackground>

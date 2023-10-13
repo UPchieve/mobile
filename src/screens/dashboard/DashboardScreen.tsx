@@ -155,7 +155,7 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={ImageIndex.dashboard.background}
+        source={{ uri: ImageIndex.dashboard.background }}
         style={[styles.headerBackground]}
         onLayout={({ nativeEvent }) => console.log(nativeEvent.layout.height)}
       >
@@ -182,7 +182,7 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
           onPress={() => navigation.openDrawer()}
         >
           <Image
-            source={ImageIndex.dashboard.openMenuButton}
+            source={{ uri: ImageIndex.dashboard.openMenuButton }}
             style={{ width: 28, height: 28 }}
           />
         </TouchableOpacity>

@@ -47,7 +47,7 @@ export const MessageSentScreen: React.FC<MessageSentScreenType> = ({
         </Text>
       </View>
       <Image
-        source={ImageIndex.onboarding.messageSent}
+        source={{ uri: ImageIndex.onboarding.messageSent }}
         style={{
           marginVertical: 60,
           marginBottom: 20,

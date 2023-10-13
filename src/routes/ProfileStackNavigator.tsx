@@ -44,7 +44,6 @@ export const ProfileStackNavigator = () => {
         },
         // headerStyle: { backgroundColor: 'transparent' },
         headerBackTitleVisible: false,
-        headerBackImageSource: ImageIndex.icons.goBack,
         headerTintColor: Colors.black,
       }}
     >
