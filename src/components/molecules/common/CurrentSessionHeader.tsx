@@ -206,7 +206,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
     >
       {!isSessionEnded(sessionState) ? (
         <View style={styles.userContainer}>
-          <Image style={styles.icon} source={renderImage()} />
+          <Image style={styles.icon} source={{ uri: renderImage() }} />
           {/* <Image style={styles.icon} source={renderImage()} /> */}
           <View style={styles.textWrapper}>
             <Text style={styles.titleText}>{getTitleText()}</Text>

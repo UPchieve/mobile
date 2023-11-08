@@ -24,7 +24,7 @@ export const PostSessionSurveySuccessScreen: React.FC<
           <View style={styles.imagePosition}>
             <Image
               style={styles.image}
-              source={ImageIndex.feedback.postFeedback}
+              source={{ uri: ImageIndex.feedback.postFeedback }}
             />
           </View>
           <View style={styles.textWrapperTitle}>

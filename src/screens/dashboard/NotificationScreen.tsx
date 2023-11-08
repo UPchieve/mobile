@@ -37,7 +37,7 @@ export const NotificationScreen: React.FC<NotificationScreenType> = ({
       <View style={styles.background}>
         <View style={styles.dogWrapper}>
           <Image
-            source={ImageIndex.dashboard.notificationDog}
+            source={{ uri: ImageIndex.dashboard.notificationDog }}
             resizeMode="contain"
             style={styles.dog}
           />

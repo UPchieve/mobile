@@ -20,9 +20,7 @@ import { WrongEmailScreen } from '../screens/onboarding/register/WrongEmailScree
 import { ContactUsScreen } from '../screens/contact/ContactUsScreen'
 import { MessageSentScreen } from '../screens/onboarding/register/MessageSentScreen'
 import { WelcomeSignUpCodeScreen } from '../screens/onboarding/register/WelcomeSignUpCodeScreen'
-import { Image } from 'react-native'
 import { ImageIndex } from '../../assets/ImageIndex'
-import { SvgIcons } from '../../assets/IndexIcons'
 import { RulesScreen } from '../screens/onboarding/register/RulesScreen'
 
 export type OnboardingStackParamList = {
@@ -89,7 +87,7 @@ export const OnboardingStackNavigator = () => {
       initialRouteName="Welcome"
       screenOptions={{
         headerBackTitleVisible: false,
-        headerBackImageSource: ImageIndex.icons.goBack,
+        headerBackImageSource: { uri: ImageIndex.icons.goBack },
         contentStyle: {
           backgroundColor: Colors.white,
         },

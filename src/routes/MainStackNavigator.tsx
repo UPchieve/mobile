@@ -29,7 +29,7 @@ export const MainStackNavigator = () => {
     <Stack.Navigator
       initialRouteName="DashboardScreen"
       screenOptions={{
-        headerBackImageSource: ImageIndex.icons.goBack,
+        headerBackImageSource: { uri: ImageIndex.icons.goBack },
         headerTintColor: Colors.black,
         headerBackTitleVisible: false,
       }}

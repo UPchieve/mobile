@@ -7,15 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { ImageIndex } from '../../../assets/ImageIndex'
 
 const WIDTH = Dimensions.get('window').width
-
-const boldIcon = require('../../../assets/icons/toolbar/bold.png')
-const italicIcon = require('../../../assets/icons/toolbar/italic.png')
-const underlineIcon = require('../../../assets/icons/toolbar/underline.png')
-const strikeIcon = require('../../../assets/icons/toolbar/strike.png')
-const colorIcon = require('../../../assets/icons/toolbar/color.png')
-const backgroundIcon = require('../../../assets/icons/toolbar/background.png')
 
 // interface ToolbarItems {
 //     id: number;
@@ -56,37 +50,37 @@ export const ToolbarComponent = () => {
       <View style={styles.toolbar}>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={boldIcon} />
+            <Image source={{ uri: ImageIndex.icons.toolbar.boldIcon }} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={italicIcon} />
+            <Image source={{ uri: ImageIndex.icons.toolbar.italicIcon }} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={underlineIcon} />
+            <Image source={{ uri: ImageIndex.icons.toolbar.underlineIcon }} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={strikeIcon} />
+            <Image source={{ uri: ImageIndex.icons.toolbar.strikeIcon }} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           {/*<TouchableOpacity>*/}
-          {/*    <Image source={bIcon}/>*/}
+          {/*    <Image source={{uri: ImageIndex.icons.toolbar.bIcon}}/>*/}
           {/*</TouchableOpacity>*/}
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={colorIcon} />
+            <Image source={{ uri: ImageIndex.icons.toolbar.colorIcon }} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={backgroundIcon} />
+            <Image source={{ uri: ImageIndex.icons.toolbar.backgroundIcon }} />
           </TouchableOpacity>
         </View>
       </View>
