@@ -12,7 +12,7 @@ type useAutoUpdateAppHandlerType = {
 export function useAutoUpdateAppHandler(props: useAutoUpdateAppHandlerType) {
   useEffect(() => {
     ;(async () => {
-      await checkForUpdates()
+      await checkForExpoUpdates()
     })()
   }, [])
 
@@ -27,14 +27,17 @@ export function useAutoUpdateAppHandler(props: useAutoUpdateAppHandlerType) {
     return data
   }
 
-  async function checkForUpdates() {
-    const version = await getVersion()
-    if (version && version.app_version !== props.versionRelease) {
-      if (version.force_update) {
-        await forceAlertUpdate()
-      } else {
-        await alertUpdate()
+  async function checkForExpoUpdates() {
+    try {
+      const [update, version] = await Promise.all([
+        Updates.checkForUpdateAsync(),
+        getVersion(),
+      ])
+      if (update.isAvailable) {
+        version.force_update ? await forceAlertUpdate() : await alertUpdate()
       }
+    } catch (err) {
+      console.error(`Error fetching latest Expo update: ${err}`)
     }
   }
 
