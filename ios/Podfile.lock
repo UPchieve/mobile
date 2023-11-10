@@ -18,7 +18,7 @@ PODS:
     - ExpoModulesCore
   - EXManifests (0.2.4):
     - EXJSONUtils
-  - Expo (43.0.5):
+  - Expo (43.0.2):
     - ExpoModulesCore
   - ExpoModulesCore (0.4.10):
     - React-Core
@@ -357,7 +357,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
-  - react-native-webview (11.13.0):
+  - react-native-webview (11.22.7):
     - React-Core
   - React-perflogger (0.64.4)
   - React-RCTActionSheet (0.64.4):
@@ -691,7 +691,7 @@ SPEC CHECKSUMS:
   EXKeepAwake: bf48d7f740a5cd2befed6cf9a49911d385c6c47d
   EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
   EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
-  Expo: d9588796cd19999da4d440d87bf7eb7ae4dbd608
+  Expo: b66c9661cf2514b4adf67b8367178e8ed3eb9801
   ExpoModulesCore: c9438f6add0fb7b04b7c64eb97a833d2752a7834
   EXScreenOrientation: 80c8c07ab3f2beb8e83ba94ab6ee4fb7a6bf01a6
   EXSensors: 7aff000712e1205de852515f8aa4c5125d870e12
@@ -729,7 +729,7 @@ SPEC CHECKSUMS:
   React-jsinspector: d4f6973dd474357dbaaf6f52f31ffc713bf3e766
   react-native-gleapsdk: 1e840f61f0dff765a2091ec43392ac63bd24cb19
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
-  react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
+  react-native-webview: 227ba9205abb8579116b69ea5774d9744267c65a
   React-perflogger: 5a890ca0911669421b7611661e9b58f91c805f5c
   React-RCTActionSheet: bd180e0879f8424a73650c5c28fbef4f3b5b27fb
   React-RCTAnimation: 1004d2b4be1f2cedfdc4cb2326adc95b989e6c6b
@@ -754,6 +754,6 @@ SPEC CHECKSUMS:
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: d1fc3575b8b68891ff5ef3c276daa855e841eb32
 
-PODFILE CHECKSUM: f91d9916a46dd8da4af67f22c342a1581d4a501a
+PODFILE CHECKSUM: 38f6d71ff96a779800d3789a88f430a2994816d0
 
 COCOAPODS: 1.11.3
