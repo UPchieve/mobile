@@ -369,7 +369,15 @@ export const ChatScreen: React.FC<Props> = ({
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+        <TouchableOpacity
+          style={styles.swapIcon}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={
+            sessionType === 'WHITEBOARD' ? 'Go to Whiteboard' : 'Go to Editor'
+          }
+          onPress={onSwitchPress}
+        >
           <Image
             source={{
               uri:

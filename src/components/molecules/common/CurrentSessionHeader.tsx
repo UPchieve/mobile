@@ -208,7 +208,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
         <View style={styles.userContainer}>
           <Image style={styles.icon} source={{ uri: renderImage() }} />
           {/* <Image style={styles.icon} source={renderImage()} /> */}
-          <View style={styles.textWrapper}>
+          <View accessibilityLiveRegion="assertive" style={styles.textWrapper}>
             <Text style={styles.titleText}>{getTitleText()}</Text>
             <Text style={styles.inSessionText}>
               {!isWaitingForVolunteer()
@@ -218,7 +218,9 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
           </View>
         </View>
       ) : (
-        <Text style={styles.titleText}>Session Ended</Text>
+        <Text accessibilityLiveRegion="assertive" style={styles.titleText}>
+          Session Ended
+        </Text>
       )}
       {isSessionEnded(sessionState) && user.isVolunteer ? (
         <Pressable onPress={() => navigation.navigate('ReportSessionScreen')}>
