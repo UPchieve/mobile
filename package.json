@@ -1,6 +1,6 @@
 {
   "name": "upchieve-app",
-  "version": "2.8.1",
+  "version": "2.9.6",
   "scripts": {
     "start:development": "NODE_ENV=development expo start --dev-client",
     "start:beta": "NODE_ENV=beta expo start --dev-client",
@@ -68,7 +68,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-mask-text": "^0.7.0",
     "react-native-modal": "^12.1.0",
-    "react-native-modal-popover": "^2.1.0",
+    "react-native-modal-popover": "2.1.0",
     "react-native-modal-selector": "^2.1.0",
     "react-native-modalize": "^2.0.13",
     "react-native-popup-menu": "^0.15.12",
