@@ -30,6 +30,9 @@ export const RateNumbers = <T extends unknown>(
           <Medal
             key={item.responseId}
             value={index + 1}
+            accessible={true}
+            accessibilityRole={'button'}
+            accessibilityLabel={`${index + 1}: ${item.responseText}`}
             disabled={false}
             fullRounded={true}
             selected={item === selected}

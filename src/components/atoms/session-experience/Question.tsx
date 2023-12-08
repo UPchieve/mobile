@@ -1,5 +1,11 @@
-import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  AccessibilityInfo,
+} from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { Popover, usePopover } from 'react-native-modal-popover'
@@ -23,6 +29,16 @@ export const Question: React.FC<QuestionType> = ({
     touchableRef,
     popoverAnchorRect,
   } = usePopover()
+
+  const [showClosePopoverButton, setShowClosePopoverButton] = useState(false)
+
+  async function openAccessiblePopover() {
+    setShowClosePopoverButton(await AccessibilityInfo.isScreenReaderEnabled())
+    openPopover()
+    if (informationText) {
+      AccessibilityInfo.announceForAccessibility(informationText)
+    }
+  }
 
   const getText = () => {
     if (highlight) {
@@ -50,8 +66,11 @@ export const Question: React.FC<QuestionType> = ({
         {informationText ? (
           <View style={{ justifyContent: 'center' }}>
             <TouchableOpacity
+              accessible={true}
+              accessibilityRole={'button'}
+              accessibilityLabel={'More Info'}
               style={styles.informationIcon}
-              onPress={() => openPopover()}
+              onPress={() => openAccessiblePopover()}
               ref={touchableRef}
             >
               <Text style={styles.informationIconText}>i</Text>
@@ -73,6 +92,15 @@ export const Question: React.FC<QuestionType> = ({
           supportedOrientations={['portrait']}
         >
           <Text style={styles.popoverText}>{informationText}</Text>
+          {showClosePopoverButton && (
+            <TouchableOpacity
+              accessible={true}
+              accessibilityRole="button"
+              onPress={closePopover}
+            >
+              <Text style={styles.popoverText}>Return to Survey</Text>
+            </TouchableOpacity>
+          )}
         </Popover>
       ) : null}
     </View>
