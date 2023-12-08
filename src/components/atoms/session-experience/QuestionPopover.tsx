@@ -1,5 +1,11 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import {
+  AccessibilityInfo,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { Colors } from '../../../../assets/Colors'
 import { Popover, usePopover } from 'react-native-modal-popover'
@@ -17,6 +23,16 @@ export const QuestionPopover: React.FC<QuestionType> = ({ textPopover }) => {
     popoverAnchorRect,
   } = usePopover()
 
+  const [showClosePopoverButton, setShowClosePopoverButton] = useState(false)
+
+  async function openAccessiblePopover() {
+    setShowClosePopoverButton(await AccessibilityInfo.isScreenReaderEnabled())
+    openPopover()
+    if (textPopover) {
+      AccessibilityInfo.announceForAccessibility(textPopover)
+    }
+  }
+
   return (
     <View>
       <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
@@ -29,8 +45,11 @@ export const QuestionPopover: React.FC<QuestionType> = ({ textPopover }) => {
           }}
         >
           <TouchableOpacity
+            accessible={true}
+            accessibilityRole={'button'}
+            accessibilityLabel={'More Info'}
             style={styles.informationIcon}
-            onPress={() => openPopover()}
+            onPress={() => openAccessiblePopover()}
             ref={touchableRef}
           >
             <Text style={styles.informationIconText}>i</Text>
@@ -47,6 +66,15 @@ export const QuestionPopover: React.FC<QuestionType> = ({ textPopover }) => {
         supportedOrientations={['portrait']}
       >
         <Text style={styles.popoverText}>{textPopover}</Text>
+        {showClosePopoverButton && (
+          <TouchableOpacity
+            accessible={true}
+            accessibilityRole="button"
+            onPress={closePopover}
+          >
+            <Text style={styles.popoverText}>Return to Survey</Text>
+          </TouchableOpacity>
+        )}
       </Popover>
     </View>
   )

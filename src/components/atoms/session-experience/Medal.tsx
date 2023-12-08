@@ -1,5 +1,11 @@
 import React from 'react'
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  AccessibilityRole,
+} from 'react-native'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'
 interface MedalType {
@@ -7,6 +13,9 @@ interface MedalType {
   disabled: boolean
   selected: boolean
   value: number | string
+  accessible?: boolean
+  accessibilityRole?: AccessibilityRole
+  accessibilityLabel?: string
   onPress?: () => void
 }
 export const Medal: React.FC<MedalType> = ({
@@ -14,12 +23,18 @@ export const Medal: React.FC<MedalType> = ({
   disabled = false,
   selected,
   fullRounded,
+  accessible = false,
+  accessibilityRole,
+  accessibilityLabel,
   onPress = () => {},
 }) => {
   return (
     <View>
       <TouchableOpacity
         disabled={disabled}
+        accessible={accessible}
+        accessibilityRole={accessibilityRole}
+        accessibilityLabel={accessibilityLabel}
         style={[
           styles.container,
           fullRounded && styles.fullRoundedContainer,
