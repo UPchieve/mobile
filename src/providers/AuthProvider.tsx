@@ -67,10 +67,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     if (user) {
       crashlytics().log('User login')
       crashlytics().setUserId(user._id)
-      crashlytics().setAttributes({
-        name: `${user.firstname} ${user.lastname}`,
-        email: user.email,
-      })
     } else {
       crashlytics().log('User logout')
     }
