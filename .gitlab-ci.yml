@@ -1,8 +1,6 @@
 test:
   stage: test
   image: node:16.8.0-bullseye
-  tags:
-    - upchieve
   before_script:
     - npm ci --cache .npm --prefer-offline
   script:
@@ -16,8 +14,6 @@ test:
 lint:
   stage: test
   image: node:16.8.0-bullseye
-  tags:
-    - upchieve
   before_script:
     - npm ci --cache .npm --prefer-offline
   script:
