@@ -17,14 +17,14 @@ const getCsrfToken = async (): Promise<string> => {
 
 http.interceptors.request.use(
   async (e) => {
-    // TODO: replace `localhost` with IP at runtime when in development mode on Android
+    // TODO: replace `localhost` with 10.0.2.2 at runtime when in development mode on Android
     if (
       process.env.NODE_ENV === 'development' &&
       Platform.OS === 'android' &&
       config.baseUrl.includes('localhost')
     )
       console.warn(
-        'Replace `localhost` in `BASE_URL`, `WEBSOCKET_URL`, and `WHITEBOARD_WEBSOCKET_URL` with your IP address when working with Android on development mode. You must use your ip instead of localhost.'
+        'Replace `localhost` in `BASE_URL`, `WEBSOCKET_URL`, and `WHITEBOARD_WEBSOCKET_URL` with 10.0.2.2 when developing Android locally.'
       )
     let csrfToken: string = ''
     try {
