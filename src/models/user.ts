@@ -2,6 +2,7 @@ import { GRADES } from '../constants'
 
 export interface User {
   _id: string
+  id: string
   firstname: string
   lastname: string
   email: string
@@ -20,6 +21,8 @@ export interface User {
   createdAt: Date
   schoolName: string
   gradeLevel: GRADES
+  isSchoolPartner?: boolean
+  studentPartnerOrg?: string
 }
 
 export interface Student extends User {
