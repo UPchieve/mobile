@@ -164,17 +164,21 @@ export const WhiteboardToolsMenu: React.FC<Props> = ({
           alert('Sorry, we need camera roll permissions to make this work!')
         } else {
           const result = await zwibblerManager.pickImage()
-          if (result.cancelled) return
+          if (result.canceled) return
 
           try {
-            // isLoadingImage is set to `false` when Zwibbler's resource-loaded event triggers
-            setIsLoadingImage(true)
-            await isValidWhiteboardImageUpload(result)
-            await zwibblerManager.uploadImage(sessionId, result)
+            const image = result.assets?.[0]
+            if (image && image.uri) {
+              // isLoadingImage is set to `false` when Zwibbler's resource-loaded event triggers
+              setIsLoadingImage(true)
+              await isValidWhiteboardImageUpload(image)
+              await zwibblerManager.uploadImage(sessionId, image)
+            }
             // TODO: fix error type
           } catch (error: any) {
-            setIsLoadingImage(false)
             alert(error.message)
+          } finally {
+            setIsLoadingImage(false)
           }
         }
       },

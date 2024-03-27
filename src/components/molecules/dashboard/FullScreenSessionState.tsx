@@ -47,7 +47,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
         <View style={styles.container}>
           <Text style={styles.title}>You are currently in a session.</Text>
           <Image
-            source={{ uri: ImageIndex.dashboard.state.inSession }}
+            source={ImageIndex.dashboard.state.inSession}
             style={{ marginTop: 24, width: 242, height: 253 }}
           />
           <View style={{ paddingTop: 24, width: '100%' }}>
@@ -99,7 +99,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
             }}
           />
           <Image
-            source={{ uri: ImageIndex.dashboard.state.Waiting }}
+            source={ImageIndex.dashboard.state.Waiting}
             style={{ marginVertical: 24, width: 242, height: 253 }}
           />
           <Text style={styles.additionalText}>
@@ -120,7 +120,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
         <View style={[styles.container]}>
           <Text style={[styles.title]}>Your account is under review</Text>
           <Image
-            source={{ uri: ImageIndex.dashboard.state.Banned }}
+            source={ImageIndex.dashboard.state.Banned}
             style={{ marginVertical: 24 }}
           />
           <TouchableOpacity>
@@ -146,7 +146,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
         onPress={() => navigation.openDrawer()}
       >
         <Image
-          source={{ uri: ImageIndex.dashboard.openMenuButton }}
+          source={ImageIndex.dashboard.openMenuButton}
           style={{ width: 28, height: 28 }}
         />
       </TouchableOpacity>

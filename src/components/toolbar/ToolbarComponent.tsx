@@ -50,37 +50,37 @@ export const ToolbarComponent = () => {
       <View style={styles.toolbar}>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={{ uri: ImageIndex.icons.toolbar.boldIcon }} />
+            <Image source={ImageIndex.icons.toolbar.boldIcon} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={{ uri: ImageIndex.icons.toolbar.italicIcon }} />
+            <Image source={ImageIndex.icons.toolbar.italicIcon} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={{ uri: ImageIndex.icons.toolbar.underlineIcon }} />
+            <Image source={ImageIndex.icons.toolbar.underlineIcon} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={{ uri: ImageIndex.icons.toolbar.strikeIcon }} />
+            <Image source={ImageIndex.icons.toolbar.strikeIcon} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           {/*<TouchableOpacity>*/}
-          {/*    <Image source={{uri: ImageIndex.icons.toolbar.bIcon}}/>*/}
+          {/*    <Image source={ImageIndex.icons.toolbar.bIcon}/>*/}
           {/*</TouchableOpacity>*/}
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={{ uri: ImageIndex.icons.toolbar.colorIcon }} />
+            <Image source={ImageIndex.icons.toolbar.colorIcon} />
           </TouchableOpacity>
         </View>
         <View style={styles.wrapperToolbar}>
           <TouchableOpacity>
-            <Image source={{ uri: ImageIndex.icons.toolbar.backgroundIcon }} />
+            <Image source={ImageIndex.icons.toolbar.backgroundIcon} />
           </TouchableOpacity>
         </View>
       </View>

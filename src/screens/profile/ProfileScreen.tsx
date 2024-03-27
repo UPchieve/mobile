@@ -37,17 +37,14 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
         <Text style={styles.headerText}>Profile</Text>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Image
-            source={{ uri: ImageIndex.dashboard.openMenuButton }}
+            source={ImageIndex.dashboard.openMenuButton}
             style={{ width: 28, height: 28 }}
           />
         </TouchableOpacity>
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.avatarWrapper}>
-          <Image
-            source={{ uri: ImageIndex.avatars.student }}
-            style={styles.avatar}
-          />
+          <Image source={ImageIndex.avatars.student} style={styles.avatar} />
           <Text style={styles.userNameText}>{user.firstname}</Text>
           <Text style={[styles.userTypeText, { marginTop: 3 }]}>Student</Text>
         </View>
@@ -103,7 +100,7 @@ export const ProfileScreen: React.FC<ProfileScreenType> = ({ navigation }) => {
           <Text style={styles.settingsText}>Settings</Text>
           <Image
             style={{ width: 20, height: 20, marginRight: 20 }}
-            source={{ uri: ImageIndex.icons.arrowhead }}
+            source={ImageIndex.icons.arrowhead}
           />
         </View>
       </Pressable>

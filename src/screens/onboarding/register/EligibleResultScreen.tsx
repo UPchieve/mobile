@@ -30,18 +30,18 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({
     return (
       <>
         <ImageBackground
-          source={{ uri: ImageIndex.onboarding.confetti }}
+          source={ImageIndex.onboarding.confetti}
           style={[styles.wrapper, { paddingTop: 85 }]}
         >
           <Text style={styles.title}>You’re Eligible!</Text>
           <Image
             style={{ width: 193, height: 192 }}
-            source={{ uri: ImageIndex.onboarding.eligible }}
+            source={ImageIndex.onboarding.eligible}
           />
         </ImageBackground>
         <Image
           style={{ marginTop: 15, width: 44, height: 44, alignSelf: 'center' }}
-          source={{ uri: ImageIndex.icons.check }}
+          source={ImageIndex.icons.check}
         />
       </>
     )
@@ -54,7 +54,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({
           Sorry, we can’t verify {'\n'} your eligibility yet.
         </Text>
         <Image
-          source={{ uri: ImageIndex.onboarding.notEligible }}
+          source={ImageIndex.onboarding.notEligible}
           style={{
             marginBottom: 30,
             resizeMode: 'contain',
@@ -85,7 +85,7 @@ export const EligibleResultScreen: React.FC<EligibleResultScreenType> = ({
           Oops, looks like you're not a high school student!
         </Text>
         <Image
-          source={{ uri: ImageIndex.onboarding.notEligible }}
+          source={ImageIndex.onboarding.notEligible}
           style={{
             resizeMode: 'contain',
             height: '50%',

@@ -28,7 +28,6 @@ import {
   UserSurveySubmission,
 } from '../../../types/services/surveyServiceTypes'
 import { SurveyEmojiGroup } from '../../../components/molecules/survey/SurveyEmojiGroup'
-import { config } from '../../../../config'
 
 export type SelectPresessionItem = Pick<
   SurveyResponseDefinition,
@@ -77,7 +76,7 @@ const Question: React.FC<QuestionFCType> = ({
               }
               getImageSrc={(e) => {
                 let imageSrc = ''
-                if (config.baseUrl.includes('localhost'))
+                if (e.responseDisplayImage?.includes('localhost'))
                   imageSrc = e.responseDisplayImage?.replace(
                     'https',
                     'http'

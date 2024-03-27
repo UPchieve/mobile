@@ -24,7 +24,7 @@ http.interceptors.request.use(
       config.baseUrl.includes('localhost')
     )
       console.warn(
-        'Replace `localhost` in `BASE_URL`, `WEBSOCKET_URL`, and `WHITEBOARD_WEBSOCKET_URL` with 10.0.2.2 when developing Android locally.'
+        'Replace `localhost` in `EXPO_PUBLIC_BASE_URL`, `EXPO_PUBLIC_WEBSOCKET_URL`, and `WHITEBOARD_EXPO_PUBLIC_WEBSOCKET_URL` with 10.0.2.2 when developing Android locally.'
       )
     let csrfToken: string = ''
     try {

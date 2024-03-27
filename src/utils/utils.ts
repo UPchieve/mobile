@@ -24,6 +24,14 @@ export const getSessionType = (
     'humanitiesEssays',
     'reading',
     'usHistory',
+    'collegePrep',
+    'collegeList',
+    'collegeApps',
+    'applicationEssays',
+    'financialAid',
+    'essayPlanning',
+    'essayFeedback',
+    'worldHistory',
   ]
   if (session && documentEditorSubTopics.includes(session.subTopic))
     return 'DOCUMENT'

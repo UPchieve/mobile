@@ -27,7 +27,7 @@ export const AccountVerifiedScreen: React.FC<AccountVerifiedScreenType> = ({
       <View style={{ justifyContent: 'space-between', paddingBottom: 45 }}>
         <View>
           <Image
-            source={{ uri: ImageIndex.onboarding.accountVerified }}
+            source={ImageIndex.onboarding.accountVerified}
             style={{
               width: '100%',
               height: 600,

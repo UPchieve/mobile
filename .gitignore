@@ -9,6 +9,9 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+.vscode/
+ios/
+android/
 
 # macOS
 .DS_Store
@@ -62,9 +65,6 @@ buck-out/
 
 # Bundle artifacts
 *.jsbundle
-
-# CocoaPods
-/ios/Pods/
 
 # Expo
 .expo/

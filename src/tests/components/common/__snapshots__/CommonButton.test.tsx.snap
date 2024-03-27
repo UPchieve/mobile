@@ -2,7 +2,25 @@
 
 exports[`CommonButton Tests render correctly 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
+  collapsable={false}
   focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
@@ -12,7 +30,7 @@ exports[`CommonButton Tests render correctly 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "borderColor": "#8B939F",
       "borderRadius": 30,
       "borderWidth": 1,
@@ -26,7 +44,7 @@ exports[`CommonButton Tests render correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "justifyContent": "center",
@@ -35,22 +53,20 @@ exports[`CommonButton Tests render correctly 1`] = `
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "fontFamily": "WorkSansMedium",
             "fontSize": 16,
             "textAlign": "center",
           },
-          Object {
+          {
             "color": "#343440",
           },
           false,
           false,
         ]
       }
-    >
-      
-    </Text>
+    />
   </View>
 </View>
 `;

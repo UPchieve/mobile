@@ -36,7 +36,7 @@ const login = async (
     if (data.user.isVolunteer) {
       return data.user as Volunteer
     }
-    identify(data.user as Student)
+    await identify(data.user as Student)
     return data.user as Student
   }
   return null
@@ -48,7 +48,7 @@ const getCurrentUser = async (): Promise<Student | Volunteer | null> => {
     if (data.user.isVolunteer) {
       return data.user as Volunteer
     }
-    identify(data.user as Student)
+    await identify(data.user as Student)
     return data.user as Student
   }
   return null
@@ -133,7 +133,7 @@ const validateSignInCode = async (
     }
   )
 
-  captureEvent(EVENTS.ACCOUNT_VERIFIED)
+  await captureEvent(EVENTS.ACCOUNT_VERIFIED)
   return data.studentPartnerKey
 }
 
