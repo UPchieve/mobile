@@ -379,12 +379,11 @@ export const ChatScreen: React.FC<Props> = ({
           onPress={onSwitchPress}
         >
           <Image
-            source={{
-              uri:
-                sessionType === 'WHITEBOARD'
-                  ? ImageIndex.icons.whiteBoard
-                  : ImageIndex.icons.chatEditor,
-            }}
+            source={
+              sessionType === 'WHITEBOARD'
+                ? ImageIndex.icons.whiteBoard
+                : ImageIndex.icons.chatEditor
+            }
             style={
               Platform.OS === 'ios' && Platform.isPad
                 ? { height: 50, width: 50 }

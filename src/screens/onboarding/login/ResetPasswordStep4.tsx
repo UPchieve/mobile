@@ -15,7 +15,7 @@ export const ResetPasswordStep4Screen: React.FC = () => {
     >
       <H3>You’re all set!</H3>
       <Image
-        source={{ uri: ImageIndex.onboarding.allSet }}
+        source={ImageIndex.onboarding.allSet}
         style={{
           marginVertical: 60,
           marginBottom: 20,

@@ -111,8 +111,8 @@ export const PasswordInput: React.FC<PasswordInputType> = ({
                 backgroundColor: !touched
                   ? Colors.defaultGray
                   : i >= validationResults
-                  ? Colors.success
-                  : Colors.error,
+                    ? Colors.success
+                    : Colors.error,
                 height: 4,
                 borderRadius: 4,
                 marginRight: i === 0 ? 0 : 8,

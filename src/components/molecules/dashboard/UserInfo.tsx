@@ -100,7 +100,7 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
       <View style={styles.container}>
         <View>
           <View style={styles.header}>
-            <Image source={{ uri: avatar }} style={styles.avatar} />
+            <Image source={avatar} style={styles.avatar} />
             <View style={styles.userInfoContainer}>
               <Text style={styles.userNameText}>{user?.firstname}</Text>
               <View style={{ marginVertical: 1 }} />

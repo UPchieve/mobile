@@ -2,6 +2,7 @@ import Posthog from 'posthog-react-native'
 import Gleap from 'react-native-gleapsdk'
 import { JsonValue } from 'posthog-react-native/build/esm/bridge'
 import { Student } from '../models/user'
+import { posthogConfig } from '../../config'
 
 type UserProperties = {
   userType: 'student' | 'volunteer'
@@ -14,32 +15,34 @@ type UserProperties = {
   schoolPartner?: string
 }
 
-export function identify(user: Student) {
+const posthog = Posthog.initAsync(posthogConfig.token, posthogConfig.settings)
+
+export async function identify(user: Student) {
   const props = getUserPropertiesFromUser(user)
-  Posthog.identify(user.id, props)
+  ;(await posthog).identify(user.id, props)
   /* @ts-ignore */
   Gleap.identify(user.id, props)
   Gleap.setCustomData('userType', props.userType)
 }
 
-export function updateUser(update: JsonValue) {
-  Posthog.capture('USER_UPDATED', {
+export async function updateUser(update: JsonValue) {
+  ;(await posthog).capture('USER_UPDATED', {
     $set: update,
   })
 }
 
-export function captureEvent(name: string, properties?: JsonValue) {
+export async function captureEvent(name: string, properties?: JsonValue) {
   if (properties) {
-    Posthog.capture(name, {
+    ;(await posthog).capture(name, {
       $set: properties,
     })
   } else {
-    Posthog.capture(name)
+    ;(await posthog).capture(name)
   }
 }
 
-export function reset() {
-  Posthog.reset()
+export async function reset() {
+  ;(await posthog).reset()
   Gleap.clearCustomData()
   Gleap.clearIdentity()
 }
@@ -47,7 +50,7 @@ export function reset() {
 function getUserPropertiesFromUser(user: Student): UserProperties {
   return {
     userType: 'student',
-    createdAt: user.createdAt.toISOString(),
+    createdAt: user.createdAt,
     totalSessions: user.pastSessions?.length ?? 0,
     isBanned: user.isBanned,
     isTestUser: user.isTestUser,

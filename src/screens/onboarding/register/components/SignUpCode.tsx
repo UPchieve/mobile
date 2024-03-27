@@ -37,9 +37,12 @@ export const SignUpCode: React.FC<SignUpCodeType> = ({ navigation }) => {
         const data = await authService.getStudentPartnerManifest(response)
         if (data.deactivated) {
           setShowInvalidCodeMessage(true)
-          captureEvent(ANALYTIC_EVENTS.STUDENT_VISITED_DEACTIVATED_PARTNER, {
-            partner: response,
-          })
+          await captureEvent(
+            ANALYTIC_EVENTS.STUDENT_VISITED_DEACTIVATED_PARTNER,
+            {
+              partner: response,
+            }
+          )
         } else
           navigation.navigate('WelcomeSignUpCode', {
             studentPartnerManifest: data,

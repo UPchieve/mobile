@@ -51,7 +51,7 @@ export const RulesScreen = () => {
   const currentRule = rules[currentRuleIndex]
   return (
     <View style={styles.container}>
-      <Image source={{ uri: currentRule.image }} style={styles.image} />
+      <Image source={currentRule.image} style={styles.image} />
       <View
         style={{
           alignItems: 'center',

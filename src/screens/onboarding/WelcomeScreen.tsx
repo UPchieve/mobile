@@ -19,7 +19,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenType> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Image
-          source={{ uri: ImageIndex.welcome }}
+          source={ImageIndex.welcome}
           style={{
             marginTop: 25,
             marginBottom: 20,

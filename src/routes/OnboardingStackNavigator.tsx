@@ -87,7 +87,7 @@ export const OnboardingStackNavigator = () => {
       initialRouteName="Welcome"
       screenOptions={{
         headerBackTitleVisible: false,
-        headerBackImageSource: { uri: ImageIndex.icons.goBack },
+        headerBackImageSource: ImageIndex.icons.goBack,
         contentStyle: {
           backgroundColor: Colors.white,
         },

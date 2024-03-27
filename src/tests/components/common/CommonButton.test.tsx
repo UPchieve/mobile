@@ -13,8 +13,11 @@ describe('CommonButton Tests', () => {
 
   it('onPress event', () => {
     const pressMethod = jest.fn(() => {})
-    const button = render(<CommonButton onPress={pressMethod} title="button" />)
-    fireEvent.press(button.container)
+    const { getByText } = render(
+      <CommonButton onPress={pressMethod} title="button" />
+    )
+    const button = getByText('button')
+    fireEvent.press(button)
     expect(pressMethod).toHaveBeenCalledTimes(1)
   })
 

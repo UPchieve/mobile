@@ -62,9 +62,7 @@ export const CommonButton: React.FC<ICommonButton> = ({
         >
           {title}
         </Text>
-        {rightIcon ? (
-          <Image style={styles.icon} source={{ uri: rightIcon }} />
-        ) : null}
+        {rightIcon ? <Image style={styles.icon} source={rightIcon} /> : null}
         {SvgIcon ? (
           <View style={{ marginLeft: 15 }}>
             <SvgIcon fill="white" />

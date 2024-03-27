@@ -38,7 +38,7 @@ export const RequestDeleteAccountScreen: React.FC<
         your email!
       </Text>
       <Image
-        source={{ uri: ImageIndex.onboarding.messageSent }}
+        source={ImageIndex.onboarding.messageSent}
         style={{
           marginVertical: 60,
           marginBottom: 39,

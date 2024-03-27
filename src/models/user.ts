@@ -18,7 +18,7 @@ export interface User {
   referralCode: string
   type: string
   heardFrom: string
-  createdAt: Date
+  createdAt: string
   schoolName: string
   gradeLevel: GRADES
   isSchoolPartner?: boolean
