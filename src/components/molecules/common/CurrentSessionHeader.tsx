@@ -71,24 +71,27 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
   useEffect(() => {
     console.log('new date', sessionState)
     if (isWaitingForVolunteer() && !waitingTimeout) {
-      const timeout = setTimeout(() => {
-        showPrompt({
-          title: 'We’re having trouble matching you with a coach',
-          text: 'We recommend you ending your session and trying again later.',
-          icon: SvgIcons.RobotIcon,
-          type: 'error',
-          confirmText: 'End',
-          onConfirm: () => {
-            navigate(true).then(() => {
-              navigation.navigate('DashboardScreen')
-            })
-          },
-          onCancel: () => {
-            showSecondAlertTroubleMatching()
-          },
-          cancelText: 'Keep Waiting',
-        })
-      }, 1000 * 60 * 15) // 15 mins.
+      const timeout = setTimeout(
+        () => {
+          showPrompt({
+            title: 'We’re having trouble matching you with a coach',
+            text: 'We recommend you ending your session and trying again later.',
+            icon: SvgIcons.RobotIcon,
+            type: 'error',
+            confirmText: 'End',
+            onConfirm: () => {
+              navigate(true).then(() => {
+                navigation.navigate('DashboardScreen')
+              })
+            },
+            onCancel: () => {
+              showSecondAlertTroubleMatching()
+            },
+            cancelText: 'Keep Waiting',
+          })
+        },
+        1000 * 60 * 15
+      ) // 15 mins.
       setWaitingTimeout(timeout)
     }
 
@@ -101,20 +104,23 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
   }, [sessionState])
 
   const showSecondAlertTroubleMatching = () => {
-    const timeout = setTimeout(() => {
-      showAlert({
-        title: 'We’re having trouble matching you with a coach',
-        text: 'Please try again later.',
-        icon: SvgIcons.RobotIcon,
-        type: 'information',
-        confirmText: 'Back to Dashboard',
-        onConfirm: () => {
-          navigate(true).then(() => {
-            navigation.navigate('DashboardScreen')
-          })
-        },
-      })
-    }, 1000 * 60 * 15)
+    const timeout = setTimeout(
+      () => {
+        showAlert({
+          title: 'We’re having trouble matching you with a coach',
+          text: 'Please try again later.',
+          icon: SvgIcons.RobotIcon,
+          type: 'information',
+          confirmText: 'Back to Dashboard',
+          onConfirm: () => {
+            navigate(true).then(() => {
+              navigation.navigate('DashboardScreen')
+            })
+          },
+        })
+      },
+      1000 * 60 * 15
+    )
     setWaitingTimeoutSecondAlert(timeout)
   }
 
@@ -208,7 +214,7 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
         <View style={styles.userContainer}>
           <Image style={styles.icon} source={renderImage()} />
           {/* <Image style={styles.icon} source={renderImage()} /> */}
-          <View style={styles.textWrapper}>
+          <View accessibilityLiveRegion="assertive" style={styles.textWrapper}>
             <Text style={styles.titleText}>{getTitleText()}</Text>
             <Text style={styles.inSessionText}>
               {!isWaitingForVolunteer()
@@ -218,7 +224,9 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
           </View>
         </View>
       ) : (
-        <Text style={styles.titleText}>Session Ended</Text>
+        <Text accessibilityLiveRegion="assertive" style={styles.titleText}>
+          Session Ended
+        </Text>
       )}
       {isSessionEnded(sessionState) && user.isVolunteer ? (
         <Pressable onPress={() => navigation.navigate('ReportSessionScreen')}>

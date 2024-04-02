@@ -171,7 +171,13 @@ export const DocEditorScreen: React.FC<DocEditorType> = ({
   return (
     <View style={[styles.root]}>
       <View style={[styles.customToolbar]}>
-        <TouchableOpacity style={styles.swapIcon} onPress={onSwitchPress}>
+        <TouchableOpacity
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Go To Chat"
+          style={styles.swapIcon}
+          onPress={onSwitchPress}
+        >
           <View>
             <SvgIcons.WordBubbleIcon stroke={'white'} width={27} height={24} />
             <View style={hasNotifications && styles.notificationRedBall} />

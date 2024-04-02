@@ -44,6 +44,9 @@ const Component: React.ForwardRefRenderFunction<TextInput, InputType> = (
         placeholderTextColor={Colors.disabledGray}
       />
       <TouchableOpacity
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Send message"
         onPress={() => onPress(value)}
         style={{ alignSelf: 'flex-end', marginBottom: 5.5 }}
       >

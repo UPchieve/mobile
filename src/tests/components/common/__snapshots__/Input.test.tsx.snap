@@ -3,8 +3,8 @@
 exports[`Input tests render correctly 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "borderColor": "#D8DEE6",
         "borderRadius": 4,
         "borderWidth": 1,
@@ -21,7 +21,7 @@ exports[`Input tests render correctly 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "flexDirection": "row",
         "paddingRight": 0,
@@ -30,16 +30,14 @@ exports[`Input tests render correctly 1`] = `
     }
   >
     <TextInput
-      allowFontScaling={true}
       onBlur={[Function]}
       onChangeText={[Function]}
       onFocus={[Function]}
       placeholderTextColor="#8B939F"
-      rejectResponderTermination={true}
       secureTextEntry={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#343440",
             "flex": 1,
             "fontFamily": "WorkSans",
@@ -49,7 +47,6 @@ exports[`Input tests render correctly 1`] = `
           false,
         ]
       }
-      underlineColorAndroid="transparent"
     />
   </View>
 </View>

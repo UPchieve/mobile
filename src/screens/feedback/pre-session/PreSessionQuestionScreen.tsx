@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import {
-  Dimensions,
+  useWindowDimensions,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -28,7 +28,6 @@ import {
   UserSurveySubmission,
 } from '../../../types/services/surveyServiceTypes'
 import { SurveyEmojiGroup } from '../../../components/molecules/survey/SurveyEmojiGroup'
-import { config } from '../../../../config'
 
 export type SelectPresessionItem = Pick<
   SurveyResponseDefinition,
@@ -45,7 +44,6 @@ type QuestionFCType = {
   onSelect: (value: SelectPresessionItem) => void
 } & SurveyQuestionDefinition
 
-const maxWidth = Dimensions.get('screen').width
 const Question: React.FC<QuestionFCType> = ({
   questionText,
   questionType,
@@ -58,8 +56,9 @@ const Question: React.FC<QuestionFCType> = ({
   totalSteps,
   currentStep,
 }) => {
+  const { width, height } = useWindowDimensions()
   return (
-    <View style={{ marginTop: 16, width: maxWidth }}>
+    <View style={{ marginTop: 16, width: width < height ? width : height }}>
       <View
         style={{
           paddingTop: 16,
@@ -77,7 +76,7 @@ const Question: React.FC<QuestionFCType> = ({
               }
               getImageSrc={(e) => {
                 let imageSrc = ''
-                if (config.baseUrl.includes('localhost'))
+                if (e.responseDisplayImage?.includes('localhost'))
                   imageSrc = e.responseDisplayImage?.replace(
                     'https',
                     'http'
@@ -241,7 +240,13 @@ export const PreSessionQuestionScreen: React.FC<
           <View
             style={{ flexDirection: 'row', padding: 20, alignItems: 'center' }}
           >
-            <Text style={styles.questionText}>
+            <Text
+              style={styles.questionText}
+              accessible={true}
+              accessibilityLabel={`Question ${currentQuestionIndex + 1} of ${
+                survey.length
+              }`}
+            >
               {' '}
               Question {currentQuestionIndex + 1}/{survey.length}
             </Text>

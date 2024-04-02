@@ -7,16 +7,23 @@ import { Separator } from '../common/Separator'
 
 type SessionFeedbackHeaderType = {
   onIconPress: () => void
+  iconAccessibilityLabel: string
 }
 export const SessionFeedbackHeader: React.FC<SessionFeedbackHeaderType> = ({
   onIconPress,
+  iconAccessibilityLabel,
 }) => {
   return (
     <>
       <View style={styles.container}>
         <View />
         <Text style={styles.text}>Session Feedback</Text>
-        <TouchableOpacity onPress={onIconPress}>
+        <TouchableOpacity
+          accessible={true}
+          accessibilityRole={'button'}
+          accessibilityLabel={iconAccessibilityLabel}
+          onPress={onIconPress}
+        >
           <HouseIcon />
         </TouchableOpacity>
       </View>

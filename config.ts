@@ -1,28 +1,16 @@
-import {
-  MARKETING_URL,
-  WEBSOCKET_URL,
-  WHITEBOARD_WEBSOCKET_URL,
-  BASE_URL,
-  VERSION_URL,
-  VERSION_RELEASE,
-  POSTHOG_TOKEN,
-  POSTHOG_HOST,
-  GLEAP_TOKEN,
-} from 'react-native-dotenv'
-
 const Config = {
   app: {
-    marketingUrl: MARKETING_URL,
-    webSocketUrl: WEBSOCKET_URL,
-    whiteboardSocketUrl: WHITEBOARD_WEBSOCKET_URL,
-    baseUrl: BASE_URL,
-    versionUrl: VERSION_URL,
-    versionRelease: VERSION_RELEASE,
+    marketingUrl: process.env.EXPO_PUBLIC_MARKETING_URL,
+    webSocketUrl: process.env.EXPO_PUBLIC_WEBSOCKET_URL,
+    whiteboardSocketUrl: process.env.EXPO_PUBLIC_WHITEBOARD_WEBSOCKET_URL,
+    baseUrl: process.env.EXPO_PUBLIC_BASE_URL,
+    versionUrl: process.env.EXPO_PUBLIC_VERSION_URL,
+    versionRelease: process.env.EXPO_PUBLIC_VERSION_RELEASE,
   },
   posthog: {
-    token: POSTHOG_TOKEN,
+    token: process.env.EXPO_PUBLIC_POSTHOG_TOKEN,
     settings: {
-      host: POSTHOG_HOST,
+      host: process.env.EXPO_PUBLIC_POSTHOG_HOST,
       captureApplicationLifecycleEvents: true,
       captureDeepLinks: true,
       iOS: {
@@ -31,7 +19,7 @@ const Config = {
     },
   },
   gleap: {
-    token: GLEAP_TOKEN,
+    token: process.env.EXPO_PUBLIC_GLEAP_TOKEN,
   },
 }
 

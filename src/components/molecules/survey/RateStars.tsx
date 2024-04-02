@@ -36,6 +36,9 @@ export const RateStars = <T extends unknown>(
       {data.map((item, index) => (
         <TouchableOpacity
           key={item.responseId}
+          accessible={true}
+          accessibilityRole={'button'}
+          accessibilityLabel={item.responseText}
           onPress={() => {
             setValue(index)
             onPress(item)

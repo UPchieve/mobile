@@ -115,7 +115,7 @@ export const ContactUsScreen: React.FC<contactUsScreenType> = ({
           {/* <TouchableOpacity onPress={() => navigation.canGoBack() && navigation.goBack()}>
                     <Image
                         style={{width: 20, height: 20}}
-                        source={ImageIndex.icons.goBack}/>
+                        source={ImageIndex.icons.goBack} />
                 </TouchableOpacity> */}
           <View
             style={{

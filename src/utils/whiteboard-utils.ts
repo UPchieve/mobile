@@ -1,11 +1,11 @@
-import { ImagePickerInfo } from '../interfaces/sessionInterfaces'
+import { ImagePickerAsset } from 'expo-image-picker'
 import { getFileInfo, isLessThanTheMB } from './file-system-utils'
 
 export async function isValidWhiteboardImageUpload(
-  image: ImagePickerInfo
+  image: ImagePickerAsset
 ): Promise<void> {
   const fileInfo = await getFileInfo(image.uri)
-  if (!fileInfo.size) {
+  if (fileInfo.exists === false) {
     throw new Error("Can't select this file as the size is unknown.")
   }
 

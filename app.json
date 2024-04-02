@@ -3,7 +3,7 @@
     "name": "UPchieve",
     "slug": "upchieve-app",
     "scheme": "com.upchieve.app",
-    "version": "2.8.0",
+    "version": "2.9.7",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -12,10 +12,12 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/cdcdb1c0-12ce-4ead-8fce-dcae0af1a5f3"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
@@ -23,18 +25,27 @@
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
+      "buildNumber": "3",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "bundleIdentifier": "org.upchieve.mobile"
     },
     "android": {
+      "versionCode": 209009,
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#16D2AA"
       },
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
-      ]
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_IMAGES"
+      ],
+      "blockedPermissions": ["com.google.android.gms.permission.AD_ID"],
+      "package": "org.upchieve.mobile"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -42,12 +53,37 @@
     "plugins": [
       "@react-native-firebase/app",
       "@react-native-firebase/crashlytics",
+      "@react-native-firebase/messaging",
       [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you add them into the whiteboard!."
         }
-      ]
-    ]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 23,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4",
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "expo-localization"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cdcdb1c0-12ce-4ead-8fce-dcae0af1a5f3"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }

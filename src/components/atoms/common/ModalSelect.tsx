@@ -1,13 +1,20 @@
 import React, { useImperativeHandle, useState } from 'react'
 import { useRef } from 'react'
-import { Pressable, Text, View } from 'react-native'
-import { Modalize } from 'react-native-modalize'
+import {
+  AccessibilityInfo,
+  Pressable,
+  Text,
+  View,
+  findNodeHandle,
+} from 'react-native'
+import { Modalize, useModalize } from 'react-native-modalize'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'
 import { randomString } from '../../../utils/utils'
 
 type ModalSelectorType = {
   title?: string
+  accessibilityTitle?: string
   data?: any[]
   getLabel?: (obj: any) => string
   onClose?: () => void
@@ -18,6 +25,7 @@ type ModalSelectOpenProps = {
   data?: any[]
   getLabel?: (obj: any) => string
   title?: string
+  accessibilityTitle?: string
 }
 
 export type ModalSelect = {
@@ -32,17 +40,35 @@ const Component: React.ForwardRefRenderFunction<
   // const { title, data, getLabel } = props;
 
   const [title, setTitle] = useState<string>(props.title || '')
+  const [accessibilityTitle, setAccessibilityTitle] = useState<string>(
+    props.accessibilityTitle || ''
+  )
   const [data, setData] = useState<any[]>(props.data || [])
   const [getLabel, setGetLabel] = useState<(obj: any) => string>(() =>
     !!props.getLabel ? props.getLabel : (e: any) => e
   )
   const [onSelect, setOnSelect] = useState<(selected?: any) => any>()
-  const modalizeRef = useRef<Modalize>(null)
+  const { ref: modalizeRef, open } = useModalize()
+  const headerRef = useRef<View>(null)
+
+  const setFocus = (element: View | null) => {
+    if (element === null) {
+      // early exit
+      return
+    }
+    const reactTag = findNodeHandle(element)
+    if (reactTag) {
+      AccessibilityInfo.setAccessibilityFocus(reactTag)
+    }
+  }
+
   useImperativeHandle(ref, () => ({
     open: (params: ModalSelectOpenProps) => {
-      modalizeRef.current?.open()
+      open()
       params.data && setData(params.data)
       params.title && setTitle(params.title)
+      params.accessibilityTitle &&
+        setAccessibilityTitle(params.accessibilityTitle)
       params.getLabel && setGetLabel((_: any) => params.getLabel!)
       setOnSelect((_: any) => params.onSelect)
     },
@@ -52,9 +78,14 @@ const Component: React.ForwardRefRenderFunction<
     <Modalize
       threshold={20}
       panGestureComponentEnabled
+      onOpened={() => setFocus(headerRef.current)}
       onClose={() => props?.onClose && props?.onClose()}
       HeaderComponent={
         <Text
+          accessible={true}
+          accessibilityRole="header"
+          accessibilityLabel={accessibilityTitle}
+          ref={headerRef}
           style={{
             marginTop: 20,
             fontFamily: FontIndex.WorkSans.Medium,
@@ -82,6 +113,8 @@ const Component: React.ForwardRefRenderFunction<
               }}
             >
               <Pressable
+                accessible={true}
+                accessibilityRole="button"
                 style={{
                   alignItems: 'flex-start',
                   justifyContent: 'center',

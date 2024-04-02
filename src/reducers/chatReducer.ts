@@ -1,3 +1,4 @@
+import { AccessibilityInfo } from 'react-native'
 import {
   ChatIncomingData,
   ChatoutcomingData,
@@ -136,6 +137,8 @@ const handleChatIncoming = (
     user: payload.user,
     seen: payload.seen === undefined ? true : payload.seen,
   }
+
+  AccessibilityInfo.announceForAccessibility(payload.contents)
 
   if (!newMessage) {
     const penUltimate = { ...state[state.length - 1], lastMessage: false }

@@ -18,8 +18,8 @@ export const ChatNewerChatButton: React.FC<ChatNewerChatButtonType> = ({
         {newerChats > 1
           ? newerChats + ' new messages'
           : newerChats === 1
-          ? newerChats + ' new message'
-          : null}
+            ? newerChats + ' new message'
+            : null}
       </Text>
     </TouchableOpacity>
   )

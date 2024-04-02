@@ -79,8 +79,8 @@ export const CheckEligibility: React.FC<CheckEligibilityType> = ({
       })
 
       response
-        ? captureEvent(EVENTS.ELIGIBILITY_ELIGIBLE)
-        : captureEvent(EVENTS.ELIGIBILITY_INELIGIBLE)
+        ? await captureEvent(EVENTS.ELIGIBILITY_ELIGIBLE)
+        : await captureEvent(EVENTS.ELIGIBILITY_INELIGIBLE)
 
       navigation.navigate('EligibleResult', {
         eligible: response,
