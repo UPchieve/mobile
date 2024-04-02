@@ -4,8 +4,6 @@ import { config } from '../../config'
 import * as ImagePicker from 'expo-image-picker'
 import { Platform } from 'react-native'
 import { sessionService } from '../../src/services/sessionService'
-import { isLessThanTheMB, getFileInfo } from '../../src/utils/file-system-utils'
-import { ImagePickerInfo } from '../../src/interfaces/sessionInterfaces'
 
 const html = `
 <html>
@@ -41,19 +39,19 @@ const html = `
             defaultSmoothness: 'sharpest',
             defaultZoom: 'width'
         });
-        
+
         zwibbler.setPaperSize(1000, 2800);
         zwibbler.removeSelectionHandles();
-        
+
         const imageUrl = 'https://i.postimg.cc/MTnNZDZ7/Trash.png';
         zwibbler.addSelectionHandle(1.0, 0.0, 20, -30, imageUrl, function (pageX, pageY) {
             zwibbler.deleteSelection();
         });
-        
-        
+
+
         const rotateIConUrl = 'https://i.postimg.cc/Qxg8rXyX/Group-1086352.png';
         zwibbler.addSelectionHandle(0.5, 0.0, 0, -30, rotateIConUrl, 'rotate');
-        
+
         /* Position scaling handles at all four corners of the selection. */
         zwibbler.addSelectionHandle(0.0, 0.0, 0, 0, '', 'scale')
         zwibbler.addSelectionHandle(1.0, 0.0, 0, 0, '', 'scale')
@@ -63,7 +61,7 @@ const html = `
         zwibbler.addSelectionHandle(1.0, 0.5, 0, 0, '', 'scale')
         zwibbler.addSelectionHandle(0.5, 1.0, 0, 0, '', 'scale')
         zwibbler.addSelectionHandle(0.0, 0.5, 0, 0, '', 'scale')
-        
+
         zwibbler.on("tool-changed", function(toolName) {
           window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: 'tool-changed', eventValue: toolName }));
         });
@@ -88,7 +86,7 @@ const html = `
         zwibbler.on('connected', () => {
           zwibbler.useBrushTool();
         });
-        
+
         const addText = (text) => {
             zwibbler.begin();
             const node = zwibbler.createNode("TextNode", {
@@ -190,7 +188,7 @@ export class ZwibblerManager {
 
   uploadImage = async (
     sessionId: string,
-    image: ImagePickerInfo
+    image: ImagePicker.ImagePickerAsset
   ): Promise<void> => {
     try {
       const response = await sessionService.getSessionPhotoUploadUrl(sessionId)
@@ -208,8 +206,8 @@ export class ZwibblerManager {
         // rn-fetch-blob instead
         // TODO: remove
         const data = new FormData()
+        // @ts-ignore
         data.append('file', {
-          // @ts-expect-error
           name: fileUri,
           type: fileType,
           uri: fileUri,

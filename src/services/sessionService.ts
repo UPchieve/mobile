@@ -33,7 +33,7 @@ const newSession = async (
     sessionSubTopic,
   })
 
-  captureEvent(EVENTS.SESSION_REQUESTED, {
+  await captureEvent(EVENTS.SESSION_REQUESTED, {
     subject: sessionSubTopic,
   })
   return data.sessionId
@@ -73,7 +73,7 @@ const endSession = async (
     sessionId,
   })
 
-  captureEvent(EVENTS.SESSION_ENDED)
+  await captureEvent(EVENTS.SESSION_ENDED)
   console.log('response', data)
   return data
 }

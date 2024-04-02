@@ -5,10 +5,11 @@
   "build": {
     "development": {
       "distribution": "internal",
-      "releaseChannel": "dev-v1",
+      "channel": "dev-v1",
       "android": {
         "buildType": "apk",
-        "gradleCommand": ":app:assembleDebug"
+        "gradleCommand": ":app:assembleDebug",
+        "image": "latest"
       },
       "ios": {
         "buildConfiguration": "Debug"
@@ -16,14 +17,40 @@
     },
     "beta": {
       "distribution": "internal",
-      "releaseChannel": "beta-v2",
+      "channel": "beta-v2",
+      "env": {
+        "EXPO_PUBLIC_MARKETING_URL": "https://upchieve.org",
+        "EXPO_PUBLIC_POSTHOG_HOST": "https://p.upchieve.org",
+        "EXPO_PUBLIC_WEBSOCKET_URL": "wss://app.upchieve.org",
+        "EXPO_PUBLIC_WHITEBOARD_WEBSOCKET_URL": "wss://app.upchieve.org",
+        "EXPO_PUBLIC_BASE_URL": "https://app.upchieve.org",
+        "EXPO_PUBLIC_VERSION_URL": "https://cdn.upchieve.org/mobile-version/version.json",
+        "EXPO_PUBLIC_VERSION_RELEASE": "2.9.7",
+        "EXPO_PUBLIC_POSTHOG_TOKEN": "JRMZGA_RF-346IQfReUvbuoVD3Q94BM7Jij8Nk4dQbA",
+        "EXPO_PUBLIC_GLEAP_TOKEN": "FNaCZwR9rmIeOeRYPntkCtsrwzH1lZMT"
+      },
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "image": "latest"
       }
     },
     "production": {
-      "releaseChannel": "prod-v2",
-      "distribution": "store"
+      "channel": "prod-v2",
+      "distribution": "store",
+      "android": {
+        "image": "latest"
+      },
+      "env": {
+        "EXPO_PUBLIC_MARKETING_URL": "https://upchieve.org",
+        "EXPO_PUBLIC_POSTHOG_HOST": "https://p.upchieve.org",
+        "EXPO_PUBLIC_WEBSOCKET_URL": "wss://app.upchieve.org",
+        "EXPO_PUBLIC_WHITEBOARD_WEBSOCKET_URL": "wss://app.upchieve.org",
+        "EXPO_PUBLIC_BASE_URL": "https://app.upchieve.org",
+        "EXPO_PUBLIC_VERSION_URL": "https://cdn.upchieve.org/mobile-version/version.json",
+        "EXPO_PUBLIC_VERSION_RELEASE": "2.9.7",
+        "EXPO_PUBLIC_POSTHOG_TOKEN": "JRMZGA_RF-346IQfReUvbuoVD3Q94BM7Jij8Nk4dQbA",
+        "EXPO_PUBLIC_GLEAP_TOKEN": "FNaCZwR9rmIeOeRYPntkCtsrwzH1lZMT"
+      }
     }
   },
   "submit": {

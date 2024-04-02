@@ -373,6 +373,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({
         onIconPress={() =>
           navigation.reset({ routes: [{ name: 'DashboardScreen' }] })
         }
+        iconAccessibilityLabel={'Return to Dashboard'}
       />
       <KeyboardAwareScrollView
         enableResetScrollToCoords={false}

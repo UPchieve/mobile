@@ -9,6 +9,9 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+.vscode/
+ios/
+android/
 
 # macOS
 .DS_Store
@@ -59,13 +62,9 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
-!debug.keystore
 
 # Bundle artifacts
 *.jsbundle
-
-# CocoaPods
-/ios/Pods/
 
 # Expo
 .expo/

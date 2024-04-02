@@ -33,10 +33,11 @@ const login = async (
     password,
   })
   if (data.user) {
-    identify(data.user._id, data.user.firstname, data.user.email, 'student')
-    return data.user.isVolunteer
-      ? (data.user as Volunteer)
-      : (data.user as Student)
+    if (data.user.isVolunteer) {
+      return data.user as Volunteer
+    }
+    await identify(data.user as Student)
+    return data.user as Student
   }
   return null
 }
@@ -44,10 +45,11 @@ const login = async (
 const getCurrentUser = async (): Promise<Student | Volunteer | null> => {
   const { data } = await http.get<{ user: User }>(`/api/user`)
   if (data.user) {
-    identify(data.user._id, data.user.firstname, data.user.email, 'student')
-    return data.user.isVolunteer
-      ? (data.user as Volunteer)
-      : (data.user as Student)
+    if (data.user.isVolunteer) {
+      return data.user as Volunteer
+    }
+    await identify(data.user as Student)
+    return data.user as Student
   }
   return null
 }
@@ -131,7 +133,7 @@ const validateSignInCode = async (
     }
   )
 
-  captureEvent(EVENTS.ACCOUNT_VERIFIED)
+  await captureEvent(EVENTS.ACCOUNT_VERIFIED)
   return data.studentPartnerKey
 }
 

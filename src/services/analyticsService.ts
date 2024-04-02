@@ -1,56 +1,61 @@
 import Posthog from 'posthog-react-native'
 import Gleap from 'react-native-gleapsdk'
 import { JsonValue } from 'posthog-react-native/build/esm/bridge'
-import { EVENTS } from '../types/services/analyticsServiceTypes'
+import { Student } from '../models/user'
+import { posthogConfig } from '../../config'
 
-export function identify(
-  userId: string,
-  name: string,
-  email: string,
-  type: string
-) {
-  Posthog.identify(userId, {
-    name,
-    email,
-  })
-  Gleap.setCustomData('userType', type)
+type UserProperties = {
+  userType: 'student' | 'volunteer'
+  createdAt: string
+  totalSessions: number
+  isBanned: boolean
+  isTestUser: boolean
+  gradeLevel?: string
+  partner?: string
+  schoolPartner?: string
 }
 
-export function updateUser(update: JsonValue) {
-  Posthog.capture('USER_UPDATED', {
+const posthog = Posthog.initAsync(posthogConfig.token, posthogConfig.settings)
+
+export async function identify(user: Student) {
+  const props = getUserPropertiesFromUser(user)
+  ;(await posthog).identify(user.id, props)
+  /* @ts-ignore */
+  Gleap.identify(user.id, props)
+  Gleap.setCustomData('userType', props.userType)
+}
+
+export async function updateUser(update: JsonValue) {
+  ;(await posthog).capture('USER_UPDATED', {
     $set: update,
   })
 }
 
-export function captureEvent(name: string, properties?: JsonValue) {
+export async function captureEvent(name: string, properties?: JsonValue) {
   if (properties) {
-    Posthog.capture(name, {
+    ;(await posthog).capture(name, {
       $set: properties,
     })
   } else {
-    Posthog.capture(name)
+    ;(await posthog).capture(name)
   }
 }
 
-export function reset() {
-  Posthog.reset()
+export async function reset() {
+  ;(await posthog).reset()
   Gleap.clearCustomData()
   Gleap.clearIdentity()
 }
 
-interface UserProperties {
-  userType: string
-  partner?: string
-}
-
-export function registerVolunteer(volunteer: any) {
-  const userProperties: UserProperties = {
-    userType: 'volunteer',
+function getUserPropertiesFromUser(user: Student): UserProperties {
+  return {
+    userType: 'student',
+    createdAt: user.createdAt,
+    totalSessions: user.pastSessions?.length ?? 0,
+    isBanned: user.isBanned,
+    isTestUser: user.isTestUser,
+    gradeLevel: user.gradeLevel,
+    partner: user.studentPartnerOrg,
+    schoolPartner: user.isSchoolPartner ? user.highschool : undefined,
   }
-  if (volunteer.volunteerPartnerOrg)
-    userProperties.partner = volunteer.volunteerPartnerOrg
-  updateUser(userProperties as unknown as JsonValue)
-  captureEvent(EVENTS.ACCOUNT_CREATED, {
-    event: EVENTS.ACCOUNT_CREATED,
-  })
 }

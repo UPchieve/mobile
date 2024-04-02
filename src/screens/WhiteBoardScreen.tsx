@@ -141,6 +141,9 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
   const renderSwapToChatIcon = () => {
     return (
       <Pressable
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Go to Chat"
         style={styles.chatIconWrapper}
         onPress={() => {
           zwibblerManager?.useBrushTool()

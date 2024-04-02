@@ -10,11 +10,14 @@ describe('Input tests', () => {
     const tree = renderer.create(<Input />).toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('onChangeText event should be proppagated to TextInput', () => {
+  it('onChangeText event should be propagated to TextInput', () => {
     const onChangeParameter = 'test'
     const onChangeText = jest.fn((text: string) => {})
-    const input = render(<Input onChangeText={onChangeText} />)
-    fireEvent.changeText(input.container, onChangeParameter)
+    const { getByTestId } = render(
+      <Input onChangeText={onChangeText} testID="input" />
+    )
+    const input = getByTestId('input')
+    fireEvent.changeText(input, onChangeParameter)
     expect(onChangeText).toHaveBeenCalledWith(onChangeParameter)
   })
   it('When Input is in focus should change borders to information blue', () => {
