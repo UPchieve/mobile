@@ -17,6 +17,8 @@ import { SvgIcons } from '../../../../assets/IndexIcons'
 import { AuthContext } from '../../../providers/AuthProvider'
 import { authService } from '../../../services/authService'
 import { Separator } from '../../atoms/common/Separator'
+import Gleap from 'react-native-gleapsdk'
+
 type UserInfoType = {
   dismiss: () => void
   navigation: DrawerNavigationHelpers
@@ -135,8 +137,7 @@ export const UserInfo: React.FC<UserInfoType> = ({ dismiss, navigation }) => {
               {
                 icon: SvgIcons.EmailIcon,
                 title: 'Contact Us',
-                action: () =>
-                  navigation.navigate('ContactUs', { screen: 'Home' }),
+                action: () => Gleap.open(),
               },
             ]}
             renderItem={({ item }) =>

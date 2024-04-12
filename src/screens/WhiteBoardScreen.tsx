@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
-import {
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Pressable,
-  StatusBar,
-  Platform,
-} from 'react-native'
+import { TouchableOpacity, View, StyleSheet, Pressable } from 'react-native'
 import { SvgIcons } from '../../assets/IndexIcons'
 import {
   IZwibblerTextModal,
@@ -268,12 +261,6 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
           paddingRight: insets.right,
           position: 'relative',
         },
-        // notchPosition === 'LEFT'
-        //     ? {
-        //           paddingLeft: insets.left,
-        //       }
-        //     : { paddingRight: insets.right, paddingLeft: insets.left },
-        Platform.OS === 'android' && { top: StatusBar.currentHeight },
       ]}
     >
       {isLoadingImage && <LoadingOverlay />}
