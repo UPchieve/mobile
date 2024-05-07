@@ -21,21 +21,19 @@ Prerequisites: For the iOS portion of this project, you will need [Xcode](https:
    npm install
    npm install -g expo-cli
    ```
-3. (iOS) Navigate to ios directory and install iOS dependencies.
+3. On latest beta, run:
    ```
-   cd ios && pod install
+   npx expo install
+   npx expo prebuild
    ```
-4. (Android) Create a debug [keystore](https://developer.android.com/studio/publish/app-signing#generate-key) using the parameters as defined in `android/app/build.gradle` under `signingConfigs.debug`. Place it in the `android/app` directory.
-5. (Android) Select JDK 11.
-   - Go to Settings, then search for "Gradle" (under "Build, Execution, Deployment" > "Build Tools" > "Gradle").
-   - For "Gradle JDK", select Java 11. You might have to download it.
-6. Run project for either ios or android.
+4. Run project for either ios or android.
    ```
    npm run ios:development
    npm run android:development
    ```
    NOTE: An Android emulator resolves `localhost` (a.k.a `127.0.0.1`) to the device's own loopback interface.
    You can use the special alias `10.0.2.2` to reach your local web development server.
+   Local environment variables (env.development) are defaulted to local android, so make sure to comment them out and uncomment iOS variables for local development in iOS.
 
 ## Updating Dependencies
 

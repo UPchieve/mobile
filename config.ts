@@ -21,9 +21,14 @@ const Config = {
   gleap: {
     token: process.env.EXPO_PUBLIC_GLEAP_TOKEN,
   },
+  newrelic: {
+    iosToken: process.env.EXPO_PUBLIC_NEWRELIC_IOS_TOKEN,
+    androidToken: process.env.EXPO_PUBLIC_NEWRELC_ANDROID_TOKEN,
+  },
 }
 
 const getConfig = () => Config.app
 export const config = getConfig()
 export const posthogConfig = Config.posthog
 export const gleapConfig = Config.gleap
+export const newrelicConfig = Config.newrelic
