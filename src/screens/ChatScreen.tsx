@@ -42,6 +42,8 @@ import { useKeyboard } from '@react-native-community/hooks'
 import { useOrientation } from '../hooks/useOrientation'
 import * as messageService from '../services/messageService'
 import { Alert } from 'react-native'
+import { sessionService } from '../services/sessionService'
+import { SessionMessage } from '../types/socketTypes'
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
@@ -289,7 +291,8 @@ export const ChatScreen: React.FC<Props> = ({
     }
 
     const messages: (ChatIncomingData | ChatoutcomingData)[] = []
-    sessionState!.messages.forEach((message) => {
+    const latestSessionMessages = await getLatestSessionMessages()
+    latestSessionMessages.forEach((message: SessionMessage) => {
       if (message.user === user._id) {
         messages.push({
           contents: message.contents,
@@ -313,6 +316,16 @@ export const ChatScreen: React.FC<Props> = ({
         messages: messages,
       },
     })
+  }
+
+  const getLatestSessionMessages = async (): Promise<SessionMessage[]> => {
+    try {
+      const sess = await sessionService.getCurrentSession()
+      return sess.data.messages
+    } catch (err) {
+      console.error('ChatScreen: Could not fetch latest session messages.')
+      return sessionState?.messages ?? []
+    }
   }
 
   const renderChatElement = ({ item }: { item: ChatType }) => {
