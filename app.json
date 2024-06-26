@@ -3,7 +3,7 @@
     "name": "UPchieve",
     "slug": "upchieve-app",
     "scheme": "com.upchieve.app",
-    "version": "2.9.8",
+    "version": "2.9.12",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -32,7 +32,7 @@
       "bundleIdentifier": "org.upchieve.mobile"
     },
     "android": {
-      "versionCode": 209009,
+      "versionCode": 209013,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -44,7 +44,10 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.READ_MEDIA_IMAGES"
       ],
-      "blockedPermissions": ["com.google.android.gms.permission.AD_ID"],
+      "blockedPermissions": [
+        "com.google.android.gms.permission.AD_ID",
+        "android.permission.ACTIVITY_RECOGNITION"
+      ],
       "package": "org.upchieve.mobile"
     },
     "web": {
@@ -64,7 +67,7 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 23,
+            "minSdkVersion": 24,
             "compileSdkVersion": 34,
             "targetSdkVersion": 34,
             "buildToolsVersion": "34.0.0"
@@ -75,7 +78,8 @@
           }
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "newrelic-react-native-agent"
     ],
     "extra": {
       "eas": {
