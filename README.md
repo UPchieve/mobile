@@ -19,7 +19,7 @@ Prerequisites: For the iOS portion of this project, you will need [Xcode](https:
 2. Navigate to root directory of the repository and run:
    ```
    npm install
-   npm install -g expo-cli
+   npm install -g expo-cli eas-cli
    ```
 3. On latest beta, run:
    ```
@@ -70,14 +70,14 @@ For Android, you'll need to add the release keystore locally. You can download t
 
 All development branches should be branched off of and merge into `beta`.
 
-## Release Process
+# Release Process
 
-NOTE: This section and the process is under construction.
-
-- [ ] We need to create an Android app with ID `org.upchieve.beta`. I don't know how this worked previously without it.
-- [ ] Revert the app ID changes accidentally done in [this MR](https://gitlab.com/upchieve/midtown/-/commit/578e8cb2391953e269870b0b0b954a03c835715a)
-- [ ] For over-the-air updates, we should: 1. update Expo, 2. no longer use legacy channels.
-- [ ] Ideally, set up workstream so Linux users can also build/develop and deploy.
+> Notes for the future:
+>
+> - [ ] We need to create an Android app with ID `org.upchieve.beta`. I don't know how this worked previously without it.
+> - [ ] Revert the app ID changes accidentally done in [this MR](https://gitlab.com/upchieve/midtown/-/commit/578e8cb2391953e269870b0b0b954a03c835715a)
+> - [ ] For over-the-air updates, we should: 1. update Expo, 2. no longer use legacy channels.
+> - [ ] Ideally, set up workstream so Linux users can also build/develop and deploy.
 
 1. Once a set of changes is accepted for release, create and merge a change on `beta` bumping to the next version.
    - It's easiest to simply do a global search for the current version.
@@ -98,61 +98,62 @@ NOTE: This section and the process is under construction.
    $ git push
    ```
 
-See below for "over-the-air" updates or further platform specific instructions.
+Once that's done, you have the choice of going through the full release process or the over-the-air update process. These are described below.
 
-### Expo Updates
+## Full release process
 
-If the changes made did not touch any of the underlying iOS or Android packages (i.e. _only_ React Native changes), you are able to perform an "over-the-air" update with Expo.
-Otherwise, you will have to release following the platform specific instructions below.
+The full release process requires:
 
-NOTE: This has not been recently tested, and since we are well behind the most recent Expo SDK version, we are using legacy release channels.
-There are also additional checks we should probably include if we do actually want to continue using this service, for example `Updates.isEmergencyLaunch`.
+- Building app bundles for iOS and Android
+- Uploading them to their respective app stores
+- Submitting them for review
 
-1. Run `npm run publish:production` to publish the updates on EAS.
+### Creating the bundle
 
-### iOS
+1. Check out the branch with the changes you want to release
+2. `expo login` if you haven't already
+3. `npx expo install`
+4. `npx expo prebuild`
+5. `npx eas build --profile production`
+   - When prompted, allow it to sign into the app store.
+   - When prompted to choose which platforms to build for, select All.
 
-We create the Archive and upload it to App Store Connect using Xcode.
+The build process will take several minutes. You can log into Expo to view your progress. You will also download the android .aab and iOS .ipa files from here when the build is finished. These are the files we'll upload to [Google Play Console](https://play.google.com/console/developers) and [App Store Connect](https://appstoreconnect.apple.com/apps).
 
-Prerequisites: To get the signing certificate, you will need to be logged in to App Store Connect withing XCode. Whenever asked for the signing config, select the UPchieve team.
+### Uploading to the app stores
 
-1. Update the version (if not already done):
-   - Select "upchieveapp" from the left sidebar, select "upchieveapp" under "TARGETS", then select the "General" tab.
-   - Under "Identity" section, update the Version (i.e. the semantic version) and Build (will probably always be `1`).
-2. At the top of Xcode in the status bar area, make sure you have selected `Any iOS Device` as the build target. You can also update this by selecting "Product" > "Destination" > "Any iOS Device" in the top bar menu.
-3. Create the Archive by selecting "Product" > "Archive" in the top bar menu.
-4. Once that completes, the Archive menu will appear. Make sure the Archive you just created is selected, then validate the app.
-   - Click "Validate App", select the "Validate" method, then click "Validate".
-5. Once validation is complete, select "Distribute App" button.
-   - Select "Upload for TestFlight (Internal Testing Only)".
-6. Go to [App Store Connect](https://appstoreconnect.apple.com) and select "UPchieve" app,
-7. Select the "TestFlight" tab. If you don't yet see the version you uploaded, refresh the page (it sometimes takes a few minutes). Make sure there isn't any additional configuration needed.
-8. Test users will receive an email from TestFlight to install the test build.
-9. Once tested, go back to the Archive menu, click "Distribute App" button again while you have the proper build selected, but this time select "TestFlight & App Store". The process will automatically increase the build number for you.
-10. In App Store Connect, on the "App Store" tab, click the blue plus button to create a new submission. In the "Build" section, again click the blue plus button, and select the build you just uploaded.
-11. Look through the submission form to see if there is anything else to update, then save and submit for review.
+For Android, you need to upload the new app version to Google Play Console:
 
-### Android
+- Go to Google Play Console and select the UPchieve app.
+- Under Testing, select "Internal testing" -> "Create new release"
+- Upload the .aab file from the previous step. Update the release version if it doesn't do so automatically. Finish the release form.
 
-We use EAS to build and sign the production aab, then upload it to Play Console.
+For iOS, you have 3 options to upload your test build:
 
-Prerequisites: You need to be logged into Expo (`expo login`) and have the eas-cli.
+- The simplest is to just use [Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12) (Just drag your .ipa file into Transporter)
+- Alternatively, you can use the eas-cli: `eas submit --platform ios` (TODO: Test for Android)
+- A third option is to use xcode. This will involve also building the iOS bundle, so if you choose this option, you can skip building for iOS in the above Expo step.
+  1. Update the version (if not already done):
+     - Select "upchieveapp" from the left sidebar, select "upchieveapp" under "TARGETS", then select the "General" tab.
+     - Under "Identity" section, update the Version (i.e. the semantic version) and Build (will probably always be `1`).
+  2. At the top of Xcode in the status bar area, make sure you have selected `Any iOS Device` as the build target. You can also update this by selecting "Product" > "Destination" > "Any iOS Device" in the top bar menu.
+  3. Create the Archive by selecting "Product" > "Archive" in the top bar menu.
+  4. Once that completes, the Archive menu will appear. Make sure the Archive you just created is selected, then validate the app.
+  - Click "Validate App", select the "Validate" method, then click "Validate".
+  5. Once validation is complete, select "Distribute App" button.
+  6. Select "Upload for TestFlight (Internal Testing Only)".
 
-1. Update the `versionCode` and `versionName` in `android/app/build.gradle` (if not already done).
-2. Run `eas build --profile production --platform android`.
-   - EAS will build and sign the app. Once completed, a link to download the aab will be output in the terminal (or you can always download the bundle from the Expo UI).
-3. Go to the Google Play Console, and select the `org.upchieve.mobile` app.
-4. On the sidebar, select "Testing" > "Internal Testing".
-5. Click "Create new release".
-6. Follow the instructions on the site (as of writing, is the following):
-   - Upload the aab.
-   - Enter a release name (follow previous conventions) and release notes.
-   - Click "Next".
-   - Verify there are no errors (if there are, you will not be able to proceed, and will need to start again. For example, if our target SDK does not comply with the current minimum).
-   - Verify there are no devices listed under "Devices no longer supported".
-   - Click "Save and publish".
-7. Once tested, go back to "Testing" > "Internal Testing", then click "Promote Release" > "Production".
-8. Again, follow instructions, and Publish.
+### Testing
+
+In Android's Internal Testing and Apple's TestFlight, make sure you have added yourself as a tester. Then, download and test the app on a physical device OR use [LambdaTest](https://www.lambdatest.com/)'s Real Device Testing.
+
+### Publishing the release
+
+Once testing is done, create a new release on production in Google Play Console / App Store Connect. Use the same build as before. Then, submit the releases for review.
+
+## Over-the-air updates :construction:
+
+TODO
 
 ## Folders and Structure
 
