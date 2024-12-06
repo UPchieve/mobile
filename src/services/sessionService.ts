@@ -39,18 +39,6 @@ const newSession = async (
   return data.sessionId
 }
 
-const sendPreSesionFeedback = async (
-  sessionId: string,
-  payload: any
-): Promise<void> => {
-  await http.post<{ sessionId: string }>(
-    `/api/survey/presession/${sessionId}`,
-    {
-      responseData: payload,
-    }
-  )
-}
-
 const getPreSessionGoal = async (sessionId: string): Promise<string> => {
   const response = await http.get(`/api/survey/presession/${sessionId}/goal`)
   return response.data.goal
@@ -115,7 +103,6 @@ export const sessionService = {
   getPostsessionSurveyDefinition,
   endSession,
   newSession,
-  sendPreSesionFeedback,
   sendContactForm,
   getPreSessionGoal,
   getSessionPhotoUploadUrl,
