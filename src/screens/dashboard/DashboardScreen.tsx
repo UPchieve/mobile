@@ -17,7 +17,6 @@ import { Colors } from '../../../assets/Colors'
 import { FontIndex } from '../../../assets/FontIndex'
 import { ImageIndex } from '../../../assets/ImageIndex'
 import { ModalSelect } from '../../components/atoms/common/ModalSelect'
-import { DashboardMessage } from '../../components/atoms/dashboard/DashboardMessage'
 import { FullScreenSessionState } from '../../components/molecules/dashboard/FullScreenSessionState'
 import { SubjectCard } from '../../components/molecules/dashboard/SubjectCard'
 import { Topic } from '../../interfaces/dashboardInterfaces'
@@ -25,24 +24,9 @@ import { AuthContext } from '../../providers/AuthProvider'
 import { MainStackParamList } from '../../routes/MainStackNavigator'
 import { getSubjects } from '../../services/subjectsService'
 import { AllSubjectsWithTopics } from '../../types/services/subjectsServiceTypes'
-import { getCurrentHour } from '../../utils/utils'
 import { backOff } from 'exponential-backoff'
 import { LoadingOverlay } from '../../components/molecules/common/LoadingOverlay'
 import crashlytics from '@react-native-firebase/crashlytics'
-
-const currentHour = getCurrentHour()
-const messages = [
-  {
-    condition: (hour: number) => hour < 2 || hour >= 12,
-    message:
-      'This is a great time to make a request! We have plenty of coaches available between 12 pm - 2 am ET',
-  },
-  {
-    condition: (hour: number) => true,
-    message:
-      'We have very few coaches available right now. Try making requests between 12 pm - 2 am ET when possible',
-  },
-]
 
 type DashboardScreenType = DrawerScreenProps<
   MainStackParamList,
@@ -133,16 +117,6 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
     })
   }
 
-  const renderMessage = () => {
-    console.log(currentHour)
-
-    for (const message of messages) {
-      if (message.condition(currentHour)) {
-        return <DashboardMessage message={message.message} />
-      }
-    }
-  }
-
   if (userState.userState !== undefined) {
     return (
       <FullScreenSessionState
@@ -197,7 +171,6 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
           snapPoint={SCREEN_HEIGHT - 200}
           HeaderComponent={
             <View style={{ marginTop: 30 }}>
-              <View style={{ marginBottom: 20 }}>{renderMessage()}</View>
               <Text style={styles.chooseText}>
                 Choose a subject to get help with:
               </Text>
