@@ -80,7 +80,7 @@ All development branches should be branched off of and merge into `beta`.
 > - [ ] Ideally, set up workstream so Linux users can also build/develop and deploy.
 
 1. Once a set of changes is accepted for release, create and merge a change on `beta` bumping to the next version.
-   - It's easiest to simply do a global search for the current version.
+   - It's easiest to simply do a global search for the current version (i.e. `2.9.13`). **Don't forget to also update `android.versionCode` in app.json!**
 2. Tag the commit merged in the previous step with `X.X.X-beta`. For example:
 
    ```
