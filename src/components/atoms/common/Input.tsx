@@ -87,6 +87,7 @@ export const Input: React.FC<InputType> = ({
             onFocus={() => setIsInFocus(true)}
             {...props}
             onBlur={handleBlur}
+            autoCapitalize="none"
           />
           {renderIcon()}
           {password ? (

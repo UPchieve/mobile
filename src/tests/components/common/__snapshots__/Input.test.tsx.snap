@@ -30,6 +30,7 @@ exports[`Input tests render correctly 1`] = `
     }
   >
     <TextInput
+      autoCapitalize="none"
       onBlur={[Function]}
       onChangeText={[Function]}
       onFocus={[Function]}

@@ -6,11 +6,12 @@ import {
   Text,
   View,
   findNodeHandle,
+  Dimensions,
+  ScrollView,
 } from 'react-native'
 import { Modalize, useModalize } from 'react-native-modalize'
 import { Colors } from '../../../../assets/Colors'
 import { FontIndex } from '../../../../assets/FontIndex'
-import { randomString } from '../../../utils/utils'
 
 type ModalSelectorType = {
   title?: string
@@ -32,13 +33,13 @@ export type ModalSelect = {
   open: (props: ModalSelectOpenProps) => void
 }
 
+const SCREEN_HEIGHT = Dimensions.get('screen').height
+
 //TODO add min height
 const Component: React.ForwardRefRenderFunction<
   ModalSelect,
   ModalSelectorType
 > = (props, ref) => {
-  // const { title, data, getLabel } = props;
-
   const [title, setTitle] = useState<string>(props.title || '')
   const [accessibilityTitle, setAccessibilityTitle] = useState<string>(
     props.accessibilityTitle || ''
@@ -64,13 +65,18 @@ const Component: React.ForwardRefRenderFunction<
 
   useImperativeHandle(ref, () => ({
     open: (params: ModalSelectOpenProps) => {
-      open()
-      params.data && setData(params.data)
-      params.title && setTitle(params.title)
-      params.accessibilityTitle &&
+      if (params.data) setData(params.data)
+      if (params.title) setTitle(params.title)
+      if (params.accessibilityTitle)
         setAccessibilityTitle(params.accessibilityTitle)
-      params.getLabel && setGetLabel((_: any) => params.getLabel!)
-      setOnSelect((_: any) => params.onSelect)
+      if (params.getLabel) setGetLabel(() => params.getLabel!)
+      if (params.onSelect) setOnSelect(() => params.onSelect)
+
+      // Delay opening the modal until after state updates
+      // The delay is intended to prevent possible height jumps if Modalize measures layout too early
+      requestAnimationFrame(() => {
+        open()
+      })
     },
   }))
 
@@ -100,11 +106,15 @@ const Component: React.ForwardRefRenderFunction<
       ref={modalizeRef}
       adjustToContentHeight={true}
     >
-      <View style={{ paddingBottom: 20, minHeight: 200 }}>
-        {data.map((x) => {
+      <ScrollView
+        style={{ maxHeight: SCREEN_HEIGHT * 0.8, minHeight: 200 }}
+        contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={true}
+      >
+        {data.map((x, index) => {
           return (
             <View
-              key={randomString()}
+              key={x.id ?? x.key ?? index}
               style={{
                 minHeight: 50,
                 justifyContent: 'center',
@@ -139,7 +149,7 @@ const Component: React.ForwardRefRenderFunction<
             </View>
           )
         })}
-      </View>
+      </ScrollView>
     </Modalize>
   )
 }
