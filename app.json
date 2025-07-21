@@ -3,7 +3,7 @@
     "name": "UPchieve",
     "slug": "upchieve-app",
     "scheme": "com.upchieve.app",
-    "version": "2.9.13",
+    "version": "2.9.14",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -32,7 +32,7 @@
       "bundleIdentifier": "org.upchieve.mobile"
     },
     "android": {
-      "versionCode": 209014,
+      "versionCode": 209015,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -68,12 +68,12 @@
         {
           "android": {
             "minSdkVersion": 24,
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
             "buildToolsVersion": "34.0.0"
           },
           "ios": {
-            "deploymentTarget": "13.4",
+            "deploymentTarget": "15.1",
             "useFrameworks": "static"
           }
         }

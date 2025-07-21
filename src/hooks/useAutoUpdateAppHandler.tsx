@@ -12,7 +12,7 @@ type useAutoUpdateAppHandlerType = {
 export function useAutoUpdateAppHandler(props: useAutoUpdateAppHandlerType) {
   useEffect(() => {
     ;(async () => {
-      await checkForExpoUpdates()
+      if (process.env.NODE_ENV !== 'development') await checkForExpoUpdates()
     })()
   }, [])
 
