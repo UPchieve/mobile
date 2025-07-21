@@ -13,6 +13,7 @@ import { FormikInput } from '../../../components/atoms/common/Formik/FormikInput
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigator'
 import { AuthContext } from '../../../providers/AuthProvider'
+import { isStudent } from '../../../utils/userTypeUtil'
 interface loginValues {
   email: string
   password: string
@@ -38,11 +39,11 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
         await authService.logout()
         const user = await authService.login(values.email, values.password)
 
-        if (user?.isVolunteer) {
+        if (user && !isStudent(user.userType)) {
           await authService.logout()
           setFieldError(
             'email',
-            'Under construction! Our coach app is temporarily unavailable while we make improvements. Please log-in using your browser.'
+            'Under construction! Our app only supports students temporarily, until we make improvements. Please log-in using your browser.'
           )
         } else if (!user?.verified) {
           navigation.navigate('VerifyAccount', {

@@ -1,5 +1,5 @@
 import http from './http'
-import { Student, User, Volunteer } from '../models/user'
+import { Student, User, UserType } from '../models/user'
 import {
   ConfirmValidationRequest,
   CreateAccountRequest,
@@ -9,6 +9,7 @@ import {
 } from '../types/services/authServiceTypes'
 import { EVENTS } from '../types/services/analyticsServiceTypes'
 import { identify, captureEvent } from './analyticsService'
+import { isStudent } from '../utils/userTypeUtil'
 
 const checkCredentials = async (payload: {
   email: string
@@ -27,29 +28,32 @@ const checkCredentials = async (payload: {
 const login = async (
   email: string,
   password: string
-): Promise<Student | Volunteer | null> => {
+): Promise<Student | User | null> => {
   const { data } = await http.post<{ user: User }>('/auth/login', {
     email,
     password,
+    forceLoginWithRole: UserType.STUDENT,
   })
   if (data.user) {
-    if (data.user.isVolunteer) {
-      return data.user as Volunteer
+    if (isStudent(data.user.userType)) {
+      await identify(data.user as Student)
+      return data.user as Student
+    } else {
+      return data.user as User
     }
-    await identify(data.user as Student)
-    return data.user as Student
   }
   return null
 }
 
-const getCurrentUser = async (): Promise<Student | Volunteer | null> => {
+const getCurrentUser = async (): Promise<Student | User | null> => {
   const { data } = await http.get<{ user: User }>(`/api/user`)
   if (data.user) {
-    if (data.user.isVolunteer) {
-      return data.user as Volunteer
+    if (isStudent(data.user.userType)) {
+      await identify(data.user as Student)
+      return data.user as Student
+    } else {
+      return data.user as User
     }
-    await identify(data.user as Student)
-    return data.user as Student
   }
   return null
 }

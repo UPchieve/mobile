@@ -23,6 +23,13 @@ export interface User {
   gradeLevel: GRADES
   isSchoolPartner?: boolean
   studentPartnerOrg?: string
+  userType: UserType
+}
+
+export enum UserType {
+  STUDENT = 'student',
+  VOLUNTEER = 'volunteer',
+  TEACHER = 'teacher',
 }
 
 export interface Student extends User {
