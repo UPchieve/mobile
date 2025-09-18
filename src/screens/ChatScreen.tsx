@@ -24,10 +24,7 @@ import { ChatMessage } from '../components/atoms/chat/ChatMessage'
 import { messageUserType } from '../components/atoms/chat/ChatTypes'
 import { ChatInput } from '../components/atoms/chat/ChatInput'
 //@ts-ignore
-import {
-  ChatIncomingData,
-  ChatoutcomingData,
-} from '../interfaces/chatInterfaces'
+import { ChatIncomingData } from '../interfaces/chatInterfaces'
 import { ChatReducerAction, ChatType } from '../reducers/chatReducer'
 import { SessionType } from '../interfaces/sessionInterfaces'
 import { ChatTyping } from '../components/atoms/chat/ChatTyping'
@@ -42,8 +39,6 @@ import { useKeyboard } from '@react-native-community/hooks'
 import { useOrientation } from '../hooks/useOrientation'
 import * as messageService from '../services/messageService'
 import { Alert } from 'react-native'
-import { sessionService } from '../services/sessionService'
-import { SessionMessage } from '../types/socketTypes'
 
 // type Props = NativeStackScreenProps<MainStackParamList, 'Chat'>;
 type Props = {
@@ -72,7 +67,6 @@ export const ChatScreen: React.FC<Props> = ({
   const [isTyping, setIsTyping] = useState<boolean>(false)
   const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true)
   const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false)
-  const [isReady, setIsReady] = useState(false)
   const inputRef = useRef<TextInput>(null)
 
   const context = useContext(AuthContext)
@@ -122,14 +116,8 @@ export const ChatScreen: React.FC<Props> = ({
     []
   )
 
-  const getPartner = (): User | null => {
-    return user._id === sessionState?.volunteer?._id
-      ? sessionState!.student
-      : sessionState!.volunteer!
-  }
-
   const addSocketEventListeners = () => {
-    socketHandler.on('messageSend', (data: ChatIncomingData) => {
+    const l1 = socketHandler.on('messageSend', (data: ChatIncomingData) => {
       if (data.user !== user._id) {
         dispatch({
           type: 'chat_incoming',
@@ -138,13 +126,15 @@ export const ChatScreen: React.FC<Props> = ({
       }
     })
 
-    socketHandler.on('is-typing', () => {
+    const l2 = socketHandler.on('is-typing', () => {
       setIsTyping(true)
     })
 
-    socketHandler.on('not-typing', () => {
+    const l3 = socketHandler.on('not-typing', () => {
       setIsTyping(false)
     })
+
+    return () => [l1, l2, l3].forEach((x) => x())
   }
 
   const scrollToEnd = () => {
@@ -159,17 +149,17 @@ export const ChatScreen: React.FC<Props> = ({
     if (Platform.OS === 'ios' && Platform.isPad) {
       lockAsync('LANDSCAPE')
     }
-    addSocketEventListeners()
+    const unsubscribe = addSocketEventListeners()
+    return () => {
+      unsubscribe()
+    }
   }, [])
 
   useEffect(() => {
-    if (!isReady) {
-      if (sessionState && !sessionState.endedAt) {
-        handleSessionMessages()
-        setIsReady(true)
-      }
+    if (sessionState && !sessionState.endedAt) {
+      handleSessionMessages()
     }
-  }, [sessionState])
+  }, [sessionState?.messages])
 
   useEffect(() => {
     if (sessionState && previousSessionState) {
@@ -255,13 +245,13 @@ export const ChatScreen: React.FC<Props> = ({
 
   const onStartTyping = () => {
     socketHandler.emit('typing', {
-      sessionId: sessionState?._id,
+      sessionId: sessionState?.id,
     })
   }
 
   const onEndTyping = () => {
     socketHandler.emit('notTyping', {
-      sessionId: sessionState?._id,
+      sessionId: sessionState?.id,
     })
   }
 
@@ -290,42 +280,21 @@ export const ChatScreen: React.FC<Props> = ({
       return
     }
 
-    const messages: (ChatIncomingData | ChatoutcomingData)[] = []
-    const latestSessionMessages = await getLatestSessionMessages()
-    latestSessionMessages.forEach((message: SessionMessage) => {
-      if (message.user === user._id) {
-        messages.push({
-          contents: message.contents,
-          isVolunteer: user.isVolunteer,
-          user: message.user,
-          createdAt: message.createdAt,
-        })
-      } else {
-        messages.push({
-          contents: message.contents,
-          isVolunteer: !user.isVolunteer,
-          createdAt: message.createdAt,
-          user: message.user,
-        })
-      }
-    })
+    const messages =
+      sessionState?.messages.map((m) => ({
+        contents: m.contents,
+        isVolunteer: m.user !== user.id,
+        user: m.user,
+        createdAt: m.createdAt,
+      })) ?? []
+
     dispatch({
       type: 'chat_session_open',
       payload: {
         userId: user._id,
-        messages: messages,
+        messages,
       },
     })
-  }
-
-  const getLatestSessionMessages = async (): Promise<SessionMessage[]> => {
-    try {
-      const sess = await sessionService.getCurrentSession()
-      return sess.data.messages
-    } catch (err) {
-      console.error('ChatScreen: Could not fetch latest session messages.')
-      return sessionState?.messages ?? []
-    }
   }
 
   const renderChatElement = ({ item }: { item: ChatType }) => {
@@ -450,11 +419,7 @@ export const ChatScreen: React.FC<Props> = ({
           ]}
         >
           {chatBotIsTyping ? <ChatTyping userType="chatbot" /> : null}
-          {isTyping ? (
-            <ChatTyping
-              userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'}
-            />
-          ) : null}
+          {isTyping ? <ChatTyping userType="volunteer" /> : null}
         </View>
         <View
           style={[

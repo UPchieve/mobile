@@ -15,8 +15,6 @@ const checkCredentials = async (payload: {
   email: string
   password: string
 }) => {
-  console.log(payload)
-
   const { data } = await http.post<{ checked: boolean }>(
     '/auth/register/checkcred',
     payload

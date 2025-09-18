@@ -55,10 +55,9 @@ export const LoginScreen: React.FC<LoginScreenType> = ({ navigation }) => {
           refreshUser()
         }
       } catch (error) {
-        console.log(error)
+        console.error(error)
         alert('Wrong credentials.')
       } finally {
-        console.log('submitting.')
         setSubmitting(false)
       }
     },

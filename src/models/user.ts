@@ -4,7 +4,9 @@ export interface User {
   _id: string
   id: string
   firstname: string
+  firstName: string
   lastname: string
+  lastName: string
   email: string
   isBanned: boolean
   password: string
