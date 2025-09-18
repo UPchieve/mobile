@@ -1,8 +1,11 @@
 export interface GetLatestSessionResponse {
   sessionId: string
   data: {
-    _id: string
+    id: string
     createdAt: string
+    volunteerId: string
+    endedByUserId: string
+    endedAt: string
   }
 }
 export type SendContactFormTopic =

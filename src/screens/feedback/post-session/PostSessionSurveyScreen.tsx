@@ -96,7 +96,7 @@ export const PostSessionSurveyScreen: React.FC<PostSessionSurveyType> = ({
           surveySubmissions,
           (resp) => resp.questionId.toString() === favoritingQuestion.questionId
         )
-        if (favoritingSubmission) {
+        if (!_.isEmpty(favoritingSubmission)) {
           const favoritingSubmissionResponse =
             favoritingQuestion.responses.find(
               (re) => re.responseId === favoritingSubmission[0].responseChoiceId
