@@ -5,7 +5,7 @@ import { ImageIndex } from '../../../../assets/ImageIndex'
 import { ChatBubble } from './ChatBubble'
 import { messageUserType } from './ChatTypes'
 
-type ChatTyppingType = {
+type ChatTypingType = {
   userType: messageUserType
 }
 
@@ -16,7 +16,7 @@ const formatTime = (date: Date) =>
     hour12: true,
   })
 
-export const ChatTypping: React.FC<ChatTyppingType> = ({ userType }) => {
+export const ChatTyping: React.FC<ChatTypingType> = ({ userType }) => {
   const renderAvatar = () => {
     switch (userType) {
       case 'student':
@@ -39,7 +39,7 @@ export const ChatTypping: React.FC<ChatTyppingType> = ({ userType }) => {
           sentByMe={false}
           text={''}
           userType={userType}
-          isTypping={true}
+          isTyping={true}
         />
         {renderAvatar()}
       </View>
