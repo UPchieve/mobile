@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { User } from '../models/user'
 import { sessionService } from '../services/sessionService'
 import { SessionStateChangedSocketType } from '../types/socketTypes'
+import { GetLatestSessionResponse } from '../types/services/sessionServiceTypes'
+
+const SESSION_REQUEST_COOLDOWN_MS = 1000 * 60 * 5 // 5 minutes
 
 export type userStateType = 'in_session' | 'banned' | 'waiting'
 export type useUserStateType = {
@@ -29,14 +32,38 @@ export const useUserState = (
     } catch (error) {}
   }
 
-  const getLatestSessionDate = async (): Promise<string | undefined> => {
+  const getLatestSession = async (): Promise<
+    GetLatestSessionResponse['data'] | undefined
+  > => {
     try {
-      const latestSession = await sessionService.getLatestSession(user!._id)
+      const latestSession = await sessionService.getLatestSession(user!.id)
       console.log('latest', latestSession)
-      return latestSession?.data?.createdAt
+      return latestSession?.data
     } catch (err) {
       console.log('exception', err)
     }
+  }
+
+  const calculateCoolDown = (
+    latestSession: GetLatestSessionResponse['data']
+  ): number => {
+    const hasNoLatestSession = !latestSession
+    const isSessionOngoing = !latestSession?.endedAt
+    const wasSessionEndedByVolunteer =
+      !!latestSession?.volunteerId &&
+      !!latestSession?.endedByUserId &&
+      latestSession?.volunteerId === latestSession?.endedByUserId
+    if (hasNoLatestSession || isSessionOngoing || wasSessionEndedByVolunteer) {
+      return 0
+    }
+
+    const sessionCreatedAtMs = new Date(latestSession.createdAt).getTime()
+    const currentTimeMs = new Date().getTime()
+    const timeSinceLastSessionStartedMs = currentTimeMs - sessionCreatedAtMs
+    if (timeSinceLastSessionStartedMs >= SESSION_REQUEST_COOLDOWN_MS) return 0
+
+    const diffInMs = SESSION_REQUEST_COOLDOWN_MS - timeSinceLastSessionStartedMs
+    return Math.ceil(Math.max(0, diffInMs / 60000))
   }
 
   const refreshUserState = async (): Promise<userStateType | undefined> => {
@@ -49,14 +76,12 @@ export const useUserState = (
         state = 'in_session'
         setCurrentSessionId(currentSession)
       } else {
-        const latestSessionDate = await getLatestSessionDate()
-        if (latestSessionDate) {
-          const sessionCreatedAtInMS = new Date(latestSessionDate).getTime()
-          const currentDateInMS = new Date().getTime()
-          const minutes =
-            Math.ceil(currentDateInMS - sessionCreatedAtInMS) / 60000
-          if (minutes < 5) {
-            setLastSessionDate(new Date(latestSessionDate))
+        const latestSession = await getLatestSession()
+
+        if (latestSession) {
+          const coolDown = calculateCoolDown(latestSession)
+          if (coolDown > 0) {
+            setLastSessionDate(new Date(latestSession.endedAt))
             state = 'waiting'
           }
         }

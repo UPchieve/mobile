@@ -86,7 +86,7 @@ export const FullScreenSessionState: React.FC<FullScreenSessionStateType> = ({
         />
         <View style={[styles.container, { paddingHorizontal: 40 }]}>
           <Countdown
-            date={new Date(lastSessionDate!.getTime() + 5 * 60000)}
+            date={lastSessionDate!.getTime() + 5 * 60000}
             autoStart
             onComplete={() => refreshUserState()}
             renderer={({ minutes, seconds }) => {
