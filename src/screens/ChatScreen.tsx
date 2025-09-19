@@ -30,7 +30,7 @@ import {
 } from '../interfaces/chatInterfaces'
 import { ChatReducerAction, ChatType } from '../reducers/chatReducer'
 import { SessionType } from '../interfaces/sessionInterfaces'
-import { ChatTypping } from '../components/atoms/chat/ChatTypping'
+import { ChatTyping } from '../components/atoms/chat/ChatTyping'
 import { ChatNewerChatButton } from '../components/atoms/chat/ChatNewerChatsButton'
 import { ImageIndex } from '../../assets/ImageIndex'
 import { User } from '../models/user'
@@ -69,7 +69,7 @@ export const ChatScreen: React.FC<Props> = ({
 }) => {
   const chatListRef = useRef<FlatList<ChatType>>(null)
   const [chatMessage, setChatMessage] = useState<string>('')
-  const [isTypping, setIsTypping] = useState<boolean>(false)
+  const [isTyping, setIsTyping] = useState<boolean>(false)
   const [shouldAutoScroll, setShouldAutoScroll] = useState<boolean>(true)
   const [chatBotIsTyping, setChatbotIsTyping] = useState<boolean>(false)
   const [isReady, setIsReady] = useState(false)
@@ -139,11 +139,11 @@ export const ChatScreen: React.FC<Props> = ({
     })
 
     socketHandler.on('is-typing', () => {
-      setIsTypping(true)
+      setIsTyping(true)
     })
 
     socketHandler.on('not-typing', () => {
-      setIsTypping(false)
+      setIsTyping(false)
     })
   }
 
@@ -443,15 +443,15 @@ export const ChatScreen: React.FC<Props> = ({
         <View
           style={[
             styles.wrapperTyping,
-            // isTypping || chatBotIsTyping
+            // isTyping || chatBotIsTyping
             //     ? { opacity: 0.6 }
             //     : { opacity: 0 },
             !!inputSize && { bottom: inputSize - 10, zIndex: 3 },
           ]}
         >
-          {chatBotIsTyping ? <ChatTypping userType="chatbot" /> : null}
-          {isTypping ? (
-            <ChatTypping
+          {chatBotIsTyping ? <ChatTyping userType="chatbot" /> : null}
+          {isTyping ? (
+            <ChatTyping
               userType={getPartner()?.isVolunteer ? 'volunteer' : 'student'}
             />
           ) : null}
