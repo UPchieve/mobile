@@ -18,7 +18,8 @@ const Component: React.ForwardRefRenderFunction<TextInput, InputType> = (
   const [id, setId] = useState<any>()
   const [startTypingInformed, setStartTypingInformed] = useState(false)
 
-  const onKeyPress = () => {
+  const handleTextChange = (text: string) => {
+    setValue(text)
     if (!startTypingInformed) {
       onStartTyping()
       setStartTypingInformed(true)
@@ -38,9 +39,8 @@ const Component: React.ForwardRefRenderFunction<TextInput, InputType> = (
         value={value}
         ref={inputRef}
         multiline={true}
-        onChangeText={setValue}
+        onChangeText={handleTextChange}
         placeholder="Type a message..."
-        onKeyPress={onKeyPress}
         placeholderTextColor={Colors.disabledGray}
       />
       <TouchableOpacity

@@ -3,6 +3,7 @@ import { User } from '../models/user'
 
 export type SessionStateChangedSocketType = {
   _id: string
+  id: string
   createdAt: string
   endedAt?: string
   endedBy?: string
@@ -21,6 +22,7 @@ export type SessionStateChangedSocketType = {
 
 export interface SessionMessage {
   _id: string
+  id: string
   user: string
   contents: string
   createdAt: string

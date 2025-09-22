@@ -62,7 +62,6 @@ const endSession = async (
   })
 
   await captureEvent(EVENTS.SESSION_ENDED)
-  console.log('response', data)
   return data
 }
 

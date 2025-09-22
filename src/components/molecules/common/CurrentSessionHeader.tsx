@@ -69,7 +69,6 @@ export const CurrentSessionHeader: React.FC<CurrentSessionHeaderType> = ({
   }, [])
 
   useEffect(() => {
-    console.log('new date', sessionState)
     if (isWaitingForVolunteer() && !waitingTimeout) {
       const timeout = setTimeout(
         () => {
