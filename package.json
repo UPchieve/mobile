@@ -94,7 +94,7 @@
     "react-native-svg": "15.8.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "socket.io-client": "^2.3.0",
+    "socket.io-client": "^4.7.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {
@@ -105,7 +105,6 @@
     "@types/react-native-dotenv": "^0.2.2",
     "@types/react-native-read-more-text": "^1.0.4",
     "@types/react-test-renderer": "^18.3.1",
-    "@types/socket.io-client": "^3.0.0",
     "jest-expo": "~52.0.6",
     "prettier": "^3.2.5",
     "react-devtools": "^5.0.2",
