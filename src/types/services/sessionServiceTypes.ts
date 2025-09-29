@@ -26,3 +26,7 @@ export type SessionPhotoUploadUrl = {
   uploadUrl: string
   imageUrl: string
 }
+
+export type CheckIfImageIsClean = {
+  formData: FormData
+}
