@@ -16,7 +16,7 @@ const getCsrfToken = async (): Promise<string> => {
 }
 
 http.interceptors.request.use(
-  async (e) => {
+  async (requestConfig) => {
     // TODO: replace `localhost` with 10.0.2.2 at runtime when in development mode on Android
     if (
       process.env.NODE_ENV === 'development' &&
@@ -38,10 +38,9 @@ http.interceptors.request.use(
       }
     } catch (error) {}
 
-    e.headers = {
-      'x-csrf-token': csrfToken,
-    }
-    return e
+    requestConfig.headers['x-csrf-token'] = csrfToken
+
+    return requestConfig
   },
   function (error) {
     return Promise.reject(error)
