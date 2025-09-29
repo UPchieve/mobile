@@ -198,36 +198,50 @@ export class ZwibblerManager {
         // because this has been found to sometimes break file uploads
         const fileUri =
           Platform.OS === 'ios' ? image.uri.replace('file://', '') : image.uri
-        // get the MIME type for the file
+        // // get the MIME type for the file
         const fileType = `image/${image.uri.split('.').pop()}`
+        const fileName = image.uri.split('/').pop()
 
         // We needed to push out an emergency update and everything that wasn't hacky
         // required a Pod install. We will remove the use of `FormData` and utilize
         // rn-fetch-blob instead
         // TODO: remove
         const data = new FormData()
-        // @ts-ignore
-        data.append('file', {
-          name: fileUri,
+
+        //@ts-ignore
+        data.append('image', {
+          name: fileName,
           type: fileType,
           uri: fileUri,
         })
 
-        // We're keeping the original shape of this function because we intend to use
-        // rn-fetch-blob instead of FormData
-        await sessionService.uploadSessionPhotoToStorage(
-          uploadUrl,
-          fileUri,
-          fileType,
-          // TODO: remove. hacky away to access the actual file in FormData
-          // @ts-expect-error
-          data._parts[0][1]
-        )
+        data.append('sessionId', sessionId)
 
-        // logs a warning locally, but it does upload the image
-        this.webView.current?.injectJavaScript(
-          `zwibbler.insertImage({ 'url': '${imageUrl}' });`
-        )
+        const { isClean, failures } =
+          await sessionService.checkIfImageIsClean(data)
+
+        if (isClean) {
+          await sessionService.uploadSessionPhotoToStorage(
+            uploadUrl,
+            fileUri,
+            fileType,
+            // TODO: remove. hacky away to access the actual file in FormData
+            // @ts-expect-error
+            data._parts[0][1]
+          )
+
+          this.webView.current?.injectJavaScript(
+            `zwibbler.insertImage({ 'url': '${imageUrl}' });`
+          )
+        } else {
+          alert(
+            `We detected a potential policy violation with your image.\n
+It contains the following violations: ${failures}.\n
+Don't worry, we'll manually review to confirm if this was a mistake.\n
+If you need support, send us a message or email us at support@upchieve.org.\n
+Thanks for your patience!`
+          )
+        }
       } else throw new Error('No photo upload URL')
     } catch (error) {
       throw new Error(
