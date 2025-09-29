@@ -37,7 +37,6 @@ export const useUserState = (
   > => {
     try {
       const latestSession = await sessionService.getLatestSession(user!.id)
-      console.log('latest', latestSession)
       return latestSession?.data
     } catch (err) {
       console.log('exception', err)

@@ -8,14 +8,14 @@ type ChatBubbleType = {
   text: string
   sentByMe: boolean
   userType: messageUserType
-  isTypping?: boolean
+  isTyping?: boolean
 }
 
 export const ChatBubble: React.FC<ChatBubbleType> = ({
   text,
   sentByMe,
   userType,
-  isTypping = false,
+  isTyping = false,
 }) => {
   const getBackgroundColor = () => {
     if (sentByMe) {
@@ -32,10 +32,10 @@ export const ChatBubble: React.FC<ChatBubbleType> = ({
       style={[
         styles.container,
         { backgroundColor: getBackgroundColor() },
-        isTypping && styles.dotsContainer,
+        isTyping && styles.dotsContainer,
       ]}
     >
-      {isTypping ? (
+      {isTyping ? (
         <View style={styles.dotsWrapper}>
           {/*@ts-ignore*/}
           <DotsLoader size={5} />

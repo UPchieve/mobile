@@ -8,6 +8,7 @@ import http from './http'
 import { captureEvent } from './analyticsService'
 import { EVENTS } from '../types/services/analyticsServiceTypes'
 import { SurveyQueryResponse } from '../types/services/surveyServiceTypes'
+import { config } from '../../config'
 
 const getCurrentSession = async (): Promise<Session> => {
   const response = await http.post<Session>('/api/session/current')
@@ -62,7 +63,6 @@ const endSession = async (
   })
 
   await captureEvent(EVENTS.SESSION_ENDED)
-  console.log('response', data)
   return data
 }
 
@@ -97,6 +97,17 @@ const uploadSessionPhotoToStorage = async (
   })
 }
 
+const checkIfImageIsClean = async (
+  formData: FormData
+): Promise<{ isClean: boolean; failures: string[] }> => {
+  const response = await http.post(`/api/moderate/image`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+  return response.data
+}
+
 export const sessionService = {
   getCurrentSession,
   getLatestSession,
@@ -107,4 +118,5 @@ export const sessionService = {
   getPreSessionGoal,
   getSessionPhotoUploadUrl,
   uploadSessionPhotoToStorage,
+  checkIfImageIsClean,
 }
