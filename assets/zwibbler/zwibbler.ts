@@ -1,11 +1,11 @@
 import WebView from 'react-native-webview'
 import React from 'react'
-import { config } from '../../config'
 import * as ImagePicker from 'expo-image-picker'
 import { Platform } from 'react-native'
 import { sessionService } from '../../src/services/sessionService'
 
-const html = `
+export function getZwibblerHtml(collabRoot: string) {
+  return `
 <html>
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 <style>
@@ -28,7 +28,7 @@ const html = `
             defaultBrushWidth: 5,
             multilineText: true,
             zoomOnResize: false,
-            collaborationServer: '${config.whiteboardSocketUrl}/whiteboard/room/'+sessionId,
+            collaborationServer: '${collabRoot}/whiteboard/room/'+sessionId,
             pageView: true,
             pageBorderColour: 'transparent',
             pageInflation: 0,
@@ -110,9 +110,6 @@ const html = `
 
 </html>
 `
-
-export const zwibbler = {
-  html,
 }
 
 export class ZwibblerManager {

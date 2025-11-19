@@ -39,6 +39,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({
   const { showAlert } = useContext(AlertContext)
   const insets = useSafeAreaInsets()
   const [showChat, setShowChat] = useState<boolean>(true)
+  const [isZwibserveSession, setZwibserveSession] = useState<boolean>(false)
   const { orientation, lockAsync, unlockAsync } = useOrientation()
 
   const timer = useRef<any>(null)
@@ -46,7 +47,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({
   const joinSocketSession = async () => {
     try {
       await backOff(async () => {
-        const { success, retry } = await socketHandler
+        const { success, retry, isZwibserveSession } = await socketHandler
           .timeout(2000)
           .emitWithAck('sessions:join', {
             sessionId,
@@ -68,6 +69,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({
             sessionId,
             isMobile: true,
           })
+          if (isZwibserveSession) setZwibserveSession(true)
         }
       })
     } catch (err) {
@@ -186,6 +188,7 @@ export const SessionScreen: React.FC<SessionScreenType> = ({
         sessionId={sessionId}
         onSwitchPress={onSwitchPress}
         hasNotifications={hasNotifications()}
+        isZwibserveSession={isZwibserveSession}
       />
     )
   }
