@@ -31,14 +31,8 @@ export async function updateUser(update: JsonValue) {
   })
 }
 
-export async function captureEvent(name: string, properties?: JsonValue) {
-  if (properties) {
-    ;(await posthog).capture(name, {
-      $set: properties,
-    })
-  } else {
-    ;(await posthog).capture(name)
-  }
+export async function captureEvent(name: string, properties = {}) {
+  ;(await posthog).capture(name, properties)
 }
 
 export async function reset() {
