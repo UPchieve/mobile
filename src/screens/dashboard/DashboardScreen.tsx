@@ -27,6 +27,8 @@ import { AllSubjectsWithTopics } from '../../types/services/subjectsServiceTypes
 import { backOff } from 'exponential-backoff'
 import { LoadingOverlay } from '../../components/molecules/common/LoadingOverlay'
 import crashlytics from '@react-native-firebase/crashlytics'
+import { captureEvent } from '../../services/analyticsService'
+import { EVENTS } from '../../types/services/analyticsServiceTypes'
 
 type DashboardScreenType = DrawerScreenProps<
   MainStackParamList,
@@ -98,6 +100,12 @@ export const DashboardScreen: React.FC<DashboardScreenType> = ({
       }
     }
     getDashboardSubjects()
+
+    captureEvent(EVENTS.USER_LANDED_ON_DASHBOARD, {
+      $set: {
+        mobileVersion: '2.9.18',
+      },
+    })
   }, [])
 
   const calculateSnapPoint = () => {

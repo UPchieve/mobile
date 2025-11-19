@@ -6,7 +6,10 @@ import {
   WhiteboardTextPicker,
 } from '../components/white-board/WhiteboardTextPicker'
 import WebView, { WebViewMessageEvent } from 'react-native-webview'
-import { zwibbler, ZwibblerManager } from '../../assets/zwibbler/zwibbler'
+import {
+  getZwibblerHtml,
+  ZwibblerManager,
+} from '../../assets/zwibbler/zwibbler'
 import { WhiteboardToolsMenu } from '../components/white-board/WhiteboardToolsMenu'
 import { CustomWebViewEvent, WebViewEvent } from '../types/WebViewTypes'
 import { ZwibblerTool } from '../types/zwibblerTypes'
@@ -15,11 +18,13 @@ import { AlertContext } from '../providers/AlertProvider'
 import { useOrientation } from '../hooks/useOrientation'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LoadingOverlay } from '../components/molecules/common/LoadingOverlay'
+import { config } from '../../config'
 
 type WhiteboardType = {
   sessionId: string
   onSwitchPress: () => void
   hasNotifications: boolean
+  isZwibserveSession: boolean
 }
 
 //TODO TWO FINGERS SCROLL.
@@ -28,6 +33,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
   sessionId,
   onSwitchPress,
   hasNotifications,
+  isZwibserveSession,
 }) => {
   const { orientation, notchPosition } = useOrientation()
 
@@ -101,6 +107,10 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
   }
 
   const renderWebView = () => {
+    const collabRoot = isZwibserveSession
+      ? `${config.whiteboardSocketUrl}/graffiti`
+      : config.whiteboardSocketUrl
+
     return (
       <WebView
         androidHardwareAccelerationDisabled={true}
@@ -113,7 +123,7 @@ export const WhiteBoardScreen: React.FC<WhiteboardType> = ({
         ref={webViewRef}
         originWhitelist={['*']}
         cacheEnabled={true}
-        source={{ html: zwibbler.html }}
+        source={{ html: getZwibblerHtml(collabRoot) }}
       />
     )
   }
