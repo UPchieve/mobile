@@ -32,7 +32,7 @@
       "bundleIdentifier": "org.upchieve.mobile"
     },
     "android": {
-      "versionCode": 209017,
+      "versionCode": 209018,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
