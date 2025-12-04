@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Linking, StyleSheet, Text, View } from 'react-native'
 import { H3 } from '../../../components/atoms/common/H3'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { FormikProvider, useFormik } from 'formik'
 import { authService } from '../../../services/authService'
 import * as Yup from 'yup'

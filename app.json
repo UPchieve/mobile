@@ -48,7 +48,8 @@
         "com.google.android.gms.permission.AD_ID",
         "android.permission.ACTIVITY_RECOGNITION"
       ],
-      "package": "org.upchieve.mobile"
+      "package": "org.upchieve.mobile",
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

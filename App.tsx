@@ -9,6 +9,7 @@ import { config, gleapConfig } from './config'
 import { useAutoUpdateAppHandler } from './src/hooks/useAutoUpdateAppHandler'
 import Gleap from 'react-native-gleapsdk'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { KeyboardProvider } from 'react-native-keyboard-controller'
 
 export default function App() {
   useAutoUpdateAppHandler({
@@ -35,13 +36,15 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <AlertProvider>
-          <AuthProvider>
-            <Routes />
-          </AuthProvider>
-        </AlertProvider>
-      </SafeAreaProvider>
+      <KeyboardProvider>
+        <SafeAreaProvider>
+          <AlertProvider>
+            <AuthProvider>
+              <Routes />
+            </AuthProvider>
+          </AlertProvider>
+        </SafeAreaProvider>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   )
 }

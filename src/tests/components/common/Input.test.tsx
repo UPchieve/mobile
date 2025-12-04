@@ -1,15 +1,15 @@
 import React from 'react'
 import { TextInput, View } from 'react-native'
 import { render, fireEvent } from '@testing-library/react-native'
-import renderer from 'react-test-renderer'
 import { Input } from '../../../components/atoms/common/Input'
 import { Colors } from '../../../../assets/Colors'
 
 describe('Input tests', () => {
   it('render correctly', () => {
-    const tree = renderer.create(<Input />).toJSON()
-    expect(tree).toMatchSnapshot()
+    const { toJSON } = render(<Input />)
+    expect(toJSON()).toMatchSnapshot()
   })
+
   it('onChangeText event should be propagated to TextInput', () => {
     const onChangeParameter = 'test'
     const onChangeText = jest.fn((text: string) => {})
@@ -20,6 +20,7 @@ describe('Input tests', () => {
     fireEvent.changeText(input, onChangeParameter)
     expect(onChangeText).toHaveBeenCalledWith(onChangeParameter)
   })
+
   it('When Input is in focus should change borders to information blue', () => {
     const wrapper = render(<Input />)
     const viewContainer = wrapper.UNSAFE_getByType(View)
@@ -29,6 +30,7 @@ describe('Input tests', () => {
       borderColor: Colors.information,
     })
   })
+
   it('When Input has an error and have been touched, it should show it', async () => {
     const errorMessage = 'errorMessageTest'
     const wrapper = render(<Input />)

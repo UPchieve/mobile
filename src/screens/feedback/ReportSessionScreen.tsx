@@ -7,7 +7,7 @@ import { CommonTextArea } from '../../components/common/CommonTextArea'
 import { FormikProvider, useFormik } from 'formik'
 import { RadioGroup } from '../../components/molecules/common/RadioGroup'
 import { CommonButton } from '../../components/common/CommonButton'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { MainStackParamList } from '../../routes/MainStackNavigator'
 

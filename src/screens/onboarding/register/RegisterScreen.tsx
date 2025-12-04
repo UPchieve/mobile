@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useRef } from 'react'
 import { View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { Colors } from '../../../../assets/Colors'
 import { ModalSelect } from '../../../components/atoms/common/ModalSelect'
 import { Separator } from '../../../components/atoms/common/Separator'

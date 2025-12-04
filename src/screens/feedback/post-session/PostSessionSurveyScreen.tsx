@@ -1,7 +1,7 @@
 import { FormikProvider, useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Question } from '../../../components/atoms/session-experience/Question'
 import { SessionFeedbackHeader } from '../../../components/atoms/session-experience/SessionFeedbackHeader'
