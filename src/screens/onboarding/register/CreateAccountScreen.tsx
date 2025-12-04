@@ -15,7 +15,7 @@ import { OnboardingStackParamList } from '../../../routes/OnboardingStackNavigat
 import { FormikPicker } from '../../../components/atoms/common/Formik/FormikPicker'
 import * as Yup from 'yup'
 import { PasswordInput } from '../../../components/atoms/onboarding/PasswordInput'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { authService } from '../../../services/authService'
 import { config } from '../../../../config'
 import { eligibilityService } from '../../../services/eligibilityService'

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { FormikProvider, useFormik } from 'formik'
 import { H3 } from '../../components/atoms/common/H3'
 import * as Yup from 'yup'

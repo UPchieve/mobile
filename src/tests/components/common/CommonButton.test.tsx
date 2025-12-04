@@ -1,14 +1,12 @@
 import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import { render, fireEvent } from '@testing-library/react-native'
-import renderer from 'react-test-renderer'
 import { CommonButton } from '../../../components/common/CommonButton'
+
 describe('CommonButton Tests', () => {
   it('render correctly', () => {
-    const tree = renderer
-      .create(<CommonButton onPress={() => {}} title="" />)
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    const { toJSON } = render(<CommonButton onPress={() => {}} title="" />)
+    expect(toJSON()).toMatchSnapshot()
   })
 
   it('onPress event', () => {
